@@ -58,6 +58,7 @@ cp "$(bin Xiongxin.OWTS.Desktop)/Xiongxin.OWTS.Desktop.exe" "$STAGE/"
 cp "$ROOT/App.config" "$STAGE/Xiongxin.OWTS.Desktop.exe.config"
 cp "$ROOT/assets/xiongxin.ico" "$ROOT/assets/xiongxin-original.png" "$STAGE/assets/"
 cp "$ROOT/assets/shortcuts/256.ico" "$ROOT/assets/shortcuts/512.ico" "$STAGE/assets/shortcuts/"
+if [ -f "$PUBLISH/README_RUN.md" ]; then cp "$PUBLISH/README_RUN.md" "$STAGE/"; fi
 if [ -d "$ROOT/docs/international" ]; then mkdir -p "$STAGE/docs/international"; cp "$ROOT/docs/international/"* "$STAGE/docs/international/"; fi
 
 stage_module() { mkdir -p "$STAGE/modules/$1"; cp "$(bin "modules/$1")/$2" "$STAGE/modules/$1/"; }
