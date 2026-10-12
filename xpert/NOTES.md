@@ -92,7 +92,7 @@ Getter 现与 `Rebuild` 相同：`TryGetValue` 失败则 `new ViewState()` 再 `
 
 - `SetFactoryHardwareStatusLine`：状态文案变化时只改连接标签，不再整页 `UpdatePressureUi`（避免 LIVE 计划/轮次区闪烁）。
 - `RefreshPlanGrid`：内容指纹未变则跳过 `Rows.Clear`。
-- 反射阈值拖动：拖动中不同步 `NumericUpDown`；抬起后再 `SetAnalysisThreshold`，打断 ValueChanged→SetManualThresholdGuide 回环。
+- 反射阈值拖动：按下时冻结波形底图，移动只脏刷新导引线带；`SetAnalysisThreshold` 静默同步 NumericUpDown，打断 ValueChanged→Invalidate 回环。
 
 发布路径以 `modules/FactoryPress/Xiongxin.Owts.XpertPressBridge.dll` 为准（见 `build-sdk/build-linux.sh` / `Build.ps1`）。已删除 `FactoryPressOwtsHost` 模态路径。
 

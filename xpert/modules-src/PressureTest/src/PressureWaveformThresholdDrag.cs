@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace HVX.Controls
@@ -11,6 +12,8 @@ namespace HVX.Controls
         bool manualThresholdDragging;
         Rectangle manualThresholdDragPlot;
         double manualThresholdDragMaximum,manualThresholdDragOriginal;
+        Bitmap thresholdDragBackdrop;
+        int thresholdDragGuideY = int.MinValue;
         internal bool ManualThresholdGuideDragging { get { return manualThresholdDragging; } }
 
         bool CanDragManualThreshold
@@ -19,6 +22,7 @@ namespace HVX.Controls
 
         Rectangle ManualThresholdPlotBounds()
         {
+            if(manualThresholdDragging&&manualThresholdDragPlot.Width>0)return manualThresholdDragPlot;
             using(var graphics=CreateGraphics())
             using(var font=CreateAxisFont())
                 return CreatePdTrack(CreatePlotBounds(graphics,DisplayPdMaximum,cachedVoltageAbs,font));
@@ -45,6 +49,8 @@ namespace HVX.Controls
                 manualThresholdDragMaximum=DisplayPdMaximum;
                 manualThresholdDragOriginal=manualThresholdGuidePc;
                 manualThresholdDragging=true;Capture=true;Cursor=Cursors.HSplit;
+                CaptureThresholdDragBackdrop();
+                thresholdDragGuideY=MapY(manualThresholdGuidePc,0,manualThresholdDragMaximum,manualThresholdDragPlot);
                 Focus();return;
             }
             base.OnMouseDown(e);
@@ -55,36 +61,39 @@ namespace HVX.Controls
             if(manualThresholdDragging)
             {
                 if(!CanDragManualThreshold){CancelManualThresholdDrag(true);return;}
-                MoveManualThreshold(e.Y);return;
+                MoveManualThreshold(e.Y,true);return;
             }
             Cursor=HitManualThreshold(e.Location)?Cursors.HSplit:Cursors.Default;
             base.OnMouseMove(e);
         }
 
-        void MoveManualThreshold(int y)
+        void MoveManualThreshold(int y,bool notifyHost)
         {
             // Freeze the existing pC mapping for this gesture; changing the
             // threshold cannot move its own axis or alter raw waveforms/time.
             double ratio=Math.Max(0,Math.Min(1,(manualThresholdDragPlot.Bottom-y)/(double)manualThresholdDragPlot.Height));
             double value=Math.Round(Math.Min(1e9,ratio*manualThresholdDragMaximum),2);
-            if(manualThresholdGuidePc.Equals(value))return;
+            if(manualThresholdGuidePc.Equals(value))
+            {
+                if(notifyHost)RaiseManualThresholdGuideDragged();
+                return;
+            }
+            int previousY=thresholdDragGuideY;
             manualThresholdGuidePc=value;
-            // Paint only the guide during the gesture. Host sync (NumericUpDown /
-            // AnalysisThresholdChanged) waits until mouse-up to avoid full-page flash.
-            Invalidate();
-            if(!manualThresholdDragging)RaiseManualThresholdGuideDragged();
+            thresholdDragGuideY=MapY(manualThresholdGuidePc,0,manualThresholdDragMaximum,manualThresholdDragPlot);
+            // Prefer a thin dirty strip over a full control Invalidate so the
+            // heavy waveform underlay is not rebuilt on every mouse sample.
+            InvalidateThresholdGuideStrip(previousY,thresholdDragGuideY);
+            if(notifyHost)RaiseManualThresholdGuideDragged();
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
             if(manualThresholdDragging&&e.Button==MouseButtons.Left)
             {
-                if(CanDragManualThreshold)MoveManualThreshold(e.Y);
+                if(CanDragManualThreshold)MoveManualThreshold(e.Y,false);
                 else {CancelManualThresholdDrag(true);return;}
-                manualThresholdDragging=false;Capture=false;Cursor=Cursors.Default;Invalidate();
-                // Commit after the drag flag clears so the host can sync the
-                // NumericUpDown without a mid-gesture ValueChanged round-trip.
-                RaiseManualThresholdGuideDragged();
+                EndThresholdDrag(true);
                 return;
             }
             base.OnMouseUp(e);
@@ -111,16 +120,86 @@ namespace HVX.Controls
         void CancelManualThresholdDrag(bool restoreValue)
         {
             if(!manualThresholdDragging)return;
-            manualThresholdDragging=false;
+            bool notifyHost=false;
             if(restoreValue&&!manualThresholdGuidePc.Equals(manualThresholdDragOriginal))
             {
                 manualThresholdGuidePc=manualThresholdDragOriginal;
-                if(!IsDisposed&&!Disposing)RaiseManualThresholdGuideDragged();
+                notifyHost=true;
             }
-            Capture=false;Cursor=Cursors.Default;Invalidate();
+            EndThresholdDrag(notifyHost);
+        }
+
+        void EndThresholdDrag(bool notifyHost)
+        {
+            manualThresholdDragging=false;
+            Capture=false;Cursor=Cursors.Default;
+            ReleaseThresholdDragBackdrop();
+            thresholdDragGuideY=int.MinValue;
+            Invalidate();
+            if(notifyHost&&!IsDisposed&&!Disposing)RaiseManualThresholdGuideDragged();
         }
 
         void RaiseManualThresholdGuideDragged()
         {var handler=ManualThresholdGuideDragged;if(handler!=null)handler(this,EventArgs.Empty);}
+
+        void CaptureThresholdDragBackdrop()
+        {
+            ReleaseThresholdDragBackdrop();
+            if(!IsHandleCreated||Width<=0||Height<=0)return;
+            try
+            {
+                var bitmap=new Bitmap(Width,Height,System.Drawing.Imaging.PixelFormat.Format32bppPArgb);
+                using(var g=Graphics.FromImage(bitmap))
+                {
+                    g.Clear(BackColor);
+                    PaintWaveformContent(g,false);
+                }
+                thresholdDragBackdrop=bitmap;
+            }
+            catch(Exception)
+            {
+                ReleaseThresholdDragBackdrop();
+            }
+        }
+
+        void ReleaseThresholdDragBackdrop()
+        {
+            if(thresholdDragBackdrop==null)return;
+            thresholdDragBackdrop.Dispose();
+            thresholdDragBackdrop=null;
+        }
+
+        void InvalidateThresholdGuideStrip(int previousY,int nextY)
+        {
+            if(thresholdDragBackdrop==null||manualThresholdDragPlot.Width<=0)
+            {
+                Invalidate();
+                return;
+            }
+            int top=Math.Min(previousY,nextY)-18;
+            int bottom=Math.Max(previousY,nextY)+18;
+            // Include the label band above the guide line.
+            top=Math.Min(top,manualThresholdDragPlot.Top);
+            bottom=Math.Max(bottom,manualThresholdDragPlot.Bottom);
+            var strip=Rectangle.Intersect(ClientRectangle,
+                new Rectangle(manualThresholdDragPlot.Left,top,manualThresholdDragPlot.Width,Math.Max(1,bottom-top)));
+            if(strip.Width<=0||strip.Height<=0)Invalidate();
+            else Invalidate(strip);
+        }
+
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            ReleaseThresholdDragBackdrop();
+            base.OnHandleDestroyed(e);
+        }
+
+        bool TryPaintThresholdDragFrame(Graphics g)
+        {
+            if(!manualThresholdDragging||thresholdDragBackdrop==null)return false;
+            g.DrawImageUnscaled(thresholdDragBackdrop,0,0);
+            using(var font=CreateAxisFont())
+                DrawManualThresholdGuide(g,manualThresholdDragPlot,0,manualThresholdDragMaximum,font);
+            return true;
+        }
     }
 }

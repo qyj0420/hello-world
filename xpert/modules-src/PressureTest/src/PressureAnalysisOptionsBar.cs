@@ -12,6 +12,7 @@ namespace HVX.Controls
         CheckBox manualThreshold,thresholdAll,compensatedCharge,snapJoint,reversePosition,endpointReview;
         NumericUpDown thresholdPc;
         PressureSpectrumGeometry analysisGeometry;
+        bool suppressAnalysisThresholdEvents;
         internal event EventHandler EndpointReviewRequested;
         internal event EventHandler AnalysisThresholdChanged;
         internal bool ManualAnalysisThreshold {get{return manualThreshold.Checked;}}
@@ -29,8 +30,8 @@ namespace HVX.Controls
             reversePosition=new CheckBox{Name="PressureReversePosition",AutoSize=true,Margin=new Padding(8,6,3,3)};
             endpointReview=new CheckBox{Name="PressureEndpointReview",AutoSize=true,Enabled=false,Margin=new Padding(8,6,3,3)};
             analysisOptions.Controls.AddRange(new Control[]{manualThreshold,thresholdPc,new Label{Text="pC",AutoSize=true,Margin=new Padding(0,6,3,3)},thresholdAll,snapJoint,reversePosition,compensatedCharge,endpointReview});
-            manualThreshold.CheckedChanged+=(s,e)=>{thresholdPc.Enabled=manualThreshold.Checked;RaiseAnalysisThresholdChanged();};
-            thresholdPc.ValueChanged+=(s,e)=>RaiseAnalysisThresholdChanged();
+            manualThreshold.CheckedChanged+=(s,e)=>{if(suppressAnalysisThresholdEvents)return;thresholdPc.Enabled=manualThreshold.Checked;RaiseAnalysisThresholdChanged();};
+            thresholdPc.ValueChanged+=(s,e)=>{if(suppressAnalysisThresholdEvents)return;RaiseAnalysisThresholdChanged();};
             compensatedCharge.CheckedChanged+=(s,e)=>Review.UseCompensatedCharge=compensatedCharge.Checked;
             snapJoint.CheckedChanged+=(s,e)=>RefreshPressureGeometry();reversePosition.CheckedChanged+=(s,e)=>RefreshPressureGeometry();
             endpointReview.CheckedChanged+=(s,e)=>{if(endpointReview.Checked){var handler=EndpointReviewRequested;if(handler!=null)handler(this,EventArgs.Empty);else endpointReview.Checked=false;}};
@@ -48,7 +49,18 @@ namespace HVX.Controls
             if(Double.IsNaN(value)||Double.IsInfinity(value)||value<0||value>1e9)throw new ArgumentOutOfRangeException("value");
             decimal next=(decimal)value;
             if(manualThreshold.Checked==manual&&thresholdPc.Value==next&&thresholdAll.Checked==all)return;
-            manualThreshold.Checked=manual;thresholdPc.Value=next;thresholdAll.Checked=all;
+            // Programmatic updates (waveform drag) must not fire ValueChanged →
+            // AnalysisThresholdChanged → SetManualThresholdGuide, or the guide
+            // Invalidates in a loop and the options bar flashes with the chart.
+            suppressAnalysisThresholdEvents=true;
+            try
+            {
+                manualThreshold.Checked=manual;
+                thresholdPc.Value=next;
+                thresholdAll.Checked=all;
+                thresholdPc.Enabled=manual;
+            }
+            finally { suppressAnalysisThresholdEvents=false; }
         }
         internal void SetAnalysisGeometry(PressureSpectrumGeometry geometry){analysisGeometry=geometry;RefreshPressureGeometry();}
         void RefreshPressureGeometry(){if(analysisGeometry!=null)analysisGeometry.Apply(Review,snapJoint.Checked,reversePosition.Checked);else PressureSpectrumGeometry.Clear(Review);}
@@ -83,13 +95,15 @@ namespace HVX.Controls
                     waveformView.SetManualThresholdGuide(spectrumDashboardView.ManualAnalysisThreshold,spectrumDashboardView.AnalysisThresholdPc);
                     return;
                 }
-                // While the guide is moving, keep the NumericUpDown out of the
-                // loop — ValueChanged → SetManualThresholdGuide causes flash.
-                if(waveformView.ManualThresholdGuideDragging)return;
+                // Silent numeric sync keeps smoke/host bindings current without
+                // raising AnalysisThresholdChanged (no guide Invalidate bounce).
                 spectrumDashboardView.SetAnalysisThreshold(true,waveformView.ManualThresholdGuidePc,spectrumDashboardView.AnalysisThresholdAll);
             };
             spectrumDashboardView.AnalysisThresholdChanged+=(s,e)=>
+            {
+                if(waveformView.ManualThresholdGuideDragging)return;
                 waveformView.SetManualThresholdGuide(spectrumDashboardView.ManualAnalysisThreshold,spectrumDashboardView.AnalysisThresholdPc);
+            };
             waveformView.SetManualThresholdGuide(spectrumDashboardView.ManualAnalysisThreshold,spectrumDashboardView.AnalysisThresholdPc);
         }
         bool endpointInspectionBusy;

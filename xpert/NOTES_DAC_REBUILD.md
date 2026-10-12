@@ -1,7 +1,7 @@
 # DAC 重编 NOTES — HV-DAC Xpert × FactoryPressMerge（权威纠偏）
 
 品牌：雄新电力 / 雄新 OWTS  
-构建戳：**2026-10-13T00:03:53+08:00**（Asia/Shanghai）  
+构建戳：**2026-10-13T00:07:09+08:00**（Asia/Shanghai）  
 权威对照：上传 `HV-DAC_Xpert_V1.1.2_FactoryPressMerge_SpectrumFix_src`（`bc-5330ba65`）+ 完整四项目 `dac-FactoryPress-full-src-for-Codex_20261012-201121`  
 **停止**沿用 hello-world 里缺 `HvxAcquisitionNative`、非完整桥接的 `FactoryPressOwts` / `ShowForXpert` 合流当作正解。
 
@@ -12,7 +12,7 @@
 
 | 项 | 值 |
 |----|----|
-| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,489,494 字节**，SHA256 `C2F19EADE559EEAD024E5180956C0BF8842E704C1046489C04CD8AEBC6DF0F09` |
+| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,490,255 字节**，SHA256 `53915D23F627E997E26FB9DFCE704568FCE5F734DE045C72EB15A479C6A0CAAD` |
 | 主程序 | `Xiongxin.OWTS.Desktop/Xiongxin.OWTS.Desktop.exe`，.NET Framework 4.8 x64 WinExe |
 | 加压栈 | **`modules/FactoryPress/`**：`Xiongxin.Owts.XpertPressBridge.dll` + Acquisition/Contracts/HostAdapters 依赖 |
 | 宿主入口 | `src/ModuleHost.FactoryPressure.cs`：`OpenForXpert` / `RunRoundAsync` / `PollEmergencyStage` |
@@ -50,6 +50,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1 -Configuration D
 FakeLive 冒烟：`factory-press/Xiongxin.Owts.XpertPressBridge.Smoke`（`OWTS_XPERT_FAKE_PRESS=1`）。
 
 ## UI 纠偏（本轮）
+
+- 反射阈值拖动：按下冻结波形底图，移动只脏刷导引线；`SetAnalysisThreshold` 静默同步，无 ValueChanged 回环闪烁
 
 - LIVE 状态行：`SetFactoryHardwareStatusLine` 只更新连接标签，避免整页 `UpdatePressureUi` 闪烁
 - 计划表：`RefreshPlanGrid` 指纹相同则跳过 `Rows.Clear`

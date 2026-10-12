@@ -45,7 +45,11 @@ namespace HVX.Controls
             if(!IsFinite(thresholdPc)||thresholdPc<0)throw new ArgumentOutOfRangeException("thresholdPc");
             if(!enabled)CancelManualThresholdDrag(false);
             if(manualThresholdGuideEnabled==enabled&&manualThresholdGuidePc.Equals(thresholdPc))return;
-            manualThresholdGuideEnabled=enabled;manualThresholdGuidePc=thresholdPc;Invalidate();
+            manualThresholdGuideEnabled=enabled;manualThresholdGuidePc=thresholdPc;
+            // Never rebuild the whole page while the operator is mid-drag; the
+            // drag path owns strip invalidation against the frozen backdrop.
+            if(manualThresholdDragging)return;
+            Invalidate();
         }
         internal bool ManualThresholdGuideEnabled {get{return manualThresholdGuideEnabled;}}
         internal double ManualThresholdGuidePc {get{return manualThresholdGuidePc;}}
@@ -121,6 +125,14 @@ namespace HVX.Controls
         {
             base.OnPaint(e);
             Graphics g = e.Graphics;
+            // Drag frames blit a frozen underlay + guide only — avoids re-tessellating
+            // the full reflection/PD waveform on every mouse sample (source of flicker).
+            if(TryPaintThresholdDragFrame(g))return;
+            PaintWaveformContent(g,true);
+        }
+
+        void PaintWaveformContent(Graphics g,bool includeThresholdGuide)
+        {
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
@@ -141,7 +153,7 @@ namespace HVX.Controls
                 GraphicsState waveformState=g.Save();g.SetClip(plot);
                 DrawPdPulsePlot(g, pdPlot, duration, pdMin, pdMax, pdBaseline);
                 DrawVoltageLine(g, voltagePlot, duration, voltageAbs);
-                DrawManualThresholdGuide(g,pdPlot,pdMin,pdMax,axisFont);
+                if(includeThresholdGuide)DrawManualThresholdGuide(g,pdPlot,pdMin,pdMax,axisFont);
                 g.Restore(waveformState);
                 DrawAxes(g, plot, pdPlot, voltagePlot, duration, pdMin, pdMax, voltageAbs, axisFont);
                 DrawLegend(g, plot, axisFont);
