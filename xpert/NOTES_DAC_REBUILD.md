@@ -1,7 +1,7 @@
 # DAC 重编 NOTES — HV-DAC Xpert × FactoryPressMerge（权威纠偏）
 
 品牌：雄新电力 / 雄新 OWTS  
-构建戳：**2026-10-12T23:57:47+08:00**（Asia/Shanghai）  
+构建戳：**2026-10-13T00:03:53+08:00**（Asia/Shanghai）  
 权威对照：上传 `HV-DAC_Xpert_V1.1.2_FactoryPressMerge_SpectrumFix_src`（`bc-5330ba65`）+ 完整四项目 `dac-FactoryPress-full-src-for-Codex_20261012-201121`  
 **停止**沿用 hello-world 里缺 `HvxAcquisitionNative`、非完整桥接的 `FactoryPressOwts` / `ShowForXpert` 合流当作正解。
 
@@ -12,7 +12,7 @@
 
 | 项 | 值 |
 |----|----|
-| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,486,500 字节**，SHA256 `EE7714ADD4F735E8338CB3E531EDC64F5A2E1742B728EB9A687BE6FE93133A7A` |
+| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,489,494 字节**，SHA256 `C2F19EADE559EEAD024E5180956C0BF8842E704C1046489C04CD8AEBC6DF0F09` |
 | 主程序 | `Xiongxin.OWTS.Desktop/Xiongxin.OWTS.Desktop.exe`，.NET Framework 4.8 x64 WinExe |
 | 加压栈 | **`modules/FactoryPress/`**：`Xiongxin.Owts.XpertPressBridge.dll` + Acquisition/Contracts/HostAdapters 依赖 |
 | 宿主入口 | `src/ModuleHost.FactoryPressure.cs`：`OpenForXpert` / `RunRoundAsync` / `PollEmergencyStage` |
@@ -20,11 +20,12 @@
 
 ## 调用链（必须）
 
-1. 配置加压页 → 加载 `Xiongxin.Owts.XpertPressBridge.dll` → `OpenForXpert`（同一会话贯穿 0 kV 与非零加压）
-2. 每轮 `RunRoundAsync` → `OwtsServices.RunFactoryAlignedPress`
-3. 急停显示读 `PollEmergencyStage`（**禁止**第二路 `UnifiedPressureBridge.MonitorAsync`）
+1. 配置加压页 → 加载 `Xiongxin.Owts.XpertPressBridge.dll` → `OpenForXpert(…, PressureRatio, DividerRatio, MaximumKv, Range, PdCal)`（同一会话贯穿 0 kV 与非零加压；Apply 台架增益/过压/斜坡，与出厂 bot 一致）
+2. 每轮 `RunRoundAsync` → `PreparePressBatch` → `OwtsServices.RunFactoryAlignedPress`（Task6RangeAdvisor 量程记忆）
+3. 急停显示读 `PollEmergencyStage`（**禁止**第二路 `MonitorAsync` / Runtime `AttachLifetime`）
 4. `Xiongxin.Pressure.Runtime.exe` **仅**构造 BenchSettings XML；会话后不调用 Capture*/Monitor*
-5. 找不到桥接 DLL → 失败关闭，不静默回退旧栈
+5. 找不到桥接 DLL → 失败关闭，不静默回退旧栈  
+调用栈全文：`NOTES_PRESSURE_CALLSTACK.md`。
 
 故障：`NotReady` / `OperatorStop` / `EStop` / `Safety` / `PicoOnly` / `DeviceOffline` / `CleanupGate`（见 `NOTES.md` 表）。
 

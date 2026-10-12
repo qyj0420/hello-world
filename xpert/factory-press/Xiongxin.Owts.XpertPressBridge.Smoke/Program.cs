@@ -14,7 +14,7 @@ namespace Xiongxin.Owts.XpertPressBridge.Smoke
             Directory.CreateDirectory(dir);
             try
             {
-                string opened = XpertPressHardware.OpenForXpert("Dev1", "FAKE-PICO", true);
+                string opened = XpertPressHardware.OpenForXpert("Dev1", "FAKE-PICO", true, 2000, 12, 35, 6, 2000);
                 if (opened.IndexOf(StatusCopy.Connected, StringComparison.Ordinal) < 0)
                     return Fail("open status missing 已连接: " + opened);
                 XpertPressHardware.MarkDischargeCalibrated();

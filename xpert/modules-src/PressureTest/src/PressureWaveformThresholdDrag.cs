@@ -68,7 +68,11 @@ namespace HVX.Controls
             double ratio=Math.Max(0,Math.Min(1,(manualThresholdDragPlot.Bottom-y)/(double)manualThresholdDragPlot.Height));
             double value=Math.Round(Math.Min(1e9,ratio*manualThresholdDragMaximum),2);
             if(manualThresholdGuidePc.Equals(value))return;
-            manualThresholdGuidePc=value;Invalidate();RaiseManualThresholdGuideDragged();
+            manualThresholdGuidePc=value;
+            // Paint only the guide during the gesture. Host sync (NumericUpDown /
+            // AnalysisThresholdChanged) waits until mouse-up to avoid full-page flash.
+            Invalidate();
+            if(!manualThresholdDragging)RaiseManualThresholdGuideDragged();
         }
 
         protected override void OnMouseUp(MouseEventArgs e)

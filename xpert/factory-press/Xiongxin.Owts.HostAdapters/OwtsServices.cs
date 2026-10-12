@@ -646,6 +646,18 @@ namespace Xiongxin.Owts.HostAdapters
         }
 
         /// <summary>
+        /// Xpert 加压页注入已匹配的放电校准系数（pC/V），供 FactoryLocateExtract 与清单进料使用。
+        /// 无效值不改写现有系数。
+        /// </summary>
+        public void ApplyXpertPdCalibrationPcPerVolt(double pcPerVolt)
+        {
+            ThrowIfDisposed();
+            if (!(pcPerVolt > 0) || double.IsNaN(pcPerVolt) || double.IsInfinity(pcPerVolt)) return;
+            PdCalibrationPcPerVolt = pcPerVolt;
+            PdCalibrationPath = "xpert-discharge-calibration";
+        }
+
+        /// <summary>
         /// 加压批次前：清软锁存（对齐 PressTestRunner.PrepareInterlocks 习惯）。
         /// 真急停/未知仍拒绝。
         /// </summary>

@@ -41,33 +41,54 @@ namespace Xiongxin.Owts.XpertPressBridge
         }
 
         /// <summary>
-        /// 打开唯一 ART+Pico 会话。fakeLive=true 走 FakeLive（无驱动）；否则实机 CreateLive。
-        /// 双序列号写入期望身份，不匹配则 Open 回滚。
+        /// 打开唯一 ART+Pico 会话（兼容旧三参调用：FakeLive 演示增益）。
         /// </summary>
         public static string OpenForXpert(string artSerial, string picoSerial, bool fakeLive)
+        {
+            return OpenForXpert(artSerial, picoSerial, fakeLive, 2000, 12, 35, 6, 2000);
+        }
+
+        /// <summary>
+        /// 打开唯一 ART+Pico 会话，并按 Xpert 设备参数 Apply 台架增益/分压/过压上限/放电校准。
+        /// 与出厂 bot / XpertFactoryPressBackend.Open 同路径：DeviceSdkLease → Live.Open →
+        /// TryApplyBenchCalibration(Xpert PressureRatio/DividerRatio) → RampStepAo ≈60V/步 →
+        /// AbsoluteOverVoltageLimitV → LiveEmergencyMonitor（P0.4）已在会话内。
+        /// fakeLive=true 或 OWTS_XPERT_FAKE_PRESS=1 走 FakeLive。
+        /// </summary>
+        public static string OpenForXpert(string artSerial, string picoSerial, bool fakeLive,
+            double pressureRatioVPerAoV, double dividerRatioVPerV, double maximumKv,
+            int initialRangeIndex, double pdCalibrationPcPerV)
         {
             lock (Gate)
             {
                 if (_services != null && _services.Acquisition != null && _services.Acquisition.IsOpen)
                     return FormatFiveStates(0);
 
+                if (!(pressureRatioVPerAoV > 0) || double.IsNaN(pressureRatioVPerAoV) || double.IsInfinity(pressureRatioVPerAoV))
+                    throw new XpertPressFaultException("NotReady", "加压比例无效，请先完成设备参数配置。");
+                if (LiveBenchCalibration.IsDangerousPlaceholderVoltageGain(pressureRatioVPerAoV))
+                    throw new XpertPressFaultException("NotReady", StatusCopy.BenchGainNotCalibrated + "：加压比例为危险占位 1000，禁止非零加压。");
+                if (!(dividerRatioVPerV > 0) || double.IsNaN(dividerRatioVPerV) || double.IsInfinity(dividerRatioVPerV))
+                    throw new XpertPressFaultException("NotReady", "分压比无效，请先完成设备参数配置。");
+                if (!(maximumKv > 0) || double.IsNaN(maximumKv) || double.IsInfinity(maximumKv))
+                    throw new XpertPressFaultException("NotReady", "最高电压无效，请先完成设备参数配置。");
+                if (initialRangeIndex < 0 || initialRangeIndex > 10) initialRangeIndex = 6;
+
                 var options = OwtsRuntimeOptions.FromEnvironment();
-                if (!string.IsNullOrWhiteSpace(artSerial))
-                {
-                    options.ArtDeviceName = artSerial.Trim();
-                    if (string.IsNullOrWhiteSpace(options.ExpectedArtIdentity))
-                        options.ExpectedArtIdentity = artSerial.Trim();
-                }
+                // ART 按模块名打开（OWTS_ART_DEVICE，默认 Dev1）；Xpert ART 序列号仅记录。
+                // Pico 按 Xpert 已连接序列号打开并写入期望身份。
+                options.ExpectedArtIdentity = string.Empty;
                 if (!string.IsNullOrWhiteSpace(picoSerial))
                 {
                     options.PicoSerial = picoSerial.Trim();
-                    if (string.IsNullOrWhiteSpace(options.ExpectedPicoSerial))
-                        options.ExpectedPicoSerial = picoSerial.Trim();
+                    options.ExpectedPicoSerial = picoSerial.Trim();
                 }
                 options.SuppressPicoStartupWindow = true;
                 options.PicoCaptureProfile = PicoCaptureProfile.Field;
 
-                if (fakeLive || string.Equals(Environment.GetEnvironmentVariable("OWTS_XPERT_FAKE_PRESS"), "1", StringComparison.Ordinal))
+                bool useFake = fakeLive
+                    || string.Equals(Environment.GetEnvironmentVariable("OWTS_XPERT_FAKE_PRESS"), "1", StringComparison.Ordinal);
+                if (useFake)
                 {
                     options.AllowLiveHardware = false;
                     _services = OwtsServices.CreateFakeLive(options);
@@ -78,11 +99,38 @@ namespace Xiongxin.Owts.XpertPressBridge
                     _services = OwtsServices.CreateLive(options);
                 }
 
+                LiveBenchCalibration bench;
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(options.BenchCalibrationFilePath)
+                        && File.Exists(options.BenchCalibrationFilePath))
+                        bench = LiveBenchCalibration.LoadFile(options.BenchCalibrationFilePath);
+                    else
+                    {
+                        bench = LiveBenchCalibration.CreateBenchSample(
+                            pressureRatioVPerAoV,
+                            dividerRatioVPerV,
+                            calibratedBy: "Xpert device parameters",
+                            notes: "Xpert PressureRatio/DividerRatio；IMON/VMON 比例沿用出厂加压默认，待现场核定");
+                        bench.VoltageGainVPerAoVolt = pressureRatioVPerAoV;
+                        bench.DividerRatioVPerV = dividerRatioVPerV;
+                        bench.BenchCalibrated = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    SafeDisposeServices();
+                    throw new XpertPressFaultException("NotReady", "台架标定无效：" + ex.Message, ex);
+                }
+
                 var open = new AcquisitionSessionOptions
                 {
                     ArtDeviceName = options.ArtDeviceName,
                     ArtSerial = artSerial ?? string.Empty,
                     PicoSerial = picoSerial ?? string.Empty,
+                    PicoRangeIndex = initialRangeIndex,
+                    VoltageGainVPerAoVolt = 0, // Keep TryApplyBenchCalibration authoritative.
+                    HardOverCurrentA = OwtsServices.FactoryBenchHardOverCurrentA,
                     Simulation = _services.IsFakeLive
                 };
                 try
@@ -108,11 +156,54 @@ namespace Xiongxin.Owts.XpertPressBridge
                     throw new XpertPressFaultException("DeviceOffline", detail);
                 }
 
+                string err;
+                if (!_services.TryApplyBenchCalibration(bench, out err))
+                {
+                    SafeDisposeServices();
+                    throw new XpertPressFaultException("NotReady", "台架增益 Apply 失败：" + (err ?? string.Empty));
+                }
+
+                var singleton = _services.Acquisition as SingletonAcquisitionSession;
+                LiveAcquisitionSession live = singleton != null ? singleton.TryGetLiveSession() : null;
+                if (live == null || live.HardwareOptions == null)
+                {
+                    SafeDisposeServices();
+                    throw new XpertPressFaultException("DeviceOffline", "未取得出厂加压 Live 会话（DeviceSdkLease / LiveAcquisitionSession），拒绝加压。");
+                }
+
+                // 与 PressTestRunner / 出厂 bot：斜坡步长 clamp(60/gain, 0.002, 0.1) AO V，避免默认 0.05 在高增益下越窗。
+                live.HardwareOptions.RampStepAoVolts = FactoryRampStepAoVolts(live.HardwareOptions.VoltageGainVPerAoVolt);
+                live.HardwareOptions.AbsoluteOverVoltageLimitV = maximumKv * 1000.0
+                    * (1.0 + LiveHardwareOptions.ClampOverVoltageTripFraction(live.HardwareOptions.OverVoltageTripFraction));
+
+                string identity;
+                if (!_services.TryValidateDualIdentity(out identity))
+                {
+                    SafeDisposeServices();
+                    throw new XpertPressFaultException("DeviceOffline", "ART/Pico 身份与 Xpert 已连接设备不一致：" + identity);
+                }
+
                 _services.Acquisition.SetConnectionIndicationLamp(true);
+                _services.ApplyXpertPdCalibrationPcPerVolt(pdCalibrationPcPerV);
                 string align = _services.AlignHardwareAfterOpen();
-                _lastWarning = align ?? string.Empty;
-                return FormatFiveStates(0) + (string.IsNullOrEmpty(align) ? "" : " · " + align);
+                // AlignHardwareAfterOpen 可能从文件覆盖 pC/V；Xpert 已匹配校准优先。
+                _services.ApplyXpertPdCalibrationPcPerVolt(pdCalibrationPcPerV);
+                string harden = _services.DescribeAcquisitionHardening();
+                _lastWarning = (align ?? string.Empty)
+                    + (string.IsNullOrEmpty(harden) ? "" : " · " + harden)
+                    + " · VoltageGain=" + live.HardwareOptions.VoltageGainVPerAoVolt.ToString("G6", CultureInfo.InvariantCulture)
+                    + " Divider=" + live.HardwareOptions.DividerRatioVPerV.ToString("G6", CultureInfo.InvariantCulture)
+                    + " RampStepAo=" + live.HardwareOptions.RampStepAoVolts.ToString("G4", CultureInfo.InvariantCulture)
+                    + " 上限=" + maximumKv.ToString("G6", CultureInfo.InvariantCulture) + "kV";
+                return FormatFiveStates(0) + (string.IsNullOrEmpty(_lastWarning) ? "" : " · " + _lastWarning);
             }
+        }
+
+        /// <summary>出厂加压同路径：目标工程电压约 60 V/步，换算为 AO 步长并夹紧。</summary>
+        public static double FactoryRampStepAoVolts(double voltageGainVPerAoVolt)
+        {
+            double step = voltageGainVPerAoVolt > 0 ? 60.0 / voltageGainVPerAoVolt : 0.01;
+            return Math.Max(0.002, Math.Min(0.1, step));
         }
 
         public static void MarkDischargeCalibrated()

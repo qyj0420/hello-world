@@ -15,7 +15,9 @@
 
 ## 调用链
 
-1. `src/ModuleHost.FactoryPressure.cs` 在配置加压页时加载 `Xiongxin.Owts.XpertPressBridge.dll`，调用 `OpenForXpert`。实机走 `OwtsServices.CreateLive`；环境变量 `OWTS_XPERT_FAKE_PRESS=1` 才走 FakeLive。双序列号写入期望身份，不匹配则 Open 回滚。Pico 抑制启动窗，不启 PicoScope.exe。连接灯 P0.5 在 Open 成功后置位。
+1. `src/ModuleHost.FactoryPressure.cs` 在配置加压页时加载 `Xiongxin.Owts.XpertPressBridge.dll`，调用  
+   `OpenForXpert(art, pico, fake, PressureRatio, DividerRatio, MaximumVoltageKv, RangeIndex, PdCalibrationPcPerV)`。  
+   实机走 `OwtsServices.CreateLive`；`OWTS_XPERT_FAKE_PRESS=1` 才走 FakeLive。Open 后 **TryApplyBenchCalibration**（Xpert 加压比例/分压，禁占位 1000）、`RampStepAo≈60V/步`、`AbsoluteOverVoltageLimitV`、放电校准 pC/V。Pico 按序列号单 Open，抑制 PicoScope.exe；连接灯 P0.5 置位。详细对照见 `NOTES_PRESSURE_CALLSTACK.md`。
 2. 同一会话贯穿 0 kV 噪声初始化和非零加压。初始化交接不再 `CloseSession`，避免 Pico/ART 二次 Open。
 3. 每一轮调用 `RunRoundAsync` → `OwtsServices.RunFactoryAlignedPress`（目标 kV×1000、重复 1 次、自动量程最多 2 次下调、手动至少 1 次）。停止按钮取消的令牌会 `RequestOperatorAbort`。
 4. 急停显示不再调用旧 `UnifiedPressureBridge.MonitorAsync`（那会再开一路 DI）。界面约 50 ms 读 `PollEmergencyStage`；P0.4 的约 10 ms 循环仍在出厂 `LiveEmergencyMonitor` 里。

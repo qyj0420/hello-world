@@ -205,7 +205,9 @@ namespace Xiongxin.OWTS.Desktop
             set("PdCalibrationPcPerV",calibration.CoefficientPcPerV);set("RangeIndex",range);
             var bridge=assembly.GetType("Xiongxin.FactoryTest.UnifiedPressureBridge",true);
             bool batchCapable=bridge.GetMethod("CaptureBatchAsync")!=null&&bridge.GetMethod("CloseSessionAsync")!=null;
-            if(batchCapable)bridge.GetMethod("AttachLifetime").Invoke(null,new object[]{control.FindForm()});
+            // Batch capability is still read from Runtime metadata for plan programming,
+            // but AttachLifetime/AttachDesktop must not bind FormClosing → FactoryResidentDevices
+            // (second hardware path beside XpertPressBridge / DeviceSdkLease).
             set("PicoCoupling",0);set("AutomaticSharedTrigger",false);set("ArmDelayMs",500);set("TriggerPulseMs",1000);
             inputType.GetMethod("Validate").Invoke(input,null);
             string inputXml=Task39InputContract.Serialize(input);
@@ -228,7 +230,7 @@ namespace Xiongxin.OWTS.Desktop
             var session=new FactoryPressureSession(control,bridge,configuration,app,project,trial,validate,diagnostics,true);
             session.CaptureSerial=serial;
             factoryPressureSessions.Add(control,session);
-            EnsureFactoryPressSession(session, control, artSerial, serial);
+            EnsureFactoryPressSession(session,control,artSerial,serial,app.PressureRatio,app.DividerRatio,app.MaximumVoltageKv,range,calibration.CoefficientPcPerV);
             DateTime identifiedUtc=state.Hardware.CheckedUtc;
             session.ConnectionUnavailable=()=>MarkPressureConnectionUnavailable(control,session,identity,identifiedUtc);
             session.EmergencyObserved=(stage,sampleUtc)=>ObservePressureEmergency(session,identity,identifiedUtc,stage,sampleUtc);
@@ -689,7 +691,8 @@ namespace Xiongxin.OWTS.Desktop
             if(!File.Exists(path))return null;
             return Assembly.LoadFrom(path);
         }
-        void EnsureFactoryPressSession(FactoryPressureSession session,Control control,string artSerial,string picoSerial)
+        void EnsureFactoryPressSession(FactoryPressureSession session,Control control,string artSerial,string picoSerial,
+            double pressureRatio,double dividerRatio,double maximumKv,int rangeIndex,double pdCalibrationPcPerV)
         {
             if(session==null)throw new ArgumentNullException("session");
             if(session.FactoryPressHardware!=null)return;
@@ -700,8 +703,18 @@ namespace Xiongxin.OWTS.Desktop
             Assembly assembly=Assembly.LoadFrom(dll);
             Type type=assembly.GetType("Xiongxin.Owts.XpertPressBridge.XpertPressHardware",true);
             bool fake=String.Equals(Environment.GetEnvironmentVariable("OWTS_XPERT_FAKE_PRESS"),"1",StringComparison.Ordinal);
+            // Prefer the full OpenForXpert(… gain/divider/maxKv/range/pdCal) overload that mirrors
+            // out-of-factory XpertFactoryPressBackend.Open / PressTestRunner bench Apply.
+            MethodInfo open=type.GetMethod("OpenForXpert",new Type[]{typeof(string),typeof(string),typeof(bool),typeof(double),typeof(double),typeof(double),typeof(int),typeof(double)});
+            if(open==null)open=type.GetMethod("OpenForXpert",new Type[]{typeof(string),typeof(string),typeof(bool)});
+            if(open==null)throw new InvalidOperationException("出厂加压桥接缺少 OpenForXpert。");
             object opened;
-            try{opened=type.GetMethod("OpenForXpert").Invoke(null,new object[]{artSerial??"",picoSerial??"",fake});}
+            try{
+                if(open.GetParameters().Length==8)
+                    opened=open.Invoke(null,new object[]{artSerial??"",picoSerial??"",fake,pressureRatio,dividerRatio,maximumKv,rangeIndex,pdCalibrationPcPerV});
+                else
+                    opened=open.Invoke(null,new object[]{artSerial??"",picoSerial??"",fake});
+            }
             catch(Exception error){throw UnwrapFactoryPress(error);}
             try{type.GetMethod("MarkDischargeCalibrated").Invoke(null,null);}
             catch(Exception error){throw UnwrapFactoryPress(error);}
