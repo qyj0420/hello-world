@@ -66,15 +66,21 @@ namespace Xiongxin.Owts.HvPressTest
                 return true;
             try
             {
-                string name = Path.GetFileNameWithoutExtension(
+                // GetCommandLineArgs()[0] is the managed .dll under apphost, so a renamed exe copy is only visible via ProcessPath.
+                string[] candidates =
+                {
+                    Environment.ProcessPath,
                     Environment.GetCommandLineArgs() != null && Environment.GetCommandLineArgs().Length > 0
                         ? Environment.GetCommandLineArgs()[0]
-                        : (System.Diagnostics.Process.GetCurrentProcess().MainModule != null
-                            ? System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName
-                            : ""));
-                if (string.IsNullOrEmpty(name)) return false;
-                if (name.IndexOf("Calibration", StringComparison.OrdinalIgnoreCase) >= 0) return true;
-                if (name.IndexOf("校准采集", StringComparison.Ordinal) >= 0) return true;
+                        : null
+                };
+                foreach (string path in candidates)
+                {
+                    string name = string.IsNullOrEmpty(path) ? null : Path.GetFileNameWithoutExtension(path);
+                    if (string.IsNullOrEmpty(name)) continue;
+                    if (name.IndexOf("Calibration", StringComparison.OrdinalIgnoreCase) >= 0) return true;
+                    if (name.IndexOf("校准采集", StringComparison.Ordinal) >= 0) return true;
+                }
             }
             catch { }
             return false;
