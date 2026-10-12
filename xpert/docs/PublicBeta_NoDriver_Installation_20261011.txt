@@ -1,0 +1,9 @@
+HV-DAC Xpert 1.1.2 — Application Installer r57
+
+本安装包只安装应用软件，不安装设备驱动。连接设备前，请先安装配套的 64 位 Pico 和 ART 驱动；已经安装的无需重复安装。
+本版单独安装，保留之前的软件和数据。桌面快捷方式图标、中英文说明书、专业术语表随软件保存。厂家图片保存在安装目录的 OEMpic 文件夹。
+请保持安全软件开启。实机测试仍须执行现场安全检查。
+
+This package installs the application only. Install the matching 64-bit Pico and ART drivers separately before connecting hardware. Existing compatible drivers do not need reinstalling.
+This version installs independently and preserves earlier software and data. The shortcut icon, Chinese and English manuals, and terminology guide are included. Manufacturer images are kept in the installation folder's OEMpic subfolder.
+Keep security software enabled. Follow on-site safety procedures for hardware testing.

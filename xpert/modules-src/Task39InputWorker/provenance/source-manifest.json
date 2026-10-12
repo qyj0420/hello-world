@@ -1,0 +1,361 @@
+{
+  "Schema": "XIONGXIN.Task39.SourceImport.v1",
+  "ImportedUtc": "2026-09-30T07:07:50.9546103Z",
+  "OriginWorkspace": "PD_AI_LabVIEW2026_Project",
+  "Mode": "Local pinned snapshot with reviewed additive R27 range-evidence contract; no runtime dependency on original checkout",
+  "Files": [
+    {
+      "Path": "src/Analysis.cs",
+      "Bytes": 17715,
+      "SHA256": "96B197D358C81F7A55127826AE9935AE04321019151B9FC04AB4BBCFCB383C12",
+      "Origin": "ZeroVoltageSequenceTester/Analysis.cs"
+    },
+    {
+      "Path": "src/AnalysisTests.cs",
+      "Bytes": 7559,
+      "SHA256": "489EAB591317BA50621DF5F2EBDDCD1E7EC63A8AE7BE37C4FD453F71832EC1D7",
+      "Origin": "ZeroVoltageSequenceTester/AnalysisTests.cs"
+    },
+    {
+      "Path": "src/ArtSharedTrigger.cs",
+      "Bytes": 10594,
+      "SHA256": "EECC0EE255BE121CED72082FFC9A5C7D2AD949797BFE1B9BF30F8E85BF9E9962",
+      "Origin": "ZeroVoltageSequenceTester/ArtSharedTrigger.cs"
+    },
+    {
+      "Path": "src/BenchModels.cs",
+      "Bytes": 14798,
+      "SHA256": "701D8B24A26DA1B8A35EDA41C512AD33FEE65155FA7CE0CE87867D077239D4C6",
+      "Origin": "ZeroVoltageSequenceTester/BenchModels.cs"
+    },
+    {
+      "Path": "src/BenchRunner.cs",
+      "Bytes": 18625,
+      "SHA256": "161D2DF773FCD803C444DF8F2E280CF320E5C854465A4DF9EEBCF632995ACE68",
+      "Origin": "ZeroVoltageSequenceTester/BenchRunner.cs"
+    },
+    {
+      "Path": "src/BenchVerification.cs",
+      "Bytes": 1793,
+      "SHA256": "546282D5D7E993FD26834794365BEAAC3C647849663254C98115C8D18C1A0F9A",
+      "Origin": "ZeroVoltageSequenceTester/BenchVerification.cs"
+    },
+    {
+      "Path": "src/CaptureConfigurationTests.cs",
+      "Bytes": 7523,
+      "SHA256": "411010146782CADF2A23CEC80628B882C1A4FFAB93774D78469DD626377F52AE",
+      "Origin": "ZeroVoltageSequenceTester/CaptureConfigurationTests.cs"
+    },
+    {
+      "Path": "src/ChildProcessTests.cs",
+      "Bytes": 8043,
+      "SHA256": "595A0F26D637368E8EFC4913D3D27F8C3D13AC9C14F0BD50DA3B128E56B3F8FC",
+      "Origin": "ZeroVoltageSequenceTester/ChildProcessTests.cs"
+    },
+    {
+      "Path": "src/CoreTests.cs",
+      "Bytes": 7150,
+      "SHA256": "4F97468E9EB8E88D7439DC7E084658E1DF98A5BC50B29B9C9483FE50F8F1EE5D",
+      "Origin": "ZeroVoltageSequenceTester/CoreTests.cs"
+    },
+    {
+      "Path": "src/DetectedWaveforms.cs",
+      "Bytes": 8791,
+      "SHA256": "4225D1D1B36DF2B984737CF471EEF09AF84560D89FB9E6C1030E78645986011F",
+      "Origin": "ZeroVoltageSequenceTester/DetectedWaveforms.cs"
+    },
+    {
+      "Path": "src/DetectedWaveformTests.cs",
+      "Bytes": 7477,
+      "SHA256": "D11115F8687C18AB293FAC4C7E158CE4BBCF390284A15543C38E5D8ED858BA16",
+      "Origin": "ZeroVoltageSequenceTester/DetectedWaveformTests.cs"
+    },
+    {
+      "Path": "src/DeviceDiscovery.cs",
+      "Bytes": 13216,
+      "SHA256": "077FA6A86D1566F7D20A5790FB84663CC00F265CA9D344B90860AA2E84FA9B41",
+      "Origin": "ZeroVoltageSequenceTester/DeviceDiscovery.cs"
+    },
+    {
+      "Path": "src/DiscoveryTests.cs",
+      "Bytes": 3409,
+      "SHA256": "5FB9ED5723CEF1057AC0FFA93D3531406FDCEA1FB1ACBDC6DA69F59073A5B61C",
+      "Origin": "ZeroVoltageSequenceTester/DiscoveryTests.cs"
+    },
+    {
+      "Path": "src/ExportTests.cs",
+      "Bytes": 2969,
+      "SHA256": "1B4716B2296C0A365C82D9C2EC3FF8990F62EA28A22CD795C101F8EA13C513C9",
+      "Origin": "ZeroVoltageSequenceTester/ExportTests.cs"
+    },
+    {
+      "Path": "src/HardwareCapture.cs",
+      "Bytes": 25386,
+      "SHA256": "F28F3867C8121CFE39BB45209EFDA1B6460E4B714D9AC29577B6039966CC70FE",
+      "Origin": "ZeroVoltageSequenceTester/HardwareCapture.cs"
+    },
+    {
+      "Path": "src/InputCaptureWait.cs",
+      "Bytes": 8232,
+      "SHA256": "57D08CB9EBA98FD47F2BF6C9AC7E8803E832394E0C365540AE27BC837B6A3DCF",
+      "Origin": "ZeroVoltageSequenceTester/InputCaptureWait.cs"
+    },
+    {
+      "Path": "src/LocationRangeAdvisor.cs",
+      "Bytes": 15758,
+      "SHA256": "68C45BC2517735EEA2D04C12E9C5E0F386DC54624375104935F30FB81A4181C5",
+      "Origin": "ZeroVoltageSequenceTester/LocationRangeAdvisor.cs"
+    },
+    {
+      "Path": "src/LocationRangeTests.cs",
+      "Bytes": 9704,
+      "SHA256": "0A757CD7103AF8BE6521ACA8B33844B963E2D2500C793D9742EAFCD7B9DB104F",
+      "Origin": "ZeroVoltageSequenceTester/LocationRangeTests.cs"
+    },
+    {
+      "Path": "src/LocationRangeWindow.cs",
+      "Bytes": 5339,
+      "SHA256": "1ECC51089244A3A09852D92EC49D288A58740B8C45FED85C3E75602750D69160",
+      "Origin": "ZeroVoltageSequenceTester/LocationRangeWindow.cs"
+    },
+    {
+      "Path": "src/LocationRangeWindowTests.cs",
+      "Bytes": 6968,
+      "SHA256": "C010C328E0A555593278B24F642FDD9AF6912F962FBDD0108781CD2D2985A685",
+      "Origin": "ZeroVoltageSequenceTester/LocationRangeWindowTests.cs"
+    },
+    {
+      "Path": "src/MainForm.cs",
+      "Bytes": 39931,
+      "SHA256": "5E8F8BAEE534ABAB05B353278E0A9B326353EBE892FA7A8368B6F73E7B6AED95",
+      "Origin": "ZeroVoltageSequenceTester/MainForm.cs"
+    },
+    {
+      "Path": "src/MainForm.Diagnostics.cs",
+      "Bytes": 6816,
+      "SHA256": "A82390A2E50A35D3A86BA8D8089AFE46CDFA6BE107BDCF28C4A847F59B0AAE98",
+      "Origin": "ZeroVoltageSequenceTester/MainForm.Diagnostics.cs"
+    },
+    {
+      "Path": "src/MainForm.Discovery.cs",
+      "Bytes": 12740,
+      "SHA256": "FBA82DB7D39CEDA44A97F315EED9936F5679F9BAB6F3391B35FD5A024029A7EC",
+      "Origin": "ZeroVoltageSequenceTester/MainForm.Discovery.cs"
+    },
+    {
+      "Path": "src/MainForm.RangeReview.cs",
+      "Bytes": 12895,
+      "SHA256": "5D6E674BC0CC06E9BF42869A96849898F279A1CB2E3260491D66464D349793E6",
+      "Origin": "ZeroVoltageSequenceTester/MainForm.RangeReview.cs"
+    },
+    {
+      "Path": "src/MainForm.RangeReviewTests.cs",
+      "Bytes": 32171,
+      "SHA256": "AA06BCF4C0E091EC73894F634AB7CDA58DAB683EDFD65F27E998EA22F2DAF7AA",
+      "Origin": "ZeroVoltageSequenceTester/MainForm.RangeReviewTests.cs"
+    },
+    {
+      "Path": "src/MainForm.Results.cs",
+      "Bytes": 14834,
+      "SHA256": "F8ACC68C11BFB768CC6B1E94B5B9B0011AAE38FF43D0B8D75DA20FECDFB1CE1F",
+      "Origin": "ZeroVoltageSequenceTester/MainForm.Results.cs"
+    },
+    {
+      "Path": "src/PicoCaptureConfiguration.cs",
+      "Bytes": 3572,
+      "SHA256": "E8C003C630EC72878B8B281C8CF0DD8C2E4D60EDC79CB7D729062E799CD4EF8C",
+      "Origin": "ZeroVoltageSequenceTester/PicoCaptureConfiguration.cs"
+    },
+    {
+      "Path": "src/PicoInputCapture.cs",
+      "Bytes": 10594,
+      "SHA256": "4DEAF67438C941FFCCED080A5FBD5A9B896DFCB0D3412D4F1B5A3E07AF2AAD7D",
+      "Origin": "ZeroVoltageSequenceTester/PicoInputCapture.cs"
+    },
+    {
+      "Path": "src/PipeHoldProbe.cs",
+      "Bytes": 4778,
+      "SHA256": "63B626079EDDFC403ED6632D731C49A9075D10992BFA8C345D70344BCC7D0752",
+      "Origin": "ZeroVoltageSequenceTester/PipeHoldProbe.cs"
+    },
+    {
+      "Path": "src/ProcessJob.cs",
+      "Bytes": 2872,
+      "SHA256": "06496A229D76F0BE84D332CD79C99A71C215EFBED145B900101B3C6861B0EBF2",
+      "Origin": "ZeroVoltageSequenceTester/ProcessJob.cs"
+    },
+    {
+      "Path": "src/Program.cs",
+      "Bytes": 14634,
+      "SHA256": "E3ABA5A42E2E70ADC8709AE20D61E6F5588DA9126AB563CF8C090064C32EFB2F",
+      "Origin": "ZeroVoltageSequenceTester/Program.cs"
+    },
+    {
+      "Path": "src/RangeDecision.cs",
+      "Bytes": 22292,
+      "SHA256": "1DDE4DB745C69E17199DF4382CA68D035EFBF09A78DEC1205F1839F2ED9C288D",
+      "Origin": "ZeroVoltageSequenceTester/RangeDecision.cs"
+    },
+    {
+      "Path": "src/RangeDecisionTests.cs",
+      "Bytes": 10184,
+      "SHA256": "B90ABB6932676B787A607BDF0D8F400D39F8A4B7A8DA5AFF19D1E65C61CA597C",
+      "Origin": "ZeroVoltageSequenceTester/RangeDecisionTests.cs"
+    },
+    {
+      "Path": "src/StageDiagnostics.cs",
+      "Bytes": 8440,
+      "SHA256": "5DB1A2938D2F4CDBE8E2257FEBA9E0FC1DF7EC9631A77AAE33C2FE0990711F6C",
+      "Origin": "ZeroVoltageSequenceTester/StageDiagnostics.cs"
+    },
+    {
+      "Path": "src/StageDiagnosticsTests.cs",
+      "Bytes": 4065,
+      "SHA256": "C1A8B2FD7D040FC66470F51920CD2CB9338E1C0D8E84D08EE21F0E8BEA714BDA",
+      "Origin": "ZeroVoltageSequenceTester/StageDiagnosticsTests.cs"
+    },
+    {
+      "Path": "src/TriggerOutputTests.cs",
+      "Bytes": 10487,
+      "SHA256": "80354BE951A34DD2427D077F27C2C34EE434943253396333A84962E31534EDA7",
+      "Origin": "ZeroVoltageSequenceTester/TriggerOutputTests.cs"
+    },
+    {
+      "Path": "src/WaitTests.cs",
+      "Bytes": 11943,
+      "SHA256": "383167D1E439E3F56549E74299295F13A4EAFB3EA26046DEB5675CB14BD78CA2",
+      "Origin": "ZeroVoltageSequenceTester/WaitTests.cs"
+    },
+    {
+      "Path": "src/WavePanel.cs",
+      "Bytes": 8216,
+      "SHA256": "C5F3E3EDDFC5B3B05E7EB4A01D6AD108A40FD7EE8A03DF85A25B91E34953E35C",
+      "Origin": "ZeroVoltageSequenceTester/WavePanel.cs"
+    },
+    {
+      "Path": "src/WaveScaleTests.cs",
+      "Bytes": 2704,
+      "SHA256": "3A5163A199A8AB1D3FF69991BDDB517AEEEDECBCEC6BA4A0C30DB5A550D3FD1B",
+      "Origin": "ZeroVoltageSequenceTester/WaveScaleTests.cs"
+    },
+    {
+      "Path": "src/WorkflowTests.cs",
+      "Bytes": 1935,
+      "SHA256": "E1BD18C86955DA5DC1FC4A795299E99FB4BC53BB914E72DEABAB185DB61DD764",
+      "Origin": "ZeroVoltageSequenceTester/WorkflowTests.cs"
+    },
+    {
+      "Path": "vendor/Task38/ArtDeviceCleanup.cs",
+      "Bytes": 9403,
+      "SHA256": "F993D4B6775ED012BA4DE7D9075945DB73C0034FE2A9F201DD12CC5BA2B45075",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/ArtDeviceCleanup.cs"
+    },
+    {
+      "Path": "vendor/Task38/ArtUsb3135Device.cs",
+      "Bytes": 34842,
+      "SHA256": "89D7067AD6A22ECA6C9A468F143AE8253446A31C7DD932C349C6965AA957C0C0",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/ArtUsb3135Device.cs"
+    },
+    {
+      "Path": "vendor/Task38/CalibrationIncidentQuality.cs",
+      "Bytes": 8223,
+      "SHA256": "28A4F541807CDD87995B7B2036ED4BB61218DDB8B8F371AF4A00F001765B9271",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/CalibrationIncidentQuality.cs"
+    },
+    {
+      "Path": "vendor/Task38/CalibrationWindowing.cs",
+      "Bytes": 7860,
+      "SHA256": "43EECB6D6E490CEB3F28F71B754C73E0E71D9ED7737B39E00E05CA859B789D58",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/CalibrationWindowing.cs"
+    },
+    {
+      "Path": "vendor/Task38/ConnectionInspection.cs",
+      "Bytes": 6526,
+      "SHA256": "4918708AF7E00A9B19A61BA04293A85857026750D4DDB16A14EE9FDEC903714F",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/ConnectionInspection.cs"
+    },
+    {
+      "Path": "vendor/Task38/DeviceMessages.cs",
+      "Bytes": 7802,
+      "SHA256": "C576C10C9E096283DEBEC4F93A3EEFD9F9E6EF174D0A4A42397C46100650434E",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/DeviceMessages.cs"
+    },
+    {
+      "Path": "vendor/Task38/HardwareInterfaces.cs",
+      "Bytes": 1237,
+      "SHA256": "88577ABEA9B3ED934423C331BAEA20D0B32484C3DB5CCBCCB56A9399BDA68985",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/HardwareInterfaces.cs"
+    },
+    {
+      "Path": "vendor/Task38/PicoResolutionInfo.cs",
+      "Bytes": 883,
+      "SHA256": "8447E6258F747C4C18BFC391E3BBA2DC2372E1CBF75024EEDDCAC1716416848E",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/PicoResolutionInfo.cs"
+    },
+    {
+      "Path": "vendor/Task38/PicoRuntimeLocator.cs",
+      "Bytes": 4247,
+      "SHA256": "43649AFD14EA74EC608F5E62F06EA7BCC0A20E84CE203114EA8D6A28AC1593FB",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/PicoRuntimeLocator.cs"
+    },
+    {
+      "Path": "vendor/Task38/PicoScope5242DBlockDevice.cs",
+      "Bytes": 27684,
+      "SHA256": "91592B17D837B1458D1124CABE39D15B24D0FBD3B11D95C5AF2B87A550AAFED5",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/PicoScope5242DBlockDevice.cs"
+    },
+    {
+      "Path": "vendor/Task38/Task38Analysis.cs",
+      "Bytes": 7517,
+      "SHA256": "5190552E9CDCA878E69B69AE1D9A1BEF2803C05266E0A95995DD135B38E5E37C",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/Task38Analysis.cs"
+    },
+    {
+      "Path": "vendor/Task38/Task38Contracts.cs",
+      "Bytes": 31518,
+      "SHA256": "04CF498621D63FF19A1E676F3F4A560491D8FDAD0E5012E584C81659A8DCF1BE",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/Task38Contracts.cs"
+    },
+    {
+      "Path": "vendor/Task38/Task38Controller.cs",
+      "Bytes": 48866,
+      "SHA256": "C1BF0FE40EB174DEB57905339E35421125DD712C430CAF824E595D9F7AEBEADC",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/Task38Controller.cs"
+    },
+    {
+      "Path": "vendor/Task38/Task38DemoDevices.cs",
+      "Bytes": 9167,
+      "SHA256": "066EE45615DBDEA8072B51E8CF88C9A2F25E3F4155B90E7073CFC3EBC3684299",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/Task38DemoDevices.cs"
+    },
+    {
+      "Path": "vendor/Task38/Task38RunRecord.cs",
+      "Bytes": 5677,
+      "SHA256": "6A422DEAD1EA5227C454AE9A3B078524A94E4D44B50CCC3C46E4982DBD21A447",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/Task38RunRecord.cs"
+    },
+    {
+      "Path": "vendor/Task38/Task38Session.cs",
+      "Bytes": 26774,
+      "SHA256": "02E2A01676E39BBE8EDD668B7AF4EEDAAA0648A6BD3E60C0375E8B663BA759E3",
+      "Origin": "Task38_HighVoltageSynchronizedControl/src/Task38Session.cs"
+    },
+    {
+      "Path": "assets/xiongxin-original.png",
+      "Bytes": 110040,
+      "SHA256": "E0595209F50CBB1280FCC0807730CCFE56321BDB989CBF2C449CC25690D76BB7",
+      "Origin": "ZeroVoltageSequenceTester/assets/xiongxin-original.png"
+    },
+    {
+      "Path": "assets/xiongxin.ico",
+      "Bytes": 20465,
+      "SHA256": "8C1FA1541C93DC83C64161AF51065F2752DA40C50C071ECF445CEEDCEE099E77",
+      "Origin": "ZeroVoltageSequenceTester/assets/xiongxin.ico"
+    }
+  ],
+  "R27ContractAdaptation": {
+    "OriginalSHA256": "B157D06970B82AE9CAA57C0FD390878B0B8B739F2B5624C3AF0DDA8F5E2070DD",
+    "Reason": "Only five serializable range-planning evidence fields added. Zero-input range algorithm and hardware paths unchanged.",
+    "UpstreamBinarySHA256": "AF91F92D97B3733330DC0085A80B0675DF8A63191E69AB3FEE1D541910D1F77D"
+  }
+}

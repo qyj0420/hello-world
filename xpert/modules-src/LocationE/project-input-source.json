@@ -1,0 +1,15 @@
+{
+  "schema": "HVX.LocationE.ProjectMetadataAdapter/1",
+  "sourceRoot": "modules-src/LocationABCD/ABRelease/AB/source",
+  "sourceHashes": {
+    "AstraPhaseCalibrationSelection.cs": "71C1A0F4F5AB4AFA90F41529F4A599D9ED9C5821F9D9D568004B08F1D4213245",
+    "AstraProjectInput.cs": "87C79CC758E6AD240CA2A151276E7C8439911C11C4394112301A0BB135080A82",
+    "Baseline240.cs": "56BC175515F35EBD88315C58312103B229E13C5B890822DC6BABFA6D101E06B9"
+  },
+  "adapter": "modules-src/DataAnalysis/src/ReviewEProjectInput.cs",
+  "adapterSha256": "D6FF2BB6FCC2FB3F89B834B78AB066FCBCDD4BAA4407B4DC1B9E515BE242801C",
+  "copiedMetadata": ["CableMetadata/CableAccessory/CableSegment", "A4CableBlock, strict phase/unit parsing and A4ReadPhaseCable", "A4SegmentVelocities", "A4Named/A4MatchedDem/A4MeasurementTime", "UniqueSorted/IsJointName/EnsureCableEnds/ParseNumber/ParseMeasurementName"],
+  "adaptation": ["Direct static metadata calls replace reflection on frozen AB internal names; frozen sources are unchanged", "Bounded strict UTF-8, BOM UTF-16 or GB936 text reader instead of environment-default encoding", "Current phase or explicit COMMON CABLE length; velocity from same CABLE or current LOC; segment delays reduce to the upstream E single time-equivalent speed", "LOC filename voltage identity supplies only missing header voltage; conflicts reject", "DEM header-only frequency with exact filename or same phase/voltage and timestamp within one second"],
+  "notIncluded": ["No A/B localization execution or calibration shape reuse", "No other-phase geometry fallback", "No ITEM global geometry fallback", "No first-arrival/filter/lead correction"],
+  "physicalValidation": false
+}

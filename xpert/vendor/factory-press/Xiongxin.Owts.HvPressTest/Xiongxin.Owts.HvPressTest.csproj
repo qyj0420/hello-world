@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    雄新电力 出厂加压测试。
+    net8.0 = 控制台（Linux FakeLive smoke）；net8.0-windows = WinExe GUI（双击开窗）。
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net8.0-windows</TargetFrameworks>
+    <RootNamespace>Xiongxin.Owts.HvPressTest</RootNamespace>
+    <AssemblyName>Xiongxin.Owts.HvPressTest</AssemblyName>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <DefineConstants>$(DefineConstants);NET8_0_WINDOWS;FACTORY_PRESS_GUI</DefineConstants>
+    <AssemblyName>Xiongxin.Owts.FactoryPressUi</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <Compile Remove="FactoryPressForm.cs" />
+    <Compile Remove="FactoryCalibrationForm.cs" />
+    <Compile Remove="WaveformPlotPanel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.Owts.Acquisition\Xiongxin.Owts.Acquisition.csproj" />
+    <ProjectReference Include="..\Xiongxin.Owts.Contracts\Xiongxin.Owts.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="config\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="README.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

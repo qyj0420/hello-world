@@ -1,0 +1,32 @@
+{
+  "versions": {
+    "C": "C-0.3.0",
+    "D": "D-0.1.1"
+  },
+  "created_utc": "2026-10-05T19:27:22.845112+00:00",
+  "file_count": 20,
+  "files": {
+    "assets/xiongxin-original.png": "e0595209f50cbb1280fcc0807730ccfe56321bdb989cbf2c449cc25690d76bb7",
+    "assets/xiongxin.ico": "8c1fa1541c93dc83c64161af51065f2752da40c50c071ecf445ceedcee099e77",
+    "C/localization_c_entry.py": "5bb674fd2d859f1960f1f7072464c7130a6c33f9f47b6affdcff6fa5c8161ea9",
+    "C/owts_pd/__init__.py": "e1a9479e401efd196e4c800aaa6f6544fc860cd6f02fe42ce07f03a184dd9bd5",
+    "C/owts_pd/localization_c.py": "81ee740db9829a86e434bbf6ee639d4cdd8712f09baf6722d6ed5fcb2882223d",
+    "C/requirements-tested.txt": "7bd6b8946940b79948c548c8048e545684b91c8edc9444d8dfc0c8f76a97c0a7",
+    "C/tests/test_localization_c.py": "bd7fa74ae785693222caf48d08b3f4c74bb09454f858cd9a3132bba0f00d294d",
+    "C/tests/test_localization_c_revision.py": "830bba8b6e82714f56ccffb97bc2114057d76001d95162b09c1cf739deb75d46",
+    "C/tests/test_revision03.py": "5608f71c24bbd84be2e03b8810d474b9b025b4857ee5fbe504b4ebe3d4f8e11a",
+    "C/定位算法C_说明.md": "67a9089f345269b9878496c36bdbd0e8a630e47ad68f6c5f5bcef1b27c38a99a",
+    "D/localization_d.py": "dbb21257846f83f2f9efcdc4de58d59751c1c43bca6f1eaab4808ad4aeae8f5b",
+    "D/test_localization_d.py": "dc6ceafa2b8c7afb76cd9e24ee4c6474130c41c2ef1661334155189e9efa7207",
+    "evidence/baseline-c02-defects.log": "4dbc1128193766ed3b9d0d5f78398227a89108b18050047fc83d5cdab2436eeb",
+    "evidence/c-tests.log": "284e886ec9e7dcda7c0644b8c1919c8404d67c7f9d825a3ccc745cfb4625deee",
+    "evidence/cd-summary.json": "ab084451d0f0c9003a717313e0e698e75c4666ab73e2d6a1ea56f8e42f0e0c62",
+    "evidence/final-summary.json": "3e4ac9d4a5f5a30c3cb3f484660fec178c2662081256fa23b0ecd358003b2f37",
+    "evidence/result.json": "5f02e713977ec6faa20893dc2ab34fd8f1c5448bb8e4d6302604be8eaf6efa7e",
+    "evidence/summary.json": "dc42c78bc63efe2fc5320001d745416d24f52833b3be76335dbe4d557db7345a",
+    "evidence/tests.log": "35c1bc1c812a5348fa47c8ad27e6874129d4f8eb096439cf9f1e7537f8ff9406",
+    "README.md": "d247d7b42fe324ef0f758c6f6e19bbec5f7e95e78b430062e74bdf58cf9373b3"
+  },
+  "research_only": true,
+  "no_automatic_integration": true
+}

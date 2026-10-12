@@ -1,0 +1,18 @@
+{
+  "Schema": "XIONGXIN.LocalAlgorithmDependencies.v1",
+  "Policy": "Preserve verified runtime bytes; source snapshots are private build inputs, never customer package files.",
+  "Files": [
+    {"Source":"Algorithms/Task17/fc40b1d6ae7648e9b4abf7b9.V1.0.17.dll","Sha256":"994DD3EB1796375F08ACDA496750A80B37A46BEC9DF91A7CE5DA990F484812E9","Targets":["DataAnalysis/fc40b1d6ae7648e9b4abf7b9.V1.0.17.dll","PressureTest/fc40b1d6ae7648e9b4abf7b9.V1.0.17.dll"]},
+    {"Source":"Algorithms/Task12/ec59cbc4e4ac0bf1804fc88b.V1.0.12.dll","Sha256":"324F1A405B745045FE5A0E76F924DBDA23A20A3678F0FF0250A4A300ADE477E2","Targets":["DataAnalysis/Task12/ec59cbc4e4ac0bf1804fc88b.V1.0.12.dll","PressureTest/Task12/ec59cbc4e4ac0bf1804fc88b.V1.0.12.dll"]},
+    {"Source":"Algorithms/Task12/Microsoft.ML.OnnxRuntime.dll","Sha256":"4E26D8A6464BDB34A56DCAB38FEC9224795D2F3B4A744BE3D5441D85AA163C9C","Targets":["DataAnalysis/Task12/Microsoft.ML.OnnxRuntime.dll","PressureTest/Task12/Microsoft.ML.OnnxRuntime.dll"]},
+    {"Source":"Algorithms/Task12/onnxruntime.dll","Sha256":"BBB4FF18DB820C24AD6D9196ECDC7A62D6099268EAADF264813A23591D4D15CC","Targets":["DataAnalysis/Task12/onnxruntime.dll","PressureTest/Task12/onnxruntime.dll"]},
+    {"Source":"Algorithms/Task12/onnxruntime_providers_shared.dll","Sha256":"844479DB095B130F877D5B3DA4B397B9752610B224F84C186487B7D0FBD90512","Targets":["DataAnalysis/Task12/onnxruntime_providers_shared.dll","PressureTest/Task12/onnxruntime_providers_shared.dll"]},
+    {"Source":"Algorithms/Task12/System.Buffers.dll","Sha256":"ACCCCFBE45D9F08FFEED9916E37B33E98C65BE012CFFF6E7FA7B67210CE1FEFB","Targets":["DataAnalysis/Task12/System.Buffers.dll","PressureTest/Task12/System.Buffers.dll"]},
+    {"Source":"Algorithms/Task12/System.Memory.dll","Sha256":"BF3FB84664F4097F1A8A9BC71A51DCF8CF1A905D4080A4D290DA1730866E856F","Targets":["DataAnalysis/Task12/System.Memory.dll","PressureTest/Task12/System.Memory.dll"]},
+    {"Source":"Algorithms/Task12/System.Numerics.Vectors.dll","Sha256":"1D3EF8698281E7CF7371D1554AFEF5872B39F96C26DA772210A33DA041BA1183","Targets":["DataAnalysis/Task12/System.Numerics.Vectors.dll","PressureTest/Task12/System.Numerics.Vectors.dll"]},
+    {"Source":"Algorithms/Task12/System.Runtime.CompilerServices.Unsafe.dll","Sha256":"66409F670315AFE8610F17A4D3A1EE52D72B6A46C544CEC97544E8385F90AD74","Targets":["DataAnalysis/Task12/System.Runtime.CompilerServices.Unsafe.dll","PressureTest/Task12/System.Runtime.CompilerServices.Unsafe.dll"]},
+    {"Source":"Algorithms/Task12/ONNX_RUNTIME_LICENSE.txt","Sha256":"C250D6278F0B47A6439FB7592B08B58A55EB9F535AA49A1DB63211C3F982B674","Targets":["DataAnalysis/Task12/ONNX_RUNTIME_LICENSE.txt","PressureTest/Task12/ONNX_RUNTIME_LICENSE.txt"]},
+    {"Source":"Report/Runtime/HVX.Report.Engine.dll","Sha256":"00561E3E4F48D51DB2817296BA9A6F52E3015AB53699BF18FB796BE01295533D","Targets":["ReportGenerator/runtime/HVX.Report.Engine.dll"]},
+    {"Source":"Report/Templates/EPFT_OWTS_Report_Template_v1.0.docx","Sha256":"1628489D0789DA3FE1353CC37A54334F3BA3C483E3650AE3C96167698A6708CA","Targets":["ReportGenerator/templates/EPFT_OWTS_Report_Template_v1.0.docx"]}
+  ]
+}

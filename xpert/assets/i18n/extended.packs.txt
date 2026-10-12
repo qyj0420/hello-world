@@ -1,0 +1,161 @@
+# Key|English|Chinese|Brazilian Portuguese|Japanese|Swedish|Dutch
+Device connection status|Device connection status|设备连接状态|Estado de conexão do dispositivo|機器の接続状態|Enhetens anslutningsstatus|Verbindingsstatus apparaat
+Enable and connect the configured device first|Enable and connect the configured device first|请先启用并连接指定设备|Ative e conecte o dispositivo configurado primeiro|指定機器を有効にして接続してください|Aktivera och anslut den konfigurerade enheten först|Schakel eerst het ingestelde apparaat in en verbind het
+Load a valid project first|Load a valid project first|请先加载有效项目|Carregue um projeto válido primeiro|有効なプロジェクトを読み込んでください|Läs först in ett giltigt projekt|Laad eerst een geldig project
+Oscillating-wave PD diagnostic system|DAC partial discharge diagnostic system|振荡波局放检测系统|Sistema de diagnóstico de DP com DAC|DAC部分放電診断システム|Diagnossystem för PD med DAC|Diagnosesysteem voor PD met DAC
+DAC partial discharge diagnostic system|DAC partial discharge diagnostic system|阻尼交流局放诊断系统|Sistema de diagnóstico de DP com DAC|DAC部分放電診断システム|Diagnossystem för PD med DAC|Diagnosesysteem voor PD met DAC
+Search|Search|搜索|Pesquisar|検索|Sök|Zoeken
+Refresh|Refresh|刷新|Atualizar|更新|Uppdatera|Vernieuwen
+Open|Open|打开|Abrir|開く|Öppna|Openen
+New project|New project|新建项目|Novo projeto|新規プロジェクト|Nytt projekt|Nieuw project
+Edit project|Edit project|编辑项目|Editar projeto|プロジェクト編集|Redigera projekt|Project bewerken
+Project information|Project information|项目信息|Informações do projeto|プロジェクト情報|Projektinformation|Projectinformatie
+Cable information|Cable information|电缆信息|Informações do cabo|ケーブル情報|Kabelinformation|Kabelinformatie
+Test information|Test information|检测信息|Informações do ensaio|試験情報|Provinformation|Testinformatie
+Test organization|Test organization|检测单位|Organização de ensaio|試験機関|Provningsorganisation|Testorganisatie
+Test personnel|Test personnel|测试人员|Equipe de ensaio|試験担当者|Provningspersonal|Testpersoneel
+Test location|Test location|测试地点|Local do ensaio|試験場所|Provplats|Testlocatie
+Cable name|Cable name|电缆名称|Nome do cabo|ケーブル名|Kabelnamn|Kabelnaam
+Cable model|Cable model|电缆型号|Modelo do cabo|ケーブル型式|Kabeltyp|Kabeltype
+Cable endpoints|Cable endpoints|线路端点|Extremidades do cabo|ケーブル端部|Kabeländar|Kabeluiteinden
+Cable parameters|Cable parameters|电缆与试验参数|Parâmetros do cabo|ケーブルパラメータ|Kabelparametrar|Kabelparameters
+Insulation & notes|Insulation & notes|绝缘记录与备注|Isolamento e observações|絶縁記録と備考|Isolering och anteckningar|Isolatie en opmerkingen
+Before test|Before test|试验前|Antes do ensaio|試験前|Före provning|Vóór de test
+After test|After test|试验后|Após o ensaio|試験後|Efter provning|Na de test
+Notes|Notes|备注|Observações|備考|Anteckningar|Opmerkingen
+Accept|Accept|接受|Aceitar|受け入れる|Acceptera|Accepteren
+Remove|Remove|移除|Remover|除去|Ta bort|Verwijderen
+Evaluate|Evaluate|评估|Avaliar|評価|Utvärdera|Beoordelen
+Filter|Filter|过滤|Filtrar|フィルター|Filtrera|Filteren
+Confidence|Confidence|置信度|Confiança|信頼度|Tillförlitlighet|Betrouwbaarheid
+Charge|Charge|电荷量|Carga|電荷量|Laddning|Lading
+Discharge|Discharge|放电|Descarga|放電|Urladdning|Ontlading
+Incident|Incident|入射波|Pulso incidente|入射波|Infallande puls|Invallende puls
+Reflection|Reflection|反射波|Reflexão|反射波|Reflektion|Reflectie
+Damping decay|Damping decay|阻尼衰减|Decaimento amortecido|減衰|Dämpning|Demping
+Mixed cable|Mixed cable|混合电缆|Cabo misto|複合ケーブル|Blandkabel|Gemengde kabel
+Snap to joints|Snap to joints|吸附到接头|Alinhar às emendas|接続部に合わせる|Fäst vid skarvar|Uitlijnen op moffen
+Filtered waveform|Filtered waveform|滤波波形|Forma de onda filtrada|フィルター後の波形|Filtrerad vågform|Gefilterde golfvorm
+Reverse|Reverse|反向|Inverter|反転|Vänd|Omkeren
+Lead|Lead|引线|Cabo de ligação|接続リード|Anslutningsledning|Aansluitleiding
+Off|Off|关闭|Desligado|オフ|Av|Uit
+Band|Band|频带|Banda|帯域|Band|Band
+Wavelet|Wavelet|小波|Wavelet|ウェーブレット|Wavelet|Wavelet
+High-pass|High-pass|高通|Passa-altas|ハイパス|Högpass|Hoogdoorlaat
+Low-pass|Low-pass|低通|Passa-baixas|ローパス|Lågpass|Laagdoorlaat
+Levels|Levels|层数|Níveis|レベル数|Nivåer|Niveaus
+Ignore levels|Ignore levels|忽略层数|Níveis ignorados|除外レベル|Ignorerade nivåer|Genegeerde niveaus
+Statistics filter|Statistics filter|统计过滤|Filtro estatístico|統計フィルター|Statistiskt filter|Statistisch filter
+Filter strength|Filter strength|过滤强度|Intensidade do filtro|フィルター強度|Filterstyrka|Filtersterkte
+Pending|Pending|待处理|Pendente|保留|Väntar|In behandeling
+High|High|高|Alta|高|Hög|Hoog
+Mid|Mid|中|Média|中|Medel|Midden
+Low|Low|低|Baixa|低|Låg|Laag
+Prev|Prev|上一个|Anterior|前へ|Föregående|Vorige
+Next|Next|下一个|Próximo|次へ|Nästa|Volgende
+Amplitude|Amplitude|幅值|Amplitude|振幅|Amplitud|Amplitude
+Pulse count|Pulse count|脉冲数|Número de pulsos|パルス数|Pulsantal|Pulsaantal
+Test order|Test order|试验顺序|Ordem dos ensaios|試験順序|Provordning|Testvolgorde
+Bandwidth|Bandwidth|带宽|Largura de banda|帯域幅|Bandbredd|Bandbreedte
+Duration|Duration|持续时间|Duração|継続時間|Varaktighet|Duur
+Data filters|Data filters|数据过滤|Filtros de dados|データフィルター|Datafilter|Gegevensfilters
+Enable|Enable|启用|Ativar|有効|Aktivera|Inschakelen
+Default|Default|默认|Padrão|既定|Standard|Standaard
+No data loaded|No data loaded|未加载数据|Nenhum dado carregado|データ未読込|Inga data inlästa|Geen gegevens geladen
+No valid data for this chart|No valid data for this chart|此图无有效数据|Sem dados válidos para este gráfico|このグラフに有効なデータがありません|Inga giltiga data för diagrammet|Geen geldige gegevens voor deze grafiek
+No suspicious discharge|No suspicious discharge|无疑似放电|Nenhuma descarga suspeita|疑わしい放電なし|Ingen misstänkt urladdning|Geen verdachte ontlading
+No waveform data|No waveform data|无波形数据|Sem dados de forma de onda|波形データなし|Inga vågformsdata|Geen golfvormgegevens
+OUT OF CABLE RANGE|OUT OF CABLE RANGE|超出电缆范围|FORA DO CABO|ケーブル範囲外|UTANFÖR KABELN|BUITEN KABELBEREIK
+Evaluation result|Evaluation result|评估结果|Resultado da avaliação|評価結果|Utvärderingsresultat|Beoordelingsresultaat
+Selected rows|Selected rows|选中行|Linhas selecionadas|選択行|Valda rader|Geselecteerde rijen
+Delete from view|Delete from view|从视图删除|Excluir da visualização|表示から削除|Ta bort från vyn|Uit weergave verwijderen
+Clear regions|Clear regions|清除区域|Limpar regiões|領域を消去|Rensa områden|Gebieden wissen
+Reset view|Reset view|重置视图|Redefinir visualização|表示をリセット|Återställ vy|Weergave herstellen
+Raw|Raw|原始|Original|元データ|Rå|Ruw
+Filtered|Filtered|已滤波|Filtrado|フィルター済み|Filtrerad|Gefilterd
+Count|Count|数量|Contagem|数|Antal|Aantal
+Statistics|Statistics|统计|Estatísticas|統計|Statistik|Statistieken
+Records|Records|记录|Registros|記録|Poster|Records
+File|File|文件|Arquivo|ファイル|Fil|Bestand
+Location|Location|定位|Localização|位置特定|Lokalisering|Lokalisatie
+Sample point|Sample point|采样点|Ponto de amostragem|サンプル点|Samplingspunkt|Bemonsteringspunt
+Maximum|Maximum|最大值|Máximo|最大値|Maximum|Maximum
+Minimum|Minimum|最小值|Mínimo|最小値|Minimum|Minimum
+Mean|Mean|平均值|Média|平均値|Medelvärde|Gemiddelde
+Median|Median|中位数|Mediana|中央値|Median|Mediaan
+Box|Box|箱体|Caixa|箱|Låda|Box
+Preview|Preview|预览|Visualizar|プレビュー|Förhandsvisa|Voorbeeld
+Print|Print|打印|Imprimir|印刷|Skriv ut|Afdrukken
+Report title|Report title|报告标题|Título do relatório|報告書タイトル|Rapporttitel|Rapporttitel
+Conclusion|Conclusion|结论|Conclusão|結論|Slutsats|Conclusie
+Report output|Report output|报告输出|Saída do relatório|報告書出力|Rapportutdata|Rapportuitvoer
+Test date|Test date|试验日期|Data do ensaio|試験日|Provdatum|Testdatum
+Unknown|Unknown|未知|Desconhecido|不明|Okänd|Onbekend
+Not acquired|Not acquired|未采集|Não adquirido|未取得|Inte insamlat|Niet opgenomen
+Metrics|Metrics|实时指标|Indicadores|測定指標|Mätvärden|Meetwaarden
+Display|Display|显示设置|Exibição|表示|Visning|Weergave
+Display cycles|Display cycles|显示周期|Ciclos exibidos|表示周期数|Visade perioder|Getoonde perioden
+VLF polarity|VLF polarity|超低频加压极性|Polaridade VLF|VLF極性|VLF-polaritet|VLF-polariteit
+Positive|Positive|正极性|Positiva|正極性|Positiv|Positief
+Negative|Negative|负极性|Negativa|負極性|Negativ|Negatief
+Use compensation|Use compensation|使用补偿电容|Usar compensação|補償を使用|Använd kompensering|Compensatie gebruiken
+Custom|Custom|自定义|Personalizado|任意設定|Anpassad|Aangepast
+Plan|Plan|计划|Plano|計画|Plan|Plan
+Mode|Mode|模式|Modo|モード|Läge|Modus
+Range|Range|量程|Faixa|レンジ|Mätområde|Meetbereik
+Automatic|Automatic|自动加压|Automático|自動|Automatisk|Automatisch
+Manual|Manual|手动加压|Manual|手動|Manuell|Handmatig
+Auto range|Auto range|自动量程|Faixa automática|自動レンジ|Automatiskt mätområde|Automatisch bereik
+Manual range|Manual range|手动量程|Faixa manual|手動レンジ|Manuellt mätområde|Handmatig bereik
+PD range|PD range|局放量程|Faixa de DP|部分放電レンジ|PD-mätområde|PD-bereik
+Auto save|Auto save|自动保存|Salvar automaticamente|自動保存|Spara automatiskt|Automatisch opslaan
+Voltage setting|Voltage setting|电压设置|Ajuste de tensão|電圧設定|Spänningsinställning|Spanningsinstelling
+Voltage mode|Voltage mode|加压模式|Modo de tensão|電圧モード|Spänningsläge|Spanningsmodus
+Full message|Full message|完整提示|Mensagem completa|メッセージ全文|Fullständigt meddelande|Volledig bericht
+Copy all|Copy all|复制全文|Copiar tudo|すべてコピー|Kopiera allt|Alles kopiëren
+No filtering|No filtering|不过滤|Sem filtragem|フィルターなし|Ingen filtrering|Geen filtering
+Band-pass filter|Band-pass filter|带通滤波|Filtro passa-faixa|バンドパスフィルター|Bandpassfilter|Banddoorlaatfilter
+Wavelet filter|Wavelet filter|小波滤波|Filtro wavelet|ウェーブレットフィルター|Waveletfilter|Waveletfilter
+Max PD|Max apparent charge|局放最大值|Carga aparente máxima|最大見掛け電荷量|Maximal skenbar laddning|Maximale schijnbare lading
+Tan delta|tan δ|介损|tan δ|tan δ|tan δ|tan δ
+Calibration coefficient|Calibration coefficient|校准系数|Coeficiente de calibração|校正係数|Kalibreringskoefficient|Kalibratiecoëfficiënt
+Voltage divider ratio|Voltage divider ratio|分压比|Relação do divisor de tensão|分圧比|Spänningsdelningsförhållande|Spanningsdelerverhouding
+Inductance|Inductance|电感量|Indutância|インダクタンス|Induktans|Inductantie
+Maximum voltage|Maximum voltage|最高限压|Tensão máxima|最高電圧|Maximal spänning|Maximale spanning
+Data root directory|Data root directory|数据根目录|Diretório raiz dos dados|データルートフォルダー|Rotkatalog för data|Hoofdmap voor gegevens
+Font size|Font size|字号|Tamanho da fonte|文字サイズ|Teckenstorlek|Lettergrootte
+Workspace|Workspace|工作台|Área de trabalho|ワークスペース|Arbetsyta|Werkruimte
+Choose a module. Test access follows the active project and designated-device state.|Choose a module. Test access follows the active project and designated-device state.|选择功能模块；测试入口随当前项目与指定设备状态开放。|Escolha um módulo. O acesso aos ensaios depende do projeto ativo e do estado do dispositivo.|モジュールを選択してください。試験機能は現在のプロジェクトと指定機器の状態に応じて有効になります。|Välj en modul. Provningsfunktionerna styrs av aktivt projekt och enhetens status.|Kies een module. Testfuncties zijn afhankelijk van het actieve project en de apparaatstatus.
+Find, open and maintain test projects|Find, open and maintain test projects|查找、打开并维护检测项目|Localizar, abrir e gerenciar projetos de ensaio|試験プロジェクトの検索・読込・管理|Sök, öppna och underhåll provprojekt|Testprojecten zoeken, openen en beheren
+Create cable and test records|Create cable and test records|建立电缆与检测任务档案|Criar registros de cabos e ensaios|ケーブル情報と試験記録の作成|Skapa kabel- och provposter|Kabel- en testgegevens vastleggen
+Edit the current project and cable joints|Edit the current project and cable joints|编辑当前项目的信息与接头|Editar o projeto atual e as emendas|現在のプロジェクトと接続部の編集|Redigera aktuellt projekt och kabelskarvar|Huidig project en kabelmoffen bewerken
+Review acquisition data in this project|Review acquisition data in this project|查看当前项目的采集数据|Visualizar os dados adquiridos neste projeto|このプロジェクトの収集データを確認|Granska insamlade data i projektet|Opgenomen gegevens in dit project bekijken
+Run location, recognition and unified analysis|Run location, recognition and unified analysis|运行定位、识别与统一分析|Executar localização, identificação e análise integrada|位置特定・識別・統合解析を実行|Kör lokalisering, identifiering och samlad analys|Lokalisatie, herkenning en geïntegreerde analyse uitvoeren
+Generate configured Word and PDF reports|Generate configured Word and PDF reports|按配置输出 Word 与 PDF 报告|Gerar relatórios Word e PDF conforme a configuração|設定に従ってWord・PDF報告書を出力|Skapa Word- och PDF-rapporter enligt inställningarna|Word- en PDF-rapporten volgens de instellingen maken
+Voltage test acquisition and analysis review|Voltage test acquisition and analysis review|加压采集与分析复核|Aquisição durante o ensaio de tensão e revisão da análise|電圧試験中の収集と解析結果の確認|Datainsamling vid spänningsprov och analysgranskning|Gegevensopname bij spanningsproef en controle van de analyse
+TDR ranging and multi-level PD calibration|TDR ranging and multi-level PD calibration|TDR 测距与多档局放校准|Medição de distância por TDR e calibração de DP em vários níveis|TDR測距と複数レンジの部分放電校正|TDR-avståndsmätning och PD-kalibrering i flera nivåer|TDR-afstandsmeting en PD-kalibratie op meerdere niveaus
+VLF, DC and sheath withstand tests|VLF, DC and sheath withstand tests|超低频、直流与护套耐压试验|Ensaios de tensão suportável VLF, CC e da cobertura|VLF・直流・シース耐電圧試験|VLF-, DC- och mantelprovning|VLF-, DC- en mantelspanningsproeven
+Load a project to continue|Load a project to continue|加载有效项目后继续|Carregue um projeto para continuar|プロジェクトを読み込んでください|Läs in ett projekt för att fortsätta|Laad een project om door te gaan
+Offline mode (no discovery or connection)|Offline mode (no discovery or connection)|离线模式（未发现或连接设备）|Modo offline (sem busca ou conexão)|オフラインモード（機器検索・接続なし）|Frånkopplat läge (ingen sökning eller anslutning)|Offlinemodus (geen detectie of verbinding)
+Connect device|Connect device|连接设备|Conectar dispositivo|機器を接続|Anslut enhet|Apparaat verbinden
+Disconnect device|Disconnect device|断开设备|Desconectar dispositivo|機器を切断|Koppla från enhet|Apparaat loskoppelen
+Connect|Connect|连接|Conectar|接続|Anslut|Verbinden
+Disconnect|Disconnect|断开|Desconectar|切断|Koppla från|Loskoppelen
+Global language|Global language|全局语言|Idioma global|共通言語|Gemensamt språk|Algemene taal
+General|General|常规|Geral|一般|Allmänt|Algemeen
+Report settings|Report settings|报告设置|Configurações do relatório|報告書設定|Rapportinställningar|Rapportinstellingen
+Advanced settings…|Advanced settings…|高级设置…|Configurações avançadas…|詳細設定…|Avancerade inställningar…|Geavanceerde instellingen…
+Technical glossary|Technical glossary|专业术语表|Glossário técnico|専門用語集|Teknisk ordlista|Technische woordenlijst
+Open manual|Open manual|打开说明书|Abrir manual|説明書を開く|Öppna handbok|Handleiding openen
+Analysis progress|Analysis progress|分析进度|Progresso da análise|解析の進行状況|Analysförlopp|Analysevoortgang
+Total files|Total files|总文件数|Total de arquivos|総ファイル数|Antal filer|Totaal aantal bestanden
+Current file|Current file|当前文件|Arquivo atual|現在のファイル|Aktuell fil|Huidig bestand
+Analyzing current file…|Analyzing current file…|正在分析当前文件…|Analisando o arquivo atual…|現在のファイルを解析中…|Analyserar aktuell fil…|Huidig bestand analyseren…
+Waiting for current file to finish|Waiting for current file to finish|等待当前文件完成|Aguardando a conclusão do arquivo atual|現在のファイルの完了を待機中|Väntar på att aktuell fil ska slutföras|Wachten tot het huidige bestand klaar is
+Diagnostics|Diagnostics|诊断|Diagnóstico|診断|Diagnostik|Diagnostiek
+Automatic analysis|Automatic analysis|自动分析|Análise automática|自動解析|Automatisk analys|Automatische analyse
+Manual analysis|Manual analysis|手动分析|Análise manual|手動解析|Manuell analys|Handmatige analyse
+Generate conclusion|Generate conclusion|生成结论|Gerar conclusão|結論を生成|Skapa slutsats|Conclusie genereren
+Correct and rate|Correct and rate|修正与评分|Corrigir e avaliar|修正と評価|Korrigera och bedöm|Corrigeren en beoordelen
+Insulation|Insulation|绝缘与备注|Isolamento|絶縁|Isolering|Isolatie
+Hardware mode disabled|Hardware mode disabled|硬件模式未启用|Modo de hardware desativado|ハードウェアモード無効|Maskinvaruläge avaktiverat|Hardwaremodus uitgeschakeld

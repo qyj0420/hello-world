@@ -1,0 +1,1229 @@
+﻿{
+    "Schema":  "HVX.Pressure.BatchSourceImport/1",
+    "SourceVersion":  "1.0.30.9",
+    "SourceCandidate":  "D:\\PD_AI_LabVIEW2026_Project\\FactoryAcceptanceTester_R21\\verification\\R30-batch-final-20261008",
+    "SourceManifestSHA256":  "27BF37B8322A7D255F3B87FC3E110839B463F75BE4A84C25D8EF762CFD138B7B",
+    "SourceExecutableSHA256":  "181A121A5AAE4E8F10D3BDFB99B3BBF16AED325267DB940E496F80831505FD41",
+    "ImportedUtc":  "2026-10-07T18:10:09.5764572Z",
+    "Backup":  "D:\\codex\\HVXUnifiedDesktop\\verification\\batch-bridge-20261008\\worker-before-import-443f02c1bc8c42bead2ede3ca6d29fc9",
+    "HardwareAccessed":  false,
+    "PhysicalAcceptance":  false,
+    "Files":  [
+                  {
+                      "Path":  "AssemblyInfo.cs",
+                      "FrozenUpstreamSHA256":  "644020CBB78D098535C1FB0881CA00F16D4D9A3339277FB87F3D41F979B15334",
+                      "IntegratedSHA256":  "644020CBB78D098535C1FB0881CA00F16D4D9A3339277FB87F3D41F979B15334",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryAcceptanceChecks.cs",
+                      "FrozenUpstreamSHA256":  "8F431B4CEFBF1680D253E9205AB3E0B62F74AF33F021E5E859C00ECB8EF71F0A",
+                      "IntegratedSHA256":  "8F431B4CEFBF1680D253E9205AB3E0B62F74AF33F021E5E859C00ECB8EF71F0A",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryAcceptanceChecksTests.cs",
+                      "FrozenUpstreamSHA256":  "EA5E5AECE9A006FDA6DC3789512FF7FC36B0E53BDC36C883E4FD2B51FA7FE23C",
+                      "IntegratedSHA256":  "EA5E5AECE9A006FDA6DC3789512FF7FC36B0E53BDC36C883E4FD2B51FA7FE23C",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryAiDiagnostic.cs",
+                      "FrozenUpstreamSHA256":  "10D474359BF49F553C8ED7E4555B3D4E315B14E8A32B7DC715FF2DA27427A055",
+                      "IntegratedSHA256":  "10D474359BF49F553C8ED7E4555B3D4E315B14E8A32B7DC715FF2DA27427A055",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryAiTrace.cs",
+                      "FrozenUpstreamSHA256":  "1105CB38C1F22B00E078ED90B124BBC8DEEAA97AFB2CDCFD5E0E39B8DAD05DFB",
+                      "IntegratedSHA256":  "D6F4748F3D343E607F35DDB97A528293E6B2696F05DC75CD2320C0206B11A933",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryAnalysis.cs",
+                      "FrozenUpstreamSHA256":  "A037CFD3938BE78F3CDA490DC8CC98B1E779FC82D426BC14FE6F70EC44C7F5D9",
+                      "IntegratedSHA256":  "03864A480DB3E33BC224973B9C15B6A32FA04A11C211C3B269BACDA9003CAB63",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryAnalysisTests.cs",
+                      "FrozenUpstreamSHA256":  "04F1B65D624A33127650468F74593F366466DD3D63D34EF4813A20C238F0779A",
+                      "IntegratedSHA256":  "6827936653E4F67BFF868BE4A76687AEE34E028943AD2EBF3D4475E898041A40",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryAoEnvelopeTests.cs",
+                      "FrozenUpstreamSHA256":  "4115B3F93B88DBA1A49ED4BE78E09961331EDCC7D3404A4C0047241BBB00A239",
+                      "IntegratedSHA256":  "4115B3F93B88DBA1A49ED4BE78E09961331EDCC7D3404A4C0047241BBB00A239",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryArtFeedback.cs",
+                      "FrozenUpstreamSHA256":  "8570F273A75170DE772039E8385BC2037BE61B6CC8A0AA57D2770C40E9DD493E",
+                      "IntegratedSHA256":  "C3FD16843D2CE3527F58DF82667CB7748CB4C0BF96B72CB8077DE400C3B5D8D7",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryAutomaticBatchTests.cs",
+                      "FrozenUpstreamSHA256":  "BEB040BC892AD76EA70296E271E040CC42C27D79A783C0A3AD73CFA466E972CB",
+                      "IntegratedSHA256":  "BEB040BC892AD76EA70296E271E040CC42C27D79A783C0A3AD73CFA466E972CB",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryBackgroundNoiseTests.cs",
+                      "FrozenUpstreamSHA256":  "8FD7F3EB160A09A8E3B9C987A722D90111C361AC312861C9A86DBFC53A8D9FF2",
+                      "IntegratedSHA256":  "8FD7F3EB160A09A8E3B9C987A722D90111C361AC312861C9A86DBFC53A8D9FF2",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryBatchAuthorization.cs",
+                      "FrozenUpstreamSHA256":  "5547250464EE3F0E0609AE020E5E7F9A2D206098B9ABF160660C945E1DDCD69D",
+                      "IntegratedSHA256":  "04BCD698C24253B97070ED9F2B552B3D9EF1527FCACDCCBC6A0A9392164396A4",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryBatchAuthorizationTests.cs",
+                      "FrozenUpstreamSHA256":  "273DC2BDF377CA68834D9BB4240D51B46D49F94889DD377FE909C1199D79093C",
+                      "IntegratedSHA256":  "BACA89E8E0FC630D3FD6310549A5B9F86D9B2AC7E415E07C183D966F05068D80",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryBatchServerTests.cs",
+                      "FrozenUpstreamSHA256":  "F076F1E4289C21C891ECDEE55C4F0B5853183475F2192C460A2981364E72CCD6",
+                      "IntegratedSHA256":  "F076F1E4289C21C891ECDEE55C4F0B5853183475F2192C460A2981364E72CCD6",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryBufferEmergencyTests.cs",
+                      "FrozenUpstreamSHA256":  "323A4411FF64BD29CBFC77A9966B0C4CF311F17BEAC0CE49E6FCD72355F57C85",
+                      "IntegratedSHA256":  "C9629F2B0C58B908E23D26CDC8ACE3AC267CB4219B2A463A3E0630050DE0DB0A",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryCalibrationAdapter.cs",
+                      "FrozenUpstreamSHA256":  "2C2E43A50FF9C88E9DEE343B298E66A9B0C9C603644F4F0D001F24403549F2B9",
+                      "IntegratedSHA256":  "2C2E43A50FF9C88E9DEE343B298E66A9B0C9C603644F4F0D001F24403549F2B9",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCalibrationDurationTests.cs",
+                      "FrozenUpstreamSHA256":  "21253332808FC97AF8809D6F221FBBC8344875EA0E2C05C0EB88429C47791C1A",
+                      "IntegratedSHA256":  "21253332808FC97AF8809D6F221FBBC8344875EA0E2C05C0EB88429C47791C1A",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCaptureCooldown.cs",
+                      "FrozenUpstreamSHA256":  "4395F408F6449DCFE278223DD0E3A55DBB505EC7C207B90F04239A10B779B1A8",
+                      "IntegratedSHA256":  "4395F408F6449DCFE278223DD0E3A55DBB505EC7C207B90F04239A10B779B1A8",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCaptureCooldownTests.cs",
+                      "FrozenUpstreamSHA256":  "F835505447D26E272D690AE25003C250879A5228CEFC868147C569083515E779",
+                      "IntegratedSHA256":  "F835505447D26E272D690AE25003C250879A5228CEFC868147C569083515E779",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCaptureEndTests.cs",
+                      "FrozenUpstreamSHA256":  "02D8AC9E537D91525C9F83EC2B6735A4D7D194E35189DFF42CD0BD2AAF55E40A",
+                      "IntegratedSHA256":  "02D8AC9E537D91525C9F83EC2B6735A4D7D194E35189DFF42CD0BD2AAF55E40A",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCapturePreview.cs",
+                      "FrozenUpstreamSHA256":  "0D87BBE6B5FACEC1659F800D046C365A88F71B60CECB1C7EC067C535A2885BCC",
+                      "IntegratedSHA256":  "0D87BBE6B5FACEC1659F800D046C365A88F71B60CECB1C7EC067C535A2885BCC",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCapturePreviewTests.cs",
+                      "FrozenUpstreamSHA256":  "9149D34F11A7744FF66614C982FC207936BE1994D1365CA8EC8C4F30878C3C90",
+                      "IntegratedSHA256":  "9149D34F11A7744FF66614C982FC207936BE1994D1365CA8EC8C4F30878C3C90",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCompatibility100Tests.cs",
+                      "FrozenUpstreamSHA256":  "2E165393E42F1E324ED4A16D9A83AF71B2F9289BB8FE0B7F9D250CC508842688",
+                      "IntegratedSHA256":  "2E165393E42F1E324ED4A16D9A83AF71B2F9289BB8FE0B7F9D250CC508842688",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryConnectionJournal.cs",
+                      "FrozenUpstreamSHA256":  "DD8D1D95D0D3EEAA66BEED05D7CCCE6483707374114812DA35A3CDFE348A4FEB",
+                      "IntegratedSHA256":  "DD8D1D95D0D3EEAA66BEED05D7CCCE6483707374114812DA35A3CDFE348A4FEB",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryConnectionWatch.cs",
+                      "FrozenUpstreamSHA256":  "6C9F90E43D1A2CCEF68CBBE295EEC8CB6630D3B323CA0A483F34D903C99ADB05",
+                      "IntegratedSHA256":  "6C9F90E43D1A2CCEF68CBBE295EEC8CB6630D3B323CA0A483F34D903C99ADB05",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryCooldownWorkflowTests.cs",
+                      "FrozenUpstreamSHA256":  "F2D235320D1C3BAAAD068AEB2CD02385FEA373D4DCE6CD3D913FB337AF4B1F04",
+                      "IntegratedSHA256":  "F2D235320D1C3BAAAD068AEB2CD02385FEA373D4DCE6CD3D913FB337AF4B1F04",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryDataArchive.cs",
+                      "FrozenUpstreamSHA256":  "929331B6F38D859B7E00796FC1F2D27F40DDBB613E99996AEF41403209D96B5C",
+                      "IntegratedSHA256":  "929331B6F38D859B7E00796FC1F2D27F40DDBB613E99996AEF41403209D96B5C",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryDebugStartForm.cs",
+                      "FrozenUpstreamSHA256":  "F6868F0931F9AA3D4249A69011CE9FDB0AE1634DA806FF6DC8A763F4AA178771",
+                      "IntegratedSHA256":  "F6868F0931F9AA3D4249A69011CE9FDB0AE1634DA806FF6DC8A763F4AA178771",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryDetectedWaveforms.cs",
+                      "FrozenUpstreamSHA256":  "52BE93C0D053C47D55BF30DA8C58A7EC44130C0DB81F732F1BC0791462A4B1C1",
+                      "IntegratedSHA256":  "52BE93C0D053C47D55BF30DA8C58A7EC44130C0DB81F732F1BC0791462A4B1C1",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryDeviceLease.cs",
+                      "FrozenUpstreamSHA256":  "8DC39D239F8FB4A5D60E8674DF8E2C1E651DC3FB8E20900CEC00B1A56C0A2355",
+                      "IntegratedSHA256":  "8DC39D239F8FB4A5D60E8674DF8E2C1E651DC3FB8E20900CEC00B1A56C0A2355",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryDividerTraceTests.cs",
+                      "FrozenUpstreamSHA256":  "059D4D0A1BD7FA1393C0EAC8201D7A71301273A4172192BB0B2A0B9D178C15DD",
+                      "IntegratedSHA256":  "059D4D0A1BD7FA1393C0EAC8201D7A71301273A4172192BB0B2A0B9D178C15DD",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryEmergencyMonitor.cs",
+                      "FrozenUpstreamSHA256":  "C3BAC6C598AB395836A22FFCE9C0C27A5AB136DD37AEC75A8109F23BDAD8DEAB",
+                      "IntegratedSHA256":  "51A70A869E15AE72168743B50C1941D2F5FD71A0FDD461756A62D2957A26CC85",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryEmergencyNotice.cs",
+                      "FrozenUpstreamSHA256":  "74BF8343BD32DDBFF7A080CED9603DE7DFC2A4A81C96FB478FA23D8AB7C7F681",
+                      "IntegratedSHA256":  "74BF8343BD32DDBFF7A080CED9603DE7DFC2A4A81C96FB478FA23D8AB7C7F681",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryEmergencyReportingBackend.cs",
+                      "FrozenUpstreamSHA256":  "46E7A9659035AEE5E5ACF3EBD2CD7844CFF6D81DB73FE1A13B110F32D4178006",
+                      "IntegratedSHA256":  "46E7A9659035AEE5E5ACF3EBD2CD7844CFF6D81DB73FE1A13B110F32D4178006",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryFaultResidual.cs",
+                      "FrozenUpstreamSHA256":  "40628CCFB4AB12A11D018ECBE6BC304834976B1DDC566E3A0C2369A002B67CEA",
+                      "IntegratedSHA256":  "7AACF52F1E8246EB334D431CF723F8D7BF58841F475B1E9E3BF0EFBC01818925",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryFaultResidualTests.cs",
+                      "FrozenUpstreamSHA256":  "A1CAC24956B77550E06C657E95B0B16BDA22AE3FDAA6C2F7F8D2C34BD36C537A",
+                      "IntegratedSHA256":  "EE1209BD7882EB168CF3916ED2B2CAF9FF760AB667E48B1E9BE30AFA60EC27E5",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryFeedbackOverlayTests.cs",
+                      "FrozenUpstreamSHA256":  "4E7C25AC688099FBE5927050673FDC7663266B01A6E7CC6F77708C18C8196D1B",
+                      "IntegratedSHA256":  "4E7C25AC688099FBE5927050673FDC7663266B01A6E7CC6F77708C18C8196D1B",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryFeedbackTrend.cs",
+                      "FrozenUpstreamSHA256":  "EBA12A4D48CF752B49109E025DAEE20E0C7CB57BB11A6DC0351F1E8DA2671CEF",
+                      "IntegratedSHA256":  "EBA12A4D48CF752B49109E025DAEE20E0C7CB57BB11A6DC0351F1E8DA2671CEF",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryFeedbackTrend.Overlay.cs",
+                      "FrozenUpstreamSHA256":  "92833E872BD5B3F2EAD6600CF0CBABDCCFCD4D1C35BF0FC28D0FB3FB36CC8482",
+                      "IntegratedSHA256":  "92833E872BD5B3F2EAD6600CF0CBABDCCFCD4D1C35BF0FC28D0FB3FB36CC8482",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryFeedbackWindow.cs",
+                      "FrozenUpstreamSHA256":  "DD41E7456A0437E6101A0757204F23671380985048F9F98A9C750E482BC71A1C",
+                      "IntegratedSHA256":  "23EAE663961C40356B6CE0549AEBB6D2E4DAF2A6B8BD7ED58645EB757B0A0668",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryFeedbackWindowTests.cs",
+                      "FrozenUpstreamSHA256":  "BD7696A7767A1D7849CED66EEA82938DFAE97D53060E4E2BE4FDC6CB08A3D072",
+                      "IntegratedSHA256":  "7C27C9DC93B0B70D58A4C8CCD9F800930DD3D482F1A84DD647314A4B03760267",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryFinalAi4Observation.cs",
+                      "FrozenUpstreamSHA256":  "9E0B62D3B236BE97A6AC7B6FF28257FE74F5E6D5C80881E63F470BCDBE8C16B4",
+                      "IntegratedSHA256":  "EE359A1A0D374960287FE1477012A631C3AE2BDAFD7CF8D7C60CD284C735FC8F",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryFinalAi4ObservationTests.cs",
+                      "FrozenUpstreamSHA256":  "2131197E52530605FCDD5D79AF13F310E6E5F50EFBCDECA72E5D1A2129B181D6",
+                      "IntegratedSHA256":  "2131197E52530605FCDD5D79AF13F310E6E5F50EFBCDECA72E5D1A2129B181D6",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryFinalAi4WorkflowTests.cs",
+                      "FrozenUpstreamSHA256":  "47CCAEF0A693AB282F7A47B8C37E47EDE53F14BFEE1F71F6D1CA7A5FE2FDCA15",
+                      "IntegratedSHA256":  "EE3A1FE14ADE236A72BDA47DCFF9697A37474905CBB6FC662332B74D4E7BE3E1",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryIdleDiRebuildPolicy.cs",
+                      "FrozenUpstreamSHA256":  "3023B6A9A8F1369BBDD1682C0DB125B2C25ECD4B45A233721203EAA4A56693DB",
+                      "IntegratedSHA256":  "3023B6A9A8F1369BBDD1682C0DB125B2C25ECD4B45A233721203EAA4A56693DB",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryIdleEmergencyRetryTests.cs",
+                      "FrozenUpstreamSHA256":  "DAF4DCCB9C385358F51B614EDFCE98CACD07F8E62DBD5CF5B3F43364DD7D3842",
+                      "IntegratedSHA256":  "DAF4DCCB9C385358F51B614EDFCE98CACD07F8E62DBD5CF5B3F43364DD7D3842",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryIntegratedTests.cs",
+                      "FrozenUpstreamSHA256":  "C02E4C86CB31F0622BA0E1D02108435C8F5B51F5397414499D202FC393FDDAD2",
+                      "IntegratedSHA256":  "C02E4C86CB31F0622BA0E1D02108435C8F5B51F5397414499D202FC393FDDAD2",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryIoTiming.cs",
+                      "FrozenUpstreamSHA256":  "9607D8B1D31AE33C2C43939851F7CE6BED525EDD1A999DF8078C41D288982C5A",
+                      "IntegratedSHA256":  "9607D8B1D31AE33C2C43939851F7CE6BED525EDD1A999DF8078C41D288982C5A",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryIoTimingTests.cs",
+                      "FrozenUpstreamSHA256":  "67DE5C00FA77EED6E6B4D93B34A685680E230288AA37C66ACF4EB0FCF1BE9C86",
+                      "IntegratedSHA256":  "67DE5C00FA77EED6E6B4D93B34A685680E230288AA37C66ACF4EB0FCF1BE9C86",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryLabelMenus.cs",
+                      "FrozenUpstreamSHA256":  "5384BDB84C96636679221F6F1C83EA10FF3927BA7ADBCA3E85CC2009BE615D7A",
+                      "IntegratedSHA256":  "5384BDB84C96636679221F6F1C83EA10FF3927BA7ADBCA3E85CC2009BE615D7A",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryLocationCycleArchive.cs",
+                      "FrozenUpstreamSHA256":  "24EF3D8891587F04A6E937B34A7857570404123B04F6F652EEF7298511FBF367",
+                      "IntegratedSHA256":  "24EF3D8891587F04A6E937B34A7857570404123B04F6F652EEF7298511FBF367",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryLocationCycleTests.cs",
+                      "FrozenUpstreamSHA256":  "D434345F74C86DA74E5ED2B1CFC164FFF3EE1AA4059D2BEA1992DD526BBC5402",
+                      "IntegratedSHA256":  "F385C5FB4B6BD2DA297F37527EE22D079F71DAD26FE4665A947B22156F0C3336",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Acceptance.cs",
+                      "FrozenUpstreamSHA256":  "2CFCD7B3F7034065692F8E1B8FEF289B2A2C395ED295EB78E27B6CE17B2156B1",
+                      "IntegratedSHA256":  "2CFCD7B3F7034065692F8E1B8FEF289B2A2C395ED295EB78E27B6CE17B2156B1",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Annotations.cs",
+                      "FrozenUpstreamSHA256":  "75FA1A8420B9E8B9A0B2D112CE7F8B6B58AC2231D41AED9F3F62822EA3F2E3C8",
+                      "IntegratedSHA256":  "75FA1A8420B9E8B9A0B2D112CE7F8B6B58AC2231D41AED9F3F62822EA3F2E3C8",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.AnnotationSmoke.cs",
+                      "FrozenUpstreamSHA256":  "237DA275381EDE3A3E5D94CAC2172242781E2DB7696FC235F376D033D1792E81",
+                      "IntegratedSHA256":  "237DA275381EDE3A3E5D94CAC2172242781E2DB7696FC235F376D033D1792E81",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.AutomaticBatchTests.cs",
+                      "FrozenUpstreamSHA256":  "EF7F4CC997505899D88285B5B2E9C46841BB90736A04BB3BAADE1E659C74A4AA",
+                      "IntegratedSHA256":  "EF7F4CC997505899D88285B5B2E9C46841BB90736A04BB3BAADE1E659C74A4AA",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.CapturePosition.cs",
+                      "FrozenUpstreamSHA256":  "9B3D5A6EC99334BA708E024E9286BBAAC531482538C2C4ED15E78D764BFD71A5",
+                      "IntegratedSHA256":  "9B3D5A6EC99334BA708E024E9286BBAAC531482538C2C4ED15E78D764BFD71A5",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.CapturePreview.cs",
+                      "FrozenUpstreamSHA256":  "04005F71C4F417905424E84EBF1F91C7D797495F4511979AFD58786D853CFA8E",
+                      "IntegratedSHA256":  "04005F71C4F417905424E84EBF1F91C7D797495F4511979AFD58786D853CFA8E",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.CapturePreviewSmoke.cs",
+                      "FrozenUpstreamSHA256":  "DC120DC7005F328240263F4E8D0D2C2245C073BB83F66EF0D4F17817E810C246",
+                      "IntegratedSHA256":  "DC120DC7005F328240263F4E8D0D2C2245C073BB83F66EF0D4F17817E810C246",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Connection.cs",
+                      "FrozenUpstreamSHA256":  "DF798E28035EC2BF6885CAB96780546441476C7AE12639384A9FEB762549384D",
+                      "IntegratedSHA256":  "DF798E28035EC2BF6885CAB96780546441476C7AE12639384A9FEB762549384D",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.ConnectionFaults.cs",
+                      "FrozenUpstreamSHA256":  "6EF935DADF841798F3C39BDFFD621F9059569E0757B0CD8FCE124B134173FA76",
+                      "IntegratedSHA256":  "6EF935DADF841798F3C39BDFFD621F9059569E0757B0CD8FCE124B134173FA76",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.ConnectionFaultTests.cs",
+                      "FrozenUpstreamSHA256":  "4C339D886C88FDE894E96172C93E4CFD4C2F552F570BD94C0ED92BE68D43A824",
+                      "IntegratedSHA256":  "4C339D886C88FDE894E96172C93E4CFD4C2F552F570BD94C0ED92BE68D43A824",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.ConnectionTests.cs",
+                      "FrozenUpstreamSHA256":  "5688095ED7A8EE4DAB023DF326EBDBF1E36B99564E454989B1FA6B9D464A2C4F",
+                      "IntegratedSHA256":  "5688095ED7A8EE4DAB023DF326EBDBF1E36B99564E454989B1FA6B9D464A2C4F",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.cs",
+                      "FrozenUpstreamSHA256":  "66B407D26844930EB0CF494E6258203238F703C2C316130745C36551F7E0B1B1",
+                      "IntegratedSHA256":  "CE8F631B2B59151ECBE68D3E30279680D37A03CBAAE4E739FAF9391852B02CC4",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryMainForm.IntegratedSmoke.cs",
+                      "FrozenUpstreamSHA256":  "425148A049EAD10CC66312BC15397482B1FFCC19E2FA887601F97AA4FF7C48A0",
+                      "IntegratedSHA256":  "3FCC22B397B6455318D6AEC6763673E843B86E3A10F58190ECF034D0B5552E66",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryMainForm.InteractionTests.cs",
+                      "FrozenUpstreamSHA256":  "48D7A97E1D287A3B5A1F887AD12DE00EF33F33DCBED781FB8E290E743FFC086F",
+                      "IntegratedSHA256":  "97278595D5D21111CE8B60B9829AE374E0C3C971A48D5BE6EAB5D3FC76FF3E77",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryMainForm.LocationCycleSmoke.cs",
+                      "FrozenUpstreamSHA256":  "02D426EA883F1CAC890231A8C84C49240F20566BC6B4F15A7BB36C7B5BF59B38",
+                      "IntegratedSHA256":  "02D426EA883F1CAC890231A8C84C49240F20566BC6B4F15A7BB36C7B5BF59B38",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.P04Diagnostic.cs",
+                      "FrozenUpstreamSHA256":  "32435C6847663B9782042CBF47116BCB26BAFD7DF3EF3B22736B41EE66191B88",
+                      "IntegratedSHA256":  "32435C6847663B9782042CBF47116BCB26BAFD7DF3EF3B22736B41EE66191B88",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Preferences.cs",
+                      "FrozenUpstreamSHA256":  "3C3D76F2C7782A30A7B1E5C665C1A05AAD05702ABFE7EF80616A290426CA2289",
+                      "IntegratedSHA256":  "3C3D76F2C7782A30A7B1E5C665C1A05AAD05702ABFE7EF80616A290426CA2289",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.PreferencesTests.cs",
+                      "FrozenUpstreamSHA256":  "DBCD1F4818F51085773D2ED8A84856BD207BE8C3850CB8F66077F3664AEBC604",
+                      "IntegratedSHA256":  "DBCD1F4818F51085773D2ED8A84856BD207BE8C3850CB8F66077F3664AEBC604",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.PulseWindow.cs",
+                      "FrozenUpstreamSHA256":  "782411AD77C467AB614CCB40FD48C2FACAC60C282D912BF29C4A33E4A79456FD",
+                      "IntegratedSHA256":  "782411AD77C467AB614CCB40FD48C2FACAC60C282D912BF29C4A33E4A79456FD",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.RepeatPrompts.cs",
+                      "FrozenUpstreamSHA256":  "776B66F68D294DDFEB2F07611E2F56F105FAE3FF7BEB2D986B07B20A7E829268",
+                      "IntegratedSHA256":  "776B66F68D294DDFEB2F07611E2F56F105FAE3FF7BEB2D986B07B20A7E829268",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.RepeatPromptsTests.cs",
+                      "FrozenUpstreamSHA256":  "0F317210EF755355598B29F0C9C89DC1420A3CE053FAAE6CE77A82D9122C2A79",
+                      "IntegratedSHA256":  "0F317210EF755355598B29F0C9C89DC1420A3CE053FAAE6CE77A82D9122C2A79",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.ResumeSmoke.cs",
+                      "FrozenUpstreamSHA256":  "BA0D72AED9639EA437654E9B6AFC81B6B00A36B40A391601ED9FFF61A991DF58",
+                      "IntegratedSHA256":  "BA0D72AED9639EA437654E9B6AFC81B6B00A36B40A391601ED9FFF61A991DF58",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.SequenceReplaySmoke.cs",
+                      "FrozenUpstreamSHA256":  "421CD9301760569D88BE16CB75517A99A1D8ED6CC38659AF8377B4883EA57482",
+                      "IntegratedSHA256":  "421CD9301760569D88BE16CB75517A99A1D8ED6CC38659AF8377B4883EA57482",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.StartAvailability.cs",
+                      "FrozenUpstreamSHA256":  "E57180835FD703817214E4C1F6A8EC42A5873C0A093EE9983D8DF3D029F85984",
+                      "IntegratedSHA256":  "E57180835FD703817214E4C1F6A8EC42A5873C0A093EE9983D8DF3D029F85984",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Stop.cs",
+                      "FrozenUpstreamSHA256":  "6E46C24E471C99D6546AE47F0B21D42AB0C51A950EC8DB798ADD1A6C487C6343",
+                      "IntegratedSHA256":  "6E46C24E471C99D6546AE47F0B21D42AB0C51A950EC8DB798ADD1A6C487C6343",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Tf.cs",
+                      "FrozenUpstreamSHA256":  "ACE3815E8025E92F554E18815F291B31C7E52E1D906580BCF37C222F225A9239",
+                      "IntegratedSHA256":  "ACE3815E8025E92F554E18815F291B31C7E52E1D906580BCF37C222F225A9239",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Timeline.cs",
+                      "FrozenUpstreamSHA256":  "395286F022C58A90454DB794B3D854F2AA39BBE80CA7F57A2694D97EAE92B9BF",
+                      "IntegratedSHA256":  "395286F022C58A90454DB794B3D854F2AA39BBE80CA7F57A2694D97EAE92B9BF",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryMainForm.Workflow.cs",
+                      "FrozenUpstreamSHA256":  "4F843E34114233072E6BC34EE81E91AA1E70436D212C06AF296FA432A0E0D690",
+                      "IntegratedSHA256":  "4F843E34114233072E6BC34EE81E91AA1E70436D212C06AF296FA432A0E0D690",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryManualEngine.cs",
+                      "FrozenUpstreamSHA256":  "22E8128ECF460D240E7419DEF781089AF757D0489E4DC79F74003CA7A164312A",
+                      "IntegratedSHA256":  "3405EEE6441A1DB14573146F6FE98BE6A98EEBB6944748CC6B877CA71FC517A6",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryManualForm.cs",
+                      "FrozenUpstreamSHA256":  "4FFA57C2F30DDB9891E117A94BE61EDBB8A46F8343D3464D5657938CEE3C71DC",
+                      "IntegratedSHA256":  "4FFA57C2F30DDB9891E117A94BE61EDBB8A46F8343D3464D5657938CEE3C71DC",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryManualTests.cs",
+                      "FrozenUpstreamSHA256":  "EACFE709CF8D6BD231BC77A641D6D2FFB89F7915BCD38508799CE7FBC175DA42",
+                      "IntegratedSHA256":  "DF030DEE71C74A30BCB9A30988C8BF320BDCB5899E48B0A5B3E983E9CFB262CC",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryMeasuredRangeWindow.cs",
+                      "FrozenUpstreamSHA256":  "A74A66441ADE878BF18F5F48153BBFC29D5A7D799644E1892E3606750E682161",
+                      "IntegratedSHA256":  "A74A66441ADE878BF18F5F48153BBFC29D5A7D799644E1892E3606750E682161",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryModels.cs",
+                      "FrozenUpstreamSHA256":  "D5E85561A27909D3DE6C0EF5D40DE2E419F2247C8B7B0ED9C4012A512EE00099",
+                      "IntegratedSHA256":  "70EB1582F23DA6F46CC7FC33409A72157AE848BFDC3694762D98FBCF2172342E",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryNativeSessionPolicy.cs",
+                      "FrozenUpstreamSHA256":  "D074F5AECFDC009DA7993DE588533EE523C3467279721EC832157964CF774B1E",
+                      "IntegratedSHA256":  "2A042AAA7774FC27BD981A252AB439CA62E091EC3CB33E0376C40537D4A8A110",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryNativeSessionTests.cs",
+                      "FrozenUpstreamSHA256":  "CE92E1B68FE4E0C48F43EAB80967DC3B52B1B0037B106730EE4162FAE5C09B44",
+                      "IntegratedSHA256":  "27AAB9D6C269724403BD2677CD44C83D2740CE6DFABF6BF49DD0F4E2F49E9B33",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryNextRangeDialog.cs",
+                      "FrozenUpstreamSHA256":  "13C5A817C0794E5D2426F71B0A3441CB4379427CACCF483DC1C3DD74CD1FE990",
+                      "IntegratedSHA256":  "13C5A817C0794E5D2426F71B0A3441CB4379427CACCF483DC1C3DD74CD1FE990",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryOfflineAsyncTest.cs",
+                      "FrozenUpstreamSHA256":  "A128F652D1475D6046889794177B19B03A1544B63726C9347C8F67590E33DEEA",
+                      "IntegratedSHA256":  "A128F652D1475D6046889794177B19B03A1544B63726C9347C8F67590E33DEEA",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryP04Diagnostic.cs",
+                      "FrozenUpstreamSHA256":  "C0D4464F12A9220992B2E075790D16618BBE911FDEF3E53EEF0974B73F05C651",
+                      "IntegratedSHA256":  "C0D4464F12A9220992B2E075790D16618BBE911FDEF3E53EEF0974B73F05C651",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryP04DiagnosticTests.cs",
+                      "FrozenUpstreamSHA256":  "F69DAD87558BB7E352916AE046D28C34D8950E6F1EC99A37C0D2C3D49EFC5881",
+                      "IntegratedSHA256":  "F69DAD87558BB7E352916AE046D28C34D8950E6F1EC99A37C0D2C3D49EFC5881",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryParameterProfile.cs",
+                      "FrozenUpstreamSHA256":  "00F3A2E83FE04E419B823834DF0D7E3E6785F462A478C2955BD494EED06B6FC4",
+                      "IntegratedSHA256":  "00F3A2E83FE04E419B823834DF0D7E3E6785F462A478C2955BD494EED06B6FC4",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPdSignal.cs",
+                      "FrozenUpstreamSHA256":  "6A86328CEDC2B7267E43F068D8E2A9B1CA7C2B21ED56A38A5B9E2E565BB6DAE0",
+                      "IntegratedSHA256":  "6A86328CEDC2B7267E43F068D8E2A9B1CA7C2B21ED56A38A5B9E2E565BB6DAE0",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPdSignalTests.cs",
+                      "FrozenUpstreamSHA256":  "48AAA5A636126BCEFEF92BE70FA2F6E6252A828F925498FF8C6C542D66032B57",
+                      "IntegratedSHA256":  "48AAA5A636126BCEFEF92BE70FA2F6E6252A828F925498FF8C6C542D66032B57",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPicoLifecycleTests.cs",
+                      "FrozenUpstreamSHA256":  "27C13860493D8B662B93E415A47C0274B3E592C8D87A56FDDA79823EF8456A4F",
+                      "IntegratedSHA256":  "27C13860493D8B662B93E415A47C0274B3E592C8D87A56FDDA79823EF8456A4F",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPicoTimingTests.cs",
+                      "FrozenUpstreamSHA256":  "F8E3C937A442F180D7AC3E25E13868CEE95C2B5BF21C49F466719F08F92DCA71",
+                      "IntegratedSHA256":  "F8E3C937A442F180D7AC3E25E13868CEE95C2B5BF21C49F466719F08F92DCA71",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPolarityTests.cs",
+                      "FrozenUpstreamSHA256":  "5987E3169CA93F644A5508E59D45BC1C6DD08CEA61EFF3AE40BE4560A424A2F8",
+                      "IntegratedSHA256":  "5987E3169CA93F644A5508E59D45BC1C6DD08CEA61EFF3AE40BE4560A424A2F8",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPostHvStartupTests.cs",
+                      "FrozenUpstreamSHA256":  "4777B1AF8BA5E3C4B900A2656A2FCD7603F6A115D3227E02A61FD48B9A80B145",
+                      "IntegratedSHA256":  "4777B1AF8BA5E3C4B900A2656A2FCD7603F6A115D3227E02A61FD48B9A80B145",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPostProcessingTests.cs",
+                      "FrozenUpstreamSHA256":  "4F0B047E58B19204A8B2CFAF0B7B8DA1336589C23C8CCE3E41F2C0AD54493FCF",
+                      "IntegratedSHA256":  "4F0B047E58B19204A8B2CFAF0B7B8DA1336589C23C8CCE3E41F2C0AD54493FCF",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPressureSequence.cs",
+                      "FrozenUpstreamSHA256":  "155F469AF2ACC74393E7DD0C22162E6C4F80C7C2BEC41C262121C47B02EC0220",
+                      "IntegratedSHA256":  "47340767A1023C1CBC04449B4D9F946D59889C4E0B3D9874B028EAF6FE305878",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryPressureSequenceTests.cs",
+                      "FrozenUpstreamSHA256":  "0BF891708A7EDC32AA82492CF4B2E435FB243FA81E7928367D35F73D50546DAF",
+                      "IntegratedSHA256":  "CA76E9FFB202CA32154A4828773D29D92F99E4B789F103528AB9FCCCAD64F498",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryPressureStartPrompt.cs",
+                      "FrozenUpstreamSHA256":  "CD2246CDA39D301EA0FA93F5371EF5A7C92A5F8770946D1C6E20448F268102DA",
+                      "IntegratedSHA256":  "B80FF541548797DACD06807FA4C92B53110BABCC15667D31CA8D2AA4E9CAF2CD",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryProcessTimeline.cs",
+                      "FrozenUpstreamSHA256":  "871C478E4DE1279D68EEED4AADE225C16EB522C41EF2EEDE4A7EBB53F6414B95",
+                      "IntegratedSHA256":  "871C478E4DE1279D68EEED4AADE225C16EB522C41EF2EEDE4A7EBB53F6414B95",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPulseBrowsing.cs",
+                      "FrozenUpstreamSHA256":  "ACC48C6FFD4B55BAA5CFEAA283858B879AF024FB1210437A37504CD42A56B628",
+                      "IntegratedSHA256":  "ACC48C6FFD4B55BAA5CFEAA283858B879AF024FB1210437A37504CD42A56B628",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPulseEnvelopeWindow.cs",
+                      "FrozenUpstreamSHA256":  "79C55B8CF7DAB75C18C0A67BA7E3E8F3267D132865E81ADFF7F7E9408E2D24C2",
+                      "IntegratedSHA256":  "79C55B8CF7DAB75C18C0A67BA7E3E8F3267D132865E81ADFF7F7E9408E2D24C2",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPulseFilter.cs",
+                      "FrozenUpstreamSHA256":  "1E6FB87C3ED2CF63231A5C1A2CB8D663BB25A05AE0700AABCB032B2FF54A4AD9",
+                      "IntegratedSHA256":  "1E6FB87C3ED2CF63231A5C1A2CB8D663BB25A05AE0700AABCB032B2FF54A4AD9",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPulseLabels.cs",
+                      "FrozenUpstreamSHA256":  "2275A47454276EE96EDAA2C45902047DA4F381CC69460CB6E7780047FF07F48E",
+                      "IntegratedSHA256":  "2275A47454276EE96EDAA2C45902047DA4F381CC69460CB6E7780047FF07F48E",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryPulseLabelTests.cs",
+                      "FrozenUpstreamSHA256":  "CD0BAEDCF2767AFD25064CADE2DE2951AABC61AFD44D50A6821525EE87600E4D",
+                      "IntegratedSHA256":  "CD0BAEDCF2767AFD25064CADE2DE2951AABC61AFD44D50A6821525EE87600E4D",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryR28ConnectionCaptureTests.cs",
+                      "FrozenUpstreamSHA256":  "8CD1769422471B33A8272577493DB7354B5F595E049127F767A0078BB4088C08",
+                      "IntegratedSHA256":  "8CD1769422471B33A8272577493DB7354B5F595E049127F767A0078BB4088C08",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryR29Tests.cs",
+                      "FrozenUpstreamSHA256":  "6FC50BB19D94DB8125FCCC8875052FDA6492A5380FF7117F0082912F7C1F19F9",
+                      "IntegratedSHA256":  "8DA8CB68BAEA7CD8456C911211CD5E3AB9DB48D98D72DE3BBD401AED6B30BCE6",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryR30Tests.cs",
+                      "FrozenUpstreamSHA256":  "0B867F77252F74E4941EDA91FE4B973D14781A2451D432D9CB6994FC9AE5F20C",
+                      "IntegratedSHA256":  "04256FB2CDD2B5258E0BF4B7AA449AFB2C0B9D59E16E7D89056BDF5E3494E9D0",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryRampCompletionTests.cs",
+                      "FrozenUpstreamSHA256":  "53D7D559AB355FAA59440D3D92400CE2640745367E745987D48B6E9D60A47004",
+                      "IntegratedSHA256":  "53D7D559AB355FAA59440D3D92400CE2640745367E745987D48B6E9D60A47004",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryRangePhase.cs",
+                      "FrozenUpstreamSHA256":  "167A28274043ACFBC6A00C5A34A93013BFFCD860445CFE60ED61C0E3C7AE2FAD",
+                      "IntegratedSHA256":  "56F9F04D79941FE230CB6A5417EE66A6A625C964AB663EE1C18D2CFBD0565E15",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryRangeRetention.cs",
+                      "FrozenUpstreamSHA256":  "442F17F89EFB78FF53A8B0D609FAAAD63B89A06CD6BCAB78552D2F3984703584",
+                      "IntegratedSHA256":  "442F17F89EFB78FF53A8B0D609FAAAD63B89A06CD6BCAB78552D2F3984703584",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryRangeReview.cs",
+                      "FrozenUpstreamSHA256":  "9A3AE0E48FA00043C4B9DC71017FE9E21153766B3B220DB9A48941DC10B7CBAF",
+                      "IntegratedSHA256":  "9A3AE0E48FA00043C4B9DC71017FE9E21153766B3B220DB9A48941DC10B7CBAF",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryReferenceAnalysis.cs",
+                      "FrozenUpstreamSHA256":  "7E087E790180AF4D83BF883ABC2A294482F3A4CD86538A675C0E01C5324140C2",
+                      "IntegratedSHA256":  "7E087E790180AF4D83BF883ABC2A294482F3A4CD86538A675C0E01C5324140C2",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryReferenceAnalysisTests.cs",
+                      "FrozenUpstreamSHA256":  "B022EA5CDBF582434839A8E32BBB208032BA0D162E707B9FBC5E82853F019984",
+                      "IntegratedSHA256":  "B022EA5CDBF582434839A8E32BBB208032BA0D162E707B9FBC5E82853F019984",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryResidentClientTests.cs",
+                      "FrozenUpstreamSHA256":  "3D3D4F060F0A6D108B9E82A72B390AD8DCB40F1AD6EB13F9C00FB6B94316089A",
+                      "IntegratedSHA256":  "3D3D4F060F0A6D108B9E82A72B390AD8DCB40F1AD6EB13F9C00FB6B94316089A",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryResidentDevices.cs",
+                      "FrozenUpstreamSHA256":  "7E46FF11C78717A71634A486E93565BA4B0AF1BCE457BEE3B255EDC146DBC159",
+                      "IntegratedSHA256":  "979164D9A18A3048E32895DBDEBDD0E1DFAB8DDB44F19C90650421F8ACB89CF7",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryResidentDeviceServer.cs",
+                      "FrozenUpstreamSHA256":  "1AE010901742327A2114CACC73A7ED8E32A602A0F3AEA2ECCD5D9EF8A99D0957",
+                      "IntegratedSHA256":  "2C600562865F99EDB2D5B134F2C26E331DA06557A2CE46E282510D2ECF3368BA",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryResidentDeviceServerTests.cs",
+                      "FrozenUpstreamSHA256":  "C70E1392169AA7BCF48277F51C27112466402E5113E1F60EB91CE837E7E674BF",
+                      "IntegratedSHA256":  "1F82FE51D82E4D83020FB74EFABD5C118008EA365F579F2AB1F11721274D7713",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryResidualStageTests.cs",
+                      "FrozenUpstreamSHA256":  "68255B7C4CF1882EEAEE48F0BB981F8670E7A3A4BF1DFC4DAB08FF27E0B86F49",
+                      "IntegratedSHA256":  "EEB99C2BF882C0A153A1D8238003ECFAEFDD545688393C87AEC6C5B9AB42814E",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryRevisionSafetyTests.cs",
+                      "FrozenUpstreamSHA256":  "F8221551494B1F1D928BA14A2D440CBBF7492F011FCD3BDCB003F5344941035C",
+                      "IntegratedSHA256":  "F8221551494B1F1D928BA14A2D440CBBF7492F011FCD3BDCB003F5344941035C",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryRunner.cs",
+                      "FrozenUpstreamSHA256":  "4C033E780A9BFA57B5E4B13C0059C8212552BBD012632AA0D9C1A175B0DB0B02",
+                      "IntegratedSHA256":  "5C34A0A8D28990D9E2978EA7DC7BA16792F0FC3E3F7F7F415025AFC461DCD61F",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactorySequenceAudit.cs",
+                      "FrozenUpstreamSHA256":  "5FE7DEE489E27BA295293D397CB85380B018DF3595CEF3BA070CD5DAF3840908",
+                      "IntegratedSHA256":  "5FE7DEE489E27BA295293D397CB85380B018DF3595CEF3BA070CD5DAF3840908",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactorySequenceProgress.cs",
+                      "FrozenUpstreamSHA256":  "7F1176DA8D31A389C33AA95E04C72EF2D1B8574A77AD303427D3A80AAE9AD97F",
+                      "IntegratedSHA256":  "7F1176DA8D31A389C33AA95E04C72EF2D1B8574A77AD303427D3A80AAE9AD97F",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactorySequenceResumeDialog.cs",
+                      "FrozenUpstreamSHA256":  "170F18DCD1FF5682F5C5A0D7A3088BFF1163B9A1B20A65D0C92EC98E6986AA71",
+                      "IntegratedSHA256":  "170F18DCD1FF5682F5C5A0D7A3088BFF1163B9A1B20A65D0C92EC98E6986AA71",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactorySequenceResumeTests.cs",
+                      "FrozenUpstreamSHA256":  "85A52F933DDB48664892A75DB1BF53A39FA5E6D5FD490CD504B6F34A793EAFE8",
+                      "IntegratedSHA256":  "85A52F933DDB48664892A75DB1BF53A39FA5E6D5FD490CD504B6F34A793EAFE8",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactorySessionFault.cs",
+                      "FrozenUpstreamSHA256":  "B9FA2C35E913FECA5BE408D0DA8510EADEB96489BFA4B0295CECD116C6FB7D46",
+                      "IntegratedSHA256":  "87B8C4D4E7707308B8A531DF9607287B0B7DCFAED1AD2ECF272DBC9712937ABE",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactorySessionFaultTests.cs",
+                      "FrozenUpstreamSHA256":  "83FD7422FC429EBABF574A7EF26BF64580F9A8D9E9E8396344C1E0265454C1D8",
+                      "IntegratedSHA256":  "83FD7422FC429EBABF574A7EF26BF64580F9A8D9E9E8396344C1E0265454C1D8",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryShutdownDiagnostic.cs",
+                      "FrozenUpstreamSHA256":  "002A3E282298071B8959186FBF6BD3DF6B73025AA7E2C7DEF003F0240D283F26",
+                      "IntegratedSHA256":  "002A3E282298071B8959186FBF6BD3DF6B73025AA7E2C7DEF003F0240D283F26",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryShutdownDiagnosticTests.cs",
+                      "FrozenUpstreamSHA256":  "D8566DAA8CAB398C32C6728878384D26EB0E727DF9970A39D0340F60823C56C6",
+                      "IntegratedSHA256":  "D8566DAA8CAB398C32C6728878384D26EB0E727DF9970A39D0340F60823C56C6",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactorySimpleForm.cs",
+                      "FrozenUpstreamSHA256":  "E56F12B92574899E6FB62D51174886137A55088A4639C256BB8957C95D95445F",
+                      "IntegratedSHA256":  "E56F12B92574899E6FB62D51174886137A55088A4639C256BB8957C95D95445F",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryStartConfirmation.cs",
+                      "FrozenUpstreamSHA256":  "46FB0831B6DA41591A8A4CD45B77C7A6F46818E881552A977E31B37684A2F42A",
+                      "IntegratedSHA256":  "5DC878799916749802C7065CD68F5CE976137AE62A230EDD61E9DF79B651C728",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryStartupFeedbackTests.cs",
+                      "FrozenUpstreamSHA256":  "DD5D8E28239D515C26A245085064F6B69BF4D3C9F76C8025098AFFBE1B230BC5",
+                      "IntegratedSHA256":  "5E298129C0C20FC46ACD1B509334702E836D4A747251EC602E05A77E1489E7F5",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryTargetHold.cs",
+                      "FrozenUpstreamSHA256":  "47075EEB3570C855A7910266E8386119CC937A122327EC7316C0ACC781BCC0E5",
+                      "IntegratedSHA256":  "A67EFAD78081970E4A2E8944F294F0D909DEA55C338CDBB2F0C6AB84C15F73FD",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryTargetHoldTests.cs",
+                      "FrozenUpstreamSHA256":  "70916C30DFE0B0D0EEF53812A5B16000CB3B85268EFC35C22B386C51A6AD3614",
+                      "IntegratedSHA256":  "70916C30DFE0B0D0EEF53812A5B16000CB3B85268EFC35C22B386C51A6AD3614",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTests.cs",
+                      "FrozenUpstreamSHA256":  "2D258365F53967460334542ECA01F1E52D00BB786EE10EB72BF0A347A933BE4E",
+                      "IntegratedSHA256":  "B21D4DB8EA6AC2C7BDBAE99C67A8621F17A8C34E89E5AA6D2CD6628F6762EF91",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryTfAnalysis.cs",
+                      "FrozenUpstreamSHA256":  "3E5D7A14FB861572B2EF194606691D9BE298BC072401C02941EEC60807256C88",
+                      "IntegratedSHA256":  "3E5D7A14FB861572B2EF194606691D9BE298BC072401C02941EEC60807256C88",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTfAnnotationDialogs.cs",
+                      "FrozenUpstreamSHA256":  "4BBDE1D45EA0DC8C75B7895267474FFE927EB96ABB8F9DA344A1721145ECE90D",
+                      "IntegratedSHA256":  "4BBDE1D45EA0DC8C75B7895267474FFE927EB96ABB8F9DA344A1721145ECE90D",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTfAnnotations.cs",
+                      "FrozenUpstreamSHA256":  "2C34165F4359B2D0D17B0A3EAAAEB8731CE26002190B83D7863CCB08E3F6091B",
+                      "IntegratedSHA256":  "2C34165F4359B2D0D17B0A3EAAAEB8731CE26002190B83D7863CCB08E3F6091B",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTfPlot.Annotations.cs",
+                      "FrozenUpstreamSHA256":  "51A3B70A5BC25C8BC09DDF22275978EEC9CB825B009EAD495EF3120DFCB70E3C",
+                      "IntegratedSHA256":  "51A3B70A5BC25C8BC09DDF22275978EEC9CB825B009EAD495EF3120DFCB70E3C",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTransientRangePolicy.cs",
+                      "FrozenUpstreamSHA256":  "9460D967EC7869EBEE4A039741379B486F75CDC5F8681BEE1374AD2C154D5C57",
+                      "IntegratedSHA256":  "9460D967EC7869EBEE4A039741379B486F75CDC5F8681BEE1374AD2C154D5C57",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTransientRangeTests.cs",
+                      "FrozenUpstreamSHA256":  "F0548350128F2B1EFF7C426E9DA971609E2780878974A489B1615CB9FD7DAABA",
+                      "IntegratedSHA256":  "F0548350128F2B1EFF7C426E9DA971609E2780878974A489B1615CB9FD7DAABA",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTriggerRecovery.cs",
+                      "FrozenUpstreamSHA256":  "E8B13D2F2BE03B2409DBB4B5A9F64A11E1EDD7CFC3EC7835F591FB1EB7A46C7F",
+                      "IntegratedSHA256":  "E8B13D2F2BE03B2409DBB4B5A9F64A11E1EDD7CFC3EC7835F591FB1EB7A46C7F",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryTriggerThresholdPolicy.cs",
+                      "FrozenUpstreamSHA256":  "5252CFB8F1186C892DF7F632F3F1C2F64035651AE01232162295ED6920B224F2",
+                      "IntegratedSHA256":  "5252CFB8F1186C892DF7F632F3F1C2F64035651AE01232162295ED6920B224F2",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryWaveformControl.cs",
+                      "FrozenUpstreamSHA256":  "5A342AF38296D27A83CFA5ED92FDD7FAC841FB71D3663896F6AEE44990D1E7DF",
+                      "IntegratedSHA256":  "5A342AF38296D27A83CFA5ED92FDD7FAC841FB71D3663896F6AEE44990D1E7DF",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryWaveformControl.Interaction.cs",
+                      "FrozenUpstreamSHA256":  "3E92B9DF76F27590F8131ACADEE9341A8D4FFA2CC25190BF2F8C5824C6AC5530",
+                      "IntegratedSHA256":  "3E92B9DF76F27590F8131ACADEE9341A8D4FFA2CC25190BF2F8C5824C6AC5530",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryWaveformControl.Selection.cs",
+                      "FrozenUpstreamSHA256":  "4B63771237AFBD7857D6C697E5CB390869AAEC5BF69F8C17FCE7B1681DCC2658",
+                      "IntegratedSHA256":  "4B63771237AFBD7857D6C697E5CB390869AAEC5BF69F8C17FCE7B1681DCC2658",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryWaveformInteractionTests.cs",
+                      "FrozenUpstreamSHA256":  "D4EAAA61C60AD30FEFAC15993264D2370B2AAE4300097C58F7BDDAEF094CDB62",
+                      "IntegratedSHA256":  "D4EAAA61C60AD30FEFAC15993264D2370B2AAE4300097C58F7BDDAEF094CDB62",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryWaveformTests.cs",
+                      "FrozenUpstreamSHA256":  "C3C9071F8A42CC980909515B35C715705AD88AB5FD23886BBDDED2D2D3FC46CE",
+                      "IntegratedSHA256":  "C3C9071F8A42CC980909515B35C715705AD88AB5FD23886BBDDED2D2D3FC46CE",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "FactoryZeroInputRunner.cs",
+                      "FrozenUpstreamSHA256":  "EAFC1845576A6A3F6C1C5CE0568642DDA07755705B91CCFD339BE361F14460BC",
+                      "IntegratedSHA256":  "62B84FC3EE52346E2BF515DEBD63C9B3C375941396A1823637B13A337D07C6B1",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryZeroInputTests.cs",
+                      "FrozenUpstreamSHA256":  "915E078652499C0A153B872F7D9F9FC0210482A16843B3D7038749A2C800D541",
+                      "IntegratedSHA256":  "F542CDA6F9EDAE0359A3BB0366D1B93D729009412E339F493C4415478C591BF5",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryZeroTriggerRunner.cs",
+                      "FrozenUpstreamSHA256":  "472F5872FB0BDCD672D5C3060D15E0A65752E7DE4BD4C99A544DC93E5AC52398",
+                      "IntegratedSHA256":  "E0DB362F7678F4773E6D99A3C87A16DD14E9710809323590F8061867C4C30D63",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryZeroTriggerTests.cs",
+                      "FrozenUpstreamSHA256":  "4BB8477F6CD38A8EBF64C63C62D2974252ECD2AC55F572BE0A2535E86F7F1C98",
+                      "IntegratedSHA256":  "7785295AF6F72F556710C76DFF922ECAF668A6A02689A041850932AB0CB6116F",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "FactoryZeroVoltageObservation.cs",
+                      "FrozenUpstreamSHA256":  "38F481FFA7379D7FDF3CD952B182F3473761AAB5EC4F297282DF7B55436C8F0A",
+                      "IntegratedSHA256":  "38F481FFA7379D7FDF3CD952B182F3473761AAB5EC4F297282DF7B55436C8F0A",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/ArtSharedTrigger.cs",
+                      "FrozenUpstreamSHA256":  "C71C4C2F3D5DDA557835E502968CC04B54A16B9332B67E0767196537453EC8B5",
+                      "IntegratedSHA256":  "C71C4C2F3D5DDA557835E502968CC04B54A16B9332B67E0767196537453EC8B5",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/BenchModels.cs",
+                      "FrozenUpstreamSHA256":  "2AA7C8DB9BF12A43591439F04730868620CA61924BF2AFEA51CD504DD721E537",
+                      "IntegratedSHA256":  "6EDCF50DBBBB121138DC15AB0F7F553C260CDDCF575ADDDEC45D12C4FCE73276",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "Imported/DetectedWaveforms.cs",
+                      "FrozenUpstreamSHA256":  "4225D1D1B36DF2B984737CF471EEF09AF84560D89FB9E6C1030E78645986011F",
+                      "IntegratedSHA256":  "4225D1D1B36DF2B984737CF471EEF09AF84560D89FB9E6C1030E78645986011F",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/DeviceDiscovery.cs",
+                      "FrozenUpstreamSHA256":  "077FA6A86D1566F7D20A5790FB84663CC00F265CA9D344B90860AA2E84FA9B41",
+                      "IntegratedSHA256":  "077FA6A86D1566F7D20A5790FB84663CC00F265CA9D344B90860AA2E84FA9B41",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/HardwareCapture.cs",
+                      "FrozenUpstreamSHA256":  "FB92C9375CE7A5C64E624FE18814298552CA59A412CEC679F74AD98B16D78098",
+                      "IntegratedSHA256":  "C28714E1A22CDAEA9A4978106E023E24F5DAF238221328F1B00F3FE6FD361607",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "Imported/InputCaptureWait.cs",
+                      "FrozenUpstreamSHA256":  "AC36E0A04A46B914C057CAEE47727E9428790701B38EE503454D8D0496A3A1C8",
+                      "IntegratedSHA256":  "AC36E0A04A46B914C057CAEE47727E9428790701B38EE503454D8D0496A3A1C8",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/PicoCaptureConfiguration.cs",
+                      "FrozenUpstreamSHA256":  "E8C003C630EC72878B8B281C8CF0DD8C2E4D60EDC79CB7D729062E799CD4EF8C",
+                      "IntegratedSHA256":  "E8C003C630EC72878B8B281C8CF0DD8C2E4D60EDC79CB7D729062E799CD4EF8C",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/PicoInputCapture.cs",
+                      "FrozenUpstreamSHA256":  "0053428761A4710EDAE24786F2DBF671C7111CE99A6F40381052859A4FAB23C7",
+                      "IntegratedSHA256":  "0053428761A4710EDAE24786F2DBF671C7111CE99A6F40381052859A4FAB23C7",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/ProcessJob.cs",
+                      "FrozenUpstreamSHA256":  "06496A229D76F0BE84D332CD79C99A71C215EFBED145B900101B3C6861B0EBF2",
+                      "IntegratedSHA256":  "06496A229D76F0BE84D332CD79C99A71C215EFBED145B900101B3C6861B0EBF2",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/PulseToolkit/InternalPulseDsp.cs",
+                      "FrozenUpstreamSHA256":  "2F855FB3FBC39CDF19F9D34F22CC7112F4F3BE4C2AB671E1FB959F4FBD62F9EA",
+                      "IntegratedSHA256":  "2F855FB3FBC39CDF19F9D34F22CC7112F4F3BE4C2AB671E1FB959F4FBD62F9EA",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/PulseToolkit/PulseExtractionEngineV21.cs",
+                      "FrozenUpstreamSHA256":  "C2DD8221D4CFC075098F71B58289D74BDF52A91E7936EE3AF6EDF8E096F61726",
+                      "IntegratedSHA256":  "C2DD8221D4CFC075098F71B58289D74BDF52A91E7936EE3AF6EDF8E096F61726",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/PulseToolkit/PulseParameterEngineFinal.cs",
+                      "FrozenUpstreamSHA256":  "B2A279A480799AF6E61163A1B4F45790C55A92385637A58A0A5FAC0D2442FA19",
+                      "IntegratedSHA256":  "B2A279A480799AF6E61163A1B4F45790C55A92385637A58A0A5FAC0D2442FA19",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task27/TimeFrequencyClustering.cs",
+                      "FrozenUpstreamSHA256":  "0AA1EC1CBF11F9A3CA6919D14BFE1E94021328A8C17D910DA3B034A366D860A1",
+                      "IntegratedSHA256":  "0AA1EC1CBF11F9A3CA6919D14BFE1E94021328A8C17D910DA3B034A366D860A1",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/ArtDeviceCleanup.cs",
+                      "FrozenUpstreamSHA256":  "F993D4B6775ED012BA4DE7D9075945DB73C0034FE2A9F201DD12CC5BA2B45075",
+                      "IntegratedSHA256":  "F993D4B6775ED012BA4DE7D9075945DB73C0034FE2A9F201DD12CC5BA2B45075",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/ArtUsb3135Device.cs",
+                      "FrozenUpstreamSHA256":  "89D7067AD6A22ECA6C9A468F143AE8253446A31C7DD932C349C6965AA957C0C0",
+                      "IntegratedSHA256":  "89D7067AD6A22ECA6C9A468F143AE8253446A31C7DD932C349C6965AA957C0C0",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/CalibrationIncidentQuality.cs",
+                      "FrozenUpstreamSHA256":  "28A4F541807CDD87995B7B2036ED4BB61218DDB8B8F371AF4A00F001765B9271",
+                      "IntegratedSHA256":  "28A4F541807CDD87995B7B2036ED4BB61218DDB8B8F371AF4A00F001765B9271",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/CalibrationWindowing.cs",
+                      "FrozenUpstreamSHA256":  "43EECB6D6E490CEB3F28F71B754C73E0E71D9ED7737B39E00E05CA859B789D58",
+                      "IntegratedSHA256":  "43EECB6D6E490CEB3F28F71B754C73E0E71D9ED7737B39E00E05CA859B789D58",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/ConnectionInspection.cs",
+                      "FrozenUpstreamSHA256":  "4918708AF7E00A9B19A61BA04293A85857026750D4DDB16A14EE9FDEC903714F",
+                      "IntegratedSHA256":  "4918708AF7E00A9B19A61BA04293A85857026750D4DDB16A14EE9FDEC903714F",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/DeviceMessages.cs",
+                      "FrozenUpstreamSHA256":  "C576C10C9E096283DEBEC4F93A3EEFD9F9E6EF174D0A4A42397C46100650434E",
+                      "IntegratedSHA256":  "C576C10C9E096283DEBEC4F93A3EEFD9F9E6EF174D0A4A42397C46100650434E",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/HardwareInterfaces.cs",
+                      "FrozenUpstreamSHA256":  "88577ABEA9B3ED934423C331BAEA20D0B32484C3DB5CCBCCB56A9399BDA68985",
+                      "IntegratedSHA256":  "88577ABEA9B3ED934423C331BAEA20D0B32484C3DB5CCBCCB56A9399BDA68985",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/PicoResolutionInfo.cs",
+                      "FrozenUpstreamSHA256":  "8447E6258F747C4C18BFC391E3BBA2DC2372E1CBF75024EEDDCAC1716416848E",
+                      "IntegratedSHA256":  "8447E6258F747C4C18BFC391E3BBA2DC2372E1CBF75024EEDDCAC1716416848E",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/PicoRuntimeLocator.cs",
+                      "FrozenUpstreamSHA256":  "43649AFD14EA74EC608F5E62F06EA7BCC0A20E84CE203114EA8D6A28AC1593FB",
+                      "IntegratedSHA256":  "43649AFD14EA74EC608F5E62F06EA7BCC0A20E84CE203114EA8D6A28AC1593FB",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/PicoScope5242DBlockDevice.cs",
+                      "FrozenUpstreamSHA256":  "91592B17D837B1458D1124CABE39D15B24D0FBD3B11D95C5AF2B87A550AAFED5",
+                      "IntegratedSHA256":  "91592B17D837B1458D1124CABE39D15B24D0FBD3B11D95C5AF2B87A550AAFED5",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/Task38Analysis.cs",
+                      "FrozenUpstreamSHA256":  "5190552E9CDCA878E69B69AE1D9A1BEF2803C05266E0A95995DD135B38E5E37C",
+                      "IntegratedSHA256":  "5190552E9CDCA878E69B69AE1D9A1BEF2803C05266E0A95995DD135B38E5E37C",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/Task38Contracts.cs",
+                      "FrozenUpstreamSHA256":  "04CF498621D63FF19A1E676F3F4A560491D8FDAD0E5012E584C81659A8DCF1BE",
+                      "IntegratedSHA256":  "04CF498621D63FF19A1E676F3F4A560491D8FDAD0E5012E584C81659A8DCF1BE",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/Task38Controller.cs",
+                      "FrozenUpstreamSHA256":  "C1BF0FE40EB174DEB57905339E35421125DD712C430CAF824E595D9F7AEBEADC",
+                      "IntegratedSHA256":  "C1BF0FE40EB174DEB57905339E35421125DD712C430CAF824E595D9F7AEBEADC",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/Task38DemoDevices.cs",
+                      "FrozenUpstreamSHA256":  "066EE45615DBDEA8072B51E8CF88C9A2F25E3F4155B90E7073CFC3EBC3684299",
+                      "IntegratedSHA256":  "066EE45615DBDEA8072B51E8CF88C9A2F25E3F4155B90E7073CFC3EBC3684299",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/Task38RunRecord.cs",
+                      "FrozenUpstreamSHA256":  "6A422DEAD1EA5227C454AE9A3B078524A94E4D44B50CCC3C46E4982DBD21A447",
+                      "IntegratedSHA256":  "6A422DEAD1EA5227C454AE9A3B078524A94E4D44B50CCC3C46E4982DBD21A447",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Task38/Task38Session.cs",
+                      "FrozenUpstreamSHA256":  "02E2A01676E39BBE8EDD668B7AF4EEDAAA0648A6BD3E60C0375E8B663BA759E3",
+                      "IntegratedSHA256":  "02E2A01676E39BBE8EDD668B7AF4EEDAAA0648A6BD3E60C0375E8B663BA759E3",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Unified100/CalibrationIncidentQuality.cs",
+                      "FrozenUpstreamSHA256":  "8E83957F8A6E5B030DE62FE5BA20CFED71FD45B572AAEB02AD194DE095853C08",
+                      "IntegratedSHA256":  "8E83957F8A6E5B030DE62FE5BA20CFED71FD45B572AAEB02AD194DE095853C08",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Unified100/CalibrationWindowing.cs",
+                      "FrozenUpstreamSHA256":  "259D70B24E9BD334A31B22F7A8263B7868FD9B528EC987A828D99D6AE923BCE2",
+                      "IntegratedSHA256":  "259D70B24E9BD334A31B22F7A8263B7868FD9B528EC987A828D99D6AE923BCE2",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Unified100/LocationRangeAdvisor.cs",
+                      "FrozenUpstreamSHA256":  "DC0DB9D237C8556367984B506BBEBC0993DC8436B5C5BE1DB34FBC5EFC93D4A4",
+                      "IntegratedSHA256":  "DC0DB9D237C8556367984B506BBEBC0993DC8436B5C5BE1DB34FBC5EFC93D4A4",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Unified100/LocationRangeWindow.cs",
+                      "FrozenUpstreamSHA256":  "236F5108030A897F8B64E4C30EC8589EFEE3287F278938579FB6BB46F779151B",
+                      "IntegratedSHA256":  "236F5108030A897F8B64E4C30EC8589EFEE3287F278938579FB6BB46F779151B",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/Unified100/PdLinearHighPass.cs",
+                      "FrozenUpstreamSHA256":  "28780887CE26F71C84115A0E32E06DB9AFB9F85DD861E21E6C5F5B6FC6823A22",
+                      "IntegratedSHA256":  "8AEBC5601CA0BD29385108F99D9D6D53EBD90405851AF6E56E10025FF0BD4B29",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "Imported/Unified100/RangeDecision.cs",
+                      "FrozenUpstreamSHA256":  "25345B4BCE624010664F6123319AD391177C297785A1D9E895A9B6A7420BA6C4",
+                      "IntegratedSHA256":  "25345B4BCE624010664F6123319AD391177C297785A1D9E895A9B6A7420BA6C4",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "Imported/WavePanel.cs",
+                      "FrozenUpstreamSHA256":  "C5F3E3EDDFC5B3B05E7EB4A01D6AD108A40FD7EE8A03DF85A25B91E34953E35C",
+                      "IntegratedSHA256":  "C5F3E3EDDFC5B3B05E7EB4A01D6AD108A40FD7EE8A03DF85A25B91E34953E35C",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "NativeFactoryBackend.Batch.cs",
+                      "FrozenUpstreamSHA256":  "AE6535BB1D902129DA964A141FCFC8B83EBEB4E4AF62ACFDFB130925C0988D8B",
+                      "IntegratedSHA256":  "AE6535BB1D902129DA964A141FCFC8B83EBEB4E4AF62ACFDFB130925C0988D8B",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "NativeFactoryBackend.cs",
+                      "FrozenUpstreamSHA256":  "E09486496C6654EAA96370B21C73CA9DACD733355F77BB81244C2DF1285B4F84",
+                      "IntegratedSHA256":  "566B7606BED1A24FF89BA0AE3877608A3503483B8122C43D4702E60B19041717",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "NativeFactoryBackend.FinalAi4.cs",
+                      "FrozenUpstreamSHA256":  "7E4E1F1483CD6377E63737E3A6E6395CDB43826936792D01CA22BEA38D0DC463",
+                      "IntegratedSHA256":  "1016470538EADDA451A82D64D4271884C269DA813222870A33D8484067E190D4",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "Program.cs",
+                      "FrozenUpstreamSHA256":  "28216AE7524891743A1BCB855709FF29D5C2EA70D1DC5E621A9DF6CEB3D786F0",
+                      "IntegratedSHA256":  "44A3EF92538A0642EBFB80744F0E22C9629684D3623131157FB4C61EC9F98578",
+                      "ExactUpstream":  false
+                  },
+                  {
+                      "Path":  "SimulationFactoryBackend.cs",
+                      "FrozenUpstreamSHA256":  "BE4A4AF2E253C87D6C3FD46F45D58A505513B6B0E47992290B39656762FEC757",
+                      "IntegratedSHA256":  "BE4A4AF2E253C87D6C3FD46F45D58A505513B6B0E47992290B39656762FEC757",
+                      "ExactUpstream":  true
+                  },
+                  {
+                      "Path":  "WorkerChecks.cs",
+                      "FrozenUpstreamSHA256":  "733E1FD6CBFD7C4BAB891D945B95C9F15FAA1493342B96D73E640AB74380CE45",
+                      "IntegratedSHA256":  "733E1FD6CBFD7C4BAB891D945B95C9F15FAA1493342B96D73E640AB74380CE45",
+                      "ExactUpstream":  true
+                  }
+              ],
+    "LocalAdapters":  [
+                          "UnifiedPressureBridge.cs",
+                          "UnifiedWorkerEntry.cs",
+                          "FactoryEmergencyReadPolicy.cs",
+                          "FactoryEmergencyTimingContractTests.cs",
+                          "FactoryBufferEmergencyCurrentTests.cs",
+                          "UnifiedFinePressureRamp.cs",
+                          "UnifiedWorkerLaunchEvidence.cs",
+                          "NativeFactoryBackend.ZeroInput.cs",
+                          "FactoryResidentZeroInputTests.cs",
+                          "FactoryInputStopEvidence.cs",
+                          "FactoryArtNegativeFeedbackTests.cs",
+                          "FactoryFailedRoundReleaseEvidence.cs",
+                          "FactorySelectedFeedbackTests.cs",
+                          "FactoryFeedbackConfigurationTests.cs",
+                          "FactoryNoResidualPressureTests.cs",
+                          "FactoryEmergencySnapshotPublisher.cs",
+                          "FactoryEmergencyDisplayTests.cs",
+                          "FactoryPressurePrecisionTests.cs",
+                          "FactoryProgressJournal.cs",
+                          "FactoryHealthyRoundStopEvidence.cs",
+                          "FactoryEmergencyPendingTests.cs",
+                          "AdjacentHardwareRangePolicy.cs",
+                          "FactoryEmergencyRoundStopEvidence.cs",
+                          "FactoryEmergencyRetainedOfflineHarness.cs",
+                          "NativeFactoryBackend.Feedback.cs",
+                          "FactoryFeedbackAvailabilityTests.cs"
+                      ]
+}

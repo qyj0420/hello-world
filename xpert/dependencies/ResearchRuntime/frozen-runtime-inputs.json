@@ -1,0 +1,16 @@
+{
+  "schema": "HVX.ResearchRuntime.FrozenInputs/1",
+  "approvalStatus": "reviewed-frozen-reuse",
+  "approvalScope": "Byte-identical third-party runtime reuse; not a security certification or algorithm acceptance.",
+  "reviewedBy": "Codex source/hash review for the user's 2026-10-08 build request",
+  "reviewedDate": "2026-10-08",
+  "sourceBuildRoot": "dependencies/ResearchRuntime/frozen-r27-source",
+  "freezeSha256": "79EC1832D17F15D2FB4698AF950D94ED39B94CE7DB939D2FEB8E5AB8703B68CF",
+  "pinsSha256": "E107F81077FEB010AD9E1D66AA4F6BB5511FA28D9BC3B7144F62CC24448ECDE7",
+  "frozenFileCount": 439,
+  "pythonVersion": "3.12.14",
+  "numpyVersion": "2.3.5",
+  "opensslVersion": "3.5.8",
+  "maintenanceStatus": "Security updates Python 3.12.15 and OpenSSL 3.5.9 require a separately traced input update and compatibility regression. Do not claim no known vulnerabilities.",
+  "reviewReport": "docs/模型与原生运行时本轮只读审核_20261008.md"
+}

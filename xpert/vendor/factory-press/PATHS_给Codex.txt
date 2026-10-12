@@ -1,0 +1,16 @@
+完整源码包路径说明（整套替换）
+================================
+Xiongxin.Owts.Acquisition/Task6RangeAdvisor.cs     ← 量程实现（根目录！）
+Xiongxin.Owts.Acquisition/Live/*                  ← 硬件会话/急停/lease/Rapid
+Xiongxin.Owts.Acquisition/SingletonAcquisitionSession.cs
+Xiongxin.Owts.Contracts/Acquisition/IAcquisitionSession.cs
+Xiongxin.Owts.Contracts/Acquisition/AcquisitionDtos.cs
+Xiongxin.Owts.Contracts/Ui/StatusCopy.cs
+Xiongxin.Owts.Contracts/Ui/OperationalStatusBoard.cs
+Xiongxin.Owts.HvPressTest/PressTestRunner.cs
+Xiongxin.Owts.HvPressTest/FactoryPressForm.cs
+Xiongxin.Owts.HvPressTest/WaveformSummaryWriter.cs
+Xiongxin.Owts.HostAdapters/OwtsServices.cs         ← RunFactoryAligned*
+docs/PRESS_MERGE.md
+docs/HARDWARE_PATH_ALIGNMENT.md
+docs/art-db37-pinout.md

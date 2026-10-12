@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Xiongxin.Owts.HostAdapters</RootNamespace>
+    <AssemblyName>Xiongxin.Owts.HostAdapters</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.Owts.Contracts\Xiongxin.Owts.Contracts.csproj" />
+    <ProjectReference Include="..\Xiongxin.Owts.Persistence\Xiongxin.Owts.Persistence.csproj" />
+    <ProjectReference Include="..\Xiongxin.Owts.Algorithms\Xiongxin.Owts.Algorithms.csproj" />
+    <ProjectReference Include="..\Xiongxin.Owts.Ai\Xiongxin.Owts.Ai.csproj" />
+    <ProjectReference Include="..\Xiongxin.Owts.Acquisition\Xiongxin.Owts.Acquisition.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
+  </ItemGroup>
+</Project>

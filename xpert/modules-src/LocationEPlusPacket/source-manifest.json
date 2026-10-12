@@ -1,0 +1,20 @@
+{
+  "schema": "HVX.EPlusPacket.SourceSnapshot/1",
+  "version": "Eplus-Packet20-20261011-r01",
+  "candidate": "eplus_packet_guard_20261011_r01/algorithm-bundle/current/Eplus",
+  "bundleSourceManifestSha256": "c0a0c19307e902be3b2dde9e3d871d6192786b01c72e038464b5cac32f74e204",
+  "upstream": {
+    "eplus_core.py": "current/Eplus/eplus_core.py",
+    "a_packet_guard.py": "current/shared/packet/a_packet_guard.py",
+    "sparse_packets.py": "current/shared/packet/sparse_packets.py"
+  },
+  "vendoredFiles": {
+    "Upstream/eplus_core.py": "e87cdd349662e80d3328f356146e8ba735afbdd302746a8b45600f56a2cd747b",
+    "Upstream/a_packet_guard.py": "a208e164d3bb9e78f0d186d4111055e3883e09cc92fe9c36abbea13fb284f654",
+    "Upstream/sparse_packets.py": "71f15fac30c60655256a4fe59b6946aea50b368ec6863cc86c85ba648b60762b"
+  },
+  "oldEAndEPlusTemporalSourceUnchanged": true,
+  "auxiliaryLowpassEnabled": false,
+  "knownUnresolved": ["Observed-spectral near-EOF modulo context retained from the named candidate; not physical identity validation."],
+  "physicalValidation": false
+}

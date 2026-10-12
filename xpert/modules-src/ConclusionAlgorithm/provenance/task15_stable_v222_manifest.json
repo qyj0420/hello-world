@@ -1,0 +1,210 @@
+{
+  "schema": "task15-astra-reviewed-engineering-build/v1",
+  "generated_utc": "2026-09-11T15:49:25.2180767Z",
+  "stable_dll": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\build-r02\\protected\\release\\e15c7e4a92bf60e8135ac904.V1.0.15.dll",
+  "stable_sha256": "60b024c4b6f425e1a007ec69d94791d67c63320e0a759ca39f35208573b02f57",
+  "stable_bytes": 167424,
+  "assembly_full_name": "e15c7e4a92bf60e8135ac904.V1.0.15, Version=2.2.2.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc",
+  "assembly_version": "2.2.2.0",
+  "file_version": "2.2.2.0",
+  "informational_version": "2.2.2-task17-schema-20260911",
+  "public_key_token": "7dc42e362b631bdc",
+  "exported_types": [
+    "HVX.Location.AnalysisResult",
+    "HVX.Location.LocatorEngine"
+  ],
+  "public_engine_methods": [
+    "AnalyzeWithStandardProfilePulseEnergyAndAlgorithmMode",
+    "Health"
+  ],
+  "final_method_port_count": 15,
+  "public_api_diff_count": 0,
+  "legacy_project_dll": "D:\\新建文件夹 (3)\\OWTS V2.2-1\\OWTS V2.2 - VLF -2026082501\\algorithm\\15_jielunsuanfa\\runtime\\9c917f1e37ecb17bbec673c0.V1.0.15.dll",
+  "referenced_assemblies": [
+    "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+    "System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+  ],
+  "external_runtime_dependencies": [],
+  "external_runtime_dependencies_scope": "Core analysis with an empty defectModelPath only; excludes optional external classification.",
+  "core_without_model_requires_external_runtime": false,
+  "optional_classifier_dependencies": [
+    "Explicit user-supplied .pdm model file",
+    "Unique Task12 engine *.V1.0.12.dll",
+    "Matching Task12 companion runtime dependencies"
+  ],
+  "tests": [
+    {
+      "name": "public_api_whitelist",
+      "pass": 1,
+      "passed": true,
+      "output": [
+        "PASS|Task15StablePublicApiWhitelist",
+        "types=2|engine_methods=2|final_ports=15|legacy_methods=0"
+      ]
+    },
+    {
+      "name": "stable_behavior",
+      "pass": 1,
+      "passed": true,
+      "output": [
+        "PASS|Task15StableSlimApiRegression",
+        "accepted35=PASS|empty_energy=PASS|mode2_energy=PASS|all_rejected=PASS"
+      ]
+    },
+    {
+      "name": "double_load",
+      "pass": 1,
+      "passed": true,
+      "output": [
+        "PASS|Task15StableDoubleLoadSmoke",
+        "local=e15c7e4a92bf60e8135ac904.V1.0.15, Version=2.2.2.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc|cycles=2",
+        "isolated=e15c7e4a92bf60e8135ac904.V1.0.15, Version=2.2.2.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc|cycles=2"
+      ]
+    },
+    {
+      "name": "legacy_project_coexistence",
+      "pass": 1,
+      "passed": true,
+      "output": [
+        "PASS|Task15StableProjectConflictRegression",
+        "legacy=9c917f1e37ecb17bbec673c0.V1.0.15, Version=0.0.0.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc",
+        "stable=e15c7e4a92bf60e8135ac904.V1.0.15, Version=2.2.2.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc"
+      ]
+    },
+    {
+      "name": "matrix_schema",
+      "pass": 1,
+      "passed": true,
+      "output": [
+        "CHECKS=2383 FAILURES=0"
+      ]
+    },
+    {
+      "name": "public_api_whitelist",
+      "pass": 2,
+      "passed": true,
+      "output": [
+        "PASS|Task15StablePublicApiWhitelist",
+        "types=2|engine_methods=2|final_ports=15|legacy_methods=0"
+      ]
+    },
+    {
+      "name": "stable_behavior",
+      "pass": 2,
+      "passed": true,
+      "output": [
+        "PASS|Task15StableSlimApiRegression",
+        "accepted35=PASS|empty_energy=PASS|mode2_energy=PASS|all_rejected=PASS"
+      ]
+    },
+    {
+      "name": "double_load",
+      "pass": 2,
+      "passed": true,
+      "output": [
+        "PASS|Task15StableDoubleLoadSmoke",
+        "local=e15c7e4a92bf60e8135ac904.V1.0.15, Version=2.2.2.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc|cycles=2",
+        "isolated=e15c7e4a92bf60e8135ac904.V1.0.15, Version=2.2.2.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc|cycles=2"
+      ]
+    },
+    {
+      "name": "legacy_project_coexistence",
+      "pass": 2,
+      "passed": true,
+      "output": [
+        "PASS|Task15StableProjectConflictRegression",
+        "legacy=9c917f1e37ecb17bbec673c0.V1.0.15, Version=0.0.0.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc",
+        "stable=e15c7e4a92bf60e8135ac904.V1.0.15, Version=2.2.2.0, Culture=neutral, PublicKeyToken=7dc42e362b631bdc"
+      ]
+    },
+    {
+      "name": "matrix_schema",
+      "pass": 2,
+      "passed": true,
+      "output": [
+        "CHECKS=2383 FAILURES=0"
+      ]
+    }
+  ],
+  "validation_scope": "Engineering correction verification only; insufficient labeled field-device batches and ground truth to claim field accuracy.",
+  "deployment_policy": "Separate validation artifact; does not overwrite or authorize replacement of prior formal deployment.",
+  "reproducibility": "Build script plus frozen input hashes and private source snapshots; no claim that obfuscation produces byte-identical repeated artifacts.",
+  "input_source_snapshot_private": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\build-r02\\input-source-snapshot-private",
+  "api_version": "hvx-conclusion-dotnet-2.2.2-task17-schema",
+  "input_hashes": [
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\HVX_Encrypted_DLL\\src\\PublicApi.cs",
+      "sha256": "9f760d07d6500da85ada692592112d85d671fe80c7a50858ea32a088ba66578b"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\HVX_Encrypted_DLL\\src\\EncryptedModel.cs",
+      "sha256": "db89a22ecaa351590ed3e40cc67971fe7e2eeaf0756c3129b6f386c96a3ced12"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\HVX_Encrypted_DLL\\src\\Algorithm.cs",
+      "sha256": "66bf36ffcda7a891c7bc699a11432a57670c8aa9dbee40c59a2ad68128fae1dd"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\HVX_Encrypted_DLL\\src\\TdrProjectAlgorithm.cs",
+      "sha256": "bb905fda66ab2906a180e455bcb4a3f60fc5571bcc28c10b14c7024a749683be"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\..\\unified_algorithm_release_v4\\src\\task15_modes\\Task15MultiFactorCore.cs",
+      "sha256": "9b11934a258d392da9817822c5d294ba8048f739bc804b947006dd30c1db6c31"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\HVX_Encrypted_DLL\\build\\private\\GeneratedModelBlob.cs",
+      "sha256": "f8f4f749fcab9089f21c9dbcf097f305fbf92affb94962c61d3ad021c12dfdb2"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\tests_v222\\Task15StableSlimApiRegression.cs",
+      "sha256": "21e3f2124e4ad5dce3ab8118994323faeb570c4d9bdebfab113dbb6c376732e2"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\tests_v222\\Task15StablePublicApiWhitelist.cs",
+      "sha256": "e5011bc14ddc3d7be60e77c61e0427bc00eccd7334fd066eb086855fd3fadb84"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\tests_v222\\Task15StableDoubleLoadSmoke.cs",
+      "sha256": "aecb0dcf230c58d13652525b94d6414ca3881b11d785a3953d0c4d2228ba3f35"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\tests_v222\\Task15StableProjectConflictRegression.cs",
+      "sha256": "0323c25b9d5b3a86568f1896e895a82b35141f1e2276d5c36424c32af88366ba"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\Task15SchemaRegression.cs",
+      "sha256": "69af663814a72ed535cebd58dba1e6d15373b85f9609df9fd9b522bada2318c3"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\build_v222.ps1",
+      "sha256": "99d258809d1bf653fea241ae7e569dd05f900ec38d5d531e0e2bd80390d8b5f0"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\build\\tools\\roslyn48\\tasks\\net472\\csc.exe",
+      "sha256": "c9b43db498213e8e8ca5d7e03a25defdda2031d5e025553b8eb9773f79ebd226"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\..\\unified_algorithm_release_v4\\verification\\repeat_run_audit\\RenameAndSignAssembly.exe",
+      "sha256": "f0d1f285242409b5e9caafba0d3c86d161ced01fd1276dbf7d86dffb52ef9cac"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\task15_onsite_fix_20260911\\..\\unified_algorithm_release_v4\\build\\Protect-LabViewDll.ps1",
+      "sha256": "2f18e29d049f039c9a0d971af458d4f655e18028a4b7c57ca634720278dc080d"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\dll\\packages\\obfuscar.2.2.50\\tools\\Obfuscar.Console.exe",
+      "sha256": "859c554a0ae0c6f6e45daec6a6190ee8772855c6d242717fba0898b4118de881"
+    },
+    {
+      "path": "D:\\PD_AI_LabVIEW2026_Project\\tools\\unified_algorithm_release_v3\\wrappers\\verification\\StrongNameVerify.exe",
+      "sha256": "d9d6d3661378b01f65353d3245cf2b8fbc1d72d61595cd80be7a33dcbba03bb8"
+    }
+  ],
+  "legacy_sha256": "0217f4b28af8a31f65701a424c6897eb020d70761686161904846a7ed2850f58",
+  "clean_public_api_whitelist_passed": true,
+  "parameter_names_preserved": true,
+  "forced_strong_name_signature_verification_passed": true,
+  "rationale": "New assembly identity prevents LabVIEW project binding to legacy 0.0.0.0; incomplete historical overloads and unrelated TDR result type are not exported."
+}

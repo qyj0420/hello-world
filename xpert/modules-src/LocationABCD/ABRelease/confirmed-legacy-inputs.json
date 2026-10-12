@@ -1,0 +1,806 @@
+[
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_0.00kV_2023-06-14-15'27'56.loc",
+    "sha256": "aff9ab75232ef8daba29bd7dd9f7d7490d9993b9a8a8e5167c6aa3270f4dcf8d",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_0.00kV_2023-06-14-15'30'50.loc",
+    "sha256": "0af6c627aa9fee516ecc9b52c6816d405dc2fb6852cafbae637bbfe31eb81a21",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_12.30kV_2023-06-14-15'28'46.loc",
+    "sha256": "d100e829012d29676c09646dc5b1d011cb1e6490bc403b62b3e2fc839e6d6e34",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_12.30kV_2023-06-14-15'30'37.loc",
+    "sha256": "c418111a9a6b95ddfb1ed0bdcd067a7a21e9855f0544fe34dee0f79eddbd9a2c",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_15.99kV_2023-06-14-15'29'00.loc",
+    "sha256": "4af03ddea1b97330d58ff3f44def05851453074ced26f5e5ecc7b70c8993dfa2",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_18.45kV_2023-06-14-15'29'15.loc",
+    "sha256": "edb069fe8b90635dd4dae9a590bd53187033f93992c36401e8146dd8d121ea9a",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_18.45kV_2023-06-14-15'29'27.loc",
+    "sha256": "f057db7cb4288d2a595eeb1a09428fcd4c49df25a48e0d9352077ffcfc08c7f7",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_18.45kV_2023-06-14-15'29'39.loc",
+    "sha256": "3ec7f83fe0c03be51be09a7e23a7f77597a1c615215406e70d6aee83cb45f7d1",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_20.91kV_2023-06-14-15'29'57.loc",
+    "sha256": "f0342a2152302da23572fe47d1f768057aa2efaa901af0525685b2cb5ddc95ed",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_20.91kV_2023-06-14-15'30'09.loc",
+    "sha256": "d38d156b0dbc2f9fe5465d3a191c122a04680f132518a4e2d20c1a96522af6eb",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_20.91kV_2023-06-14-15'30'23.loc",
+    "sha256": "c95d73f9d43d987b4b7e17084393255fe5bd8aa0edf300e84d58b7e9adba98d2",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_3.69kV_2023-06-14-15'28'08.loc",
+    "sha256": "5be78884e48a84b5021809bb270eeeeb1521cac816ed4e5cb9bdc533cc814f44",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_6.15kV_2023-06-14-15'28'19.loc",
+    "sha256": "252b49ed4fae16b4dd3e4ddbbffd36595c8fa0f0185f0cbe8f2f2475d69e2d45",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\A_8.61kV_2023-06-14-15'28'32.loc",
+    "sha256": "3b42c8bcb5beb7720b261ec78e16b082871aaa98a06622da265ea7c6a638ef6d",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_0.00kV_2023-06-14-15'31'42.loc",
+    "sha256": "6384a04cc5dcdd7472b6d90fa03b285be4b3fd7f03a753c7c4720db10a1a7aa8",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_0.00kV_2023-06-14-15'35'02.loc",
+    "sha256": "8496ecdafd23795bdeceab9310ac68f0a4986e31b56d903cd2ff08acd9cd9aea",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_12.30kV_2023-06-14-15'32'46.loc",
+    "sha256": "ea6e335f522141fe20030fef0eb94cfdd84d11a454348996fd859d528d79363b",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_12.30kV_2023-06-14-15'34'49.loc",
+    "sha256": "4af4c898f371700cb20048f5e34c95d237d1c81f76a83727939a847b72659c8e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_15.99kV_2023-06-14-15'33'00.loc",
+    "sha256": "af94899ab1f7bff925baf722b84d78d9a2636c358be44ca2286e86b272554aed",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_18.45kV_2023-06-14-15'33'16.loc",
+    "sha256": "9e23714c8f717c45e9ec87c25d278967ec46c193f3337799e0f6c316ae32050f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_18.45kV_2023-06-14-15'33'29.loc",
+    "sha256": "47ed8f8f6f16e076701f965a29c2fbe209236cc1026a9f2188724cfe90ad7b9d",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_18.45kV_2023-06-14-15'33'43.loc",
+    "sha256": "0dd7dfeb6b8b9aed46c224e4cc3180dfc3fb98f5619d28d0b50c6fac1a371896",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_20.91kV_2023-06-14-15'34'11.loc",
+    "sha256": "3e84548a15390690674b2b1a0e02e263d9b7483190dd7085cfd36a011c8c4fba",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_20.91kV_2023-06-14-15'34'24.loc",
+    "sha256": "49b2d4b4cbe30331d98166a9b004183b4fe472facc749e1ece8b2dae05b13ea7",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_20.91kV_2023-06-14-15'34'35.loc",
+    "sha256": "78b6a9fe799fc25fcdbbe6637312048926b43aa2511f9e79d43e8d5fc00d1db4",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_3.69kV_2023-06-14-15'31'53.loc",
+    "sha256": "863239b66a18c8db304985a3ab866cae37802883b9a31fc2e1f1e1c83e1a134f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_6.15kV_2023-06-14-15'32'13.loc",
+    "sha256": "7272fb7a0f1ca3eca08c86cc0aaa672edf6a9974c2e1ca7017aed37264d73555",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\B_8.61kV_2023-06-14-15'32'30.loc",
+    "sha256": "daa2abbb972c9d61e78b0512e9f291283f45ec8790b77e1df37e49d5004426eb",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_0.00kV_2023-06-14-15'35'48.loc",
+    "sha256": "26405cb73bd56c336bdb0ee84beae0dda6867e6e32f76b3c1404afb8d63e0492",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_0.00kV_2023-06-14-15'38'46.loc",
+    "sha256": "6fcaf8930d1ec8e28f19a1b6d92c9427d1af2445a19e012e663b21975d9daf9c",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_12.30kV_2023-06-14-15'36'38.loc",
+    "sha256": "13b798113f5c0874572a07b7c2478bb368f6480907bc5dd04f476e7049afc098",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_12.30kV_2023-06-14-15'38'32.loc",
+    "sha256": "66b9a4d4edc31cd6387c5ce274f1acf98cd5206c37a7fc3aacc7daad454f83f1",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_15.99kV_2023-06-14-15'36'54.loc",
+    "sha256": "c7c7d549572cb036059c01df52e1bef726d55174d9a6cb0d5f96535dfbdfdb97",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_18.45kV_2023-06-14-15'37'11.loc",
+    "sha256": "ddfce12c17aa15ee23c7e30d4af0470d21ec9743bbc2087c963239f8ea137fe9",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_18.45kV_2023-06-14-15'37'22.loc",
+    "sha256": "7b8cfeda55d847fb23b901b68bbcd9b7901c70b140cef87775d00ee2d872a077",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_18.45kV_2023-06-14-15'37'34.loc",
+    "sha256": "3744c81521b997bbe9fd3145f03a2a3c9006af657dda95c81cc86e06aa6ecbae",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_20.91kV_2023-06-14-15'37'51.loc",
+    "sha256": "309d2e66c908eb2afb3523b73dcd23e26774f5731a5d1c6cba1a3462f18f2f52",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_20.91kV_2023-06-14-15'38'06.loc",
+    "sha256": "1aff639855ffa9b1e498f48ba8bb9debe8ebf8f626e221e65dfc6dcbbd17e7f0",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_20.91kV_2023-06-14-15'38'18.loc",
+    "sha256": "77174b5344344b6919831a1d190d9da78a658c3173e7a5b9cfbf1075c74f1386",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_3.69kV_2023-06-14-15'35'59.loc",
+    "sha256": "16ed4a28df76366f6a3f1d05a4260030cb16e7fd1ec621d46107194696c06993",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_6.15kV_2023-06-14-15'36'11.loc",
+    "sha256": "ed3864719b7ad17e961c846274157d87856bd3377002fc78b40877df278ded93",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "jinmao2023",
+    "path": "D:\\OWTSData\\人大附中215-金茂府4#212\\2023年06月14日-15时24分\\C_8.61kV_2023-06-14-15'36'23.loc",
+    "sha256": "d03ff693d8537627f81bf43820b2b4dbdd3dd9ad41a0556fb4234f3f41f90c8f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_0.00kV_2024-08-01-16'09'32.loc",
+    "sha256": "34534a9414c88015c4b694cfb69e2a12d9840e093109eb7a4bd3a3e5b577ed92",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_0.00kV_2024-08-01-16'12'55.loc",
+    "sha256": "066ee802a758c73324844e108cdc8e5b210afd051719ef5c662be34a95ca246d",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_12.30kV_2024-08-01-16'10'09.loc",
+    "sha256": "7e10526ba89ed5a4ddab49c7db58ef9df93310136ea1cdad173b770fb1036ec6",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_12.30kV_2024-08-01-16'10'18.loc",
+    "sha256": "e0c0058f38a8790ac885bb030b4fd52e55b711093d5b8eb56216d2430f3934b7",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_12.30kV_2024-08-01-16'10'27.loc",
+    "sha256": "522d77999da375b244f195a89e8b621685a541314efaeec977e9218aa1805fa0",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_12.30kV_2024-08-01-16'12'36.loc",
+    "sha256": "56e9b1911561475fdc6a53cd98a0568d4e671f468c0ca0c0b2af4fc63a13cb56",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_13.53kV_2024-08-01-16'10'41.loc",
+    "sha256": "fb2f82560b68d2938a5820777126646e189d634069ade272c8bd39dba874e853",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_15.99kV_2024-08-01-16'10'55.loc",
+    "sha256": "b2d19f8dca05d57fe7a16106a3dcfa29e112553b164bcf2ead0e02d12ad8837e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_18.45kV_2024-08-01-16'11'11.loc",
+    "sha256": "e606e016ab203d28d7e8cad6d05fbf1651262929a37880226fbe9de6bd0b740e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_18.45kV_2024-08-01-16'11'22.loc",
+    "sha256": "d3c935a54698101bdc9526bd516d42c6ee1b0d689927ad9350da34d4c4e358e8",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_18.45kV_2024-08-01-16'11'34.loc",
+    "sha256": "e8a400a3d4ea14b39204dc46b40aa1b8a38b6cf8c8030d52cbb7e31d263bd266",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_18.45kV_2024-08-01-16'11'44.loc",
+    "sha256": "93fdeeadea43196f61850996844be895132d7af65aacc93af4633b07cb15451c",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_20.91kV_2024-08-01-16'11'59.loc",
+    "sha256": "599fd8eee42434b2d8a9c01fb5a6e966d4285f8ab0706c07292258f0e10576b7",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_20.91kV_2024-08-01-16'12'09.loc",
+    "sha256": "d605c04f85edd3e45576ef8f5d86636fb6caf239e003587cc17bf4d3c2953251",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_20.91kV_2024-08-01-16'12'20.loc",
+    "sha256": "faed00f0da20f8aeb9831fd4c1914016c57d64042e6f14c95379b752a40ae9f6",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\A_6.15kV_2024-08-01-16'09'53.loc",
+    "sha256": "99964ecf735554854cd308b8b7bc867c3a42154b2e826d728321ea50f614d708",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_0.00kV_2024-08-01-16'05'09.loc",
+    "sha256": "9e1e4167778f50997e9f258e4bee6047cbdff9d09989ae08146737d554bf4703",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_0.00kV_2024-08-01-16'08'35.loc",
+    "sha256": "f482e59e273e8d72f922448dd5888d14f3ff8d09736b067e6ede18fb6d2c543d",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_12.30kV_2024-08-01-16'05'43.loc",
+    "sha256": "5ff582edced641d89b6e3ceeee51f40d2526db7982a1af5d59e52c147a9e5824",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_12.30kV_2024-08-01-16'05'52.loc",
+    "sha256": "bab224226dfda430e4d6b8bdff6819026878c275e06ce3dca10266bb7a0c25f6",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_12.30kV_2024-08-01-16'06'01.loc",
+    "sha256": "1fb08aae366143829cddcb31f827b5e217f8d3f7b2316e3ec37ec7657a3683cc",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_12.30kV_2024-08-01-16'08'11.loc",
+    "sha256": "17918cbc1d65c467dcaa4866272b731449b596bb7773fcf3306bdaa935bc5c81",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_13.53kV_2024-08-01-16'06'14.loc",
+    "sha256": "9dc92cafe8aef2b427da68719b16444aebad8a287ffa8bfe57cfc507555e5e02",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_13.53kV_2024-08-01-16'06'24.loc",
+    "sha256": "07dc1bfb8e153beac3b99e5f2bdb32578472e1341237cc6ab3e3bf63eb47674e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_15.99kV_2024-08-01-16'06'36.loc",
+    "sha256": "3672bea75c999d62ce26a7d52e73d1ca3766754e44361e86bc40eb8a6b88dfc4",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_18.45kV_2024-08-01-16'06'50.loc",
+    "sha256": "5110769ff78848472f158fc42e26a9158fd456f868f247c99ae2d0970b1bb7f4",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_18.45kV_2024-08-01-16'07'01.loc",
+    "sha256": "386c3cdb2369bdf8a5d640c350c93f2ce705818c22239cb04bf1997848d34dba",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_18.45kV_2024-08-01-16'07'12.loc",
+    "sha256": "47c4fb26189b1cb1eee21a59d82d12544e11861c33fa108c5b88ccdb599cc4b6",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_20.91kV_2024-08-01-16'07'28.loc",
+    "sha256": "60cb0327aef0a815b206052dc21a8d914b0605f7ddea520df22910c59d17e33c",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_20.91kV_2024-08-01-16'07'41.loc",
+    "sha256": "027c0cd49dbd481d8b309cf4216a0903bbef14631c1e36f304b5729500aa3aea",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_20.91kV_2024-08-01-16'07'52.loc",
+    "sha256": "65c68f8c7de41809beecd3d83961610b84f36f9644ee71294dfc98a7c7e7bdd8",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\B_6.15kV_2024-08-01-16'05'27.loc",
+    "sha256": "1e2296ef5e774e507efa95bcd0ebe8b5171ab0a8c20707146e4d36afadd3de68",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_0.00kV_2024-08-01-16'14'15.loc",
+    "sha256": "769566105ed5e4f51554b7b7c871c5be8bbb4a387538cc01df53a62d380f608b",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_0.00kV_2024-08-01-16'17'04.loc",
+    "sha256": "510175747f273e8e7a7267107d47de559fb4440304e1d73c05a079bc26c11010",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_12.30kV_2024-08-01-16'14'40.loc",
+    "sha256": "35f1fd23ded5c819a83372e2e3ec2a5ae425dc798338921d31d38e9235563e1e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_12.30kV_2024-08-01-16'14'49.loc",
+    "sha256": "3ea58a215a5695ddad933a40353799722b625bb9ca5e057fb9d765ed57747b37",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_12.30kV_2024-08-01-16'14'57.loc",
+    "sha256": "44a10d67117d650e62e7fe100614a9ed5c3cfe81b6ff06af296440844df71e4f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_12.30kV_2024-08-01-16'16'54.loc",
+    "sha256": "3180be1456cb31ee556382702ccc672394b081d88b184e2455c7ff38f46f1e00",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_13.53kV_2024-08-01-16'15'10.loc",
+    "sha256": "db5e8d7cb084e82c56c96e033f44f70a5c23c87a5e3e3d161dd53bb66a980c4b",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_15.99kV_2024-08-01-16'15'23.loc",
+    "sha256": "3244d5aba21ff7e013814280f448d7fdb744a2960141e6cafb2bb0d05f11baaf",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_18.45kV_2024-08-01-16'15'35.loc",
+    "sha256": "2c6d939223018ef4737d51aa3a832d4b7d8cb7a5efeeea5ac4a961bec3d229b0",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_18.45kV_2024-08-01-16'15'45.loc",
+    "sha256": "274201a11b514edd18976a99bb9b4e83e24a97676368b29eb98865ca0b63e9ee",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_18.45kV_2024-08-01-16'15'55.loc",
+    "sha256": "9ababfae5b4d7448f49d6b43912c1da04af4ba277851d3a5389aba59d29d5bb9",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_20.91kV_2024-08-01-16'16'09.loc",
+    "sha256": "6de7ab2346a93f5cc36820dba421fe22b2b1465d7cc4265ef2330b75fb219227",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_20.91kV_2024-08-01-16'16'19.loc",
+    "sha256": "a45aa98aeeb23107c2602bc98f82e3e135311d7e77da268af9edaf8766a9b7c3",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_20.91kV_2024-08-01-16'16'30.loc",
+    "sha256": "97eaa1ceab603788c5b250705d5088199d60b3f6c5574a75561cc0caa9e6b11f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_20.91kV_2024-08-01-16'16'42.loc",
+    "sha256": "51e6b45615b55680c0080be7b6d2265bcafb8de39060d86bc1d9bfbd39ba8776",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "landfill",
+    "path": "D:\\OWTSData\\205-7高配室  AH10-垃圾填埋场\\2024年08月01日-15时57分\\C_6.15kV_2024-08-01-16'14'27.loc",
+    "sha256": "fb0ce6a1081827a761a8f3b41adefe3d077bc531c75a473a39838a4e8625d434",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_0.00kV_2024-08-01-22'08'31.loc",
+    "sha256": "d7dae2fdee1385839857630614567c2aa11ae7c37710cdc4787dffa6fa581962",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_0.00kV_2024-08-01-22'11'29.loc",
+    "sha256": "d20d159069a097e13fab30d428f95088cc2aa61a41562b4301eb8ff9479a2e4d",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_12.30kV_2024-08-01-22'09'00.loc",
+    "sha256": "5aaad3cc8d167ea7cfbb24ac9c48d32f8081ad1d24de87dff3e78545ffdaaf5e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_12.30kV_2024-08-01-22'09'09.loc",
+    "sha256": "461800f1c480234ea0e52516e31bfb8933ad4f30155dd75b8fdcb694a70c9b19",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_12.30kV_2024-08-01-22'09'17.loc",
+    "sha256": "d0371c1eab6877a08a5da24ee46dacc0eac0a36597dbb36be2bc360247ec3489",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_12.30kV_2024-08-01-22'11'17.loc",
+    "sha256": "1c4f4a94a0833837c6e15b9b9864593f1e8d97f70f6ab7ca3e94b9f6aa11f120",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_15.99kV_2024-08-01-22'09'31.loc",
+    "sha256": "8c05aab6157a3fa8e88406677146aea6b7c1d07482085e90a803da03f593201d",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_18.45kV_2024-08-01-22'09'54.loc",
+    "sha256": "f9a1903165c399d4c324c7039025b628a8408b23638642ac5a013d14b814758f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_18.45kV_2024-08-01-22'10'04.loc",
+    "sha256": "3a74ac15579640b3554dfd949657a7d2fd45c01b075290d2ba3eeebcc6004b43",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_18.45kV_2024-08-01-22'10'14.loc",
+    "sha256": "3cfa4059f0a41134a90e8712ed429e65ed29a5bd1b9b1967554ee5993b4ce2bb",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_20.91kV_2024-08-01-22'10'28.loc",
+    "sha256": "5afb32e2cd159a079199eb98170f237b09bd75c5703ab43d15636c3e780ac981",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_20.91kV_2024-08-01-22'10'44.loc",
+    "sha256": "224649a7db48ef5d4353b34e70f560fe50a027214442874e0ce53f0a99c36c8a",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_20.91kV_2024-08-01-22'10'55.loc",
+    "sha256": "fdb0d7a6a2a4b1a49af26dc6aede179c6d92974237d4dbab1b329e41dd56e716",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_20.91kV_2024-08-01-22'11'05.loc",
+    "sha256": "01836ef5a06771eaa112a85c432df3d39b9e8c34247b8266fc639d3ab2be9fbe",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\A_6.15kV_2024-08-01-22'08'45.loc",
+    "sha256": "ca23dce02e1ff770626419b2635b475332f9aad61e85de32d01fb45919d5e170",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_0.00kV_2024-08-01-22'16'56.loc",
+    "sha256": "d3d703a739b8bfae5ef49e1fc364e96386c011114858fb7dbb2bc6470494f889",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_0.00kV_2024-08-01-22'19'35.loc",
+    "sha256": "31c8a0f8031660e314f814071c4491937c493927cb3902d6a8831e4aaf58791f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_12.30kV_2024-08-01-22'17'20.loc",
+    "sha256": "6782af06f82f4cc72bf88b3ab6d132a5b5c9369ec8ec5b2e989fe9147c475588",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_12.30kV_2024-08-01-22'17'29.loc",
+    "sha256": "c549eee3ada988101c692e39d226b2108205f074ba7a41fd2d97e82acf9b7fcd",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_12.30kV_2024-08-01-22'17'38.loc",
+    "sha256": "59b4c9b9f35ee6384944a1aeea484d5f95ba528565c856c7c9b01643028291ba",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_12.30kV_2024-08-01-22'19'22.loc",
+    "sha256": "7589c118507431df3306a21d7370ef9b28c018cdad20bab6d4757b2d0b2de332",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_15.99kV_2024-08-01-22'17'52.loc",
+    "sha256": "47823493dff8ebcfbbfbf6f56727c97f7b47dda5b53f6e57f75c477b4c3a77df",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_18.45kV_2024-08-01-22'18'07.loc",
+    "sha256": "1ad63cb559824ed82e60c497a43d6de6d62806b1ee88596a674d2a40cb7c17f0",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_18.45kV_2024-08-01-22'18'19.loc",
+    "sha256": "201e0e618dba278f841bc6576c591b01c973cd6c56d2c7bb2fa75ed61dccbf3c",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_18.45kV_2024-08-01-22'18'30.loc",
+    "sha256": "e3f70de46c7fd94ecc5baac56dde72e7800dad5ceac238386aa8eae204603038",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_20.91kV_2024-08-01-22'18'47.loc",
+    "sha256": "0db54031672d8f5ae36ac6e5d03e85abbdf1d04afeeb928a9057e19f23aac64f",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_20.91kV_2024-08-01-22'18'58.loc",
+    "sha256": "ded41d22ac6b3764fb62c9632be9aa60fed87866fced8388ca42a659b90722bc",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_20.91kV_2024-08-01-22'19'09.loc",
+    "sha256": "95b1dd0f68eb69ec390640746cb0816af83d696b6954726b3795e287d547f487",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\B_6.15kV_2024-08-01-22'17'07.loc",
+    "sha256": "386b703c5c27877072b2b8b9e521666a5985f26555f17c14c08127a48362e924",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_0.00kV_2024-08-01-22'12'58.loc",
+    "sha256": "ab6379fbae31987f23a91101d7913d7aed6b0086f5691a0b3b8eed42d3d78249",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_0.00kV_2024-08-01-22'15'55.loc",
+    "sha256": "95f5f912f5cb6bb637140a0f4d4f4d2fbcfdcf7d6f959ca1842e8f05cc4a34df",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_12.30kV_2024-08-01-22'13'33.loc",
+    "sha256": "36fba28443ba6802c895740fef24aff5c558c37142d149bbb4aa1f37edf44b1e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_12.30kV_2024-08-01-22'13'41.loc",
+    "sha256": "dc1a9de25d14ce8b77620ecb86fee43eced4b228c58d16beb8b3950ab7b6886e",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_12.30kV_2024-08-01-22'13'50.loc",
+    "sha256": "a34b976733454a5c4d44be637cb85de8ea248b8ca3403251fb8c484e0559c483",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_12.30kV_2024-08-01-22'15'45.loc",
+    "sha256": "01ab46281b9e25436ab78de093fde51271bc04608de8d430d44549e65a041ac4",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_15.99kV_2024-08-01-22'14'02.loc",
+    "sha256": "d75dcb4ce9f8e3e427b656fece112f429547c9ba96938b2656d33ab6fd40ab96",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_18.45kV_2024-08-01-22'14'22.loc",
+    "sha256": "4ccc1ac4fc0713aa0670be80f3c3910637e35e7bf5287e77fa38864df467a25c",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_18.45kV_2024-08-01-22'14'33.loc",
+    "sha256": "bb22cf847c417bb333a765fc8b6ff0dc2ed719a1ba836e585fbf4bcbaff68136",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_18.45kV_2024-08-01-22'14'43.loc",
+    "sha256": "458ae161c3d90c00ec7072ff8a67094df3972fe73217a151059346bb33b2dca3",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_18.45kV_2024-08-01-22'14'53.loc",
+    "sha256": "7aed41b05b32394a6680b23835bb8ed05dfd99c969330a55d553a3de497f185c",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_20.91kV_2024-08-01-22'15'06.loc",
+    "sha256": "63c3121fc8446c717269fe2d9b49bdaff726ba49645e6a2c9de8a5a4b5496fdb",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_20.91kV_2024-08-01-22'15'17.loc",
+    "sha256": "5bdc4c14a9d6deebeb65891be30052ac6335dd40c898042a272f69a259400045",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_20.91kV_2024-08-01-22'15'29.loc",
+    "sha256": "9a1b21348996b59f32730aec515c92d056c51f31cb76dc7393ee47717c6bf724",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  },
+  {
+    "project": "south",
+    "path": "D:\\OWTSData\\207变电站 10KV母线室-二期南线临时电\\2024年08月01日-22时02分\\C_6.15kV_2024-08-01-22'13'19.loc",
+    "sha256": "c865f1e2d103be8109431972d6030ac81abb07367b463a7458a308034d817d11",
+    "rule": "user_confirmed_legacy_m_msec_stores_m_us"
+  }
+]

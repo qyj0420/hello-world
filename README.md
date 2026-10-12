@@ -1,26 +1,23 @@
-# 雄新电力 · 雄新 OWTS 出厂加压（全面重编）
+# 雄新电力 / 雄新 OWTS — DAC 全面重编（HV-DAC Xpert）
 
-构建戳 `2026-10-12T20:54:30+08:00`（Asia/Shanghai）。源码为完整移交包整套替换，位于 `factorypress/`。
+## 主交付：Xpert 整壳（非单独出厂小 exe）
 
-## 下载运行（Windows，双击无黑窗）
+目录：[`xpert/`](xpert/)
 
-1. 下载 PR / 分支中的 [`factorypress/publish/hv-press-ui-win-x64.zip`](factorypress/publish/hv-press-ui-win-x64.zip)（约 67 MB，win-x64 自包含，无需装 .NET）
-2. 解压后双击 **`雄新出厂加压测试.exe`**（出厂加压）或 **`雄新校准采集.exe`**（独立校准采集）
-3. Live 真机需另装厂商 SDK：`Art_DAQ.dll`、`ps5000a.dll`
-4. 详细说明：[`factorypress/publish/README_RUN.md`](factorypress/publish/README_RUN.md)
+- 基线：HV-DAC Xpert 九宫格 → `Xiongxin.OWTS.Desktop.exe`
+- 出厂加压四项目整目录：`xpert/vendor/factory-press/`
+- Spectrum KeyNotFound 修复已合入
+- 加压路径映射与构建：[`xpert/NOTES_DAC_REBUILD.md`](xpert/NOTES_DAC_REBUILD.md)
+- 运行说明：[`xpert/publish/README_RUN.md`](xpert/publish/README_RUN.md)
 
-控制台冒烟包：[`factorypress/publish/hv-press/`](factorypress/publish/hv-press/)（net8.0 框架依赖）
-
-## 构建与冒烟
+## FakeLive 冒烟（vendor）
 
 ```bash
-cd factorypress
+cd xpert/vendor/factory-press
 export PATH="$HOME/.dotnet:$PATH" DOTNET_ROOT="$HOME/.dotnet"
-dotnet build Xiongxin.Owts.FactoryPress.sln -c Release
-./publish/hv-press/Xiongxin.Owts.HvPressTest --smoke --gain 6000 --out /tmp/hv-press-out
-# 期望：OK exit=0 completed=2
+dotnet run --project Xiongxin.Owts.HvPressTest -c Release --framework net8.0 -- --smoke --gain 6000
 ```
 
-## 说明
+## 旁路（历史）
 
-本移交包提供 **FactoryPressUi**（出厂加压 + 独立校准采集 WinForms）。**DesktopUi / DesktopHost / Persistence / Algorithms / Ai 源码不在本 zip**，需另附完整仓后重编。
+`factorypress/` 仍保留独立出厂加压包；**本轮主交付改为 Xpert 整壳**。

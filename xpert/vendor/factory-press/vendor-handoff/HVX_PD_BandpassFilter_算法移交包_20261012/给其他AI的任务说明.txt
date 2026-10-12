@@ -1,0 +1,27 @@
+任务：复现或移植局放波形离线零相位线性带通滤波算法。
+
+输入：
+1. waveform：一维双精度波形数组 double[]。
+2. sampleRateHz：采样率，单位 Hz；重点支持 125000000 和 250000000。
+3. lowCutoffHz：低截止频率，单位 Hz。
+4. highCutoffHz：高截止频率，单位 Hz。
+
+输出：
+double[] filteredWaveform，长度必须与输入完全相同。
+
+算法要求：
+1. 采用四阶 Butterworth 高通和四阶 Butterworth 低通，每个四阶滤波器拆为两个二阶 SOS。
+2. 按输入采样率实时计算系数，不得固定使用 125 MS/s 或 250 MS/s 的一套系数。
+3. 先做奇对称延拓，再执行正向 SOS 滤波、数组反转、再次正向 SOS 滤波、再反转，得到零相位结果。
+4. 前后向滤波会平方单程幅频响应，因此要预补偿截止点，使最终响应在指定截止频率附近约为 -3 dB。
+5. 延拓长度取 max(48, ceil(3*sampleRateHz/lowCutoffHz))，但不得超过 waveform.Length-1。
+6. 参数约束为 0 < lowCutoffHz < highCutoffHz < sampleRateHz/2；拒绝 NaN 和 Infinity。
+7. 该算法是离线非因果滤波，不可直接当作实时流式滤波；固定长度和参数下是线性处理，端点受延拓边界影响。
+8. 局放脉冲主峰索引应保持不变；100 us 和 50 ms 记录在排除端点区后应得到一致的主体响应。
+
+权威实现：PdBandpassFilter.cs。
+权威测试：BandpassFilterSmokeTest.cs。
+Python 对照：pd_bandpass_reference.py。
+详细公式和移植注意事项见 DOCX 说明书。
+
+请不要擅自改成 FFT 矩形窗滤波、单向因果 IIR、移动平均或固定采样率系数；如需实时版本，应另行设计并明确允许群时延。

@@ -1,0 +1,106 @@
+{
+  "Schema": "XIONGXIN.AlgorithmSourceImport.v1",
+  "CapturedUtc": "2026-09-28T02:56:47.9902076Z",
+  "Files": [
+    {
+      "Path": "modules-src/ConclusionAlgorithm/AnalysisV221/src/Algorithm.cs",
+      "Bytes": 122380,
+      "Sha256": "E661EA4600F120BA97EDC072E8CD7244CBFD12ECD9CBBFB31533D2AD486A8432"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/AnalysisV221/src/AssemblyInfo.Task15StableV221.generated.cs",
+      "Bytes": 182,
+      "Sha256": "7340371CD9595009BFF50E33DFF173476E7D44729573BFF0760B5371B417C825"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/AnalysisV221/src/EncryptedModel.cs",
+      "Bytes": 6460,
+      "Sha256": "DB89A22ECAA351590ED3E40CC67971FE7E2EEAF0756C3129B6F386C96A3CED12"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/AnalysisV221/src/GeneratedModelBlob.cs",
+      "Bytes": 34740,
+      "Sha256": "F8F4F749FCAB9089F21C9DBCF097F305FBF92AFFB94962C61D3AD021C12DFDB2"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/AnalysisV221/src/PublicApi.Task15StableV221.generated.cs",
+      "Bytes": 64472,
+      "Sha256": "771F4760CB4C5C6FAE6A969593376DFDB6336506F9AE02C3956424482B9D61DA"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/AnalysisV221/src/Task15MultiFactorCore.cs",
+      "Bytes": 58364,
+      "Sha256": "9B11934A258D392DA9817822C5D294BA8048F739BC804B947006DD30C1DB6C31"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/AnalysisV221/src/TdrProjectAlgorithm.cs",
+      "Bytes": 55736,
+      "Sha256": "BB905FDA66AB2906A180E455BCB4A3F60FC5571BCC28C10B14C7024A749683BE"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/ReportV222/src/Algorithm.cs",
+      "Bytes": 122405,
+      "Sha256": "66BF36FFCDA7A891C7BC699A11432A57670C8AA9DBEE40C59A2AD68128FAE1DD"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/ReportV222/src/AssemblyInfo.Task15StableV222.generated.cs",
+      "Bytes": 179,
+      "Sha256": "F11E0986A9D9E114E33CC2FAB722FF1DFD36174BB9174D7CCBFD74B9D71AD0E3"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/ReportV222/src/EncryptedModel.cs",
+      "Bytes": 6460,
+      "Sha256": "DB89A22ECAA351590ED3E40CC67971FE7E2EEAF0756C3129B6F386C96A3CED12"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/ReportV222/src/GeneratedModelBlob.cs",
+      "Bytes": 34740,
+      "Sha256": "F8F4F749FCAB9089F21C9DBCF097F305FBF92AFFB94962C61D3AD021C12DFDB2"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/ReportV222/src/PublicApi.Task15StableV222.generated.cs",
+      "Bytes": 66291,
+      "Sha256": "D4513CAA168BA1C4BDD0D18D96F4D679BCCC863F8E2B98283D0689FD9BD542ED"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/ReportV222/src/Task15MultiFactorCore.cs",
+      "Bytes": 58364,
+      "Sha256": "9B11934A258D392DA9817822C5D294BA8048F739BC804B947006DD30C1DB6C31"
+    },
+    {
+      "Path": "modules-src/ConclusionAlgorithm/ReportV222/src/TdrProjectAlgorithm.cs",
+      "Bytes": 55736,
+      "Sha256": "BB905FDA66AB2906A180E455BCB4A3F60FC5571BCC28C10B14C7024A749683BE"
+    },
+    {
+      "Path": "modules-src/LocationAlgorithm/runtime/4a02e6517789139b5c6b673f.V1.0.5.dll",
+      "Bytes": 376832,
+      "Sha256": "BEA0576B78DDBA79AC3470762F70560E362CABA5685D839C4F8F88E1ED977CA5"
+    },
+    {
+      "Path": "modules-src/LocationAlgorithm/runtime/abf8baa185b4308416932703.V1.0.17.dll",
+      "Bytes": 239616,
+      "Sha256": "25E706DCF8F09C600719DE13000CD9186F1880C45109D6758B7CAD661CECFC29"
+    },
+    {
+      "Path": "modules-src/LocationAlgorithm/runtime/e0e6f70cda0647b68830372c.V1.0.17.dll",
+      "Bytes": 361984,
+      "Sha256": "3B52AF9D65EE01BF3C38153E4EAE667A7701425C9BC56E1BB69279D36994FF9E"
+    },
+    {
+      "Path": "modules-src/ReportEngine/src/AssemblyInfo.cs",
+      "Bytes": 543,
+      "Sha256": "1256C3DC8CAFFD60A4A0072E611A0225FB6FE286AC8B0D0B0C6BC98C297480B7"
+    },
+    {
+      "Path": "modules-src/ReportEngine/src/ReportGenerator.cs",
+      "Bytes": 96880,
+      "Sha256": "7EBA02EE88FB45C99D31D0046AD578BA7AD8DDB758C1F9F960D8CE99ACBFF250"
+    },
+    {
+      "Path": "modules-src/ReportEngine/tests/SmokeTest.cs",
+      "Bytes": 17890,
+      "Sha256": "ED6AFC553851434B58F5B21D02A379A4B4A85F745143D4ECDBAC486854434CD9"
+    }
+  ]
+}

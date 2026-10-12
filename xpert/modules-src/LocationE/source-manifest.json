@@ -1,0 +1,45 @@
+{
+  "schema": "HVX.LocationE.SourceImport/1",
+  "version": "E-Eplus-20261010-r01",
+  "upstream": {
+    "dac_core.py": {
+      "path": "C:\\Users\\qyj04\\Documents\\TDR算法\\outputs\\e_dac_a_fusion_20261010_r01\\dac_core.py",
+      "sha256": "06ba4d7f37ba9077363a423d0c42b4fe41e9e09a4f85433e99e584a2c287425f"
+    },
+    "e_adjudication.py": {
+      "path": "C:\\Users\\qyj04\\Documents\\TDR算法\\outputs\\e_dac_a_fusion_20261010_r01\\e_adjudication.py",
+      "sha256": "650954f5785513cfe7f69a22c5d3b240c41898457ed81ccc2d05125b042e8711"
+    },
+    "task17_dac.py": {
+      "path": "C:\\Users\\qyj04\\Documents\\TDR算法\\outputs\\e_dac_a_fusion_20261010_r01\\task17_dac.py",
+      "sha256": "e18b3d50d6d7b349b99bc1a4ebf0c91af2510ff9d3a12f68edef3b2019a162f7"
+    },
+    "dac_recovered/filters.py": {
+      "path": "C:\\Users\\qyj04\\Documents\\TDR算法\\outputs\\e_dac_a_fusion_20261010_r01\\dac_recovered\\filters.py",
+      "sha256": "ff498598b156299c9557bfce25406a1318c9c4382abbbbcfd06e8ada331cb99f"
+    },
+    "dac_recovered/reflection.py": {
+      "path": "C:\\Users\\qyj04\\Documents\\TDR算法\\outputs\\e_dac_a_fusion_20261010_r01\\dac_recovered\\reflection.py",
+      "sha256": "4f49749a5d9b3dec7c7402e5c2e1e40da85dba30c2c5e374783a3def74022745"
+    },
+    "profile.json": {
+      "path": "C:\\Users\\qyj04\\Documents\\TDR算法\\outputs\\e_dac_a_fusion_20261010_r01\\profile.json",
+      "sha256": "a2c94a2569525fba6668744ee9e5aa918e29acbcae0e6decdf3f5d45c46f0356"
+    },
+    "eplus_research.py": {
+      "path": "C:\\Users\\qyj04\\Documents\\TDR算法\\outputs\\eplus_a_suppression_20261010_r01\\eplus_research.py",
+      "sha256": "a7d2a0e8cb0a088f3828a6243a42bc5a0c5baae8649bde0fb1acb47ea3cacbd3"
+    }
+  },
+  "vendoredFiles": {
+    "Upstream/dac_core.py": "06ba4d7f37ba9077363a423d0c42b4fe41e9e09a4f85433e99e584a2c287425f",
+    "Upstream/e_adjudication.py": "650954f5785513cfe7f69a22c5d3b240c41898457ed81ccc2d05125b042e8711",
+    "Upstream/task17_dac.py": "e18b3d50d6d7b349b99bc1a4ebf0c91af2510ff9d3a12f68edef3b2019a162f7",
+    "Upstream/dac_recovered/filters.py": "ff498598b156299c9557bfce25406a1318c9c4382abbbbcfd06e8ada331cb99f",
+    "Upstream/dac_recovered/reflection.py": "4f49749a5d9b3dec7c7402e5c2e1e40da85dba30c2c5e374783a3def74022745",
+    "Upstream/profile.json": "a2c94a2569525fba6668744ee9e5aa918e29acbcae0e6decdf3f5d45c46f0356",
+    "Upstream/eplus_research.py": "a7d2a0e8cb0a088f3828a6243a42bc5a0c5baae8649bde0fb1acb47ea3cacbd3"
+  },
+  "adaptation": "q74 NumPy restricted SciPy signatures; q75-q79 imports only; q79 filesystem readers and old research statistics removed; q80 exact apply_a_interval_suppression function only",
+  "physicalValidation": false
+}

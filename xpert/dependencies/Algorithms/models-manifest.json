@@ -1,0 +1,8 @@
+{
+  "Schema":"XIONGXIN.EncryptedModels.v1",
+  "InstallationDirectory":"{commonappdata}/XIONGXIN/HVX/Models/v1",
+  "Files":[
+    {"Kind":"standard","Source":"Algorithms/Task12/pd_model_machine.pdm","Sha256":"5581BF7A60798CB8F349A3EE3A59C2F8C121D44AB98D23172453EC856D360D16"},
+    {"Kind":"competition","Source":"Algorithms/Task12/pd_model_owts36_3class_temp_20260828.pdm","Sha256":"A32A19B489CD7FB0CF51F9D027C214E7636A5621D7663384D88925F2A4CEB32B"}
+  ]
+}

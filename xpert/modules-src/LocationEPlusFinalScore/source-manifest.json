@@ -1,0 +1,21 @@
+{
+  "schema": "HVX.EPlusFinalScore.SourceSnapshot/1",
+  "version": "Eplus-final-raw-packet-score-r01",
+  "ownershipVersion": "Eplus-final-pair-linear-score-ownership-r01",
+  "sourceDirectory": "C:/Users/qyj04/Documents/TDR算法/outputs/eplus_final_pair_score_20261011_r01",
+  "vendoredFiles": {
+    "Upstream/pair_score.py": "63859c762c9f164839dc56ad2c5d5fb8e1b15de14268887c9182416c7c5b4506",
+    "Upstream/score_adjudication.py": "0f8f5267f8b379be2eaeb0a486fab8ff0047be192fda683662028ec7b9a7479f",
+    "Upstream/test_pair_score.py": "147b59e5335b38b658faa9464e66582862cb06759b343c26a1a95883b16e9371",
+    "Upstream/test_score_adjudication.py": "ce25e9dec6cb7a64d7d2157f8a8294fe9a2f8e13187ace493c0ce356371b578a"
+  },
+  "packetDiscoveryVersion": "Eplus-Packet20-20261011-r01",
+  "rawAnchorsUnchanged": true,
+  "originalEUnchanged": true,
+  "physicalAccuracyVerified": false,
+  "knownUnresolved": [
+    "Research replay retains 72/74 engineering candidates outside the posthoc 70-90m zone; no known location enters the algorithm.",
+    "80m-region historical candidates reduced by approximately 28-30%; candidate loss and mispairing remain unvalidated.",
+    "Original discovery envelope, signed tau, absolute lower-bound crossing, near-EOF modulo and reference-plane limitations remain."
+  ]
+}

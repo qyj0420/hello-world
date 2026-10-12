@@ -1,0 +1,197 @@
+# Category|Chinese|English|Short form|Classification|Notes|Evidence
+电压与试验|高电压|High voltage|HV|通用缩写|电压等级边界依适用标准和应用而定；不在翻译层硬编码阈值|工程通用，未逐项标准条款校核
+电压与试验|中电压|Medium voltage|MV|通用缩写|不同地区对中压范围的规定不同|OMICRON-PD
+电压与试验|低电压|Low voltage|LV|通用缩写|不要与LabVIEW缩写混淆|工程通用，未逐项标准条款校核
+电压与试验|超高压|Extra-high voltage|EHV|通用缩写|不以本词表替代电压等级标准|工程通用，未逐项标准条款校核
+电压与试验|特高压|Ultra-high voltage|UHV|通用缩写|不等同于UHF超高频|工程通用，未逐项标准条款校核
+电压与试验|交流|Alternating current|AC|通用缩写|AC voltage表示交流电压|IEC-60270
+电压与试验|直流|Direct current|DC|通用缩写|DC voltage表示直流电压|IEC-60270
+电压与试验|阻尼交流；振荡波试验电压|Damped alternating current|DAC|领域缩写|本软件加压方式中DAC优先采用此义|IEEE-400.4
+电压与试验|振荡波试验系统|Oscillating wave test system|OWTS|行业系统名称|常见系统名称；不宣称为所有标准唯一规定的缩写|项目与行业用法，需按设备文件确认
+电压与试验|超低频|Very low frequency|VLF|领域缩写|电缆试验含义与无线电频段分类不同；实际频率写在参数中|IEEE-400.2
+电压与试验|工频|Power frequency|PF|有歧义缩写|PF也常表示功率因数；界面优先写Power frequency|工程通用，未逐项标准条款校核
+电压与试验|谐振交流试验|Resonant AC testing|—|使用全称|不存在本项目可直接认定的全球唯一缩写|工程术语
+电压与试验|电压试验；加压测试|Voltage test|—|使用全称|不得译为机械压力试验Pressure test|本项目翻译约定
+电压与试验|耐压试验|Withstand voltage test|—|使用全称|不能将所有加压测量都称为耐压试验|工程术语
+电压与试验|高电位试验|High-potential test|Hipot|行业简称|常指耐压试验；不是所有高压诊断的总称|工程术语
+电压与试验|雷电冲击|Lightning impulse|LI|通用缩写|与开关冲击SI区分|工程通用，未逐项标准条款校核
+电压与试验|操作冲击|Switching impulse|SI|有歧义缩写|SI也表示国际单位制；须按上下文区分|工程通用，未逐项标准条款校核
+电压与试验|基本雷电冲击绝缘水平|Basic lightning impulse insulation level|BIL|领域缩写|常见于IEEE/北美设备参数，IEC语境需按原标准表达|工程通用，未逐项标准条款校核
+电压与试验|有效值；均方根值|Root mean square|RMS|通用缩写|峰值与有效值不能只改标签而不核对波形和计算定义|工程通用
+电压与试验|峰峰值|Peak-to-peak value|p-p|常用简写|电压可写Vpp；与峰值分开|工程通用
+电压与试验|峰值|Peak value|pk|常用简写|优先标明量，例如Upeak；不能直接当RMS|工程通用
+电压与试验|额定对地电压|Rated conductor-to-earth voltage|U0|量的符号|电缆额定电压表示U0/U中的U0；不是缩写|电缆工程符号，需按适用标准确认
+电压与试验|额定相间电压|Rated voltage between conductors|U|量的符号|与U0区分；不要以√3关系替代所有场景定义|电缆工程符号，需按适用标准确认
+电压与试验|设备最高电压|Highest voltage for equipment|Um|量的符号|不等同于本次施加的最大试验电压|工程通用符号
+高压设备|气体绝缘金属封闭开关设备|Gas-insulated metal-enclosed switchgear|GIS|通用缩写|地理信息系统也用GIS；此处为电气设备|IEC-62271
+高压设备|空气绝缘开关设备|Air-insulated switchgear|AIS|领域缩写|与GIS区分|工程通用，未逐项标准条款校核
+高压设备|气体绝缘输电线路|Gas-insulated transmission line|GIL|领域缩写|不是普通电缆材料型号|工程通用，未逐项标准条款校核
+高压设备|断路器|Circuit breaker|CB|通用缩写|不是电容器组的统一缩写|工程通用
+高压设备|真空断路器|Vacuum circuit breaker|VCB|领域缩写|设备类型|工程通用
+高压设备|环网柜|Ring main unit|RMU|领域缩写|通常用于配电开关设备|工程通用
+高压设备|隔离开关|Disconnector|DS|有歧义缩写|DS也可能为项目设备型号；报告优先全称|工程通用
+高压设备|接地开关|Earthing switch|ES|有歧义缩写|美式英语也可用grounding switch|工程通用
+高压设备|电流互感器|Current transformer|CT|通用缩写|不要与电缆终端缩写混用|工程通用
+高压设备|电压互感器|Voltage transformer|VT|通用缩写|IEC风格界面优先VT|工程通用
+高压设备|电压互感器（传统用法）|Potential transformer|PT|同义行业缩写|与VT对应；并非所有互感器都用PT|工程通用
+高压设备|电容式电压互感器|Capacitive voltage transformer|CVT|领域缩写|也见capacitor voltage transformer全称|工程通用
+高压设备|电容式电压互感器（另一用法）|Coupling capacitor voltage transformer|CCVT|领域缩写|按设备原文保留，不与一般耦合电容混同|工程通用
+高压设备|有载分接开关|On-load tap changer|OLTC|领域缩写|用于变压器|工程通用
+高压设备|避雷器|Surge arrester|SA|有歧义缩写|SA也可能指频谱分析仪；界面优先全称|工程通用
+高压设备|金属氧化物避雷器|Metal-oxide surge arrester|MOA|领域缩写|也见MOSA；不强行删除原设备术语|工程通用
+高压设备|浪涌保护器|Surge protective device|SPD|通用缩写|与高压避雷器应用范围区分|工程通用
+高压设备|电力变压器|Power transformer|—|使用全称|不使用PT避免与电压互感器混淆|本项目翻译约定
+高压设备|电抗器|Reactor|—|使用全称|不以R作为设备缩写，R常为电阻符号|本项目翻译约定
+高压设备|套管|Bushing|—|使用全称|不是电缆接头Joint|工程术语
+高压设备|耦合电容器|Coupling capacitor|Ck|量或元件符号|图中元件符号；不同标准也使用其他下标|IEC-60270
+高压设备|被试设备；试品|Device under test|DUT|通用缩写|Test object也是常用试验描述，但不是DUT的英文展开|工程通用
+局部放电|局部放电|Partial discharge|PD|通用缩写|保持PD作为跨语言技术识别符；当地语言可另有简称|IEC-60270
+局部放电|局放起始电压|Partial discharge inception voltage|PDIV|通用缩写|必须记录检测阈值、试验条件与电压量值定义|OMICRON-PD
+局部放电|局放熄灭电压|Partial discharge extinction voltage|PDEV|通用缩写|不是耐压击穿电压|OMICRON-PD
+局部放电|相位分辨局部放电|Phase-resolved partial discharge|PRPD|通用缩写|图谱常采用相位、视在电荷量、计数等坐标|OMICRON-PD
+局部放电|相位分辨脉冲序列|Phase-resolved pulse sequence|PRPS|行业缩写|具体三维轴和时间窗需与软件实现一致|工程常用，未逐项标准条款校核
+局部放电|视在电荷量|Apparent charge|q|量的符号|q通常用pC或nC表示；不是缺陷内部真实电荷量|IEC-60270
+局部放电|最大视在电荷量|Maximum apparent charge|qmax|量的符号|最大值的统计窗口与异常值策略需明确|本项目显示约定
+局部放电|平均视在电荷量|Mean apparent charge|qmean|量的符号|算术均值、绝对值均值等不可混用|本项目显示约定
+局部放电|局放脉冲重复率|PD pulse repetition rate|n|量的符号|通常以每秒脉冲数表示；区别于总计数N|工程通用符号，按测量定义确认
+局部放电|放电脉冲总数|PD pulse count|N|量的符号|必须标明统计时窗；不是电荷量|本项目显示约定
+局部放电|局放定位分布图|PD location map|PD map|界面名称|不是独立的国际标准测量单位或缩写|本项目显示约定
+局部放电|内部局部放电|Internal partial discharge|—|使用全称|不创造IPD作为全球统一缩写|本项目翻译约定
+局部放电|沿面放电|Surface discharge|—|使用全称|不与内部气隙放电混同|工程术语
+局部放电|电晕放电|Corona discharge|—|使用全称|按应用说明是否属于所观测PD来源|工程术语
+局部放电|悬浮电位放电|Floating-potential discharge|—|使用全称|缺陷类别名称需结合诊断模型定义|工程术语
+局部放电|背景噪声|Background noise|—|使用全称|噪声脉冲不自动等同于PD|工程术语
+局部放电|零电压噪声参考|Zero-voltage noise reference|—|项目术语|仅为对照；不能计入PD次数或起始电压|本项目语义
+局部放电|校准器|PD calibrator|—|使用全称|用于测量系统校准，不等同于绝缘试品|IEC-60270
+局部放电|校准系数|Calibration coefficient|—|使用全称|数值和单位按测量链路定义；避免全局默认k的含义|本项目语义
+传感与采集|高频电流互感器|High-frequency current transformer|HFCT|领域缩写|传感器名称；不能默认所有HFCT输出已是pC|OMICRON-HFCT
+传感与采集|特高频|Ultra-high frequency|UHF|通用缩写|UHF检测幅值与pC不可未经有效校准直接换算|IEC-62478
+传感与采集|甚高频|Very high frequency|VHF|通用缩写|测量带宽按仪器配置说明|IEC-62478
+传感与采集|高频|High frequency|HF|通用缩写|领域频带与具体仪器带宽分别记录|IEC-62478
+传感与采集|暂态地电压|Transient earth voltage|TEV|领域缩写|常用于金属封闭设备的局放检测|工程常用，未逐项标准条款校核
+传感与采集|声发射|Acoustic emission|AE|领域缩写|不能把声学幅值直接当作视在电荷量|IEC-62478
+传感与采集|射频|Radio frequency|RF|通用缩写|传感或通信语境均可能出现|工程通用
+传感与采集|罗氏线圈|Rogowski coil|—|使用全称|不伪造全球统一简称|工程术语
+传感与采集|数据采集|Data acquisition|DAQ|通用缩写|采样率、通道数、分辨率分别列明|工程通用
+传感与采集|模拟数字转换器|Analog-to-digital converter|ADC|通用缩写|位数不等于有效位数|工程通用
+传感与采集|数字模拟转换器|Digital-to-analog converter|DAC|有歧义缩写|仅在电子电路语境采用此义；试验方式DAC为阻尼交流|工程通用
+传感与采集|有效位数|Effective number of bits|ENOB|通用缩写|区别于ADC标称位数|工程通用
+传感与采集|采样频率；采样率|Sampling frequency; sampling rate|fs|量的符号|Hz或S/s按上下文使用；项目中SR为字段名|工程通用符号
+传感与采集|采样间隔|Sampling interval|Δt|量的符号|不与脉冲传播时间差混淆|工程通用符号
+传感与采集|带宽|Bandwidth|BW|通用缩写|需说明截止定义如−3 dB|工程通用
+传感与采集|上升时间|Rise time|tr|量的符号|记录百分比定义，如10%至90%|工程通用符号
+传感与采集|信噪比|Signal-to-noise ratio|SNR|通用缩写|幅值比与功率比的dB计算不能混用|工程通用
+传感与采集|电磁干扰|Electromagnetic interference|EMI|通用缩写|不是电磁兼容合格声明|工程通用
+传感与采集|电磁兼容|Electromagnetic compatibility|EMC|通用缩写|合规需依具体试验标准|工程通用
+传感与采集|外部触发|External trigger|EXT|界面简称|保留设备端口原始名称|工程通用
+传感与采集|通道|Channel|CH|通用简写|CH1等为通道标识；与相别不必一一对应|工程通用
+传感与采集|直接存储器访问|Direct memory access|DMA|通用缩写|采集链路相关|工程通用
+传感与采集|先入先出|First in, first out|FIFO|通用缩写|缓冲队列相关|工程通用
+定位与算法|时域反射法|Time-domain reflectometry|TDR|通用缩写|方法名称；仪器为time-domain reflectometer|Megger-CFL
+定位与算法|时域反射仪|Time-domain reflectometer|TDR|通用缩写|与方法使用相同缩写；依上下文区分|Megger-CFL
+定位与算法|频域反射法|Frequency-domain reflectometry|FDR|领域缩写|与介电频率响应DFR字母顺序不同|工程常用，未逐项标准条款校核
+定位与算法|到达时间|Time of arrival|TOA|通用缩写|必须定义取点方法|工程通用
+定位与算法|到达时间差|Time difference of arrival|TDOA|通用缩写|不能一律译为双端定位；适用模型需说明|工程通用
+定位与算法|传播时间|Time of flight|TOF|通用缩写|与波速和传播路径相关|工程通用
+定位与算法|传播速度因子|Velocity factor|VF|通用缩写|通常为传播速度与光速之比，无量纲|工程通用
+定位与算法|传播速度|Propagation velocity|v|量的符号|本项目常用m/μs；分段电缆可具有不同波速|本项目量纲
+定位与算法|反射系数|Reflection coefficient|Γ|量的符号|电压反射系数的符号和阻抗定义须保持一致|工程通用符号
+定位与算法|特性阻抗|Characteristic impedance|Z0|量的符号|单位Ω；与对地额定电压U0不同|工程通用符号
+定位与算法|电弧反射法|Arc reflection method|ARM|行业缩写|电缆故障测距技术，不等同于常规局放定位|Megger-CFL
+定位与算法|冲击电流法|Impulse current method|ICE|行业缩写|保留厂商原用法；不是按英文首字母强行展开|Megger-CFL
+定位与算法|浪涌发生器|Surge wave generator|SWG|行业缩写|常用于故障定位；不等同PD校准器|Megger-CFL
+定位与算法|快速傅里叶变换|Fast Fourier transform|FFT|通用缩写|变换算法|工程通用
+定位与算法|离散傅里叶变换|Discrete Fourier transform|DFT|通用缩写|与FFT算法实现区分|工程通用
+定位与算法|短时傅里叶变换|Short-time Fourier transform|STFT|通用缩写|时频分析|工程通用
+定位与算法|连续小波变换|Continuous wavelet transform|CWT|通用缩写|算法名称|工程通用
+定位与算法|离散小波变换|Discrete wavelet transform|DWT|通用缩写|算法名称|工程通用
+定位与算法|有限冲激响应|Finite impulse response|FIR|通用缩写|滤波器类型|工程通用
+定位与算法|无限冲激响应|Infinite impulse response|IIR|通用缩写|滤波器类型|工程通用
+定位与算法|低通滤波器|Low-pass filter|LPF|通用缩写|滤波参数不随语言更改|工程通用
+定位与算法|高通滤波器|High-pass filter|HPF|通用缩写|滤波参数不随语言更改|工程通用
+定位与算法|带通滤波器|Band-pass filter|BPF|通用缩写|滤波参数不随语言更改|工程通用
+定位与算法|功率谱密度|Power spectral density|PSD|通用缩写|PSD也可能被用作其他工程缩写；本软件按信号分析义|工程通用
+定位与算法|归一化互相关|Normalized cross-correlation|NCC|通用缩写|归一化定义应由算法说明给出|工程通用
+定位与算法|最大后验估计|Maximum a posteriori estimation|MAP|有歧义缩写|不能把PD map图名称中的map自动展开为MAP估计|工程通用
+定位与算法|均方误差|Mean squared error|MSE|通用缩写|必须说明评价对象和单位|工程通用
+定位与算法|均方根误差|Root mean squared error|RMSE|通用缩写|不是有效电压RMS|工程通用
+定位与算法|平均绝对误差|Mean absolute error|MAE|通用缩写|定位时常使用长度单位|工程通用
+定位与算法|主成分分析|Principal component analysis|PCA|通用缩写|列入潜在分析词汇不代表已实现|工程通用
+定位与算法|基于密度的含噪空间聚类|Density-based spatial clustering of applications with noise|DBSCAN|算法名称缩写|列入词汇不代表当前版本采用该算法|工程通用
+定位与算法|人工智能|Artificial intelligence|AI|通用缩写|不表示诊断结果自动有效|工程通用
+定位与算法|机器学习|Machine learning|ML|通用缩写|列入潜在分析词汇|工程通用
+定位与算法|人工神经网络|Artificial neural network|ANN|通用缩写|词表并不证明模型已训练或接入|工程通用
+定位与算法|卷积神经网络|Convolutional neural network|CNN|通用缩写|词表并不证明模型已训练或接入|工程通用
+定位与算法|支持向量机|Support vector machine|SVM|通用缩写|分类与回归需说明具体形式|工程通用
+绝缘与状态|绝缘电阻|Insulation resistance|IR|有歧义缩写|IR也可指红外；绝缘页面采用此义|工程通用
+绝缘与状态|极化指数|Polarization index|PI|通用缩写|时间比值和适用对象按标准明确|工程通用
+绝缘与状态|介质吸收比|Dielectric absorption ratio|DAR|通用缩写|不同仪器的时间点可能不同，不把某一时间比全球化|工程通用
+绝缘与状态|介质损耗因数|Dielectric dissipation factor|DF|通用缩写|常表示tan δ；区别于功率因数PF|Megger-DFR
+绝缘与状态|介质损耗角正切|Tangent of the dielectric loss angle|tan δ|量的符号|不是缩写；比值与百分数显示须严格区分|Megger-DFR
+绝缘与状态|功率因数|Power factor|PF|有歧义缩写|不与工频缩写PF混用；sin δ与tan δ不能无条件等同|Megger-DFR
+绝缘与状态|介电频率响应|Dielectric frequency response|DFR|领域缩写|与FDR反射法区分|Megger-DFR
+绝缘与状态|频域介电谱|Frequency domain spectroscopy|FDS|领域缩写|在绝缘诊断语境中常用于介电响应分析|Megger-DFR
+绝缘与状态|极化去极化电流|Polarization and depolarization current|PDC|领域缩写|绝缘诊断方法；并非局放电荷积分的同义词|工程常用，未逐项标准条款校核
+绝缘与状态|回复电压测量|Recovery voltage measurement|RVM|领域缩写|结果解释依适用模型|工程常用，未逐项标准条款校核
+绝缘与状态|溶解气体分析|Dissolved gas analysis|DGA|通用缩写|常用于油浸设备；不套用到无油电缆|工程通用
+绝缘与状态|频率响应分析|Frequency response analysis|FRA|领域缩写|与介电频率响应DFR区别|工程通用
+绝缘与状态|扫频响应分析|Sweep frequency response analysis|SFRA|领域缩写|常用于变压器绕组机械状态分析|工程通用
+绝缘与状态|状态监测|Condition monitoring|CM|有歧义缩写|明确指设备状态而非共模common mode|工程通用
+绝缘与状态|状态评估|Condition assessment|CA|有歧义缩写|界面优先全称，CA并非唯一领域简称|工程通用
+绝缘与状态|状态检修|Condition-based maintenance|CBM|通用缩写|不等同单次测量|工程通用
+绝缘与状态|预测性维护|Predictive maintenance|PdM|行业缩写|大小写可区分PD局部放电；仍需写全称|工程通用
+绝缘与状态|健康指数|Health index|HI|领域缩写|评分模型、阈值与权重需另行声明|工程通用
+绝缘与状态|剩余使用寿命|Remaining useful life|RUL|通用缩写|词表不代表软件能够可靠预测寿命|工程通用
+绝缘与状态|故障模式与影响分析|Failure mode and effects analysis|FMEA|通用缩写|不是局放分类算法本身|工程通用
+绝缘与状态|根因分析|Root cause analysis|RCA|通用缩写|诊断证据不充分时不能自动当成已确定根因|工程通用
+绝缘与状态|红外热成像|Infrared thermography|IRT|领域缩写|IR也可用于红外，但易与绝缘电阻混淆|工程通用
+绝缘与状态|电缆绝缘评估|Cable insulation assessment|—|使用全称|不创造CIA等具有大量其他含义的缩写|本项目翻译约定
+电缆与材料|交联聚乙烯|Cross-linked polyethylene|XLPE|通用缩写|保留大写材料简称|工程通用
+电缆与材料|聚乙烯|Polyethylene|PE|通用缩写|电路图PE也表示保护接地；按上下文区分|工程通用
+电缆与材料|高密度聚乙烯|High-density polyethylene|HDPE|通用缩写|材料简称|工程通用
+电缆与材料|低密度聚乙烯|Low-density polyethylene|LDPE|通用缩写|材料简称|工程通用
+电缆与材料|聚氯乙烯|Polyvinyl chloride|PVC|通用缩写|材料简称|工程通用
+电缆与材料|乙丙橡胶|Ethylene propylene rubber|EPR|通用缩写|材料简称|工程通用
+电缆与材料|三元乙丙橡胶|Ethylene propylene diene rubber|EPDM|通用缩写|与EPR范围区分|工程通用
+电缆与材料|纸绝缘铅包电缆|Paper-insulated lead-covered cable|PILC|领域缩写|描述电缆绝缘及护套结构|工程通用
+电缆与材料|低烟无卤|Low smoke zero halogen|LSZH|行业缩写|也见LS0H、LSOH；保留原产品规范写法|工程通用
+电缆与材料|六氟化硫|Sulfur hexafluoride|SF6|化学式|规范排版可用SF₆；不是首字母缩写|工程通用
+电缆与材料|硅橡胶|Silicone rubber|SiR|行业缩写|大小写保留；不同材料规格可能另有简称|工程通用
+电缆与材料|聚四氟乙烯|Polytetrafluoroethylene|PTFE|通用缩写|材料简称|工程通用
+电缆与材料|电缆接头|Cable joint|—|使用全称|美式语境可用splice；不强制缩写CJ|本项目翻译约定
+电缆与材料|电缆终端|Cable termination|—|使用全称|不使用CT避免与电流互感器混淆|本项目翻译约定
+电缆与材料|交叉互联|Cross-bonding|—|使用全称|不使用CB避免与断路器混淆|本项目翻译约定
+电缆与材料|护层电压限制器|Sheath voltage limiter|SVL|领域缩写|用于电缆护层系统|工程通用
+电缆与材料|金属屏蔽|Metallic screen|—|使用全称|也见shield；报告风格保持一致|工程术语
+电缆与材料|水树|Water tree|—|使用全称|水树与电树不同；不得仅凭词表推定缺陷|工程术语
+电缆与材料|电树|Electrical tree|—|使用全称|不创造全球统一ET诊断缩写|工程术语
+单位与符号|皮库仑|Picocoulomb|pC|SI单位符号|10⁻¹² C；p小写C大写|SI通用
+单位与符号|纳库仑|Nanocoulomb|nC|SI单位符号|10⁻⁹ C；1 nC = 1000 pC|SI通用
+单位与符号|千伏|Kilovolt|kV|SI单位符号|k小写V大写；不能写KV|SI通用
+单位与符号|兆欧|Megohm|MΩ|SI单位符号|M大写；不同于mΩ毫欧|SI通用
+单位与符号|吉欧|Gigohm|GΩ|SI单位符号|10⁹ Ω|SI通用
+单位与符号|纳法|Nanofarad|nF|SI单位符号|10⁻⁹ F|SI通用
+单位与符号|皮法|Picofarad|pF|SI单位符号|10⁻¹² F|SI通用
+单位与符号|微法|Microfarad|μF|SI单位符号|兼容输入可接受uF但显示保留μF|SI通用
+单位与符号|亨利|Henry|H|SI单位符号|电感单位|SI通用
+单位与符号|毫亨|Millihenry|mH|SI单位符号|10⁻³ H|SI通用
+单位与符号|赫兹|Hertz|Hz|SI单位符号|频率单位|SI通用
+单位与符号|兆赫兹|Megahertz|MHz|SI单位符号|10⁶ Hz；不写mhz|SI通用
+单位与符号|微秒|Microsecond|μs|SI单位符号|10⁻⁶ s|SI通用
+单位与符号|纳秒|Nanosecond|ns|SI单位符号|10⁻⁹ s|SI通用
+单位与符号|兆采样每秒|Megasamples per second|MS/s|工程单位表示|采样率；与MHz的使用语境区分|工程通用
+单位与符号|分贝|Decibel|dB|对数量单位|需明确参考与幅值/功率定义|工程通用
+单位与符号|百分数|Percent|%|比例表示|tan δ = 0.005应显示0.5%，不能显示0.005%|本项目量纲核对
+项目接口|HVUP状态信号|HVUP status signal (project-defined)|HVUP|项目标识符|不擅自展开成国际标准全称；状态判据与电压对比源以实际设备协议定义为准|本项目源码语境
+项目接口|采样率字段|Sampling rate field|SR|项目字段名|SR是文件或程序字段；对外显示建议Sampling rate|本项目源码语境
+项目接口|相位分辨局放图模块|PD map module|PDmap|项目模块名|模块或界面标识，不自动展开为最大后验MAP|本项目源码语境
+项目接口|电缆信息文件|Cable information file|ITEM|项目文件标识|不是国际标准数据格式，翻译不更名|本项目源码语境
+项目接口|局放定位文件|PD location record file|LOC|项目扩展名|保留loc文件字段与扩展名|本项目源码语境
+项目接口|校准文件|Calibration record file|CAL|项目扩展名|保留cal文件字段与扩展名|本项目源码语境
+项目接口|应用程序接口|Application programming interface|API|通用缩写|不翻译接口键名|工程通用
+项目接口|动态链接库|Dynamic-link library|DLL|通用缩写|不翻译程序引用的文件名|工程通用
+项目接口|应用程序二进制接口|Application binary interface|ABI|通用缩写|混合程序互操作约定|工程通用
+项目接口|循环冗余校验|Cyclic redundancy check|CRC|通用缩写|不等同密码学哈希|工程通用
+项目接口|全球导航卫星系统|Global navigation satellite system|GNSS|通用缩写|环境与位置记录相关|工程通用
+项目接口|全球定位系统|Global Positioning System|GPS|专有系统缩写|GPS是GNSS中的一个系统|工程通用
+项目接口|北斗卫星导航系统|BeiDou Navigation Satellite System|BDS|专有系统缩写|保留北斗专名，不全部统称GPS|工程通用

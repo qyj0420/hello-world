@@ -1,0 +1,426 @@
+{
+  "Version": "2026.10.7.27",
+  "BuiltFrom": "D:\\PD_AI_LabVIEW2026_Project\\FactoryAcceptanceTester_R21",
+  "GeneratedAt": "2026-10-07T06:00:47.7567123+08:00",
+  "OfflineChecks": 1190,
+  "VerificationGroups": 8,
+  "EvidenceDirectory": "D:\\PD_AI_LabVIEW2026_Project\\FactoryAcceptanceTester_R21\\verification\\R27-final3",
+  "HardwareAccessed": false,
+  "PhysicalAcceptance": false,
+  "DependencyVulnerabilityScanPerformed": false,
+  "FirstZeroBasedRangeWindow": true,
+  "FixedTransientTimeIsRangeBoundary": false,
+  "PreFirstZeroClippingExcludedForRangePlanning": true,
+  "OriginalOverflowAndQualityFlagsRetained": true,
+  "NormalPressurePostAiAcquisition": false,
+  "RealSequenceFreshOperatorConfirmationEveryRound": true,
+  "EmergencyNoticeLatched": true,
+  "EmergencyAutomaticOpticalAdded": false,
+  "AutomaticFaultRetry": false,
+  "EmergencyPhysicalDischargeValidated": false,
+  "CoreRunnerAndNativeBackend": "SHA256 unchanged from source-before",
+  "OriginalReplayFixtures": "R25 and three R26 records SHA256 unchanged",
+  "Brand": "Embedded XIONGXIN PNG/ICO match project assets and D:/codex source",
+  "Files": [
+    {
+      "File": "Xiongxin.FactoryAcceptance.exe",
+      "Bytes": 1229824,
+      "Sha256": "AF91F92D97B3733330DC0085A80B0675DF8A63191E69AB3FEE1D541910D1F77D"
+    },
+    {
+      "File": "Xiongxin.FactoryDebug.exe",
+      "Bytes": 1229824,
+      "Sha256": "AF91F92D97B3733330DC0085A80B0675DF8A63191E69AB3FEE1D541910D1F77D"
+    },
+    {
+      "File": "Xiongxin.FiveKvBench.exe",
+      "Bytes": 1229824,
+      "Sha256": "AF91F92D97B3733330DC0085A80B0675DF8A63191E69AB3FEE1D541910D1F77D"
+    },
+    {
+      "File": "Xiongxin.ManualHvBench.exe",
+      "Bytes": 1229824,
+      "Sha256": "AF91F92D97B3733330DC0085A80B0675DF8A63191E69AB3FEE1D541910D1F77D"
+    },
+    {
+      "File": "self-test.txt",
+      "Bytes": 5371,
+      "Sha256": "0680B89693699D4D1A9E5867F0E62C7357E1FDDFA7CFEA35C7FFAF0C48ECBC48"
+    },
+    {
+      "File": "R27量程过冲处理与测试说明.docx",
+      "Bytes": 38308,
+      "Sha256": "23D9D377054CADAB4D43664D317190E07E8B975311E19EAE8384DD5BDE51C39F"
+    }
+  ],
+  "Sources": [
+    {
+      "File": "AGENTS.md",
+      "Sha256": "D169AF727571449363ECF8C89A864DEF11DD0583A98BDC877239A913EC0C1094"
+    },
+    {
+      "File": "AssemblyInfo.cs",
+      "Sha256": "E326E3204A9381437F77767F135BAF3B357EEF6F380410AD9597B1A1842A3733"
+    },
+    {
+      "File": "Build.ps1",
+      "Sha256": "998574D242B5596974AFB5F7F568E074EB3A8082CC4943B5111E012BEE9D2C1B"
+    },
+    {
+      "File": "FactoryAcceptanceChecks.cs",
+      "Sha256": "1F2299BC38CEB723B363E40454CF517BCAFF4ED6839669F464DAB3659CC475F4"
+    },
+    {
+      "File": "FactoryAcceptanceChecksTests.cs",
+      "Sha256": "85E66261D81E385876A37B5A469E8B1B84DE731C94BAFAFBA70AAB6BCFE1ED6A"
+    },
+    {
+      "File": "FactoryAiDiagnostic.cs",
+      "Sha256": "10D474359BF49F553C8ED7E4555B3D4E315B14E8A32B7DC715FF2DA27427A055"
+    },
+    {
+      "File": "FactoryAiTrace.cs",
+      "Sha256": "C4559294F832EC32DEF47821D143AEDC280DDF1E17A24E95665C57219B084C63"
+    },
+    {
+      "File": "FactoryAnalysis.cs",
+      "Sha256": "41575FB73BA14A800353AD8C05B356FF2955A489E7D10EC7AEF70EDCC759080A"
+    },
+    {
+      "File": "FactoryAnalysisTests.cs",
+      "Sha256": "04F1B65D624A33127650468F74593F366466DD3D63D34EF4813A20C238F0779A"
+    },
+    {
+      "File": "FactoryAoEnvelopeTests.cs",
+      "Sha256": "4115B3F93B88DBA1A49ED4BE78E09961331EDCC7D3404A4C0047241BBB00A239"
+    },
+    {
+      "File": "FactoryArtFeedback.cs",
+      "Sha256": "6CDB917D29691E60478D18368A492333E1BEC3A671D0A602F6B8E6D7D5E2384C"
+    },
+    {
+      "File": "FactoryBackgroundNoiseTests.cs",
+      "Sha256": "8FD7F3EB160A09A8E3B9C987A722D90111C361AC312861C9A86DBFC53A8D9FF2"
+    },
+    {
+      "File": "FactoryBufferEmergencyTests.cs",
+      "Sha256": "AE79EE00676EE4F0E31949AF485143CC72CF52AA97ADA985121E48013EAD01B2"
+    },
+    {
+      "File": "FactoryCalibrationAdapter.cs",
+      "Sha256": "6DAC9543365E6E877EA92CD92F7D42AB1BAC5C0792F3537A2EB73F83F59B2D75"
+    },
+    {
+      "File": "FactoryCaptureEndTests.cs",
+      "Sha256": "03D6DA013809B0A509F4E0291411AEDE932FD14E89AA7490EECDCA2F061D4A03"
+    },
+    {
+      "File": "FactoryCapturePreview.cs",
+      "Sha256": "9C3C58900A8EB969CDC24BD024102E8F5C3A78730A0B222E616DF6E1F6087D33"
+    },
+    {
+      "File": "FactoryCapturePreviewTests.cs",
+      "Sha256": "9149D34F11A7744FF66614C982FC207936BE1994D1365CA8EC8C4F30878C3C90"
+    },
+    {
+      "File": "FactoryCompatibility100Tests.cs",
+      "Sha256": "9A92F141A7B390A5F2E4F559FD70C9E16FD14EEA189C53CFCA051C6B52ABBA02"
+    },
+    {
+      "File": "FactoryDataArchive.cs",
+      "Sha256": "96B43E078B9CCD3FBE9A228272A4090459258D14A4ED9271D71A05C7A2EACDA7"
+    },
+    {
+      "File": "FactoryDebugStartForm.cs",
+      "Sha256": "9118BF25A1B6BE2FE718E8D2576FEF74626F9560F77454B8AB278A111B21B02C"
+    },
+    {
+      "File": "FactoryDetectedWaveforms.cs",
+      "Sha256": "DA95FD238E853FE9BEB76D0F3091348BBC53DC2C7B01BE9139F8891B41C2CD03"
+    },
+    {
+      "File": "FactoryDividerTraceTests.cs",
+      "Sha256": "059D4D0A1BD7FA1393C0EAC8201D7A71301273A4172192BB0B2A0B9D178C15DD"
+    },
+    {
+      "File": "FactoryEmergencyMonitor.cs",
+      "Sha256": "C9CB2E67ECAB69F145CE1EA585EF119B3A6A0D90B8DA86C7253572EEA7645121"
+    },
+    {
+      "File": "FactoryEmergencyNotice.cs",
+      "Sha256": "74BF8343BD32DDBFF7A080CED9603DE7DFC2A4A81C96FB478FA23D8AB7C7F681"
+    },
+    {
+      "File": "FactoryEmergencyReportingBackend.cs",
+      "Sha256": "D7EEFDF79CD7E64A071172501B66581EB85E5189C9B5F9AEC802AC4F2502BB55"
+    },
+    {
+      "File": "FactoryFaultResidual.cs",
+      "Sha256": "40628CCFB4AB12A11D018ECBE6BC304834976B1DDC566E3A0C2369A002B67CEA"
+    },
+    {
+      "File": "FactoryFaultResidualTests.cs",
+      "Sha256": "A1CAC24956B77550E06C657E95B0B16BDA22AE3FDAA6C2F7F8D2C34BD36C537A"
+    },
+    {
+      "File": "FactoryFeedbackTrend.cs",
+      "Sha256": "6D5668925EE56B43249341B73C9C8310C247FF3CFBB7BDC127114603DE7F4A19"
+    },
+    {
+      "File": "FactoryFeedbackWindow.cs",
+      "Sha256": "DD41E7456A0437E6101A0757204F23671380985048F9F98A9C750E482BC71A1C"
+    },
+    {
+      "File": "FactoryFeedbackWindowTests.cs",
+      "Sha256": "BD7696A7767A1D7849CED66EEA82938DFAE97D53060E4E2BE4FDC6CB08A3D072"
+    },
+    {
+      "File": "FactoryIntegratedTests.cs",
+      "Sha256": "C02E4C86CB31F0622BA0E1D02108435C8F5B51F5397414499D202FC393FDDAD2"
+    },
+    {
+      "File": "FactoryLabelMenus.cs",
+      "Sha256": "5384BDB84C96636679221F6F1C83EA10FF3927BA7ADBCA3E85CC2009BE615D7A"
+    },
+    {
+      "File": "FactoryMainForm.Acceptance.cs",
+      "Sha256": "2CFCD7B3F7034065692F8E1B8FEF289B2A2C395ED295EB78E27B6CE17B2156B1"
+    },
+    {
+      "File": "FactoryMainForm.Annotations.cs",
+      "Sha256": "556EC5907D6BED593118512E0BDC4AB0F617EA000574049D0861A4AB6C506C66"
+    },
+    {
+      "File": "FactoryMainForm.AnnotationSmoke.cs",
+      "Sha256": "237DA275381EDE3A3E5D94CAC2172242781E2DB7696FC235F376D033D1792E81"
+    },
+    {
+      "File": "FactoryMainForm.CapturePreview.cs",
+      "Sha256": "2F83C87876D9F9EF9A0F630FF8E0DA8D217A0BD444D821E219EA9364823C4F1B"
+    },
+    {
+      "File": "FactoryMainForm.CapturePreviewSmoke.cs",
+      "Sha256": "DC120DC7005F328240263F4E8D0D2C2245C073BB83F66EF0D4F17817E810C246"
+    },
+    {
+      "File": "FactoryMainForm.cs",
+      "Sha256": "5A683DD72B180DBB149C5C971E9709AD1600EBBDA66F55F055AA2CB08402A520"
+    },
+    {
+      "File": "FactoryMainForm.IntegratedSmoke.cs",
+      "Sha256": "F2CB7D7BDA821217093B9B1C36623BDA97230C5CC257A417702EC3C2FD048397"
+    },
+    {
+      "File": "FactoryMainForm.P04Diagnostic.cs",
+      "Sha256": "0FBF550B509D87B6E0A4670EAB63BCD5A99F9A89CEA8FBA47428001CE30DE586"
+    },
+    {
+      "File": "FactoryMainForm.SequenceReplaySmoke.cs",
+      "Sha256": "0E7E280769A77AC27420381E7E6A67F3F0B6A758DA36F09707F8ACDDD5279FB7"
+    },
+    {
+      "File": "FactoryMainForm.Tf.cs",
+      "Sha256": "1F5FE57131DE372F131D5B47B6E2844EAFCECFC3AC2D36242887BE31EC8FA1FB"
+    },
+    {
+      "File": "FactoryMainForm.Workflow.cs",
+      "Sha256": "E24AE6A23F9D7231AFE04EC95528CD6C9D94EAEFCF724F58C5B433D3DF323D36"
+    },
+    {
+      "File": "FactoryManualEngine.cs",
+      "Sha256": "016AC88313D41CFBAD30D1CF4830DF0672D5A714B16527EF49DE5EC49215329B"
+    },
+    {
+      "File": "FactoryManualForm.cs",
+      "Sha256": "4E2479B855613A57878F7C12EEE7F97E0845852B316E0AF5C0553D4FE27BE587"
+    },
+    {
+      "File": "FactoryManualTests.cs",
+      "Sha256": "32EDC515D02227AAC97ED221AB339B52D82A7A8EF4DC1A881C8B9A1FEDCCC5EB"
+    },
+    {
+      "File": "FactoryModels.cs",
+      "Sha256": "C6786F93B57A7B71A15EA54EB3084853965502D456C7AC339AABD1FFA476F018"
+    },
+    {
+      "File": "FactoryNextRangeDialog.cs",
+      "Sha256": "7A7D90077F3399E195C2A419AEB1AD6E0FBA6EA60AB5B71CBDCC9543C15B3F02"
+    },
+    {
+      "File": "FactoryP04Diagnostic.cs",
+      "Sha256": "C0D4464F12A9220992B2E075790D16618BBE911FDEF3E53EEF0974B73F05C651"
+    },
+    {
+      "File": "FactoryP04DiagnosticTests.cs",
+      "Sha256": "F69DAD87558BB7E352916AE046D28C34D8950E6F1EC99A37C0D2C3D49EFC5881"
+    },
+    {
+      "File": "FactoryPolarityTests.cs",
+      "Sha256": "5987E3169CA93F644A5508E59D45BC1C6DD08CEA61EFF3AE40BE4560A424A2F8"
+    },
+    {
+      "File": "FactoryPostHvStartupTests.cs",
+      "Sha256": "4777B1AF8BA5E3C4B900A2656A2FCD7603F6A115D3227E02A61FD48B9A80B145"
+    },
+    {
+      "File": "FactoryPostProcessingTests.cs",
+      "Sha256": "9AA6CEBD42F8C1972B316EA21A5868C499BE4A3978038F96F91D21467C49BD38"
+    },
+    {
+      "File": "FactoryPressureSequence.cs",
+      "Sha256": "5BEBB80A41685A4E2741FE489625E9D9C36C8F577A29A833A94CB3A0848211A1"
+    },
+    {
+      "File": "FactoryPressureSequenceTests.cs",
+      "Sha256": "F12CC72F236226D1A056A60259F216A41F8E91DAE33A1C9A0E4B5345E4969671"
+    },
+    {
+      "File": "FactoryPulseBrowsing.cs",
+      "Sha256": "3EB3668E057433A03A79E31376CB440769934805E07ED6CBF2B0BC8E6C968F63"
+    },
+    {
+      "File": "FactoryPulseFilter.cs",
+      "Sha256": "1E6FB87C3ED2CF63231A5C1A2CB8D663BB25A05AE0700AABCB032B2FF54A4AD9"
+    },
+    {
+      "File": "FactoryPulseLabels.cs",
+      "Sha256": "2275A47454276EE96EDAA2C45902047DA4F381CC69460CB6E7780047FF07F48E"
+    },
+    {
+      "File": "FactoryPulseLabelTests.cs",
+      "Sha256": "CD0BAEDCF2767AFD25064CADE2DE2951AABC61AFD44D50A6821525EE87600E4D"
+    },
+    {
+      "File": "FactoryRampCompletionTests.cs",
+      "Sha256": "53D7D559AB355FAA59440D3D92400CE2640745367E745987D48B6E9D60A47004"
+    },
+    {
+      "File": "FactoryRangeReview.cs",
+      "Sha256": "9AB8113753A378E42F284613B976291CAF3090CA8CAE3DA771B4FB5D6E999F5D"
+    },
+    {
+      "File": "FactoryReferenceAnalysis.cs",
+      "Sha256": "AEF396E727FD77922F979899EC9766ACBA4B8D1AA7FC796224C52BEFAE34D3CC"
+    },
+    {
+      "File": "FactoryReferenceAnalysisTests.cs",
+      "Sha256": "B022EA5CDBF582434839A8E32BBB208032BA0D162E707B9FBC5E82853F019984"
+    },
+    {
+      "File": "FactoryResidualStageTests.cs",
+      "Sha256": "68255B7C4CF1882EEAEE48F0BB981F8670E7A3A4BF1DFC4DAB08FF27E0B86F49"
+    },
+    {
+      "File": "FactoryRevisionSafetyTests.cs",
+      "Sha256": "F8221551494B1F1D928BA14A2D440CBBF7492F011FCD3BDCB003F5344941035C"
+    },
+    {
+      "File": "FactoryRunner.cs",
+      "Sha256": "43D4B0AB1381FD4F48EB777CC64AA85CBAA5105452C35E3AEF329616AB270E2E"
+    },
+    {
+      "File": "FactoryShutdownDiagnostic.cs",
+      "Sha256": "5459A4C216CFBCC3BA35BCBD70124BCB95EBFF203EC106DE21CE7AA42DE8C35C"
+    },
+    {
+      "File": "FactoryShutdownDiagnosticTests.cs",
+      "Sha256": "D8566DAA8CAB398C32C6728878384D26EB0E727DF9970A39D0340F60823C56C6"
+    },
+    {
+      "File": "FactorySimpleForm.cs",
+      "Sha256": "58C02BBB062D86B06AB39608DA815268311217BDB09167BAD90242616111BD57"
+    },
+    {
+      "File": "FactoryStartConfirmation.cs",
+      "Sha256": "3289372DC40199E50DC042E84B3DD063A5B1E92CA217053370B508161AC2B193"
+    },
+    {
+      "File": "FactoryStartupFeedbackTests.cs",
+      "Sha256": "DD5D8E28239D515C26A245085064F6B69BF4D3C9F76C8025098AFFBE1B230BC5"
+    },
+    {
+      "File": "FactoryTargetHold.cs",
+      "Sha256": "47075EEB3570C855A7910266E8386119CC937A122327EC7316C0ACC781BCC0E5"
+    },
+    {
+      "File": "FactoryTargetHoldTests.cs",
+      "Sha256": "70916C30DFE0B0D0EEF53812A5B16000CB3B85268EFC35C22B386C51A6AD3614"
+    },
+    {
+      "File": "FactoryTests.cs",
+      "Sha256": "6ED903F36E7D7F224871D21A21E89087BC30497DDE0CBF067BCB30776EDD5457"
+    },
+    {
+      "File": "FactoryTfAnalysis.cs",
+      "Sha256": "BE850FB2EC1F8B4F4912C7E3AFE7664EBA8CD1101E4886BA91B293708C09D0EB"
+    },
+    {
+      "File": "FactoryTfAnnotationDialogs.cs",
+      "Sha256": "7AF090B13D2F37C36139807AD85238B2391D5D8E6A4E1D1A2762106E3BB9DF3F"
+    },
+    {
+      "File": "FactoryTfAnnotations.cs",
+      "Sha256": "2C34165F4359B2D0D17B0A3EAAAEB8731CE26002190B83D7863CCB08E3F6091B"
+    },
+    {
+      "File": "FactoryTfPlot.Annotations.cs",
+      "Sha256": "51A3B70A5BC25C8BC09DDF22275978EEC9CB825B009EAD495EF3120DFCB70E3C"
+    },
+    {
+      "File": "FactoryTransientRangePolicy.cs",
+      "Sha256": "4E2AECA1813E4C7B13B517A51AA7C270210977EE88918FB0BA5060537F5BC218"
+    },
+    {
+      "File": "FactoryTransientRangeTests.cs",
+      "Sha256": "F0548350128F2B1EFF7C426E9DA971609E2780878974A489B1615CB9FD7DAABA"
+    },
+    {
+      "File": "FactoryWaveformControl.cs",
+      "Sha256": "1FAF1F4D978E39E2115A7073A7758C6B11FA7C16CE445BD1DFF716F774FC3F80"
+    },
+    {
+      "File": "FactoryWaveformTests.cs",
+      "Sha256": "8C9982662662A3855CF876E046FF9C60D2B386F148B0B83D10BA7B013DEE29A4"
+    },
+    {
+      "File": "FactoryZeroInputRunner.cs",
+      "Sha256": "29BAC973F2DEAF13A838975922EB20D2E2F5F4EF5411F12A4193EAFC108A7B14"
+    },
+    {
+      "File": "FactoryZeroInputTests.cs",
+      "Sha256": "915E078652499C0A153B872F7D9F9FC0210482A16843B3D7038749A2C800D541"
+    },
+    {
+      "File": "FactoryZeroTriggerRunner.cs",
+      "Sha256": "1BDD67DEC613BEE9C6DEF809FC3713AF2D80F325EE9B38EDA8AB1D375288EAA3"
+    },
+    {
+      "File": "FactoryZeroTriggerTests.cs",
+      "Sha256": "8981AF9526EC4FF04DDBCDEED27313E1926D7278F9F477F66969989FF07D1D52"
+    },
+    {
+      "File": "FactoryZeroVoltageObservation.cs",
+      "Sha256": "38F481FFA7379D7FDF3CD952B182F3473761AAB5EC4F297282DF7B55436C8F0A"
+    },
+    {
+      "File": "NativeFactoryBackend.cs",
+      "Sha256": "2B8E01DCF4A825C81CF5A9D3F0C8211309AB4D52AA135D50C3C240450BFEB6DE"
+    },
+    {
+      "File": "Program.cs",
+      "Sha256": "1684357488AC3CC2B8522208130EA92E6357992F653022FF40F776063963FD84"
+    },
+    {
+      "File": "SimulationFactoryBackend.cs",
+      "Sha256": "6D6CD869BFEFAFEC7BE5733A3AB62FBC745C19D0AB48B2240BDD707FAB5141EB"
+    },
+    {
+      "File": "WorkerChecks.cs",
+      "Sha256": "733E1FD6CBFD7C4BAB891D945B95C9F15FAA1493342B96D73E640AB74380CE45"
+    },
+    {
+      "File": "Imported/Unified100/LocationRangeAdvisor.cs",
+      "Sha256": "5FC9057914C2813838D10A397A0E0EF8F1A1A62E5E60E18BA83EDFEFEE49E6CB"
+    }
+  ]
+}

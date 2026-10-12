@@ -1,0 +1,104 @@
+{
+  "Schema": "HVX.OwnedAlgorithmProtectionScope/1",
+  "Notes": "Body-only protection; exact roots include their real nested types. No renaming, anti-debug or anti-dump. Public metadata and serialization names remain unchanged. Hardware output/session/controller classes are excluded.",
+  "Profiles": {
+    "Task38LibraryPure": {
+      "AssemblyName": "HVX.OWTS.Task38.V1.0.38",
+      "Types": ["HVX.OWTS.Task38.CalibrationWindowSettings", "HVX.OWTS.Task38.CalibrationWindowing", "HVX.OWTS.Task38.CalibrationIncidentQuality", "HVX.OWTS.Task38.Task38Task6Analyzer"]
+    },
+    "HostPure": {
+      "AssemblyName": "Xiongxin.OWTS.Desktop",
+      "Types": ["HVX.SignalProcessing.PdLinearHighPass", "HVX.SignalProcessing.PdLinearLowPass", "HVX.SignalProcessing.ReflectionBandwidth", "HVX.SignalProcessing.NoisePulseTemplates", "Xiongxin.OWTS.Data.LocationCycleReference", "Xiongxin.OWTS.Data.OscillationCycleWindow"]
+    },
+    "PressureTest": {
+      "AssemblyName": "Xiongxin.OWTS.PressureTest",
+      "Types": ["HVX.Controls.PressureTestAnalysis", "HVX.Controls.PressureWaveformView", "Xiongxin.OWTS.Data.LocationCycleReference", "Xiongxin.OWTS.Data.OscillationCycleWindow", "Xiongxin.ZeroBench.LocationRangeAdvisor", "Xiongxin.ZeroBench.LocationRangeWindow"]
+    },
+    "PressureRuntimePure": {
+      "AssemblyName": "Xiongxin.Pressure.Runtime",
+      "AdditionalTypes": ["HVX.OWTS.Task38.CalibrationWindowSettings", "Xiongxin.FactoryTest.Compatibility100.CalibrationWindowSettings"],
+      "Types": ["HVX.SignalProcessing.PdLinearHighPass", "HVX.PD.PulseToolkit.PulseAnalysisEngine", "Xiongxin.ZeroBench.DetectedWaveforms", "Xiongxin.ZeroBench.LocationRangeAdvisor", "Xiongxin.ZeroBench.LocationRangeWindow", "Xiongxin.ZeroBench.RangeDecisionPolicy", "HVX.OWTS.Task38.CalibrationWindowing", "HVX.OWTS.Task38.CalibrationIncidentQuality", "HVX.OWTS.Task38.Task38Task6Analyzer", "Xiongxin.FactoryTest.Compatibility100.CalibrationWindowing", "Xiongxin.FactoryTest.Compatibility100.CalibrationIncidentQuality", "Xiongxin.FactoryTest.FactoryAnalysis", "Xiongxin.FactoryTest.FactoryDetectedWaveforms", "Xiongxin.FactoryTest.FactoryPdSignal", "Xiongxin.FactoryTest.FactoryPulseFilter", "Xiongxin.FactoryTest.FactoryMeasuredRangeWindow", "Xiongxin.FactoryTest.FactoryRangeRetention", "Xiongxin.FactoryTest.FactoryTransientRangePolicy", "Xiongxin.FactoryTest.FactoryReferenceAnalysis", "Xiongxin.FactoryTest.FactoryTfAnalysis", "Xiongxin.FactoryTest.FactoryRangePhase", "Xiongxin.FactoryTest.FactoryRangeReview"]
+    },
+    "Task39InputPure": {
+      "AssemblyName": "Xiongxin.Task39.InputWorker",
+      "AdditionalTypes": ["HVX.OWTS.Task38.CalibrationWindowSettings"],
+      "Types": ["Xiongxin.ZeroBench.SignalAnalysis", "Xiongxin.ZeroBench.LocationRangeAdvisor", "Xiongxin.ZeroBench.LocationRangeWindow", "Xiongxin.ZeroBench.RangeDecisionPolicy", "Xiongxin.ZeroBench.DetectedWaveforms", "HVX.OWTS.Task38.Task38Task6Analyzer", "HVX.OWTS.Task38.CalibrationWindowing", "HVX.OWTS.Task38.CalibrationIncidentQuality"]
+    },
+    "PdReview": {
+      "AssemblyName": "HVX.PdReview.V1.0",
+      "UnprotectedContractTypes": ["HVX.PdReview.PdReviewControl/ArchiveFile", "HVX.PdReview.PdReviewControl/ArchiveChart", "HVX.PdReview.PdReviewControl/ArchiveManifest", "HVX.PdReview.PdReviewControl/ArchiveSelection", "HVX.PdReview.PdReviewControl/ArchiveConclusionRegion", "HVX.PdReview.PdReviewControl/ArchiveConclusion"],
+      "Types": [
+        "HVX.PD.LocationFiltering.LocationClusterFilterEngine",
+        "HVX.PD.LocationFiltering.LocationClusterStrengthFilterB",
+        "HVX.PD.MatrixCharts.EqualBarsV114.MatrixChartArrayBuilderV114",
+        "HVX.PdReview.ReviewCapacitorAnalysis",
+        "HVX.PdReview.ReviewAnalysisEngine",
+        "HVX.PdReview.ReviewEAnalysis",
+        "HVX.PdReview.ReviewERuntime",
+        "HVX.PdReview.ReviewEProjectInput",
+        "HVX.PdReview.PdReviewControl",
+        "HVX.PdReview.ReviewDisplayRecommendation",
+        "HVX.PdReview.ReviewRecommendationWorker",
+        "HVX.PdReview.ReviewLocationFileReader",
+        "HVX.PdReview.AHistoryEvidence",
+        "HVX.PdReview.ReviewHybridLearningStore",
+        "HVX.PdReview.LocalizationComparisonApi",
+        "HVX.UnifiedSpectrum.UnifiedSpectrumControl",
+        "HVX.UnifiedSpectrum.ChargeCountBinning",
+        "HVX.UnifiedSpectrum.SpectrumDensity",
+        "HVX.UnifiedSpectrum.SpectrumTask15Bridge",
+        "LabVIEWPdMap.PdMapControl",
+        "LabVIEWPdMap.PdMapSignalFilter",
+        "LabVIEWPdMap.PdMapTimingEvidence",
+        "LabVIEWPdMap.ProjectCalibrationImplementation.Selector",
+        "HVX.Location.EmbeddedConclusions",
+        "HVX.Location.EvidenceCore",
+        "HVX.Location.MultiFactorCore",
+        "HVX.Location.LocatorEngine",
+        "HVX.Geometry.ConnectingCableGeometry",
+        "HVX.SignalEvidence.BoundaryConfidenceMath",
+        "HVX.SignalEvidence.CalibrationQualityMath",
+        "HVX.SignalEvidence.CoincidentConfidenceMath",
+        "HVX.SignalEvidence.ConfidenceMath",
+        "HVX.SignalEvidence.RawEndpointMath",
+        "HVX.SignalEvidence.SeventhCandidateRanking",
+        "HVX.SignalEvidence.A7EvidenceKernel",
+        "HVX.SignalEvidence.SeventhPacketMath",
+        "HVX.SignalEvidence.SeventhPipelineMath",
+        "HVX.SignalEvidence.A7WaveformMath",
+        "HVX.SignalEvidence.SixthConfidenceMath",
+        "HVX.Task17.Location.PeakAnchoredLeadingEdgeMath",
+        "HVX.SignalProcessing.PdLinearHighPass",
+        "HVX.SignalProcessing.PdLinearLowPass",
+        "HVX.SignalProcessing.ReflectionBandwidth",
+        "HVX.SignalProcessing.NoisePulseTemplates"
+      ]
+    },
+    "DataBrowser": {
+      "AssemblyName": "Xiongxin.OWTS.DataBrowser",
+      "Types": ["HVX.SignalProcessing.PdLinearHighPass", "HVX.SignalProcessing.PdLinearLowPass", "HVX.SignalProcessing.ReflectionBandwidth", "CalibrationWaveform.CalibrationWaveformControl", "HVX.Controls.BrowserReader"]
+    },
+    "ReportGenerator": {
+      "AssemblyName": "Xiongxin.OWTS.ReportGenerator",
+      "Types": ["HVX.SignalProcessing.PdLinearHighPass", "HVX.SignalProcessing.PdLinearLowPass", "HVX.SignalProcessing.ReflectionBandwidth", "HVX.Location.EmbeddedConclusions", "HVX.Location.EvidenceCore", "HVX.Location.MultiFactorCore", "HVX.Location.LocatorEngine", "HVX.Controls.BrowserReader"]
+    },
+    "CalibrationTest": {
+      "AssemblyName": "Xiongxin.OWTS.CalibrationTest",
+      "AdditionalTypes": ["HVX.OWTS.Task38.CalibrationWindowSettings"],
+      "Types": ["HVX.SignalProcessing.PdLinearHighPass", "HVX.SignalProcessing.PdLinearLowPass", "HVX.SignalProcessing.ReflectionBandwidth", "HVX.SignalProcessing.NoisePulseTemplates", "HVX.Task17.Location.PeakAnchoredLeadingEdgeMath", "HVX.Controls.TdrReflectionAnalyzer", "HVX.Controls.LinearLowPassFilter", "HVX.Controls.CalibrationArrivalMath", "HVX.OWTS.Task38.CalibrationWindowing", "HVX.OWTS.Task38.CalibrationIncidentQuality", "Xiongxin.Calibration.TdrCorrelation", "Xiongxin.Calibration.CalibrationReflectionBandwidth", "Xiongxin.Calibration.SignalQuality", "Xiongxin.Scope.CaptureVoltage", "Xiongxin.Calibration.AcquisitionPlanning"],
+      "Methods": [{"Type":"HVX.Controls.CalibrationProgramControl", "Names":["GetCalculatedDistanceMeters", "CalculateDisplayWindow", "IncidentOnlyAnalysis", "IncidentQualityEngineeringScore", "ReflectionEngineeringScore", "FindNoiseMatches", "PacketCorrelation", "ApplyTimingNoLock", "UpdateReflectionCandidateNoLock", "GetPhaseVelocityReview", "GetRecommendedVelocityMPerUs", "RebuildLevelDerivedNoLock", "RebuildAllDerivedNoLock", "BuildManualResult", "PeakAfterArrival", "SnapIncidentFive", "SnapReflectionMatchingIncident", "IsLocalPeak", "IsLocalValley", "DecayValueAt", "SelectNoiseEnvelope"]}]
+    },
+    "CalibrationAcquisition": {
+      "AssemblyName": "XIONGXIN.Calibration.Verification",
+      "AdditionalTypes": ["HVX.OWTS.Task38.CalibrationWindowSettings"],
+      "Types": ["HVX.SignalProcessing.PdLinearHighPass", "HVX.SignalProcessing.PdLinearLowPass", "HVX.SignalProcessing.ReflectionBandwidth", "HVX.OWTS.Task38.CalibrationWindowing", "HVX.OWTS.Task38.CalibrationIncidentQuality", "Xiongxin.Calibration.TdrCorrelation", "Xiongxin.Calibration.CalibrationReflectionBandwidth", "Xiongxin.Calibration.SignalQuality", "Xiongxin.Scope.CaptureVoltage", "Xiongxin.Calibration.AcquisitionPlanning"]
+    }
+  },
+  "Excluded": [
+    "Hardware controllers, native SDK imports, output/session state machines and safety supervision are not modified by this pipeline.",
+    "Task17 A/B has its separate protected build pipeline. Task12 is a pinned pre-protected dependency, not re-protected here.",
+    "C/D research and Hybrid are native outputs reviewed independently; third-party components are not owned algorithms.",
+    "CalibrationProgramControl protects the listed analysis methods, including noise-envelope selection. UI coordinate transforms and data access remain public. CalibrationForm capture orchestration and acquisition threshold/timing policies are intentionally not claimed to be secret algorithms; their safety behavior is not transformed.",
+    "Document/layout/project management application code is not claimed to be secret algorithm code."
+  ]
+}

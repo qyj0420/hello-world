@@ -1,0 +1,554 @@
+﻿{
+    "Schema":  "HVX.Pressure.LocalAdaptation/1",
+    "SourceVersion":  "1.0.30.9",
+    "SourceManifestSHA256":  "27BF37B8322A7D255F3B87FC3E110839B463F75BE4A84C25D8EF762CFD138B7B",
+    "SourceExecutableSHA256":  "181A121A5AAE4E8F10D3BDFB99B3BBF16AED325267DB940E496F80831505FD41",
+    "HardwareAccessed":  false,
+    "PhysicalAcceptance":  false,
+    "ClippedBoundedUpscaleReview20261011":  {
+                                                "Scope":  "Latest explicit user authorization supersedes the earlier adjacent-upscale-only rule: selected fixed-cycle raw clipping may apply at most two upward hardware indices per automatic adjustment, using the unchanged frozen advisor optimum. Every decrease remains adjacent. The UI remeasures clipped count and longest run from the actual bounded raw window and requires valid current/intermediate/target calibrated charge ranges, one-use intent, current source hashes, release and finite visited/retry gates. Missing or visited target falls back one; missing or visited intermediate never permits skipping it. The runtime uses the same pure wrapper. Its batch guard accepts the adjacent fallback only when its own fresh actual-window review independently recommends exactly +2; all frozen identity, native-ended, archive, one-use, cancellation and fault gates remain. A separate issued scheduling hold prevents immediate reversal without claiming a skipped range was measured or a round was saved useful.",
+                                                "ClipHeuristic":  "Two-step permission requires an unchanged optimum at least current+2 and either longest clipped run \u003e=3 samples or \u003e=3 clipped samples comprising \u003e=0.1 percent of the selected window. Isolated clipping remains one step. These conservative heuristic thresholds do not recover or certify a hidden true peak and do not guarantee one retry will fit.",
+                                                "OfflineEvidence":  "build/qa-pressure-clipped-upscale-20261011-04/proof.json",
+                                                "OfflineEvidenceSHA256":  "555C9B714FC18B4708860EF5F54FFC66FA7037E1B6E96A7B815C089B808B2ABD",
+                                                "PreviousOfflineEvidence":  "build/qa-pressure-clipped-upscale-20261011-03/proof.json",
+                                                "PreviousOfflineEvidenceSHA256":  "9A3349D121053DC4CA6601D638F9C682D84C12D0D42B3AA17CC7BECEE26F4CB2",
+                                                "EvidenceInputCount":  310,
+                                                "Tests":  "Eight pure/managed synthetic suites: 768 policy +395 runtime fixture +378 adjacent/safety +416 overflow +584 row floor +183 manual decisions +461 next range +146 retry =3331 PASS; runtime fixture separately invokes the existing 116 batch assertions. The exact three Factory implementation hashes below match this proof. After an unrelated catalog update, revision 04 recompiled and reran all eight suites with 310 input hashes unchanged before/after and matching at review. This binds the inventoried fixture closure, not every file in the repository or a released EXE; local provenance metadata is checked separately by Test-FactoryBatchSource.",
+                                                "HardwareAccessed":  false,
+                                                "PhysicalAcceptance":  false,
+                                                "FinalExeIntegration":  false,
+                                                "Uncovered":  "Final protected release, real SDK/server execution, device clipping shape and ADC behavior, calibration metrology, actual high-voltage trials, timing and physical cleanup. No product or worker entry was started; older failed QA receipts are retained."
+                                            },
+    "R51ResidentLaunchReview":  {
+                                    "Scope":  "Only FactoryResidentDevices.cs and the existing local UnifiedWorkerLaunchEvidence.cs changed from the previous pins. The wrapper records an irreversible entry boundary before SDK-capable delegation. A pre-native rejection requires exit 2 and exact nonce, settings hash, worker hash, parent/child PIDs and directory, with no contradictory entry/ready/progress/fault/cleanup records. Missing old cleanup evidence never grants release or automatic reopening. Startup and cleanup errors are both preserved; process-start exceptions retain an acquired child identity. Missing release is a typed session failure, not a disk error. UnifiedWorkerEntry is an inventoried local adapter, not unchanged upstream.",
+                                    "OfflineEvidence":  "build/qa-resident-launch-407313c3cc/verification.json: 46 synthetic managed checks; worker/program/native entry never executed. Current full fake emergency/exit chain checked separately before export.",
+                                    "HardwareAccessed":  false,
+                                    "PhysicalAcceptance":  false
+                                },
+    "ReviewScope":  "20261009 r38 latest explicit pressure rule supersedes previous startup/end residual measurements and 4% acceptance. Explicit new pressure opt-in separates +/-5% precision and three fresh rechecks from raw selected-source protection; old APIs unchanged. Sole serial DI reader plus managed snapshot/journal publication continues physical display without releasing the emergency fault latch. IMON joint 3-second condition, DI/manual Stop/limits/time/cleanup retained. Manual zero gets display-only DI. Named managed fake tests, no SDK/product/device execution or physical acceptance. r39 narrow field-failure corrections: manual0 host display/Stop separation is outside this worker closure; no logical DI policy-change synthetic UNKNOWN, precise unconfirmed-round diagnostics, and final real reached feedback published before ARM. No ramp speed-policy changes, no weakened output-generation or native cleanup proof, no product/SDK/device execution. 20261010 journal-only adaptation admits the exact Program report/error/final-drain wiring and one bounded managed journal. Exact in-memory reversal matches the prior integrated Program hash; all other 214 imported/existing-local pins remain unchanged. Actual 32 journal plus 30 before-ARM feedback checks passed; no native trace, DI/control law, ramp step/speed/wait or physical acceptance change. 20261011 latest explicit user authorization removes the customer oscillation feature checkbox and enables waveform-derived diagnostics by default, independent of historical false. This is not a site attestation or HV authorization. All raw finite/rail/timebase/SNR/reliable-zero/fixed-cycle and physical safety checks remain. Genuine invalid-window UI state is separate from actual overflow, never adopted as valid or auto-retried. No hardware/product/worker/SDK execution. 20261011 authorized late operator Stop correction: post-cleanup journal drain remains independently bounded, completion-edge cancellation retains original partial capture and exact cleanup contract, and a fresh exact STOP after successful Worker return can retain only the already-healthy original session with all five EndRound facts. Save/journal/native cleanup failures, stale/wrong identities and arbitrary OCE remain fail-closed. Batch is revoked; no automatic output, retry or completed-data fabrication. No SDK/device/product/worker entry execution.",
+    "ManualZeroReview20261009":  {
+                                     "Scope":  "r35 logic-only manual 0 kV: explicit AI/Pico input capability omits DI, AO, DO, HV and optical tasks. It rejects nonzero, optical, calibration and automatic-batch requests; changing between DI-supervised and input-only modes requires resident cleanup success. Ordinary zero and nonzero safety paths remain supervised. No actual device operation or residual-threshold changes.",
+                                     "Compile":  "FactoryWorker closure and PressureTest module compiled offline using local compiler.",
+                                     "Tests":  "FactoryResidentZeroInputTests: 55 fake/pre-SDK checks PASS. PressureP04FeedbackSmoke: 84 checks PASS, including unknown-DI manual-zero acceptance and automatic-zero/nonzero fail-closed behavior.",
+                                     "HardwareAccessed":  false,
+                                     "PhysicalAcceptance":  false,
+                                     "Uncovered":  "Actual ART/Pico acquisition, physical emergency/interlock transitions, hardware mode switching, whole EXE integration and residual safety acceptance remain untested."
+                                 },
+    "R50EmergencyReview20261011":  {
+                                       "Scope":  "Reviewed local resident protocol changes only; frozen upstream identity remains unchanged. The production PressureSession adapter now forwards emergency-latched evidence and the seven-argument round contract. An exactly bound successful HV OFF and round-stop receipt may retain a healthy latched resident DI owner; arbitrary failure, stale/replayed/mismatched receipts and native cleanup faults do not grant reuse or output permission. Latched HIGH remains display-only and cannot restart pressure.",
+                                       "Evidence":  "build/r50-emergency-home-20261011-h/verification-r50-emergency-home.json: 418 pure managed and isolated-host assertions, unchanged source inventory. Separate real UI receipt and EnabledChanged tests are recorded independently. No product entry, native SDK, hardware worker or device operation.",
+                                       "HardwareAccessed":  false,
+                                       "PhysicalAcceptance":  false,
+                                       "Uncovered":  "Real HV UP interruption, actual HV OFF timing and electrical state, continuous native DI samples, target-PC startup failure and installation/driver binding remain field checks. This metadata does not authorize output recovery."
+                                   },
+    "FeedbackAvailabilityReview20261011": {"Scope":"20261011 authorized ART -200284 field repair: same owned 1kS/s AI task prewaits Available for a complete requested batch; AO unchanged while waiting. Existing total100ms,queue1000/final20/8batches,initial postAO fresh boundary,all raw extrema and independent DI retained. Same runner cancellation token is bound before round and cleared after cleanup. No native retry or use of negative-status partials. Native status/requested/actual/available/read ms and reporting failures retained. No output recovery or step/speed changes.","OfflineEvidence":"build/feedback-availability-3c051abf07/verification-feedback-availability.json","OfflineEvidenceSHA256":"64638DCB741253A68B8E7D1BB8EBB27F0AD5A030080B6C217DD04371291CB55F","Tests":"523 managed fake checks PASS: availability42, current buffer62, selected feedback47, configuration47, no-residual183, precision105, native session37. Late20/50/99ms,100ms deadline,old/fresh,DI LOW/unknown,cancel,negative partials,NaN/raw saturation,queue caps,nonprogress clock. Inputs unchanged before/after.","HistoricalFixtureFailures":"FactoryFaultResidualTests.cs:19 old no-hold assertion and FactoryFeedbackWindowTests.cs:49 blanket IMON NaN rejection fail under newer existing precision/selected-divider contracts. Assertions unchanged; not claimed PASS; initial failed QA retained.","HardwareAccessed":false,"SDKCalled":false,"PhysicalAcceptance":false,"FinalExeIntegration":false,"Uncovered":"Real ART USB/native timing and -200284 recurrence, physical DI scheduling, actual high-voltage acceptance. No product/worker entry or SDK execution."},
+    "Patches":  [
+                    {"Path":"FactoryFeedbackWindowTests.cs","FrozenUpstreamSHA256":"BD7696A7767A1D7849CED66EEA82938DFAE97D53060E4E2BE4FDC6CB08A3D072","IntegratedSHA256":"7C27C9DC93B0B70D58A4C8CCD9F800930DD3D482F1A84DD647314A4B03760267","Reason":"20261011 fake availability-only adaptation publishes a complete incoming block before Read. Existing behavioral assertions unchanged; historical broader tests not counted PASS. Local change, never exact upstream."},
+                    {"Path":"FactoryBufferEmergencyTests.cs","FrozenUpstreamSHA256":"323A4411FF64BD29CBFC77A9966B0C4CF311F17BEAC0CE49E6FCD72355F57C85","IntegratedSHA256":"C9629F2B0C58B908E23D26CDC8ACE3AC267CB4219B2A463A3E0630050DE0DB0A","Reason":"20261011 fake availability-only adaptation publishes a complete incoming block before Read. Existing behavioral assertions unchanged; historical broader tests not counted PASS. Local change, never exact upstream."},
+                    {
+                        "Path":  "FactoryLocationCycleTests.cs",
+                        "FrozenUpstreamSHA256":  "D434345F74C86DA74E5ED2B1CFC164FFF3EE1AA4059D2BEA1992DD526BBC5402",
+                        "IntegratedSHA256":  "F385C5FB4B6BD2DA297F37527EE22D079F71DAD26FE4665A947B22156F0C3336",
+                        "Reason":  "Fixed 0.02V raw fixture must now use indices 5,4,3,2,2 under the user-confirmed one-adjacent-step rule, not jump directly to final range in one round. All raw-window, clipping, source immutability and finite queue assertions retained."
+                    },
+                    {
+                        "Path":  "FactoryPressureSequenceTests.cs",
+                        "FrozenUpstreamSHA256":  "0BF891708A7EDC32AA82492CF4B2E435FB243FA81E7928367D35F73D50546DAF",
+                        "IntegratedSHA256":  "CA76E9FFB202CA32154A4828773D29D92F99E4B789F103528AB9FCCCAD64F498",
+                        "Reason":  "User-confirmed adjacent range stepping: existing 5-to-8 recommendation assertion now expects 6. All other sequence, cancellation and quality assertions remain; this test is not physical acceptance. Legacy feature-false simulation now proves valid windows can continue without fabricating a confirmation. A genuine flat-voltage fixture still stops after the captured round, retains honest result/residual flags and reports the measured SNR failure."
+                    },
+                    {
+                        "Path":  "Imported/BenchModels.cs",
+                        "FrozenUpstreamSHA256":  "2AA7C8DB9BF12A43591439F04730868620CA61924BF2AFEA51CD504DD721E537",
+                        "IntegratedSHA256":  "6EDCF50DBBBB121138DC15AB0F7F553C260CDDCF575ADDDEC45D12C4FCE73276",
+                        "Reason":  "r29 IO-only adaptation: bounded 64 KiB block copying preserves exact BENCH-1 little-endian sample bytes, counts and metadata. Check remaining payload before allocation. Legacy writer byte-hash comparison, signed-zero/subnormal/ADC roundtrip, fragmented reads, truncation and endian helper: 49 pure managed checks. No SDK calls or control/timing settings changed; this does not prove the field stall resolved. User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance. 20261011 explicit new optical hold is 1000 ms. Historical metadata widths through 1500 ms remain readable without rewriting; new shared-trigger requests require exactly 1000 ms. Capture sample budget, arm delay and other timing constraints unchanged."
+                    },
+                    {
+                        "Path":  "FactoryPressureSequence.cs",
+                        "FrozenUpstreamSHA256":  "155F469AF2ACC74393E7DD0C22162E6C4F80C7C2BEC41C262121C47B02EC0220",
+                        "IntegratedSHA256":  "47340767A1023C1CBC04449B4D9F946D59889C4E0B3D9874B028EAF6FE305878",
+                        "Reason":  "20261011 latest explicit bounded clipping authorization: after unchanged invalid-window, unknown-overflow and maximum-range stop gates, call the shared bounded execution wrapper. Only sustained/distributed selected-window clipping and the frozen optimum permit +2; isolated/ordinary upward advice and every decrease remain adjacent. Raw quality, original optimum, cooldown and electrical permissions are unchanged. Current targeted proof is ClippedBoundedUpscaleReview20261011; not physical acceptance. Historical 20261010 adjacent-only revision and its receipts remain historical, not evidence for the changed bytes. Remove only obsolete checkbox-specific replacement of a real range-window failure. Preserve the original measured invalid-window reason, raw record, queue cancellation and authorization checks."
+                    },
+                    {
+                        "Path":  "FactoryBatchAuthorization.cs",
+                        "FrozenUpstreamSHA256":  "5547250464EE3F0E0609AE020E5E7F9A2D206098B9ABF160660C945E1DDCD69D",
+                        "IntegratedSHA256":  "04BCD698C24253B97070ED9F2B552B3D9EF1527FCACDCCBC6A0A9392164396A4",
+                        "Reason":  "20261011 permit the adjacent +1 fallback only when this server\u0027s freshly evaluated actual fixed-cycle window is clipped and independently produces a legal +2 recommendation. This is not an arbitrary range interval. Reset fallback before every completion review and on Revoke/new start; retain exact sequence, round, frozen fingerprint, one-use consumed intent, native-ended/archive receipts and \u003e=100 pC floor. The prior range/current recommendation alternatives and all fault/cancellation gates remain. Earlier r36/r38 end-observation and acquisition-only identity protections are unchanged; no fabricated receipt, restart, HVoff, quality success or physical acceptance."
+                    },
+                    {
+                        "Path":  "FactoryBatchAuthorizationTests.cs",
+                        "FrozenUpstreamSHA256":  "273DC2BDF377CA68834D9BB4240D51B46D49F94889DD377FE909C1199D79093C",
+                        "IntegratedSHA256":  "BACA89E8E0FC630D3FD6310549A5B9F86D9B2AC7E415E07C183D966F05068D80",
+                        "Reason":  "Pure managed floor-bound fixtures plus unchanged one-use/session/replay/receipt rejection checks; update expected permitted recommendation to the bounded value without relaxing arbitrary-range rejection."
+                    },
+                    {
+                        "Path":  "Program.cs",
+                        "FrozenUpstreamSHA256":  "28216AE7524891743A1BCB855709FF29D5C2EA70D1DC5E621A9DF6CEB3D786F0",
+                        "IntegratedSHA256":  "44A3EF92538A0642EBFB80744F0E22C9629684D3623131157FB4C61EC9F98578",
+                        "Reason":  "Own-assembly child dispatch; nonce/PID/config-bound evidence only at pre-native cancellation guard; route manual free-running zero-input capture to the resident owner, preserving positive round sequencing and failures. r38 validates exact matched acquisition-only pressure receipt under current no-residual policy; no synthetic complete or physical-discharge assertion. r38 validates exact matched acquisition-only pressure receipt under current no-residual policy; no synthetic complete or physical-discharge assertion. 20261010 replace only synchronous ordinary report writes with one bounded managed journal; preserve FIFO critical flush before ARM and terminal acknowledgement, fail closed on queue/disk failure, retain original errors, and drain only after physical cleanup attempts. Three-domain exact reversal reproduces E7D3C37A3F6A006445E793BC7C09CE0514DB2074007A9AD5F40161F21B609049; no SDK trace or ramp policy change.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance. 20261011 pressure-only desktop opt-in omits the redundant preview archive while retaining actual final capture/archive. Detected export rejects explicitly deferred/missing metrics; default factory full-analysis/export and cleanup/error ordering unchanged. Synchronously observe owned cancel.flag at post-run and post-RECORD edges in addition to the existing watcher. Preserve actual partial raw capture, incomplete status and original save/journal errors; healthy callback still requires pure cancellation plus actual complete EndRound facts and healthy held session. 20261011 authorized feedback availability/cancellation and complete native read receipt repair, or fake availability-only fixture adaptation. See FeedbackAvailabilityReview20261011 for exact limits, tests and uncovered historical assertions."
+                    },
+                    {
+                        "Path":  "FactoryEmergencyMonitor.cs",
+                        "FrozenUpstreamSHA256":  "C3BAC6C598AB395836A22FFCE9C0C27A5AB136DD37AEC75A8109F23BDAD8DEAB",
+                        "IntegratedSHA256":  "51A70A869E15AE72168743B50C1941D2F5FD71A0FDD461756A62D2957A26CC85",
+                        "Reason":  "Retain the sole DI reader and bounded fresh samples during idle/input-only rounds. LOW is read-only input, not lost connection or output permission. Active latch and 500 ms fault rule retained. r38 sole serial DI reader continues actual physical HIGH/LOW display sampling after an active LOW; permanent output-fault latch and native errors remain separate and fail-closed. r39 same healthy DI task keeps its fresh physical display sample and original sample time across logical idle/active policy changes. Output ReadReleased still requires a genuinely new-mode sample; error, age, retry, stopped and rebuilt-task gaps remain fail-closed. Field handoff UNKNOWN negative reproduction and six managed fake suites retained.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance."
+                    },
+                    {
+                        "Path":  "FactoryModels.cs",
+                        "FrozenUpstreamSHA256":  "D5E85561A27909D3DE6C0EF5D40DE2E419F2247C8B7B0ED9C4012A512EE00099",
+                        "IntegratedSHA256":  "70EB1582F23DA6F46CC7FC33409A72157AE848BFDC3694762D98FBCF2172342E",
+                        "Reason":  "Previously reviewed serial-bound fine-ramp enable/threshold and finite-value validation retained. r35 explicitly marks manual 0 kV input-only requests and rejects nonzero/optical/calibration/automatic batch or continuation use. r36 adds independently enabled EndResidualThresholdV, validates its configured value and resolves only end/fault-after-shutdown observation to it; original StartupPrechargeResidualV, SafeResidualV, VMON negative, current/voltage protections and manual-zero capability guards remain distinct. r37 non-XML pressure runtime context distinguishes pressure from calibration and preserves it only in managed Clone; config cannot manufacture it. r38 derives no-residual pressure execution policy; XML cannot re-enable old residual tests; no synthetic ResidualSafe/Completed result. r38 derives no-residual pressure execution policy; XML cannot re-enable old residual tests; explicit precision opt-in separates +/-5% precision, selected-source raw protection and AO ceiling; no synthetic ResidualSafe/Completed result. 20261011 DesktopPostProcessing opt-in defaults false and defers duplicate full analysis only for desktop pressure processing. FullMetricsDeferred and NaN/Detected-null preserve unknown metrics; default factory/calibration analysis and actual capture/Stop/shutdown/cleanup/error gates remain."
+                    },
+                    {
+                        "Path":  "FactoryRunner.cs",
+                        "FrozenUpstreamSHA256":  "4C033E780A9BFA57B5E4B13C0059C8212552BBD012632AA0D9C1A175B0DB0B02",
+                        "IntegratedSHA256":  "5C34A0A8D28990D9E2978EA7DC7BA16792F0FC3E3F7F7F415025AFC461DCD61F",
+                        "Reason":  "Previously reviewed bounded fine AO steps and cancellable cadence with feedback, timeouts, current/voltage checks and cleanup retained; unchanged in afternoon follow-up. r36 normal end residual check and archive use separately enabled end threshold. Start, HV-ON zero background, negative feedback, current and independent maximum-voltage protection remain on original thresholds. Existing bounded ramp/cadence/cancellation/cleanup preserved. r37 pressure context uses only selected voltage in startup/ramp/hold; IMON raw \u003e=5 V and selected voltage no-growth must both persist 3 s. Retain time bound, current emergency, selected validity/limits, manual Stop and cleanup; no output recovery. r38 nonzero pressure skips startup/end/final AI4 residual stages, keeps active selected-source ramp/hold, DI, manual cancellation and actual shutdown results. r38 nonzero pressure skips startup/end/final AI4 residual stages, keeps active selected-source ramp/hold, DI, manual cancellation and actual shutdown results; opted-in precision deviation freezes AO and rechecks three genuinely new feedback batches before an explicit warning, without weakening raw protection. r39 flush the already-observed last real feedback after target hold and before ARM, not four seconds later at final cleanup. No new feedback read, pause, AO command, threshold or speed policy. Managed original negative and 30 targeted corrected checks retained.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance. 20261011 DesktopPostProcessing opt-in defaults false and defers duplicate full analysis only for desktop pressure processing. FullMetricsDeferred and NaN/Detected-null preserve unknown metrics; default factory/calibration analysis and actual capture/Stop/shutdown/cleanup/error gates remain. After actual runner cleanup, detect late cancellation before/after terminal reporting using the existing partial-result FactoryRunException contract. Retain terminal publication errors as real failures, not a generic successful Stop; no native cleanup, ramp, capture or output logic changed."
+                    },
+                    {
+                        "Path":  "NativeFactoryBackend.cs",
+                        "FrozenUpstreamSHA256":  "E09486496C6654EAA96370B21C73CA9DACD733355F77BB81244C2DF1285B4F84",
+                        "IntegratedSHA256":  "566B7606BED1A24FF89BA0AE3877608A3503483B8122C43D4702E60B19041717",
+                        "Reason":  "Retain earlier zero-input ownership adaptation. r23 separately latches cleanup failure after task release and across retries, preserves SDK error plus reporter failure, and adds a synchronous task IO interface whose native implementation forwards exact original SDK arguments. Fake tests inject -88709, Stop/Clear throws, remaining-task retry and repeated Dispose; no output recreation or restored pressure permission. Actual field -88709 cause remains unconfirmed. User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance. r36 capture-only-end short path no longer skips residual observation when distinct end threshold is enabled; legacy disabled behavior remains. Existing native ownership, cleanup-error persistence, ART ranges and stage protections retained. r37 establishes sole read-only DI and reports real initial snapshot before Pico Open; exact identities/output ownership still required. No additional native reader. r38 manual zero establishes display-only sole DI without output permit; pressure AI starts only in actual ramp and stops after shutdown without clearing failed ownership. r38 manual zero establishes display-only sole DI without output permit; pressure AI starts only in actual ramp and stops after shutdown without clearing failed ownership.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance. 20261011 authorized feedback availability/cancellation and complete native read receipt repair, or fake availability-only fixture adaptation. See FeedbackAvailabilityReview20261011 for exact limits, tests and uncovered historical assertions."
+                    },
+                    {
+                        "Path":  "FactoryNativeSessionPolicy.cs",
+                        "FrozenUpstreamSHA256":  "D074F5AECFDC009DA7993DE588533EE523C3467279721EC832157964CF774B1E",
+                        "IntegratedSHA256":  "2A042AAA7774FC27BD981A252AB439CA62E091EC3CB33E0376C40537D4A8A110",
+                        "Reason":  "Validate resident manual zero-input queue separately from HV rounds. r35 separates manual DI-less input capability from the ordinary DI-supervised session; different capabilities cannot reuse a session and the resident manager verifies old cleanup before switching. Reject output and batch flags at session Open. Automatic-plan zero rows retain the ordinary DI-supervised request. r37 derives pressure context from real operation purpose, never from XML; manual zero and calibration boundaries retained."
+                    },
+                    {
+                        "Path":  "FactoryRangePhase.cs",
+                        "FrozenUpstreamSHA256":  "167A28274043ACFBC6A00C5A34A93013BFFCD860445CFE60ED61C0E3C7AE2FAD",
+                        "IntegratedSHA256":  "56F9F04D79941FE230CB6A5417EE66A6A625C964AB663EE1C18D2CFBD0565E15",
+                        "Reason":  "Separate independently unconfirmed oscillation-circuit configuration from missing native voltage or timebase. No inferred confirmation or relaxed eligibility. User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance. Remove only historical diagnostic-enable false early return. Actual timebase, full scale, raw finite/rail, SNR, first reliable bipolar crossing and consistent-cycle checks remain unchanged; no inferred wiring/HV/discharge attestation."
+                    },
+                    {
+                        "Path":  "FactoryResidentDeviceServer.cs",
+                        "FrozenUpstreamSHA256":  "1AE010901742327A2114CACC73A7ED8E32A602A0F3AEA2ECCD5D9EF8A99D0957",
+                        "IntegratedSHA256":  "2C600562865F99EDB2D5B134F2C26E331DA06557A2CE46E282510D2ECF3368BA",
+                        "Reason":  "Publish zero-input stop evidence only after successful round cleanup, fresh input/session health and exact accepted request identity; revoke batch permission and never treat an exit code alone as release evidence. r36 publish failed accepted-round cleanup receipt only after EndRound Stop/buffer release, native Dispose and lease release return on owner thread; cleanup errors suppress receipt. Exact request/session/PIDs/nonce/settings/accepted file hash are bound. Failure remains nonzero and original error retained; proof does not certify residual or physical discharge. r37 accepts immutable exact request input snapshot before round; publishes initial read-only DI status during Open, while ready requires full initialization. Release proof follows actual cleanup only. r38 serial managed journal publisher drains queued input snapshots during slow device opening; no additional DI/SDK reader, output restart, or failed-session keepalive.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance. A successful Worker return with a nonnull archived result may participate in a later exact operator Stop receipt, including the edge after batch-cancel snapshot. Both paths still require all five actual EndRound facts, healthy original session, exact accepted immutable request/nonce/hash/PIDs/ready and new round STOP markers with no terminal fault. Failures never become healthy; revoke batch and continue read-only idle, never auto-output/retry."
+                    },
+                    {
+                        "Path":  "FactoryResidentDevices.cs",
+                        "FrozenUpstreamSHA256":  "7E46FF11C78717A71634A486E93565BA4B0AF1BCE457BEE3B255EDC146DBC159",
+                        "IntegratedSHA256":  "979164D9A18A3048E32895DBDEBDD0E1DFAB8DDB44F19C90650421F8ACB89CF7",
+                        "Reason":  "Verify current owned process/session, request nonce, settings hash and explicit stop receipt before reporting normal zero-input cancellation. No clearing old blocked leases or automatic output recovery. r36 additional failed-round release context: after a nonzero round result, verify accepted request hash, nonce, settings, record/session/PIDs, all actual native cleanup returns and worker exit before returning typed release metadata. Preserve original failed exception; no automatic output/session recreation or reliance on exit/closed markers alone. r37 drains real startup progress before ready and continues exact delivered cursor; does not replay old watch status or open outputs from input status. r39 nonzero/malformed round result is not itself process-exit evidence. Precisely report living resident incomplete outcome without granting cleanup/reuse permission. Actual exit/native fault/cleanup fault attribution and all original bound stop/release proof gates retained; 42 pure managed outcome checks.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance."
+                    },
+                    {
+                        "Path":  "FactoryResidentDeviceServerTests.cs",
+                        "FrozenUpstreamSHA256":  "C70E1392169AA7BCF48277F51C27112466402E5113E1F60EB91CE837E7E674BF",
+                        "IntegratedSHA256":  "1F82FE51D82E4D83020FB74EFABD5C118008EA365F579F2AB1F11721274D7713",
+                        "Reason":  "Fake resident protocol tests for input-only zero requests and exact stop receipt binding, mismatches and unhealthy sessions; no SDK/device operation. r36 RunFailedRelease: 79 owner-thread managed fake resident-loop assertions PASS for unfinished/failed Stop-buffer cleanup, Dispose/lease failures, identity/replay/tamper, cleanup markers and worker exit. Test fixture root can be explicitly isolated under build; no SDK/native session instantiated. r37 fake actual resident loop verifies immutable input/SaveResult rewrite binding, cleanup failures and initial HIGH/LOW/UNKNOWN publication before ready, exact UTC and no replay; no SDK. r38 controlled managed fake open/journal test verifies continuously published DI during blocked initialization and serialized publication lifecycle; no SDK or device execution.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance. Thirty-one managed fake production-loop checks cover returned-zero late Stop before/after snapshot, missing archive, each of five missing EndRound facts, wrong nonce, stale Stop ID, failed terminal drain and unusable session. Existing receipt failure/replay checks retained; no Program.Worker or native/SDK/product entry executed."
+                    },
+                    {
+                        "Path":  "FactoryZeroInputRunner.cs",
+                        "FrozenUpstreamSHA256":  "EAFC1845576A6A3F6C1C5CE0568642DDA07755705B91CCFD339BE361F14460BC",
+                        "IntegratedSHA256":  "62B84FC3EE52346E2BF515DEBD63C9B3C375941396A1823637B13A337D07C6B1",
+                        "Reason":  "Use resident input-only generation-bound operations when supported, preserving handles and cleanup evidence. r35 explicit manual zero excludes DI task/reads in both resident and isolated input fallback. Ordinary zero retains fresh DI publication. Neither branch exposes AO/DO or optical output. r37 derives supervised zero-pressure context only; manual input-only capture and output restrictions unchanged. 20261011 DesktopPostProcessing opt-in defaults false and defers duplicate full analysis only for desktop pressure processing. FullMetricsDeferred and NaN/Detected-null preserve unknown metrics; default factory/calibration analysis and actual capture/Stop/shutdown/cleanup/error gates remain."
+                    },
+                    {
+                        "Path":  "FactoryZeroInputTests.cs",
+                        "FrozenUpstreamSHA256":  "915E078652499C0A153B872F7D9F9FC0210482A16843B3D7038749A2C800D541",
+                        "IntegratedSHA256":  "F542CDA6F9EDAE0359A3BB0366D1B93D729009412E339F493C4415478C591BF5",
+                        "Reason":  "Pure fake assertions for retained emergency input and input-only stopping/ownership; no real hardware."
+                    },
+                    {
+                        "Path":  "Imported/HardwareCapture.cs",
+                        "FrozenUpstreamSHA256":  "FB92C9375CE7A5C64E624FE18814298552CA59A412CEC679F74AD98B16D78098",
+                        "IntegratedSHA256":  "C28714E1A22CDAEA9A4978106E023E24F5DAF238221328F1B00F3FE6FD361607",
+                        "Reason":  "Optional retained input DI task for isolated input-only fallback; Stop does not clear connection identity or fabricate samples; failure retains ownership. r35 adds an opt-in DI-less prepare parameter restricted to free-run AI without retained safety input; existing callers default to their unchanged DI diagnostic."
+                    },
+                    {
+                        "Path":  "FactoryArtFeedback.cs",
+                        "FrozenUpstreamSHA256":  "8570F273A75170DE772039E8385BC2037BE61B6CC8A0AA57D2770C40E9DD493E",
+                        "IntegratedSHA256":  "C3FD16843D2CE3527F58DF82667CB7748CB4C0BF96B72CB8077DE400C3B5D8D7",
+                        "Reason":  " User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance. r36 bounded signed near-zero feedback: retain DC AI0/AI2 requested 0..5.5 V and raw signed samples/extrema. Convert existing CurrentLimitMa and VmonNegativeLimitV to snapshotted finite raw lower bounds, including existing half-code guards; retain positive saturation, divider both rails, nonfinite rejection and all stage/current/voltage/emergency protection. Exact two user raw feedback replays plus existing startup/background fake tests: 148 checks PASS; no SDK or physical acceptance. r37 validates only selected pressure voltage; other channels remain raw diagnostics. Calibration keeps its independent context. No sample clipping or invented zero.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance. 20261011 authorized feedback availability/cancellation and complete native read receipt repair, or fake availability-only fixture adaptation. See FeedbackAvailabilityReview20261011 for exact limits, tests and uncovered historical assertions."
+                    },
+                    {
+                        "Path":  "FactoryFaultResidualTests.cs",
+                        "FrozenUpstreamSHA256":  "A1CAC24956B77550E06C657E95B0B16BDA22AE3FDAA6C2F7F8D2C34BD36C537A",
+                        "IntegratedSHA256":  "EE1209BD7882EB168CF3916ED2B2CAF9FF760AB667E48B1E9BE30AFA60EC27E5",
+                        "Reason":  " User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance. 20261011 authorized feedback availability/cancellation and complete native read receipt repair, or fake availability-only fixture adaptation. See FeedbackAvailabilityReview20261011 for exact limits, tests and uncovered historical assertions."
+                    },
+                    {
+                        "Path":  "FactoryFinalAi4Observation.cs",
+                        "FrozenUpstreamSHA256":  "9E0B62D3B236BE97A6AC7B6FF28257FE74F5E6D5C80881E63F470BCDBE8C16B4",
+                        "IntegratedSHA256":  "EE359A1A0D374960287FE1477012A631C3AE2BDAFD7CF8D7C60CD284C735FC8F",
+                        "Reason":  " User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance."
+                    },
+                    {
+                        "Path":  "FactoryStartupFeedbackTests.cs",
+                        "FrozenUpstreamSHA256":  "DD5D8E28239D515C26A245085064F6B69BF4D3C9F76C8025098AFFBE1B230BC5",
+                        "IntegratedSHA256":  "5E298129C0C20FC46ACD1B509334702E836D4A747251EC602E05A77E1489E7F5",
+                        "Reason":  " User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance."
+                    },
+                    {
+                        "Path":  "NativeFactoryBackend.FinalAi4.cs",
+                        "FrozenUpstreamSHA256":  "7E4E1F1483CD6377E63737E3A6E6395CDB43826936792D01CA22BEA38D0DC463",
+                        "IntegratedSHA256":  "1016470538EADDA451A82D64D4271884C269DA813222870A33D8484067E190D4",
+                        "Reason":  " User-specified ART divider symmetric range and DC 0..5.5V; actual bounds verified, clipping based on recorded full scale. Offline 113 range, 25 startup and 102 residual checks passed. No physical acceptance. r38 pressure no-residual execution cannot start a post-run diagnostic AI4 task."
+                    },
+                    {
+                        "Path":  "FactoryFaultResidual.cs",
+                        "FrozenUpstreamSHA256":  "40628CCFB4AB12A11D018ECBE6BC304834976B1DDC566E3A0C2369A002B67CEA",
+                        "IntegratedSHA256":  "7AACF52F1E8246EB334D431CF723F8D7BF58841F475B1E9E3BF0EFBC01818925",
+                        "Reason":  "r36 fault shutdown observation uses enabled end-only residual threshold, preserving current protection, finite observations and original failure. Legacy requests retain SafeResidualV; physical discharge is never certified by a software threshold. r37 end-only residual observation uses selected pressure voltage and configured threshold; no physical discharge certification. r38 pressure faults retain unknown residual and original error; no new AI observation after off, no output recovery."
+                    },
+                    {
+                        "Path":  "FactoryResidualStageTests.cs",
+                        "FrozenUpstreamSHA256":  "68255B7C4CF1882EEAEE48F0BB981F8670E7A3A4BF1DFC4DAB08FF27E0B86F49",
+                        "IntegratedSHA256":  "EEB99C2BF882C0A153A1D8238003ECFAEFDD545688393C87AEC6C5B9AB42814E",
+                        "Reason":  "r36 pure fake end-only residual tests verify device maximum peak 30kV/40kV times 4% gives 1200V/1600V independent of internal ramp cap, old bridge/XML disabled behavior, startup/background/negative/protection separation, normal/fault end observation and batch completion. Six named fake suites: 392 assertions PASS; no SDK or physical acceptance. r37 explicitly marks pressure-context residual fixtures; selected-source and end threshold semantics verified offline."
+                    },
+                    {
+                        "Path":  "FactoryFeedbackWindow.cs",
+                        "FrozenUpstreamSHA256":  "DD41E7456A0437E6101A0757204F23671380985048F9F98A9C750E482BC71A1C",
+                        "IntegratedSHA256":  "23EAE663961C40356B6CE0549AEBB6D2E4DAF2A6B8BD7ED58645EB757B0A0668",
+                        "Reason":  "r37 selected pressure window retains unselected NaN diagnostics without accepting a non-finite selected window."
+                    },
+                    {
+                        "Path":  "FactoryTargetHold.cs",
+                        "FrozenUpstreamSHA256":  "47075EEB3570C855A7910266E8386119CC937A122327EC7316C0ACC781BCC0E5",
+                        "IntegratedSHA256":  "A67EFAD78081970E4A2E8944F294F0D909DEA55C338CDBB2F0C6AB84C15F73FD",
+                        "Reason":  "r37 hold uses same selected voltage, not a hidden second-source veto; selected validity and existing limits retained. r38 explicit pressure precision opt-in preserves a three-new-read out-of-band warning without additional AO or false precision-pass; raw protection and old APIs remain unchanged.  20261010 calibration-to-pressure source refresh: hash pinned to the current reviewed file; not physical acceptance."
+                    },
+                    {
+                        "Path":  "FactoryAiTrace.cs",
+                        "FrozenUpstreamSHA256":  "1105CB38C1F22B00E078ED90B124BBC8DEEAA97AFB2CDCFD5E0E39B8DAD05DFB",
+                        "IntegratedSHA256":  "D6F4748F3D343E607F35DDB97A528293E6B2696F05DC75CD2320C0206B11A933",
+                        "Reason":  "r38 pressure forbids before/after residual sampling including diagnostic shutdown tail; preserve real writes/results and calibration trace."
+                    },
+                    {
+                        "Path":  "FactoryManualEngine.cs",
+                        "FrozenUpstreamSHA256":  "22E8128ECF460D240E7419DEF781089AF757D0489E4DC79F74003CA7A164312A",
+                        "IntegratedSHA256":  "3405EEE6441A1DB14573146F6FE98BE6A98EEBB6944748CC6B877CA71FC517A6",
+                        "Reason":  "r38 independent pressure engine obeys no before/after residual rule; actual active ramp feedback, DI and time limit retained."
+                    },
+                    {
+                        "Path":  "FactoryNativeSessionTests.cs",
+                        "FrozenUpstreamSHA256":  "CE92E1B68FE4E0C48F43EAB80967DC3B52B1B0037B106730EE4162FAE5C09B44",
+                        "IntegratedSHA256":  "27AAB9D6C269724403BD2677CD44C83D2740CE6DFABF6BF49DD0F4E2F49E9B33",
+                        "Reason":  "r38 managed calibration confirmation fixture explicitly selects zero target, matching calibration execution purpose; native pre-SDK guards and identity checks retained."
+                    },
+                    {
+                        "Path":  "FactoryStartConfirmation.cs",
+                        "FrozenUpstreamSHA256":  "46FB0831B6DA41591A8A4CD45B77C7A6F46818E881552A977E31B37684A2F42A",
+                        "IntegratedSHA256":  "5DC878799916749802C7065CD68F5CE976137AE62A230EDD61E9DF79B651C728",
+                        "Reason":  "r38 pressure start confirmation describes independent site handling without promising software residual measurement."
+                    },
+                    {
+                        "Path":  "FactorySessionFault.cs",
+                        "FrozenUpstreamSHA256":  "B9FA2C35E913FECA5BE408D0DA8510EADEB96489BFA4B0295CECD116C6FB7D46",
+                        "IntegratedSHA256":  "87B8C4D4E7707308B8A531DF9607287B0B7DCFAED1AD2ECF272DBC9712937ABE",
+                        "Reason":  "r38 explicitly classifies new fault-latched LOW stage as EmergencyInputLow, preserving original fault attribution and cleanup policy."
+                    },
+                    {
+                        "Path":  "FactoryR30Tests.cs",
+                        "FrozenUpstreamSHA256":  "0B867F77252F74E4941EDA91FE4B973D14781A2451D432D9CB6994FC9AE5F20C",
+                        "IntegratedSHA256":  "04256FB2CDD2B5258E0BF4B7AA449AFB2C0B9D59E16E7D89056BDF5E3494E9D0",
+                        "Reason":  "r42 test-only adaptation: the overcurrent fake now supplies a stalled selected voltage and continuous 5 V IMON, matching the explicit joint 3-second contract rather than treating one high-current value during a valid rising voltage as a fault. Assert both \u003e=3000 ms duration and the actual CURRENT fault cause, with no accepted capture. All other R30 optical, cancellation, emergency, native-cleanup, range, trigger recovery and sequence assertions remain unchanged. Original r41 failed receipts are retained; no production threshold, timing, SDK or hardware change, and this local fixture is not exact upstream or physical acceptance. 20261011 latest explicit one-second optical policy: managed fake timing/normal/default/error/cancellation expectations follow exactly 1000 ms. Historical read versus new-request rejection coverage is retained where applicable. No product/SDK execution or removed safety assertions."
+                    },
+                    {
+                        "Path":  "FactoryFinalAi4WorkflowTests.cs",
+                        "FrozenUpstreamSHA256":  "47CCAEF0A693AB282F7A47B8C37E47EDE53F14BFEE1F71F6D1CA7A5FE2FDCA15",
+                        "IntegratedSHA256":  "EE3A1FE14ADE236A72BDA47DCFF9697A37474905CBB6FC662332B74D4E7BE3E1",
+                        "Reason":  "20261011 latest explicit one-second optical policy: managed fake timing/normal/default/error/cancellation expectations follow exactly 1000 ms. Historical read versus new-request rejection coverage is retained where applicable. No product/SDK execution or removed safety assertions."
+                    },
+                    {
+                        "Path":  "FactoryMainForm.cs",
+                        "FrozenUpstreamSHA256":  "66B407D26844930EB0CF494E6258203238F703C2C316130745C36551F7E0B1B1",
+                        "IntegratedSHA256":  "CE8F631B2B59151ECBE68D3E30279680D37A03CBAAE4E739FAF9391852B02CC4",
+                        "Reason":  "20261011 one-second optical policy reflected in the existing diagnostic label, capture settings and synthetic smoke receipt; no product entry or device execution."
+                    },
+                    {
+                        "Path":  "FactoryMainForm.InteractionTests.cs",
+                        "FrozenUpstreamSHA256":  "48D7A97E1D287A3B5A1F887AD12DE00EF33F33DCBED781FB8E290E743FFC086F",
+                        "IntegratedSHA256":  "97278595D5D21111CE8B60B9829AE374E0C3C971A48D5BE6EAB5D3FC76FF3E77",
+                        "Reason":  "20261011 latest explicit one-second optical policy: managed fake timing/normal/default/error/cancellation expectations follow exactly 1000 ms. Historical read versus new-request rejection coverage is retained where applicable. No product/SDK execution or removed safety assertions."
+                    },
+                    {
+                        "Path":  "FactoryManualTests.cs",
+                        "FrozenUpstreamSHA256":  "EACFE709CF8D6BD231BC77A641D6D2FFB89F7915BCD38508799CE7FBC175DA42",
+                        "IntegratedSHA256":  "DF030DEE71C74A30BCB9A30988C8BF320BDCB5899E48B0A5B3E983E9CFB262CC",
+                        "Reason":  "20261011 latest explicit one-second optical policy: managed fake timing/normal/default/error/cancellation expectations follow exactly 1000 ms. Historical read versus new-request rejection coverage is retained where applicable. No product/SDK execution or removed safety assertions."
+                    },
+                    {
+                        "Path":  "FactoryTests.cs",
+                        "FrozenUpstreamSHA256":  "2D258365F53967460334542ECA01F1E52D00BB786EE10EB72BF0A347A933BE4E",
+                        "IntegratedSHA256":  "B21D4DB8EA6AC2C7BDBAE99C67A8621F17A8C34E89E5AA6D2CD6628F6762EF91",
+                        "Reason":  "20261011 latest explicit one-second optical policy: managed fake timing/normal/default/error/cancellation expectations follow exactly 1000 ms. Historical read versus new-request rejection coverage is retained where applicable. No product/SDK execution or removed safety assertions."
+                    },
+                    {
+                        "Path":  "FactoryZeroTriggerRunner.cs",
+                        "FrozenUpstreamSHA256":  "472F5872FB0BDCD672D5C3060D15E0A65752E7DE4BD4C99A544DC93E5AC52398",
+                        "IntegratedSHA256":  "E0DB362F7678F4773E6D99A3C87A16DD14E9710809323590F8061867C4C30D63",
+                        "Reason":  "20261011 DesktopPostProcessing opt-in defaults false and defers duplicate full analysis only for desktop pressure processing. FullMetricsDeferred and NaN/Detected-null preserve unknown metrics; default factory/calibration analysis and actual capture/Stop/shutdown/cleanup/error gates remain."
+                    },
+                    {
+                        "Path":  "FactoryZeroTriggerTests.cs",
+                        "FrozenUpstreamSHA256":  "4BB8477F6CD38A8EBF64C63C62D2974252ECD2AC55F572BE0A2535E86F7F1C98",
+                        "IntegratedSHA256":  "7785295AF6F72F556710C76DFF922ECAF668A6A02689A041850932AB0CB6116F",
+                        "Reason":  "20261011 latest explicit one-second optical policy: managed fake timing/normal/default/error/cancellation expectations follow exactly 1000 ms. Historical read versus new-request rejection coverage is retained where applicable. No product/SDK execution or removed safety assertions."
+                    },
+                    {
+                        "Path":  "Imported/Unified100/PdLinearHighPass.cs",
+                        "FrozenUpstreamSHA256":  "28780887CE26F71C84115A0E32E06DB9AFB9F85DD861E21E6C5F5B6FC6823A22",
+                        "IntegratedSHA256":  "8AEBC5601CA0BD29385108F99D9D6D53EBD90405851AF6E56E10025FF0BD4B29",
+                        "Reason":  "20261011 CPU-only guarded identity return for signed interior indices and count\u003c=2^30. Boundary/nonpositive/extreme counts retain original modulo/overflow semantics. Reversing exactly two comments and this guard restores frozen SHA256 28780887CE26F71C84115A0E32E06DB9AFB9F85DD861E21E6C5F5B6FC6823A22. Coefficients, four passes, numerical operation order, FilterId, precision and cancellation unchanged; test-only legacy oracle and synthetic bit comparisons, no field acceptance."
+                    },
+                    {
+                        "Path":  "FactoryAnalysis.cs",
+                        "FrozenUpstreamSHA256":  "A037CFD3938BE78F3CDA490DC8CC98B1E779FC82D426BC14FE6F70EC44C7F5D9",
+                        "IntegratedSHA256":  "03864A480DB3E33BC224973B9C15B6A32FA04A11C211C3B269BACDA9003CAB63",
+                        "Reason":  "Latest user authorization removes the historical diagnostic-enable checkbox: always evaluate captured oscillation metrics, retaining all raw waveform, SNR, reliable crossing, fit and parameter validity checks. The old false metadata remains unchanged and is never evidence of physical wiring, safe discharge or an HV permit."
+                    },
+                    {
+                        "Path":  "FactoryAnalysisTests.cs",
+                        "FrozenUpstreamSHA256":  "04F1B65D624A33127650468F74593F366466DD3D63D34EF4813A20C238F0779A",
+                        "IntegratedSHA256":  "6827936653E4F67BFF868BE4A76687AEE34E028943AD2EBF3D4475E898041A40",
+                        "Reason":  "Update only the obsolete feature-false expectation: measured valid damped oscillation computes metrics without rewriting the legacy metadata or site attestations. All independent ratios, clipping, invalid data, noise and fit regression assertions retained."
+                    },
+                    {
+                        "Path":  "FactoryMainForm.IntegratedSmoke.cs",
+                        "FrozenUpstreamSHA256":  "425148A049EAD10CC66312BC15397482B1FFCC19E2FA887601F97AA4FF7C48A0",
+                        "IntegratedSHA256":  "3FCC22B397B6455318D6AEC6763673E843B86E3A10F58190ECF034D0B5552E66",
+                        "Reason":  "Synthetic-only queue-stop fixture now uses an actual flat raw voltage instead of the removed feature checkbox. This source compiles in the focused closure; this visual smoke itself was not executed in this targeted run."
+                    },
+                    {
+                        "Path":  "FactoryPressureStartPrompt.cs",
+                        "FrozenUpstreamSHA256":  "CD2246CDA39D301EA0FA93F5371EF5A7C92A5F8770946D1C6E20448F268102DA",
+                        "IntegratedSHA256":  "B80FF541548797DACD06807FA4C92B53110BABCC15667D31CA8D2AA4E9CAF2CD",
+                        "Reason":  "Remove obsolete diagnostic-enable preference rejection. Retain all-DC capture placement preflight and the independent physical safety/operator start confirmation text and checks."
+                    },
+                    {
+                        "Path":  "FactoryR29Tests.cs",
+                        "FrozenUpstreamSHA256":  "6FC50BB19D94DB8125FCCC8875052FDA6492A5380FF7117F0082912F7C1F19F9",
+                        "IntegratedSHA256":  "8DA8CB68BAEA7CD8456C911211CD5E3AB9DB48D98D72DE3BBD401AED6B30BCE6",
+                        "Reason":  "Update only obsolete false-feature preflight expectation; all-DC repeat rejection remains. This source compiles in the focused closure; the full FactoryR29 UI suite was not executed in this targeted run."
+                    }
+                ],
+    "NewFiles":  [
+                     {"Path":"NativeFactoryBackend.Feedback.cs","SHA256":"C036C7F44FFAF63DF903C1476D4C9E486C2AED776FDE2FFB23632B2339086551"},
+                     {"Path":"FactoryFeedbackAvailabilityTests.cs","SHA256":"24AAB89FFA7600FE1B1B9D8E3DAC4A4FAFC84146E6BC0A7B21FC6BC509DF7909"},
+                     {
+                         "Path":  "FactoryEmergencyReadPolicy.cs",
+                         "SHA256":  "252C8A3C308208F5D65A399393BAA8AAAEE8F4120EB05A84E60FCC176C121FCC"
+                     },
+                     {
+                         "Path":  "FactoryEmergencyTimingContractTests.cs",
+                         "SHA256":  "47E1886B4BFAEB7E8D0FEFC6904EB05A9E105E08D78F318F4733BCB2839F88EF"
+                     },
+                     {
+                         "Path":  "FactoryBufferEmergencyCurrentTests.cs",
+                         "SHA256":  "7B2A4DB2CEA0945BB75866F087079C17303DD325B4759BADFFAF4BFBDECE59BE"
+                     },
+                     {
+                         "Path":  "UnifiedFinePressureRamp.cs",
+                         "SHA256":  "3B3E4CF5B4C3244D14FC7153B48CE48280EF015A1473B00E25DAD99FAAFB5AC3"
+                     },
+                     {
+                         "Path":  "UnifiedWorkerLaunchEvidence.cs",
+                         "SHA256":  "037B0CA822B2AD054E905D0E37BAD5F3C0F2DBBF3EC6B3B1F309CB17D9A59FB2"
+                     },
+                     {
+                         "Path":  "NativeFactoryBackend.ZeroInput.cs",
+                         "SHA256":  "040C717F917BCB867ED5B7B4D09F263520F030B268B442C11B1015CD14D993AA"
+                     },
+                     {
+                         "Path":  "FactoryResidentZeroInputTests.cs",
+                         "SHA256":  "59C3A47773CE6501BB7B5FFD9E4E389D2F52CA31F983DE5DB7E78C3CE7318B29"
+                     },
+                     {
+                         "Path":  "FactoryInputStopEvidence.cs",
+                         "SHA256":  "9C2ECBC251E6547410944D566EBC9EB517E224F1E3C9FA37B7B210C9F74DD2CD"
+                     },
+                     {
+                         "Path":  "FactoryArtNegativeFeedbackTests.cs",
+                         "SHA256":  "9B15553EF9067A632EA9DFD2E76F7199743E05CF4F6686F47AE5D2967D93A3CB"
+                     },
+                     {
+                         "Path":  "FactoryFailedRoundReleaseEvidence.cs",
+                         "SHA256":  "0EA5A46DA365A670A9CB5A4A9DA198D5020821CEDEAE604FC5DE6289B77C5AD7"
+                     },
+                     {
+                         "Path":  "FactorySelectedFeedbackTests.cs",
+                         "SHA256":  "66C73C187BCE8347AF1FBD9AE0562C223C5EAE51256610D405068316FDA07EA5"
+                     },
+                     {
+                         "Path":  "FactoryFeedbackConfigurationTests.cs",
+                         "SHA256":  "8AECFD12CFE306A2DDC93A5EE94476E0EEEA852529742FB09C1B1152F0160739"
+                     },
+                     {
+                         "Path":  "FactoryNoResidualPressureTests.cs",
+                         "SHA256":  "C9DB3309B843EA525B3496623397EB4826C2333DAC6EA1F6F0EA40A4B101766C"
+                     },
+                     {
+                         "Path":  "FactoryEmergencySnapshotPublisher.cs",
+                         "SHA256":  "EDE39104C0C43283F3E4392B18F1E765424ADCE5B368A931B2770A85519D28C7"
+                     },
+                     {
+                         "Path":  "FactoryEmergencyDisplayTests.cs",
+                         "SHA256":  "A747590046176C7E258107EE6A4B5627B1E4BEFD62D91EFE631F713BCFE091E4"
+                     },
+                     {
+                         "Path":  "FactoryPressurePrecisionTests.cs",
+                         "SHA256":  "3B82995BED71DEFC86AFCF990891F702BD29A21BF6EB32398DB93912DED1C76E"
+                     },
+                     {
+                         "Path":  "FactoryProgressJournal.cs",
+                         "SHA256":  "0A6A8EF15CF61EE3BA34E9364CF233F3692D2E416952189082F3B2666A35ECA5"
+                     },
+                     {
+                         "Path":  "FactoryHealthyRoundStopEvidence.cs",
+                         "SHA256":  "C408299153745680388DD7DC6C061BD8099FBF39B7D3DEA70AC5F2118FC992F3"
+                     },
+                     {
+                         "Path":  "FactoryEmergencyPendingTests.cs",
+                         "SHA256":  "632C595563B3C734866E7913DF9C69EC2A53F458AE7A8ED10DB98E9CC6291649"
+                     },
+                     {
+                         "Path":  "AdjacentHardwareRangePolicy.cs",
+                         "SHA256":  "2356F75FF752CBC5ECB74A6166C3149AB9AB55EC0004A61974A150C186C05C2A"
+                     },
+                     {
+                         "Path":  "FactoryEmergencyRoundStopEvidence.cs",
+                         "SHA256":  "8954C60B478E697F5BD2607E846E43F063117537276A0767BC735B0D257ABEA7"
+                     },
+                     {
+                         "Path":  "FactoryEmergencyRetainedOfflineHarness.cs",
+                         "SHA256":  "6DD7025BC08038B9E252D811BEB24346BF46CDAF02AF9E42B58D8D301261C40F"
+                     }
+                 ],
+    "PendingAndSingleStepReview20261010":  {
+                                               "Scope":  "Same sole-DI healthy read within its existing 500ms budget publishes pending instead of terminal unknown; no stale HIGH grants permission. Original LOW, native errors and total timeout remain terminal. The production stop wrapper now forwards its sixth healthy-stop callback and original native facts. Each range change is one adjacent step; original amplitudes/quality remain unchanged.",
+                                               "PendingProof":  "build/qa-emergency-pending-e1d3e062c9/verification-emergency-pending.json",
+                                               "StopConsumerProof":  "build/qa-healthy-stop-8f89ce767a/verification-healthy-stop.json",
+                                               "HardwareAccessed":  false,
+                                               "PhysicalAcceptance":  false,
+                                               "FinalExeIntegration":  false
+                                           },
+    "ReferenceOnly":  {
+                          "FineRampSourceVersion":  "1.0.30.13",
+                          "FineRampSourceSHA256":  "9CF2934AAD628A2DCA7C364EBC146E3F6658D092D5A61DF5EFBE96110E23C4B5",
+                          "Note":  "Only step/cadence reference; same calculation as reviewed .11. No .13 voltage protection or factory UI import. User-reported .13 pressure acceptance does not cover these local adaptations."
+                      },
+    "NegativeFeedbackReview20261009":  {
+                                           "Scope":  "Signed DC noise near zero is not classified as positive-rail saturation. Existing configured negative VMON/current tolerances are snapshotted into raw guards; original signed extrema and all stage checks remain.",
+                                           "FocusedProof":  "build/art-negative-feedback-20261009-r36b/verification-art-negative-focused.json",
+                                           "Tests":  "62 numerical/raw replay + 25 startup + 61 background = 148 PASS; review limited to unchanged targeted implementations.",
+                                           "HardwareAccessed":  false,
+                                           "PhysicalAcceptance":  false,
+                                           "Uncovered":  "Actual ART ADC code/step and SDK accepted ranges, physical voltage noise origin and metrological acceptance."
+                                       },
+    "EndResidualReview20261009":  {
+                                      "Scope":  "Explicit user setting: device configured maximum peak voltage times default 4%, used only after round/end and fault shutdown; legacy absolute startup/background/negative/current/max protection unchanged.",
+                                      "FocusedProof":  "build/end-residual-20261009-b/verification-end-residual-focused.json",
+                                      "Tests":  "Six named fake suites: 51+39+102+36+116+48 = 392 PASS; unchanged targeted worker implementations reviewed.",
+                                      "HardwareAccessed":  false,
+                                      "PhysicalAcceptance":  false,
+                                      "Uncovered":  "Physical shutdown, discharge, live ART residual observation and final EXE integration."
+                                  },
+    "ProgressJournalReview20261010":  {
+                                          "Scope":  "Only Program report delegate, original failure aggregation and final journal drain plus one new local managed writer. Upstream identities and all other existing file pins are unchanged.",
+                                          "ProgramBeforeSHA256":  "E7D3C37A3F6A006445E793BC7C09CE0514DB2074007A9AD5F40161F21B609049",
+                                          "ProgramAfterSHA256":  "61F025EACB0FCD114765CA9B523838EF0E9D84EE9F1EC8D7E5F7A68E44949671",
+                                          "NewJournalSHA256":  "24B8D558D813F6671C79DB6C62409B2A65879E9033E5F21B41115ACBF14BE98A",
+                                          "ControlledDiffProof":  "build/qa-journal-controlled-diff-12266d2c25/verification-controlled-diff.json",
+                                          "FocusedProof":  "build/qa-progress-journal-98224e030f/verification-progress-journal.json",
+                                          "Tests":  "Exact old Program reverse hash PASS; 214 imported/existing-local pins independently checked. 32 managed bounded-journal and 30 real-feedback-before-ARM assertions PASS; producer does not wait on blocked disk, critical FIFO flush, stop cancellation, overflow/write-error retention and failure acknowledgement covered.",
+                                          "HardwareAccessed":  false,
+                                          "PhysicalAcceptance":  false,
+                                          "FinalExeIntegration":  false,
+                                          "Uncovered":  "Final protected package, actual disk/SDK latency and physical device ramp/capture/cleanup remain untested by these managed fixtures."
+                                      },
+    "HealthyRoundStopAndEmergencyHotpathReview20261010":  {
+                                                              "Scope":  "Pure operator cancellation requires exact accepted input/session/StopId binding and all returned output, ART round release, Pico Stop/buffer release and EndRound facts before retaining the current session. Missing/tampered/late/fault evidence never grants reuse or automatic output. Failure cleanup remains a distinct outcome. ReadEmergencyReleased only consumes the sole DI owner; periodic Pico checks remain at Open, both BeginRound boundaries and idle. Actual Pico failures, identity verification, AI mutual exclusion and 300/500 ms deadlines unchanged. Passive handoff timing has no new native IO.",
+                                                              "HealthyStopProof":  "build/r43-healthy-stop-focused-20261010-r2/verification-failed-release-focused.json",
+                                                              "HealthyStopHostProof":  "build/qa-healthy-stop-e52049ee4a/verification-healthy-stop.json",
+                                                              "OutcomeProof":  "build/r43-resident-outcome-20261010-r1/verification-resident-round-outcome.json",
+                                                              "EmergencyHotpathProof":  "build/qa-emergency-hotpath-4e7a232ac5/verification-emergency-hotpath.json",
+                                                              "Tests":  "127 failed release + 49 input stop + 33 healthy stop protocol; UI195 + Host22; 46 outcome; 190 managed Native/IL/Pico lifecycle/timing assertions PASS. Earlier failed fixtures retained; these are targeted checks, not final package or physical acceptance.",
+                                                              "HardwareAccessed":  false,
+                                                              "PhysicalAcceptance":  false,
+                                                              "FinalExeIntegration":  false,
+                                                              "Uncovered":  "Actual hardware timing, ART monitor/finite reconfiguration capability and physical continuous pressure/Stop/restart unverified. Mutually exclusive AI Clear/recreate remains."
+                                                          },
+    "FailedRoundReleaseReview20261009":  {
+                                             "Scope":  "Only accepted round identity with successful actual owner-thread EndRound, native Dispose and lease return can publish a failed-round release receipt. Client requires bound proof plus real worker exit; original failure retained, no output/reopen/monitor recovery permission.",
+                                             "FocusedProof":  "build/failed-round-release-20261009-r36c/verification-failed-release-focused.json",
+                                             "Tests":  "79 injected real-loop managed fake checks PASS; no Stop/native/lease failure, missing acceptance, stale identity or marker-only success accepted.",
+                                             "HardwareAccessed":  false,
+                                             "PhysicalAcceptance":  false,
+                                             "Uncovered":  "Physical Pico Stop/Close, ART cleanup and user reconnect behavior in final host EXE."
+                                         },
+    "CalibrationToPressureReview20261010":  {
+                                                "Scope":  "Emergency LOW retains the sole DI reader after a verified HV OFF receipt; manufacturer ramp fields save under that page grant; calibration accepts either measured emergency level without creating AO/DO; one adjacent-range function; analysis status JSON is size-bounded; legacy Task38 launch stays refused. Maintenance digests unchanged.",
+                                                "HardwareAccessed":  false,
+                                                "PhysicalAcceptance":  false,
+                                                "InstallerGenerated":  false
+                                            },
+    "ReviewedEntryAdapters":  [
+                                  {
+                                      "Path":  "UnifiedPressureBridge.cs",
+                                      "SHA256":  "3EF94F482F74DB59FACDC605ADD4B2DACAD2C1A5EE1744EE2349E7308D561534"
+                                  },
+                                  {
+                                      "Path":  "UnifiedWorkerEntry.cs",
+                                      "SHA256":  "86B84CD212A15364D878EBA3B6F4DA8829F412E2916D8872AF01DD5C6AE57023"
+                                  }
+                              ],
+    "PostStopCpuOpticalAndDesktopReview20261011":  {
+                                                       "Scope":  "Latest explicit source-only authorization: 1000 ms optical hold, pressure-desktop opt-in saved-record processing, and equivalent local FIR interior fast return. Fourteen changed imports plus the named local bridge are registered; frozen manifest, binary and all FrozenUpstream hashes remain unchanged.",
+                                                       "NewOpticalHoldMilliseconds":  1000,
+                                                       "HistoricalOpticalWidthMaximumReadableMilliseconds":  1500,
+                                                       "DesktopOptIn":  "Defaults false; the no-residual desktop bridge explicitly sets true. FullMetricsDeferred marks NaN/Detected-null rather than valid measurements. Default factory/calibration full analysis and actual Stop/shutdown/cleanup are retained.",
+                                                       "ExactHPDelta":  "Only two comments plus one guard; inverse byte hash equals the exact frozen HP. Four-pass numerical operation order and coefficients unchanged.",
+                                                       "CandidateCpuEvidence":  "build/qa-factory-poststop-cpu-before-20261011-02/proof.json",
+                                                       "CandidateCpuEvidenceSHA256":  "1DEC9C7C635CFC7FC92F624929248A302DD3D735502097B14B7A26D394FAFCFB",
+                                                       "CandidateEvidenceScope":  "Pre-production-patch pure candidate versus frozen implementation only, not final same-tree acceptance. Final strict source/tamper/current-CPU/range/optical regressions are separate receipts; old receipts remain historical.",
+                                                       "LocalModifiedImportCount":  42,
+                                                       "ExactFrozenImportCount":  156,
+                                                       "LocalAdapterCount":  24,
+                                                       "HardwareAccessed":  false,
+                                                       "PhysicalAcceptance":  false,
+                                                       "ReleasedExeBuilt":  false,
+                                                       "Remaining":  "Protected final EXE, field latency/optical width, SDK callbacks, physical shutdown/release, metrology and high-voltage acceptance remain unverified."
+                                                   },
+    "OscillationDefaultReview20261011":  {
+                                             "Scope":  "20261011 latest explicit user authorization removes the customer oscillation feature checkbox and enables waveform-derived diagnostics by default, independent of historical false. This is not a site attestation or HV authorization. All raw finite/rail/timebase/SNR/reliable-zero/fixed-cycle and physical safety checks remain. Genuine invalid-window UI state is separate from actual overflow, never adopted as valid or auto-retried. No hardware/product/worker/SDK execution.",
+                                             "Evidence":  [
+                                                              {
+                                                                  "Path":  "build/qa-oscillation-default-20261011-r55-02/proof.json",
+                                                                  "SHA256":  "51A36BCF9C033EF3602F2374A818C1051AB6DFA4C2302AFE9CC8EE6541146BED"
+                                                              },
+                                                              {
+                                                                  "Path":  "build/qa-oscillation-range-ui-20261011-r55-01/proof.json",
+                                                                  "SHA256":  "1A31DCB4BD60F1A40E0DE44B085C31472812CA82ACE10AD7BD8531FB002400F7"
+                                                              }
+                                                          ],
+                                             "Checks":  "113 focused factory assertions (12 default/window,10 phase boundary,57 metrics,34 sequence) and 3381 existing/current managed UI/policy/runtime assertions; runtime also invokes 116 existing batch assertions.",
+                                             "HardwareAccessed":  false,
+                                             "PhysicalAcceptance":  false,
+                                             "FinalExeIntegration":  false,
+                                             "Uncovered":  "Actual SDK/worker/device, field ADC and voltage waveforms, physical wiring/attestations, final protected EXE. Full standalone R29/visual smokes compiled but not executed."
+                                         },
+    "LateRoundStopReview20261011":  {
+                                        "Scope":  "20261011 authorized late operator Stop correction: post-cleanup journal drain remains independently bounded, completion-edge cancellation retains original partial capture and exact cleanup contract, and a fresh exact STOP after successful Worker return can retain only the already-healthy original session with all five EndRound facts. Save/journal/native cleanup failures, stale/wrong identities and arbitrary OCE remain fail-closed. Batch is revoked; no automatic output, retry or completed-data fabrication. No SDK/device/product/worker entry execution.",
+                                        "Evidence":  [
+                                                         {
+                                                             "Path":  "build/qa-late-stop-journal-20261011-r55-03/verification-progress-journal.json",
+                                                             "SHA256":  "E2A480FE8F9C7A37B688942D9E944E4D196496868F56A393C4F6BE990DF959E3"
+                                                         },
+                                                         {
+                                                             "Path":  "build/qa-late-stop-receipt-20261011-r55-01/verification-failed-release-focused.json",
+                                                             "SHA256":  "634180E7957433A4130B808A436624935730860E3DFD128CD68EDB0CF7887080"
+                                                         }
+                                                     ],
+                                        "Checks":  "60 journal/late-runner +30 before-ARM trend +127 failed-release +49 input-stop +33 existing healthy-stop +31 new late-stop managed checks; exact source inventory unchanged at each proof.",
+                                        "HardwareAccessed":  false,
+                                        "PhysicalAcceptance":  false,
+                                        "FinalExeIntegration":  false,
+                                        "Uncovered":  "Real hardware STOP/HV OFF timing, ART/Pico release, field callbacks, final protected EXE, installation and whole-suite physical acceptance. Earlier failed test fixtures retained."
+                                    }
+}
