@@ -19,7 +19,7 @@ namespace HVX.PdReview
         Form hostOwner;
         bool minimizedWithOwner;
         int completedFiles,totalFiles;
-        bool stopping,allowClose,arranging;
+        bool stopping,allowClose,arranging,readingSavedAnalysis;
         internal event EventHandler CancelRequested;
 
         internal ReviewAnalysisProgressDialog(int languageIndex,Font font)
@@ -50,9 +50,41 @@ namespace HVX.PdReview
         {return new Label{Name=name,Text=text,AutoSize=false,UseMnemonic=false,ForeColor=ReviewTheme.Ink};}
         string L(string key){return ReviewAnalysisProgressText.Text(languageIndex,key);}
 
+        internal void BeginReadingSavedAnalysis(int completed,int total)
+        {
+            if(IsDisposed||Disposing)return;
+            readingSavedAnalysis=true;stopping=true;cancel.Enabled=false;
+            cancel.Text=L("Reading saved analysis");
+            Text=L("Reading saved analysis");
+            UpdateReadingSavedAnalysis("",completed,total);
+        }
+        internal void UpdateReadingSavedAnalysis(string partPath,int completed,int total)
+        {
+            if(IsDisposed||Disposing)return;
+            readingSavedAnalysis=true;
+            total=Math.Max(0,total);completed=Math.Max(0,Math.Min(total,completed));
+            completedFiles=completed;totalFiles=total;
+            int maximum=Math.Max(1,total);
+            if(overallProgress.Value>maximum)overallProgress.Value=0;
+            overallProgress.Maximum=maximum;overallProgress.Value=completed;
+            overallLabel.Text=L("Reading saved analysis")+" "+completed+" / "+total;
+            string name=partPath??string.Empty;
+            try{if(!string.IsNullOrEmpty(name))name=Path.GetFileName(name);}catch(ArgumentException){}
+            fileLabel.Text=string.IsNullOrEmpty(name)?L("Reading diagnostics segments"):name;
+            fileTip.SetToolTip(fileLabel,string.IsNullOrEmpty(partPath)?fileLabel.Text:partPath);
+            fileLabel.AccessibleDescription=fileTip.GetToolTip(fileLabel);
+            currentLabel.Text=L("Diagnostics segment");
+            currentProgress.Style=ProgressBarStyle.Continuous;
+            currentProgress.Maximum=maximum;
+            if(currentProgress.Value>maximum)currentProgress.Value=0;
+            currentProgress.Value=completed;
+            stateLabel.Text=completed>=total&&total>0?L("Saved analysis segments loaded"):L("Reading saved analysis");
+            cancel.Enabled=false;PublishTaskbarProgress();Arrange();
+        }
         internal void UpdateProgress(string path,int completed,int total)
         {
             if(IsDisposed||Disposing)return;
+            readingSavedAnalysis=false;
             total=Math.Max(0,total);completed=Math.Max(0,Math.Min(total,completed));
             completedFiles=completed;totalFiles=total;
             int maximum=Math.Max(1,total);
@@ -64,6 +96,7 @@ namespace HVX.PdReview
             fileLabel.Text=string.IsNullOrEmpty(name)?ReviewLanguages.Text(languageIndex,"Pending","等待中"):name;
             fileTip.SetToolTip(fileLabel,string.IsNullOrEmpty(path)?fileLabel.Text:path);
             fileLabel.AccessibleDescription=string.IsNullOrEmpty(path)?fileLabel.Text:path;
+            currentLabel.Text=L("Current file");
             // Task17 supplies no pulse-level progress. The current-file bar is
             // intentionally indeterminate; no invented percentage is shown.
             currentProgress.Style=ProgressBarStyle.Marquee;
@@ -204,26 +237,29 @@ namespace HVX.PdReview
 
     internal static class ReviewAnalysisProgressText
     {
-        static readonly string[] Keys={"Analysis progress","Overall files","Current file","Analyzing current file…","Waiting for the current file to finish"};
+        static readonly string[] Keys={
+            "Analysis progress","Overall files","Current file","Analyzing current file…","Waiting for the current file to finish",
+            "Reading saved analysis","Diagnostics segment","Reading diagnostics segments","Saved analysis segments loaded"
+        };
         static readonly string[][] Packs={
-            "分析进度|总文件进度|当前 LOC 文件|正在分析当前文件…|正在等待当前文件完成".Split('|'),
+            "分析进度|总文件进度|当前 LOC 文件|正在分析当前文件…|正在等待当前文件完成|读取旧有分析|诊断分段|正在读取诊断分段|已加载分析分段".Split('|'),
             Keys,
-            "Напредък на анализа|Общо файлове|Текущ файл|Анализ на текущия файл…|Изчакване на завършването на текущия файл".Split('|'),
-            "Napredak analize|Ukupno datoteka|Trenutna datoteka|Analiza trenutne datoteke…|Čekanje završetka trenutne datoteke".Split('|'),
-            "Průběh analýzy|Celkem souborů|Aktuální soubor|Analyzuje se aktuální soubor…|Čekání na dokončení aktuálního souboru".Split('|'),
-            "Progression de l’analyse|Total des fichiers|Fichier actuel|Analyse du fichier actuel…|En attente de la fin du fichier actuel".Split('|'),
-            "Analysefortschritt|Dateien insgesamt|Aktuelle Datei|Aktuelle Datei wird analysiert…|Warten auf Abschluss der aktuellen Datei".Split('|'),
-            "Elemzés folyamata|Összes fájl|Aktuális fájl|Az aktuális fájl elemzése…|Várakozás az aktuális fájl befejezésére".Split('|'),
-            "Avanzamento analisi|File totali|File corrente|Analisi del file corrente…|In attesa del completamento del file corrente".Split('|'),
-            "Postęp analizy|Łącznie plików|Bieżący plik|Analiza bieżącego pliku…|Oczekiwanie na zakończenie bieżącego pliku".Split('|'),
-            "Progresul analizei|Total fișiere|Fișier curent|Se analizează fișierul curent…|Se așteaptă finalizarea fișierului curent".Split('|'),
-            "Ход анализа|Всего файлов|Текущий файл|Анализ текущего файла…|Ожидание завершения текущего файла".Split('|'),
-            "Napredak analize|Ukupno datoteka|Trenutna datoteka|Analiza trenutne datoteke…|Čekanje završetka trenutne datoteke".Split('|'),
-            "Priebeh analýzy|Celkom súborov|Aktuálny súbor|Analyzuje sa aktuálny súbor…|Čakanie na dokončenie aktuálneho súboru".Split('|'),
-            "Napredek analize|Skupaj datotek|Trenutna datoteka|Analiza trenutne datoteke…|Čakanje na dokončanje trenutne datoteke".Split('|'),
-            "Progreso del análisis|Total de archivos|Archivo actual|Analizando el archivo actual…|Esperando a que finalice el archivo actual".Split('|'),
-            "Analiz ilerlemesi|Toplam dosya|Geçerli dosya|Geçerli dosya analiz ediliyor…|Geçerli dosyanın tamamlanması bekleniyor".Split('|'),
-            "Tiến độ phân tích|Tổng số tệp|Tệp hiện tại|Đang phân tích tệp hiện tại…|Đang chờ tệp hiện tại hoàn tất".Split('|')
+            "Напредък на анализа|Общо файлове|Текущ файл|Анализ на текущия файл…|Изчакване на завършването на текущия файл|Четене на запазен анализ|Диагностичен сегмент|Четене на диагностични сегменти|Сегментите на анализа са заредени".Split('|'),
+            "Napredak analize|Ukupno datoteka|Trenutna datoteka|Analiza trenutne datoteke…|Čekanje završetka trenutne datoteke|Čitanje sačuvane analize|Dijagnostički segment|Čitanje dijagnostičkih segmenata|Segmenti analize su učitani".Split('|'),
+            "Průběh analýzy|Celkem souborů|Aktuální soubor|Analyzuje se aktuální soubor…|Čekání na dokončení aktuálního souboru|Načítání uložené analýzy|Diagnostický segment|Načítání diagnostických segmentů|Segmenty analýzy načteny".Split('|'),
+            "Progression de l’analyse|Total des fichiers|Fichier actuel|Analyse du fichier actuel…|En attente de la fin du fichier actuel|Lecture de l’analyse enregistrée|Segment de diagnostics|Lecture des segments de diagnostics|Segments d’analyse chargés".Split('|'),
+            "Analysefortschritt|Dateien insgesamt|Aktuelle Datei|Aktuelle Datei wird analysiert…|Warten auf Abschluss der aktuellen Datei|Gespeicherte Analyse lesen|Diagnosesegment|Diagnosesegmente werden gelesen|Analysesegmente geladen".Split('|'),
+            "Elemzés folyamata|Összes fájl|Aktuális fájl|Az aktuális fájl elemzése…|Várakozás az aktuális fájl befejezésére|Mentett elemzés olvasása|Diagnosztikai szegmens|Diagnosztikai szegmensek olvasása|Elemzési szegmensek betöltve".Split('|'),
+            "Avanzamento analisi|File totali|File corrente|Analisi del file corrente…|In attesa del completamento del file corrente|Lettura analisi salvata|Segmento diagnostica|Lettura segmenti diagnostica|Segmenti analisi caricati".Split('|'),
+            "Postęp analizy|Łącznie plików|Bieżący plik|Analiza bieżącego pliku…|Oczekiwanie na zakończenie bieżącego pliku|Odczyt zapisanej analizy|Segment diagnostyczny|Odczyt segmentów diagnostycznych|Segmenty analizy wczytane".Split('|'),
+            "Progresul analizei|Total fișiere|Fișier curent|Se analizează fișierul curent…|Se așteaptă finalizarea fișierului curent|Citire analiză salvată|Segment de diagnostic|Citire segmente de diagnostic|Segmentele analizei au fost încărcate".Split('|'),
+            "Ход анализа|Всего файлов|Текущий файл|Анализ текущего файла…|Ожидание завершения текущего файла|Чтение сохранённого анализа|Сегмент диагностики|Чтение сегментов диагностики|Сегменты анализа загружены".Split('|'),
+            "Napredak analize|Ukupno datoteka|Trenutna datoteka|Analiza trenutne datoteke…|Čekanje završetka trenutne datoteke|Čitanje sačuvane analize|Dijagnostički segment|Čitanje dijagnostičkih segmenata|Segmenti analize su učitani".Split('|'),
+            "Priebeh analýzy|Celkom súborov|Aktuálny súbor|Analyzuje sa aktuálny súbor…|Čakanie na dokončenie aktuálneho súboru|Načítanie uloženej analýzy|Diagnostický segment|Načítanie diagnostických segmentov|Segmenty analýzy načítané".Split('|'),
+            "Napredek analize|Skupaj datotek|Trenutna datoteka|Analiza trenutne datoteke…|Čakanje na dokončanje trenutne datoteke|Branje shranjene analize|Diagnostični segment|Branje diagnostičnih segmentov|Segmenti analize naloženi".Split('|'),
+            "Progreso del análisis|Total de archivos|Archivo actual|Analizando el archivo actual…|Esperando a que finalice el archivo actual|Leyendo análisis guardado|Segmento de diagnóstico|Leyendo segmentos de diagnóstico|Segmentos de análisis cargados".Split('|'),
+            "Analiz ilerlemesi|Toplam dosya|Geçerli dosya|Geçerli dosya analiz ediliyor…|Geçerli dosyanın tamamlanması bekleniyor|Kayıtlı analiz okunuyor|Tanılama segmenti|Tanılama segmentleri okunuyor|Analiz segmentleri yüklendi".Split('|'),
+            "Tiến độ phân tích|Tổng số tệp|Tệp hiện tại|Đang phân tích tệp hiện tại…|Đang chờ tệp hiện tại hoàn tất|Đang đọc phân tích đã lưu|Phân đoạn chẩn đoán|Đang đọc các phân đoạn chẩn đoán|Đã tải phân đoạn phân tích".Split('|')
         };
         internal static string Text(int language,string key)
         {

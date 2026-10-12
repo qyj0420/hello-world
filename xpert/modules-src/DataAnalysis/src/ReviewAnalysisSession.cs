@@ -206,6 +206,9 @@ namespace HVX.PdReview
             }catch(Exception ex){if(IsFatalHostException(ex))throw;LastError=ex.Message;AnalysisSessionStatus="SessionLoadFailed";return false;}
         }
         SessionPlan PrepareSession(string directory,double[,] p,double[,] w,string[,] files,string[,] settings)
+        {return PrepareSession(directory,p,w,files,settings,null,null);}
+        SessionPlan PrepareSession(string directory,double[,] p,double[,] w,string[,] files,string[,] settings,
+            string archiveDirectory,Action<int,int,string> diagnosticsProgress)
         {
             if(p==null||w==null||files==null||settings==null||p.GetLength(1)<36||files.GetLength(1)!=11||settings.GetLength(1)!=2||
                 files.GetLength(0)>100000||settings.GetLength(0)>128)
@@ -311,7 +314,7 @@ namespace HVX.PdReview
             model.SetDataIds(plan.Paths,plan.Ids);model.SetParameterMatrix(plan.Parameters);
             plan.Analyzed=analyzed.ToArray();plan.Selected=selectedFiles.ToArray();
             string savedDiagnostics;
-            plan.AlgorithmDiagnostics=ParseAlgorithmDiagnostics(s.TryGetValue("AlgorithmDiagnostics",out savedDiagnostics)?savedDiagnostics:null,plan.Root,plan.Analyzed);
+            plan.AlgorithmDiagnostics=ParseAlgorithmDiagnostics(s.TryGetValue("AlgorithmDiagnostics",out savedDiagnostics)?savedDiagnostics:null,plan.Root,plan.Analyzed,archiveDirectory,diagnosticsProgress);
             return plan;
         }
         void ApplySession(SessionPlan plan)

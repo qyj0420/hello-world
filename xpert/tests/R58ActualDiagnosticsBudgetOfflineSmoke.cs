@@ -82,14 +82,17 @@ static class R58ActualDiagnosticsBudgetOfflineSmoke
             Set(carrier,"algorithmDiagnostics",merged);
             var overwrite=(Dictionary<string,string>)Call(carrier,"WithCompletedAlgorithmDiagnostics",Completed(assembly,root,batch));
             Check(overwrite.Count==batch.Count,"repeat analysis replaces records without duplicate accumulation");
-            Check(Rejected(()=>Call(null,"ParseAlgorithmDiagnostics",new string('x',32*MiB+1),root,new string[0])) is ArgumentException,"encoded character quota rejects boundary plus one");
-            Check(Rejected(()=>Call(null,"ParseAlgorithmDiagnostics",new string('\u6c49',12*MiB),root,new string[0])) is ArgumentException,"UTF-8 byte quota rejects multibyte input before parsing");
+            Check(Rejected(()=>Call(null,"ParseAlgorithmDiagnostics",new string('x',64*MiB+1),root,new string[0])) is ArgumentException,"legacy flat encoded character quota rejects boundary plus one");
+            Check(Rejected(()=>Call(null,"ParseAlgorithmDiagnostics",new string('\u6c49',22*MiB),root,new string[0])) is ArgumentException,"UTF-8 byte quota rejects multibyte input before parsing");
             var randomBytes=new byte[760000];new Random(238).NextBytes(randomBytes);
             string noise=Json().Serialize(new{opaque=Convert.ToBase64String(randomBytes)});
             Check(noise.Length<=MiB,"oversized aggregate fixture obeys individual limit");
             var excessive=new Dictionary<string,string>();for(int i=0;i<34;i++)excessive.Add("large-"+i+".loc",noise);
             Check(excessive.Sum(p=>(long)Encoding.UTF8.GetByteCount(p.Value))<=64L*MiB,"oversized encoded fixture does not violate decoded limit first");
-            Check(Rejected(()=>Call(null,"SerializeAlgorithmDiagnostics",excessive)) is InvalidOperationException,"encoded serialization rejects data exceeding finite 32 MiB quota");
+            string segmented=(string)Call(null,"SerializeAlgorithmDiagnostics",excessive);
+            Check(segmented.IndexOf("HVX.AlgorithmDiagnostics.Segmented/1",StringComparison.Ordinal)>=0,"payload above 32 MiB spills into segmented envelope");
+            var segmentedBack=(Dictionary<string,string>)Call(null,"ParseAlgorithmDiagnostics",segmented,root,excessive.Keys.Select(p=>Path.Combine(root,p)).ToArray());
+            Check(segmentedBack.Count==excessive.Count&&excessive.All(p=>segmentedBack[p.Key]==p.Value),"segmented save/reload preserves oversized evidence");
             Console.WriteLine("R58_ACTUAL_DIAGNOSTICS_HOTFIX_PASS="+checks+";records="+batch.Count+";decodedStatusBytes="+decodedBytes+";encodedBytes="+encodedBytes+";ProductConstructed=false;SDKCalled=false;HardwareUsed=false;SourceProjectWritten=false");
             return 0;
         }catch(Exception error){Console.Error.WriteLine(error.ToString());return 1;}

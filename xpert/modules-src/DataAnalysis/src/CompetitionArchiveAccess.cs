@@ -52,7 +52,7 @@ namespace HVX.PdReview
                 var paths=Enumerable.Range(0,files.GetLength(0)).Select(file=>SessionResolve(SessionRoot(project),files[file,0])).ToArray();
                 var catalog=new double[files.GetLength(0),2];for(int file=0;file<files.GetLength(0);file++){catalog[file,0]=SessionRead(files[file,1]);catalog[file,1]=SessionRead(files[file,2]);}
                 string encoded=null;for(int row=0;row<settings.GetLength(0);row++)if(settings[row,0]=="AlgorithmDiagnostics")encoded=settings[row,1];
-                var diagnostics=ParseAlgorithmDiagnostics(encoded,SessionRoot(project),paths);
+                var diagnostics=ParseAlgorithmDiagnostics(encoded,SessionRoot(project),paths,directory,null);
                 var waves=ReadMatrix(wavePath,IntPtr.Size==4?8000000:32000000);
                 foreach(string member in new[]{"session.json","pdmap.bin"})if(!String.Equals(SessionHash(ArchiveChild(directory,member)),manifest.Files.Single(file=>file.Path==member).Sha256,StringComparison.OrdinalIgnoreCase))
                     throw new InvalidDataException("Analysis changed while loading; retry.");

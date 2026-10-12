@@ -72,10 +72,16 @@ namespace HVX.PdReview
             }
         }
         void EnsureAnalysisArchivePathsFit(string root,string stage,string destination,string backup,bool overwrite)
+        {EnsureAnalysisArchivePathsFit(root,stage,destination,backup,overwrite,null);}
+        void EnsureAnalysisArchivePathsFit(string root,string stage,string destination,string backup,bool overwrite,IEnumerable<string> diagnosticsParts)
         {
             foreach(string directory in new[]{root,stage,destination,backup})EnsureAnalysisPathFits(directory,true);
             EnsureAnalysisPathFits(ArchiveChild(root,".save.lock"),false);
             var names=new List<string>{"parameters.bin","pdmap.bin","session.json","analysis.json","selection.json"};
+            if(diagnosticsParts!=null)foreach(string part in diagnosticsParts){
+                if(!IsDiagnosticsPartFileName(part))throw new InvalidDataException("Invalid diagnostics segment file name.");
+                names.Add(part);
+            }
             foreach(var chart in reportCharts) {
                 string prefix="chart_"+chart.Sequence.ToString("D6",System.Globalization.CultureInfo.InvariantCulture);
                 names.AddRange(new[]{prefix+".png",prefix+".csv",prefix+".bin"});

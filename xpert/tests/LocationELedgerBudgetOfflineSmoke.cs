@@ -126,9 +126,9 @@ static class LocationELedgerBudgetOfflineSmoke
             Check(GC.GetTotalMemory(true)<160L*MiB,"expanded ledgers are temporary, not retained as a 512 MiB decoded collection");
             var oversizedStatus=new Dictionary<string,string>{{"x.LOC",new string('x',MiB+1)}};
             Reject(()=>Call(review,null,"SerializeAlgorithmDiagnostics",oversizedStatus),"per-status 1 MiB protection retained");
-            Reject(()=>Call(review,null,"ParseAlgorithmDiagnostics",new string('x',32*MiB+1),root,new string[0]),"32 MiB encoded input protection enforced");
-            int decoded=64*MiB;object[] decodeArgs={"x",decoded};
-            Reject(()=>Call(review,null,"DecodeAlgorithmStatus",decodeArgs),"64 MiB decoded status protection retained");
+            Reject(()=>Call(review,null,"ParseAlgorithmDiagnostics",new string('x',64*MiB+1),root,new string[0]),"64 MiB legacy flat encoded input protection enforced");
+            int decoded=512*MiB;object[] decodeArgs={"x",decoded};
+            Reject(()=>Call(review,null,"DecodeAlgorithmStatus",decodeArgs),"512 MiB segmented decoded status protection retained");
             Console.WriteLine("LOCATION_E_LEDGER_BUDGET_OFFLINE_PASS="+checks+";records=31;decodedLedgerBytes="+(31L*MiB)+";metadataBytes="+metadata.Length+";hardwareUsed=false;workerUsed=false;productConstructed=false");
             return 0;
         }catch(Exception ex){Console.Error.WriteLine(ex.ToString());return 1;}
