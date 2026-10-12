@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "benchCalibrated": true,
+  "voltageGainVPerAoVolt": 6000,
+  "dividerRatioVPerV": 12000,
+  "currentScaleAPerVolt": 0.002,
+  "sourceVoltageScaleVPerV": 6000,
+  "calibratedBy": "HvPressTest",
+  "calibratedUtc": "2026-10-12T00:00:00Z",
+  "notes": "直流源监控0–5V→0–30kV(×6000); 电流0–5V→0–10mA(0.002A/V); 分压12000:1; ART AI±5V。"
+}

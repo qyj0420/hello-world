@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+*.user
+*.suo
+.vs/
+# keep large runtime unpack out of accidental add elsewhere
+factorypress/**/bin/
+factorypress/**/obj/
+# original zip extract (source lives under factorypress/)
+dac-FactoryPress-full-src-for-Codex_20261012-201121/
+factorypress/publish/hv-press-ui/

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Xiongxin.Owts.Acquisition</RootNamespace>
+    <AssemblyName>Xiongxin.Owts.Acquisition</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.Owts.Contracts\Xiongxin.Owts.Contracts.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Xiongxin.Owts.HvPressTest/1.0.0": {
+        "dependencies": {
+          "Xiongxin.Owts.Acquisition": "1.0.0",
+          "Xiongxin.Owts.Contracts": "1.0.0"
+        },
+        "runtime": {
+          "Xiongxin.Owts.HvPressTest.dll": {}
+        }
+      },
+      "Xiongxin.Owts.Acquisition/1.0.0": {
+        "dependencies": {
+          "Xiongxin.Owts.Contracts": "1.0.0"
+        },
+        "runtime": {
+          "Xiongxin.Owts.Acquisition.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Xiongxin.Owts.Contracts/1.0.0": {
+        "runtime": {
+          "Xiongxin.Owts.Contracts.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Xiongxin.Owts.HvPressTest/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Xiongxin.Owts.Acquisition/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Xiongxin.Owts.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

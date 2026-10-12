@@ -1,0 +1,4 @@
+# 加压列表（kV），每行一个目标；# 开头为注释
+# 与 press-list.sample.json 的 targetsKv 等价文本形态
+1.0
+2.0

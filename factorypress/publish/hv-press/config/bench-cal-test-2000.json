@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "benchCalibrated": true,
+  "voltageGainVPerAoVolt": 2000,
+  "dividerRatioVPerV": 12,
+  "currentScaleAPerVolt": 0.1,
+  "sourceVoltageScaleVPerV": 2000,
+  "calibratedBy": "HvPressTest",
+  "calibratedUtc": "2026-10-12T00:00:00Z",
+  "notes": "DEPRECATED: 请用 bench-cal-test-6000.json（Gain=6000 Divider=12000）。本文件仅兼容旧 smoke。"
+}
