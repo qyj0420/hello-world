@@ -236,7 +236,7 @@ namespace Xiongxin.OWTS.Desktop
             if (recognition == null) return;
             SetRequired("LanguageIndex", preferences.LanguageIndex);
             SetRequired("EnableAiFeatures", preferences.EnableAiFeatures);
-            string model = DefectModelCatalog.Resolve(preferences.ModelKind,preferences.ModelLibraryPath,preferences.CompetitionModelPath);
+            string model = DefectModelCatalog.ResolveActive(preferences.ModelLibraryPath);
             SetRequired("ModelLibraryPath", model ?? String.Empty);
         }
 

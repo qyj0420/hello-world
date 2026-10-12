@@ -410,8 +410,7 @@ namespace Xiongxin.OWTS.Desktop
                         if (String.Equals(id, ModuleHost.DataAnalysis, StringComparison.OrdinalIgnoreCase) &&
                             String.IsNullOrWhiteSpace(settings.TaskMinus3.ModelLibraryPath))
                         {
-                            string bundledModel = DefectModelCatalog.Resolve(settings.DefectModelKind,
-                                settings.TaskMinus3.ModelLibraryPath, settings.CompetitionModelPath);
+                            string bundledModel = DefectModelCatalog.ResolveActive(settings.TaskMinus3.ModelLibraryPath);
                             RequirePublicProperty(control, "ModelLibraryPath", bundledModel);
                             if (!File.Exists(bundledModel)) throw new FileNotFoundException("Bundled analysis model is missing.", bundledModel);
                             log.AppendLine(id + ":BundledModelApplied=True");

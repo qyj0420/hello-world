@@ -37,6 +37,16 @@ namespace Xiongxin.OWTS.Desktop
             string staged=Path.Combine(buildRoot??AppDomain.CurrentDomain.BaseDirectory,"model-payload",FileName(kind));
             return File.Exists(staged)?staged:Path.Combine(InstalledDirectory,FileName(kind));
         }
+        /// <summary>
+        /// Defect-recognition active model: a user-loaded path wins; otherwise the
+        /// installed/bundled standard model. Competition is not a selectable mode.
+        /// </summary>
+        internal static string ResolveActive(string loadedPath,string buildRoot=null)
+        {
+            string custom=(loadedPath??String.Empty).Trim();
+            if(custom.Length>0)return Path.GetFullPath(custom);
+            return Resolve(Standard,null,null,buildRoot);
+        }
         internal static void ValidateHeader(string path)
         {
             if(!ModelExtension(path))throw new InvalidDataException("请选择 PDM 或 HXM 加密模型 / Select an encrypted PDM or HXM model.");
@@ -56,7 +66,7 @@ namespace Xiongxin.OWTS.Desktop
             // an unauthenticated PDM2 magic value. Renamed approved models work.
             if(!String.Equals(hash,StandardHash,StringComparison.OrdinalIgnoreCase)&&
                 !String.Equals(hash,CompetitionHash,StringComparison.OrdinalIgnoreCase))
-                throw new InvalidDataException("此模型尚未列入本版本支持的模型。请选择随软件提供的标准模型或竞赛模型；更新训练模型请使用经确认的模型更新包。 / This model is not approved for this version. Select the supplied standard or competition model, or obtain a verified model update.");
+                throw new InvalidDataException("此模型尚未列入本版本支持的模型。请选择随软件提供的标准模型，或通过路径加载经确认的模型更新包。 / This model is not approved for this version. Select the supplied standard model, or load a verified model update by path.");
         }
 
         [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)]

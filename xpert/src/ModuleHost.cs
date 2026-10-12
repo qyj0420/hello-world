@@ -509,8 +509,8 @@ namespace Xiongxin.OWTS.Desktop
             string modelName = LateBound.ReadString(settings, "SoftwareModel", "Software.Model", "DeviceModel", "DeviceModelName");
             if (modelName.Length == 0) modelName = "HV-DAC Xpert";
             string unifiedModel = LateBound.ReadString(settings, "UnifiedAnalysisModelPath", "TaskMinus3.ModelPath");
-            string analysisModel = DefectModelCatalog.Resolve(LateBound.ReadString(settings,"DefectModelKind"),
-                LateBound.ReadString(settings,"TaskMinus3.ModelLibraryPath"),LateBound.ReadString(settings,"CompetitionModelPath"),modelRoot);
+            // Defect recognition: loaded path wins; otherwise installed/bundled standard.
+            string analysisModel = DefectModelCatalog.ResolveActive(LateBound.ReadString(settings,"TaskMinus3.ModelLibraryPath"),modelRoot);
             bool[] analysisQuadrants = ReadAnalysisQuadrants();
             string signature = String.Join("|", new[]
             {

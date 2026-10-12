@@ -10,8 +10,6 @@ namespace Xiongxin.OWTS.Desktop
         private bool plusDataUnlocked;
         private CheckBox enableDefectRecognition;
         private Label locationMethodNote;
-        private ComboBox defectModelKind;
-        private TextBox competitionModelPath;
 
         private Control BuildPlusDataPanel()
         {
@@ -66,15 +64,10 @@ namespace Xiongxin.OWTS.Desktop
             pages.TabPages.Add(PlusDataTab("首末端组合规则", endpoints));
 
             var models = CreateGrid();
-            defectModelKind = new SettingsComboBox { Name="DefectModelKind", DropDownStyle=ComboBoxStyle.DropDownList, Width=260 };
-            defectModelKind.Items.AddRange(new object[] { SettingsText("标准模型","Standard model"), SettingsText("竞赛模型","Competition model") });
-            AddRow(models, "缺陷识别模型", defectModelKind);
             minus3ModelPath = CreateTextBox();
             minus3ModelPath.Name = "PlusDataAnalysisModelPath";
-            AddRow(models, "标准模型文件（可选）", CreatePathEditor(minus3ModelPath, false, DefectModelCatalog.FileFilter));
-            competitionModelPath = CreateTextBox(); competitionModelPath.Name="CompetitionModelPath";
-            AddRow(models, "竞赛模型文件（可选）", CreatePathEditor(competitionModelPath, false, DefectModelCatalog.FileFilter));
-            AddWideRow(models, CreateNote("文件路径留空时使用已安装的对应模型。模型选择同时用于数据分析和加压后的缺陷识别；独立缺陷识别窗口仍单独保存设置。"));
+            AddRow(models, "缺陷识别模型文件（可选）", CreatePathEditor(minus3ModelPath, false, DefectModelCatalog.FileFilter));
+            AddWideRow(models, CreateNote("路径留空时使用已安装的标准模型；若通过路径加载了模型，则以加载的模型为准。同时用于数据分析和加压后的缺陷识别；独立缺陷识别窗口仍单独保存设置。"));
             unifiedModel = CreateTextBox();
             AddRow(models, "最终统一分析模型路径", CreatePathEditor(unifiedModel, false, ModelFilter()));
             AddWideRow(models, CreateNote("扩展模型仅在对应功能支持时使用。"));
@@ -120,8 +113,6 @@ namespace Xiongxin.OWTS.Desktop
             RefreshLocationMethodNote();
             LoadEndpointPolicy(analysis.EndpointPolicy);
             minus3ModelPath.Text = analysis.ModelLibraryPath;
-            defectModelKind.SelectedIndex = DefectModelCatalog.Normalize(value.DefectModelKind)==DefectModelCatalog.Competition?1:0;
-            competitionModelPath.Text = value.CompetitionModelPath;
             unifiedModel.Text = value.UnifiedAnalysisModelPath;
             task35Model.Text = value.Task35ModelPath;
             task36Model.Text = value.Task36ModelPath;
@@ -147,8 +138,8 @@ namespace Xiongxin.OWTS.Desktop
             value.LocationFilterAlgorithmId="B";
             value.TaskMinus3.EndpointPolicy = CaptureEndpointPolicy();
             value.TaskMinus3.ModelLibraryPath = minus3ModelPath.Text;
-            value.DefectModelKind = defectModelKind.SelectedIndex==1?DefectModelCatalog.Competition:DefectModelCatalog.Standard;
-            value.CompetitionModelPath = competitionModelPath.Text;
+            value.DefectModelKind = DefectModelCatalog.Standard;
+            value.CompetitionModelPath = String.Empty;
             value.UnifiedAnalysisModelPath = unifiedModel.Text;
             value.Task35ModelPath = task35Model.Text;
             value.Task36ModelPath = task36Model.Text;

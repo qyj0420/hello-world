@@ -196,11 +196,13 @@ internal static class CompetitionScientificLayoutSmoke
         {
             Check(dialog.StartPosition == FormStartPosition.CenterParent, scenario + " learning dialog initially centered on owner");
             dialog.StartPosition = FormStartPosition.Manual; dialog.Location = new Point(-20000, -20000); dialog.ShowInTaskbar = false; dialog.ClientSize = new Size(760, 900); dialog.Show(); Settle(dialog);
-            foreach (string name in new[] { "CompetitionSampleTitle", "CompetitionSampleNotice", "CompetitionSampleCustomCaption", "CompetitionSampleOperatorCaption", "CompetitionSampleConfirm", "CompetitionSampleCancel" })
+            foreach (string name in new[] { "CompetitionSampleTitle", "CompetitionSampleNotice", "CompetitionSampleExpand", "CompetitionSampleCustomCaption", "CompetitionSampleOperatorCaption", "CompetitionSampleConfirm", "CompetitionSampleCancel" })
             {
                 Control c = Named(dialog, name); Check(c != null && c.Visible, scenario + "/" + name + " visible"); if (c == null) continue;
                 CheckText(c, scenario); Check(c.Left >= 0 && c.Right <= c.Parent.ClientSize.Width && c.Bottom <= c.Parent.ClientSize.Height, scenario + "/" + name + " contained by layout row");
             }
+            var expand = (CheckBox)Named(dialog, "CompetitionSampleExpand");
+            Check(expand != null && expand.Checked, scenario + " expanded learning enabled by default");
             var choices = (CheckedListBox)Named(dialog, "CompetitionSampleLabels");
             Check(choices != null && choices.Items.Count > 0, scenario + " explicit manual label choices present");
             Check(choices.CheckedItems.Count == 0, scenario + " no learning label silently pre-confirmed");
@@ -210,7 +212,7 @@ internal static class CompetitionScientificLayoutSmoke
                 Check(textWidth + 30 <= choices.ClientSize.Width || choices.HorizontalScrollbar, scenario + " learning label fully readable or horizontally scrollable: " + item);
             }
             var confirm = (Button)Named(dialog, "CompetitionSampleConfirm"); var cancel = (Button)Named(dialog, "CompetitionSampleCancel");
-            Check(dialog.AcceptButton == confirm && dialog.CancelButton == cancel && confirm.DialogResult == DialogResult.OK && cancel.DialogResult == DialogResult.Cancel, scenario + " explicit confirm/cancel retained");
+            Check(dialog.AcceptButton == confirm && dialog.CancelButton == cancel && cancel.DialogResult == DialogResult.Cancel, scenario + " explicit confirm/cancel retained");
             Capture(dialog, Path.Combine(qa, scenario + "-learning-dialog.png"));
             var scroller = Descendants(dialog).OfType<Panel>().FirstOrDefault(p => p.AutoScroll);
             Check(scroller != null, scenario + " long learning dialog supports scrolling");

@@ -32,7 +32,6 @@ namespace Xiongxin.OWTS.Desktop
             if (LanguageCode != "system" && !AppLanguages.All.Any(item => String.Equals(item.Code, LanguageCode, StringComparison.Ordinal)))
                 throw new InvalidDataException("Unsupported competition language.");
             if (ModelLibraryPath == null) ModelLibraryPath = String.Empty;
-            ModelKind=DefectModelCatalog.Normalize(ModelKind);
             CompetitionModelPath=(CompetitionModelPath??String.Empty).Trim();
             if(CompetitionModelPath.Length>0){
                 if(!Path.IsPathRooted(CompetitionModelPath))throw new InvalidDataException("The model path must be absolute.");
@@ -43,7 +42,11 @@ namespace Xiongxin.OWTS.Desktop
                 if (!Path.IsPathRooted(ModelLibraryPath)) throw new InvalidDataException("The independent model path must be absolute.");
                 ModelLibraryPath = Path.GetFullPath(ModelLibraryPath);
             }
+            else if(CompetitionModelPath.Length>0) ModelLibraryPath = CompetitionModelPath;
             else ModelLibraryPath = String.Empty;
+            // Standard baseline only; competition is no longer a selectable mode.
+            ModelKind=DefectModelCatalog.Standard;
+            CompetitionModelPath=String.Empty;
         }
         private static string SafePath(string path)
         {

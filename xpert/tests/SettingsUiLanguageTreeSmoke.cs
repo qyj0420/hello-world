@@ -67,7 +67,7 @@ static class SettingsUiLanguageTreeSmoke
                     Check(errors.Count==0,locale.Code+" complete captions/tooltips: "+String.Join(" | ",errors));
                     var captionMap=(System.Collections.IDictionary)Get(form,"settingsCaptions");
                     if(locale.Index==0)foreach(System.Collections.DictionaryEntry entry in captionMap){var c=(Control)entry.Key;Check(c.Text==(string)entry.Value,"Chinese caption exactly follows application-owned source: "+c.Name);}
-                    foreach(string n in new[]{"reportFormat","endpointFirstOperator","endpointSecondOperator","defectModelKind"}){
+                    foreach(string n in new[]{"reportFormat","endpointFirstOperator","endpointSecondOperator"}){
                         var box=(ComboBox)Get(form,n);foreach(object item in box.Items){string text=item.ToString();Check(locale.Index==1?!Chinese(text):!String.IsNullOrWhiteSpace(text),locale.Code+" enum captions: "+n+" / "+text);}
                     }
                 }

@@ -62,13 +62,38 @@ namespace HVX.PdReview
             if(!current())throw new OperationCanceledException();return result;
         }
         internal static string[,] CompetitionLearningLabels {get{return (string[,])dischargeLabels.Clone();}}
-        internal static void AddCompetitionLearning(string root,RecognitionSnapshot input,string keys,string manual,string operatorName,ReviewTask12Runtime runtime,Func<bool> current,object commitGate)
+        internal static void AddCompetitionLearning(string root,RecognitionSnapshot input,string keys,string manual,string operatorName,ReviewTask12Runtime runtime,Func<bool> current,object commitGate,bool expandLearning=true,bool conflictAcknowledged=false)
         {
             if(input.Rows.Length<3||input.Phases.Distinct().Count()!=1)throw new ArgumentException(input.English?"Select at least three samples of one physical phase.":"请仅显示一个物理相别，并至少选择三个样本。");
             var selection=ResolveLearningLabelSelection(keys,manual);
+            if(selection.Task12Compatible&&runtime!=null&&!conflictAcknowledged){
+                double overlap;
+                if(ReviewDefectLearningExpansion.ConflictsWithExistingModel(input,runtime,selection.CanonicalLabelKeys,out overlap))
+                    throw new InvalidOperationException(input.English?"Saving the model would affect existing model data (match >80%). Confirm before continuing.":"保存模型会影响已有模型数据（识别率>80%）。请确认后再继续。");
+            }
             string model=ReviewTask12Runtime.ResolveModelPath(input.ModelPath),sha=ReviewTask12Runtime.HashFile(model);
-            ReviewLearningTransactions.Add(root,input,model,sha,selection.CanonicalLabelKeys,operatorName,
-                selection.ManualDischargeType,selection.Task12Compatible,selection.TaxonomyStatus,selection.Task12Compatible?runtime:null,current,commitGate);
+            var batch=expandLearning&&selection.Task12Compatible
+                ?ReviewDefectLearningExpansion.Expand(input,ReviewDefectLearningExpansion.DefaultVariantCount,unchecked(sha.GetHashCode()^input.Rows.Length))
+                :new[]{input};
+            for(int i=0;i<batch.Length;i++)
+                ReviewLearningTransactions.Add(root,batch[i],model,sha,selection.CanonicalLabelKeys,operatorName,
+                    selection.ManualDischargeType,selection.Task12Compatible,selection.TaxonomyStatus,selection.Task12Compatible?runtime:null,current,commitGate);
+            if(selection.Task12Compatible&&runtime!=null){
+                string algorithm,detail;bool trained=runtime.TryRetrainBest(model,root,out algorithm,out detail);
+                ReviewDefectLearningExpansion.WriteRetrainReceipt(root,model,algorithm,1,Math.Max(0,batch.Length-1),trained,detail);
+            }
+        }
+        internal static bool ProbeCompetitionLearningConflict(RecognitionSnapshot input,ReviewTask12Runtime runtime,string keys,string manual,out double overlapPercent,out string message)
+        {
+            overlapPercent=0;message="";
+            var selection=ResolveLearningLabelSelection(keys,manual);
+            if(!selection.Task12Compatible||selection.CanonicalLabelKeys.Length==0||runtime==null)return false;
+            double overlap=ReviewDefectLearningExpansion.OverlapScore(input,runtime,selection.CanonicalLabelKeys);
+            overlapPercent=overlap*100.0;
+            if(overlap<=ReviewDefectLearningExpansion.ConflictScoreThreshold)return false;
+            message=(input.English?"Saving / retraining will affect existing model data. Current match for the selected type is about ":
+                "保存模型会影响已有模型数据。当前所选类型与已有模型识别率约 ")+overlapPercent.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+"%。";
+            return true;
         }
     }
 }

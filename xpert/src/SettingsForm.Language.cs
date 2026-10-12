@@ -79,8 +79,9 @@ namespace Xiongxin.OWTS.Desktop
             { "原定位方法已停用，请选择 A 或 B 后保存。原有分析结果保持不变。", "The previous location method is no longer available. Select A or B before saving. Existing analysis results remain unchanged." },
             { "分析模型库路径", "Analysis model folder or file" }, { "分析模型库路径留空时使用主程序随包模型；不会读取或替换独立缺陷识别程序的模型设置。", "Leave blank to use the bundled analysis model. The separate defect recognition tool's model settings are unchanged." },
             { "最终统一分析模型路径", "Combined analysis model file" }, { "扩展模型仅在对应功能支持时使用。", "Additional models are used only by features that support them." },
-            { "缺陷识别模型", "Defect recognition model" }, { "标准模型文件（可选）", "Standard model file (optional)" }, { "竞赛模型文件（可选）", "Competition model file (optional)" },
-            { "标准模型", "Standard model" }, { "竞赛模型", "Competition model" },
+            { "缺陷识别模型", "Defect recognition model" }, { "缺陷识别模型文件（可选）", "Defect recognition model file (optional)" }, { "标准模型文件（可选）", "Standard model file (optional)" },
+            { "标准模型", "Standard model" },
+            { "路径留空时使用已安装的标准模型；若通过路径加载了模型，则以加载的模型为准。同时用于数据分析和加压后的缺陷识别；独立缺陷识别窗口仍单独保存设置。", "An empty path uses the installed standard model; a loaded path takes precedence. Applies to analysis and post-pressure recognition; the independent window keeps its own preferences." },
             { "文件路径留空时使用已安装的对应模型。模型选择同时用于数据分析和加压后的缺陷识别；独立缺陷识别窗口仍单独保存设置。", "Empty paths use the corresponding installed model. The selection applies to analysis and post-pressure recognition; the independent window keeps its own preferences." },
             { "扩展模型 A 路径", "Additional model A" }, { "扩展模型 B 路径", "Additional model B" }, { "扩展模型 C 路径", "Additional model C" }, { "扩展模型 D 路径", "Additional model D" },
             { "首末端识别组合规则：原始波形、校准、采样率等质量检查始终有效。", "Combine the endpoint criteria below. Waveform, calibration and sample-rate quality checks always remain active." },
@@ -164,7 +165,6 @@ namespace Xiongxin.OWTS.Desktop
                 ReplaceSettingsChoices(reportFormat, new[] { "仅 PDF", "仅 Word", "PDF 和 Word" });
                 ReplaceSettingsChoices(endpointFirstOperator, new[] { "或（任一满足）", "与（同时满足）" });
                 ReplaceSettingsChoices(endpointSecondOperator, new[] { "或（任一满足）", "与（同时满足）" });
-                ReplaceSettingsChoices(defectModelKind, new[] { "标准模型", "竞赛模型" });
                 if (accessMenu != null)
                 {
                     var captions = new[] { "设备关键参数", "厂家维护", "厂家 OEM", "系统管理 / 日志与端口", "HV DAC Xpert Plus Data" };

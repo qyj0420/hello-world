@@ -638,7 +638,7 @@ namespace Xiongxin.OWTS.Desktop
             // edits. The UI offers A/B/E/E+; execution rejects discontinued methods.
             if (TaskMinus3.AlgorithmIndex < 0 || TaskMinus3.AlgorithmIndex > 9) return Fail("定位方法设置无效，请重新选择 A、B、E 或 E+。", out message);
             if (!ValidPath(TaskMinus3.ModelLibraryPath, true)) return Fail("模型库路径无效。", out message);
-            if (DefectModelKind != DefectModelCatalog.Standard && DefectModelKind != DefectModelCatalog.Competition) return Fail("请选择标准或竞赛模型。", out message);
+            if (DefectModelKind != DefectModelCatalog.Standard) return Fail("缺陷识别仅支持标准模型。", out message);
             if (!ValidPath(CompetitionModelPath, true)) return Fail("竞赛模型路径无效。", out message);
 
             if (Hardware == null) return Fail("硬件配置缺失。", out message);
@@ -727,8 +727,13 @@ namespace Xiongxin.OWTS.Desktop
             if(LocationFilterAlgorithmId=="A")LocationFilterAlgorithmId="B";
             if (TaskMinus3 == null) TaskMinus3 = new TaskMinus3AnalysisSettings();
             TaskMinus3.ModelLibraryPath = Clean(TaskMinus3.ModelLibraryPath);
-            DefectModelKind = DefectModelCatalog.Normalize(DefectModelKind);
             CompetitionModelPath = Clean(CompetitionModelPath);
+            // Defect recognition keeps a single standard baseline. A former
+            // competition-only path migrates into the loaded-model slot.
+            if(String.IsNullOrWhiteSpace(TaskMinus3.ModelLibraryPath)&&!String.IsNullOrWhiteSpace(CompetitionModelPath))
+                TaskMinus3.ModelLibraryPath=CompetitionModelPath;
+            DefectModelKind = DefectModelCatalog.Standard;
+            CompetitionModelPath = String.Empty;
             if (Hardware == null) Hardware = new HardwareSettings();
             Hardware.SelectedHubMac = NormalizeMac(Hardware.SelectedHubMac);
             Hardware.ControllerLocation = Clean(Hardware.ControllerLocation);

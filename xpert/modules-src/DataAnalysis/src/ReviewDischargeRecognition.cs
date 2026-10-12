@@ -180,9 +180,32 @@ namespace HVX.PdReview
         }
         public bool AddConfirmedLearningSample(string labelKeys,string operatorName)
         {
-            return AddConfirmedLearningSample(labelKeys,operatorName,"");
+            return AddConfirmedLearningSample(labelKeys,operatorName,"",true,false);
         }
         public bool AddConfirmedLearningSample(string labelKeys,string operatorName,string operator_label_text)
+        {
+            return AddConfirmedLearningSample(labelKeys,operatorName,operator_label_text,true,false);
+        }
+        /// <summary>Probe whether pending labels already match the active model above 80%.</summary>
+        public bool ProbeLearningModelConflict(string labelKeys,string operator_label_text,out double overlapPercent,out string message)
+        {
+            overlapPercent=0;message="";
+            try
+            {
+                RequireAiFeatures();
+                var input=CaptureRecognitionInput();
+                var selection=ResolveLearningLabelSelection(labelKeys,operator_label_text);
+                if(!selection.Task12Compatible||selection.CanonicalLabelKeys.Length==0){message="";return false;}
+                double overlap=ReviewDefectLearningExpansion.OverlapScore(input,RecognitionRuntime(),selection.CanonicalLabelKeys);
+                overlapPercent=overlap*100.0;
+                if(overlap<=ReviewDefectLearningExpansion.ConflictScoreThreshold)return false;
+                message=L("Saving / retraining will affect existing model data. Current match for the selected type is about ",
+                    "保存模型会影响已有模型数据。当前所选类型与已有模型识别率约 ")+overlapPercent.ToString("0.0",CultureInfo.InvariantCulture)+"%。";
+                return true;
+            }
+            catch(Exception ex){message=ex.Message;return false;}
+        }
+        public bool AddConfirmedLearningSample(string labelKeys,string operatorName,string operator_label_text,bool expandLearning,bool conflictAcknowledged)
         {
             try
             {
@@ -191,12 +214,34 @@ namespace HVX.PdReview
                 if(input.Rows.Length<3)throw new ArgumentException(L("At least three visible samples are required; this is not a reliability guarantee.","至少需要三个可见样本；此下限不代表识别可靠性保证。"));
                 if(input.Phases.Distinct().Count()!=1)throw new ArgumentException(L("Show only one physical phase before confirming a learning sample.","请先仅显示一个物理相别，再确认学习样本。"));
                 var selection=ResolveLearningLabelSelection(labelKeys,operator_label_text);
+                var runtime=selection.Task12Compatible?RecognitionRuntime():null;
+                if(selection.Task12Compatible&&runtime!=null&&!conflictAcknowledged){
+                    double overlap;
+                    if(ReviewDefectLearningExpansion.ConflictsWithExistingModel(input,runtime,selection.CanonicalLabelKeys,out overlap))
+                        throw new InvalidOperationException(L("Saving the model would affect existing model data (match >80%). Confirm before continuing.",
+                            "保存模型会影响已有模型数据（识别率>80%）。请确认后再继续。"));
+                }
                 string model=ReviewTask12Runtime.ResolveModelPath(modelLibraryPath),sha=ReviewTask12Runtime.HashFile(model);
-                ReviewLearningTransactions.Add(RecognitionLearningRoot(),input,model,sha,selection.CanonicalLabelKeys,operatorName,
-                    selection.ManualDischargeType,selection.Task12Compatible,selection.TaxonomyStatus,selection.Task12Compatible?RecognitionRuntime():null);
-                learningStatusMessage=selection.Task12Compatible?
-                    L("Confirmed sample added to the pending training library. The production model was not changed.","已加入人工确认待训练样本库；生产模型未改变。"):
-                    L("Custom type saved for review. The current recognition model was not changed.","自定义类型已保存并等待审核；当前识别模型未改变。");
+                string root=RecognitionLearningRoot();
+                var batch=expandLearning&&selection.Task12Compatible
+                    ?ReviewDefectLearningExpansion.Expand(input,ReviewDefectLearningExpansion.DefaultVariantCount,unchecked(sha.GetHashCode()^input.Rows.Length))
+                    :new[]{input};
+                for(int i=0;i<batch.Length;i++)
+                    ReviewLearningTransactions.Add(root,batch[i],model,sha,selection.CanonicalLabelKeys,operatorName,
+                        selection.ManualDischargeType,selection.Task12Compatible,selection.TaxonomyStatus,runtime);
+                string retrainNote="";
+                if(selection.Task12Compatible&&runtime!=null){
+                    string algorithm,detail;bool trained=runtime.TryRetrainBest(model,root,out algorithm,out detail);
+                    ReviewDefectLearningExpansion.WriteRetrainReceipt(root,model,algorithm,1,Math.Max(0,batch.Length-1),trained,detail);
+                    retrainNote=trained?
+                        L("; retrained with ","；已按最佳算法重训：")+algorithm:
+                        L("; retrain deferred (pending library kept)","；重训延后（待训练库已保留）");
+                }
+                learningStatusMessage=(selection.Task12Compatible?
+                    L("Confirmed sample added","已加入人工确认样本"):
+                    L("Custom type saved for review","自定义类型已保存并等待审核"))
+                    +(expandLearning&&selection.Task12Compatible?L(" with expanded learning variants","，并完成拓展学习"):"")
+                    +retrainNote+".";
                 return true;
             }
             catch(Exception ex){learningStatusMessage=ex.Message;return false;}

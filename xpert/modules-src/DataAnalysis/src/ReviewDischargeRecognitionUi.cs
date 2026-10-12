@@ -73,26 +73,32 @@ namespace HVX.PdReview
         void ShowConfirmLearningSample()
         {
             if(!EnableAiFeatures||IsAnalysisRunning||DischargeRecognitionBusy)return;
-            using(var form=ArchiveDialog(L("Confirm a training sample","确认待训练样本"),new Size(660,580)))
+            using(var form=ArchiveDialog(L("Confirm a training sample","确认待训练样本"),new Size(660,640)))
             {
                 var labels=AvailableDischargeLabels;
                 var list=new CheckedListBox{Dock=DockStyle.Fill,CheckOnClick=true,BorderStyle=BorderStyle.None,IntegralHeight=false,HorizontalScrollbar=true};
                 for(int i=0;i<labels.GetLength(0);i++)list.Items.Add(labels[i,english?2:1]);
+                var options=new Panel{Dock=DockStyle.Bottom,Height=36,Padding=new Padding(0,2,0,2)};
+                var expand=new CheckBox{Name="ExpandLearning",Dock=DockStyle.Fill,Checked=true,AutoSize=false,
+                    Text=L("Expanded learning (generate variants to broaden recognition)","拓展学习（对样本生成变体以扩大识别范围）")};
+                options.Controls.Add(expand);
                 var manualHost=new Panel{Dock=DockStyle.Bottom,Height=58,Padding=new Padding(0,3,0,3)};
                 var manualLabel=new Label{Dock=DockStyle.Top,Height=22,Text=L("Manually confirmed discharge type (optional)","人工确认的放电类型（可选）"),ForeColor=ReviewTheme.SecondaryInk};
                 var manual=new TextBox{Name="ManualDischargeType",Dock=DockStyle.Bottom,MaxLength=ReviewLearningTransactions.ManualDischargeTypeMaxLength,
                     AccessibleDescription=L("Known text maps to a fixed type; unknown text is kept for taxonomy review only.","已知文字映射到固定类型；未知文字仅保存为待类型体系审核样本。")};
                 manualHost.Controls.Add(manual);manualHost.Controls.Add(manualLabel);
-                var note=new Label{Dock=DockStyle.Top,Height=88,Text=L("Show one phase. Select a type or enter a verified type. Unrecognized types are saved for review only. Adding a sample does not change the current recognition model.","请仅显示一个相别，勾选放电类型或填写人工确认的类型。未识别的类型仅保存供审核；加入样本不会立即改变当前识别模型。"),ForeColor=ReviewTheme.SecondaryInk};
+                var note=new Label{Dock=DockStyle.Top,Height=88,Text=L("Show one phase. Select a type or enter a verified type. Unrecognized types are saved for review only. Confirming may retrain with the best available algorithm after optional expanded learning.","请仅显示一个相别，勾选放电类型或填写人工确认的类型。未识别的类型仅保存供审核；确认后可先拓展学习，再按最佳算法重训模型。"),ForeColor=ReviewTheme.SecondaryInk};
                 var footer=new FlowLayoutPanel{Dock=DockStyle.Bottom,Height=36,FlowDirection=FlowDirection.RightToLeft};
                 var cancel=ActionButton(90);cancel.Text=L("Cancel","取消");cancel.DialogResult=DialogResult.Cancel;
-                var add=ActionButton(145);add.Text=L("Add confirmed sample","确认加入待训练库");ReviewTheme.ButtonRole(add,true);
-                footer.Controls.Add(cancel);footer.Controls.Add(add);form.Controls.Add(list);form.Controls.Add(manualHost);form.Controls.Add(note);form.Controls.Add(footer);form.CancelButton=cancel;form.AcceptButton=add;
+                var add=ActionButton(145);add.Text=L("Add to learning","加入学习");ReviewTheme.ButtonRole(add,true);
+                footer.Controls.Add(cancel);footer.Controls.Add(add);form.Controls.Add(list);form.Controls.Add(options);form.Controls.Add(manualHost);form.Controls.Add(note);form.Controls.Add(footer);form.CancelButton=cancel;form.AcceptButton=add;
                 Action fit=()=>{
                     int width=Math.Max(100,form.ClientSize.Width-form.Padding.Horizontal);
                     note.Height=TextRenderer.MeasureText(note.Text,note.Font,new Size(width,int.MaxValue),TextFormatFlags.WordBreak).Height+12;
                     manualLabel.Height=TextRenderer.MeasureText(manualLabel.Text,manualLabel.Font,new Size(width,int.MaxValue),TextFormatFlags.WordBreak).Height+6;
                     manualHost.Height=manualLabel.Height+manual.PreferredHeight+12;
+                    expand.Height=TextRenderer.MeasureText(expand.Text,expand.Font,new Size(Math.Max(80,width-28),int.MaxValue),TextFormatFlags.WordBreak).Height+10;
+                    options.Height=expand.Height+8;
                     foreach(var button in new[]{add,cancel}){button.Width=Math.Min(width-8,TextRenderer.MeasureText(button.Text,button.Font).Width+32);button.Height=Math.Max(32,button.Font.Height+12);}
                     footer.WrapContents=true;
                     footer.Height=(add.Width+cancel.Width+add.Margin.Horizontal+cancel.Margin.Horizontal>width?2:1)*(add.Height+add.Margin.Vertical)+4;
@@ -101,8 +107,13 @@ namespace HVX.PdReview
                 add.Click+=(s,e)=>{
                     string keys=string.Join("+",list.CheckedIndices.Cast<int>().Select(i=>labels[i,0]));
                     if(keys.Length==0&&String.IsNullOrWhiteSpace(manual.Text)){note.Text=L("Select a fixed type or enter a manually verified type.","请选择固定类型或输入人工确认的类型。");return;}
+                    double overlap;string conflictMessage;bool conflict=ProbeLearningModelConflict(keys,manual.Text,out overlap,out conflictMessage);
+                    if(conflict){
+                        string prompt=conflictMessage+L("\n\nContinue and retrain? Existing model data may change.","\n\n是否继续并重训？保存模型会影响已有模型数据。");
+                        if(MessageBox.Show(form,prompt,L("Learning conflict","加入学习冲突提示"),MessageBoxButtons.OKCancel,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)!=DialogResult.OK)return;
+                    }
                     add.Enabled=false;form.UseWaitCursor=true;
-                    try{bool ok=AddConfirmedLearningSample(keys,Environment.UserName,manual.Text);SetReviewOperationStatus(LearningStatusMessage);
+                    try{bool ok=AddConfirmedLearningSample(keys,Environment.UserName,manual.Text,expand.Checked,conflict);SetReviewOperationStatus(LearningStatusMessage);
                         if(ok){form.DialogResult=DialogResult.OK;form.Close();}else{note.Text=LearningStatusMessage;note.ForeColor=Color.Firebrick;}}
                     finally{add.Enabled=true;form.UseWaitCursor=false;}
                 };

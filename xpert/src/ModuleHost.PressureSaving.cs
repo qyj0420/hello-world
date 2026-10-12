@@ -405,7 +405,7 @@ namespace Xiongxin.OWTS.Desktop
         }
         void ApplyPressureAnalysisSettings(Control review,AppSettings snapshot)
         {
-            string model=DefectModelCatalog.Resolve(snapshot.DefectModelKind,snapshot.TaskMinus3.ModelLibraryPath,snapshot.CompetitionModelPath,modelRoot);
+            string model=DefectModelCatalog.ResolveActive(snapshot.TaskMinus3.ModelLibraryPath,modelRoot);
             ApplyDataAnalysisSettings(review,model,ReadAnalysisQuadrants(snapshot),snapshot);
             TrySet(review,"NoiseSimilarityTolerancePercent",snapshot.NoiseSimilarityTolerancePercent);
             TrySet(review,"EnableAiFeatures",snapshot.EnableAiFeatures);

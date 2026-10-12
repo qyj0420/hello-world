@@ -118,6 +118,58 @@ namespace HVX.PdReview
                 return true;
             });
         }
+        /// <summary>
+        /// Best-effort retrain against the pending learning dataset. Prefers engine
+        /// APIs that advertise a best/optimum algorithm; falls back through common
+        /// Train/Retrain names. Returns false when the deployed runtime has no
+        /// training surface (samples remain in the pending library).
+        /// </summary>
+        internal bool TryRetrainBest(string model,string learningRoot,out string algorithm,out string detail)
+        {
+            algorithm="";detail="";
+            string dataset=Path.Combine(Path.GetFullPath(learningRoot),"active");
+            string[] preferred={"TrainBestAlgorithm","RetrainBest","TrainWithBestAlgorithm","ChooseBestAndTrain","Retrain","TrainFromDataset","TrainPending","Train","RebuildModel","SaveTrainedModel"};
+            return Invoke(model,(instance,type)=>{
+                var methods=type.GetMethods(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic)
+                    .Where(m=>!m.IsSpecialName).ToArray();
+                foreach(string name in preferred){
+                    var matches=methods.Where(m=>String.Equals(m.Name,name,StringComparison.OrdinalIgnoreCase)).ToArray();
+                    foreach(var method in matches){
+                        try{
+                            object result=InvokeTrainMethod(method,instance,dataset,model);
+                            algorithm=method.Name;
+                            detail=result==null?"ok":Convert.ToString(result);
+                            if(String.IsNullOrWhiteSpace(detail))detail="ok";
+                            return true;
+                        }catch(TargetInvocationException){/* try next signature/name */}
+                        catch(ArgumentException){/* signature mismatch */}
+                    }
+                }
+                // Fuzzy fallback: any single-string Train*/Retrain* that accepts a path.
+                foreach(var method in methods.Where(m=>m.Name.IndexOf("Train",StringComparison.OrdinalIgnoreCase)>=0||m.Name.IndexOf("Retrain",StringComparison.OrdinalIgnoreCase)>=0))
+                {
+                    try{
+                        object result=InvokeTrainMethod(method,instance,dataset,model);
+                        algorithm=method.Name;detail=result==null?"ok":Convert.ToString(result);
+                        return true;
+                    }catch(TargetInvocationException){}catch(ArgumentException){}
+                }
+                detail="No training API is exposed by this Task12 runtime; expanded samples remain pending.";
+                return false;
+            });
+        }
+        static object InvokeTrainMethod(MethodInfo method,object instance,string dataset,string model)
+        {
+            var parameters=method.GetParameters();
+            if(parameters.Length==0)return method.Invoke(instance,null);
+            if(parameters.Length==1&&parameters[0].ParameterType==typeof(string))
+                return method.Invoke(instance,new object[]{dataset});
+            if(parameters.Length==2&&parameters[0].ParameterType==typeof(string)&&parameters[1].ParameterType==typeof(string))
+                return method.Invoke(instance,new object[]{dataset,model});
+            if(parameters.Length==1&&parameters[0].ParameterType==typeof(bool))
+                return method.Invoke(instance,new object[]{true});
+            throw new ArgumentException("Unsupported train signature.");
+        }
         void DisposeEngine(){var disposable=engine as IDisposable;if(disposable!=null)disposable.Dispose();engine=null;identity=null;engineType=null;}
         public void Dispose(){lock(gate)DisposeEngine();}
     }

@@ -244,15 +244,17 @@ namespace HVX.PdReview
         }
         string LearningRoot(string modelPath){if(LearningRootProviderForTests!=null)return LearningRootProviderForTests(modelPath);return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"HVX","CompetitionDefectRecognition","Task12Learning",ReviewTask12Runtime.HashFile(ReviewTask12Runtime.ResolveModelPath(modelPath)));}
         public Task<bool> AddConfirmedLearningSampleAsync(string canonicalKeys,string operatorName,string manualType)
-        {return LearningActionAsync("add",canonicalKeys,operatorName,manualType);}
-        async Task<bool> LearningActionAsync(string action,string keys,string operatorName,string manual)
+        {return AddConfirmedLearningSampleAsync(canonicalKeys,operatorName,manualType,true,false);}
+        public Task<bool> AddConfirmedLearningSampleAsync(string canonicalKeys,string operatorName,string manualType,bool expandLearning,bool conflictAcknowledged)
+        {return LearningActionAsync("add",canonicalKeys,operatorName,manualType,expandLearning,conflictAcknowledged);}
+        async Task<bool> LearningActionAsync(string action,string keys,string operatorName,string manual,bool expandLearning=true,bool conflictAcknowledged=false)
         {
             try
             {
                 var input=CaptureInput();int token=generation;var engine=Runtime();workingAi=true;RefreshEnabled();
                 return await OnWorker(()=>{
                     if(!Current(token)||!aiEnabled)throw new OperationCanceledException();string root=LearningRoot(input.ModelPath);
-                    if(action=="add")PdReviewControl.AddCompetitionLearning(root,input,keys,manual,operatorName,engine,()=>Current(token)&&aiEnabled,learningCommitGate);
+                    if(action=="add")PdReviewControl.AddCompetitionLearning(root,input,keys,manual,operatorName,engine,()=>Current(token)&&aiEnabled,learningCommitGate,expandLearning,conflictAcknowledged);
                     else lock(learningCommitGate){if(!Current(token)||!aiEnabled)throw new OperationCanceledException();if(action=="undo")ReviewLearningTransactions.Undo(root);else ReviewLearningTransactions.Reset(root);}
                     return true;
                 },token,ok=>SetStatus(T("Samples updated.","样本已更新。")),()=>{workingAi=false;RefreshEnabled();},null,true);
@@ -266,30 +268,50 @@ namespace HVX.PdReview
             {
                 var labels=PdReviewControl.CompetitionLearningLabels;var list=(CheckedListBox)form.Controls.Find("CompetitionSampleLabels",true).Single();
                 var manual=(TextBox)form.Controls.Find("CompetitionSampleCustomType",true).Single();var who=(TextBox)form.Controls.Find("CompetitionSampleOperator",true).Single();
-                if(form.ShowDialog(FindForm())==DialogResult.OK){string keys=String.Join("+",list.CheckedIndices.Cast<int>().Select(i=>labels[i,0]));var pending=AddConfirmedLearningSampleAsync(keys,who.Text,manual.Text);}
+                var expand=(CheckBox)form.Controls.Find("CompetitionSampleExpand",true).Single();
+                var confirm=(Button)form.Controls.Find("CompetitionSampleConfirm",true).Single();
+                confirm.Click+=(s,e)=>{
+                    string keys=String.Join("+",list.CheckedIndices.Cast<int>().Select(i=>labels[i,0]));
+                    if(keys.Length==0&&String.IsNullOrWhiteSpace(manual.Text)){MessageBox.Show(form,T("Select a fixed type or enter a manually verified type.","请选择固定类型或输入人工确认的类型。"),form.Text,MessageBoxButtons.OK,MessageBoxIcon.Information);form.DialogResult=DialogResult.None;return;}
+                    try{
+                        var input=CaptureInput();double overlap;string conflictMessage;
+                        bool conflict=PdReviewControl.ProbeCompetitionLearningConflict(input,Runtime(),keys,manual.Text,out overlap,out conflictMessage);
+                        if(conflict){
+                            string prompt=conflictMessage+T("\n\nContinue and retrain? Existing model data may change.","\n\n是否继续并重训？保存模型会影响已有模型数据。");
+                            if(MessageBox.Show(form,prompt,T("Learning conflict","加入学习冲突提示"),MessageBoxButtons.OKCancel,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)!=DialogResult.OK){form.DialogResult=DialogResult.None;return;}
+                        }
+                        form.Tag=new object[]{keys,who.Text,manual.Text,expand.Checked,conflict};
+                        form.DialogResult=DialogResult.OK;
+                    }catch(Exception ex){MessageBox.Show(form,ex.Message,form.Text,MessageBoxButtons.OK,MessageBoxIcon.Warning);form.DialogResult=DialogResult.None;}
+                };
+                if(form.ShowDialog(FindForm())==DialogResult.OK&&form.Tag is object[]){
+                    var args=(object[])form.Tag;
+                    var pending=AddConfirmedLearningSampleAsync((string)args[0],(string)args[1],(string)args[2],(bool)args[3],(bool)args[4]);
+                }
             }
         }
         internal Form CreateLearningDialog()
         {
-            var form=new Form{Name="CompetitionSampleDialog",Text=T("Confirm learning sample","确认学习样本"),StartPosition=FormStartPosition.CenterParent,Size=new Size(650,690),MinimumSize=new Size(520,540),Font=Font,ShowInTaskbar=false,BackColor=ReviewTheme.Workspace,ForeColor=ReviewTheme.Ink};
+            var form=new Form{Name="CompetitionSampleDialog",Text=T("Confirm learning sample","确认学习样本"),StartPosition=FormStartPosition.CenterParent,Size=new Size(650,740),MinimumSize=new Size(520,580),Font=Font,ShowInTaskbar=false,BackColor=ReviewTheme.Workspace,ForeColor=ReviewTheme.Ink};
             HVX.Presentation.OemUiBranding.Apply(form);
             var titleFont=new Font(Font,FontStyle.Bold);form.Disposed+=(s,e)=>titleFont.Dispose();
             var scroll=new Panel{Dock=DockStyle.Fill,AutoScroll=true,Padding=new Padding(16)};
-            var grid=new TableLayoutPanel{Dock=DockStyle.Top,AutoSize=true,ColumnCount=1,RowCount=9,BackColor=Color.White,Padding=new Padding(16)};grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));for(int i=0;i<9;i++)grid.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            var grid=new TableLayoutPanel{Dock=DockStyle.Top,AutoSize=true,ColumnCount=1,RowCount=10,BackColor=Color.White,Padding=new Padding(16)};grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent,100));for(int i=0;i<10;i++)grid.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             var title=new Label{Name="CompetitionSampleTitle",AutoSize=true,Font=titleFont,Text=T("Manually verified learning sample","人工确认学习样本"),Margin=new Padding(0,0,0,8)};
-            var notice=new Label{Name="CompetitionSampleNotice",AutoSize=true,ForeColor=ReviewTheme.SecondaryInk,Text=T("Confirm one physical phase and the displayed pulse region. Samples enter a pending library; the original analysis and production model remain unchanged.","请确认当前单一物理相别及显示的脉冲区域。样本仅加入待训练库，不改写原分析或生产模型。"),Margin=new Padding(0,0,0,14)};
+            var notice=new Label{Name="CompetitionSampleNotice",AutoSize=true,ForeColor=ReviewTheme.SecondaryInk,Text=T("Confirm one physical phase and the displayed pulse region. Confirming may expand learning variants and retrain with the best available algorithm.","请确认当前单一物理相别及显示的脉冲区域。确认后可先拓展学习，再按最佳算法重训模型。"),Margin=new Padding(0,0,0,14)};
             var list=new CheckedListBox{Name="CompetitionSampleLabels",Dock=DockStyle.Fill,CheckOnClick=true,IntegralHeight=false,Height=Math.Max(200,Font.Height*8+20),BorderStyle=BorderStyle.FixedSingle,BackColor=Color.White,ForeColor=ReviewTheme.Ink,Margin=new Padding(0,0,0,14)};
             var labels=PdReviewControl.CompetitionLearningLabels;for(int i=0;i<labels.GetLength(0);i++)list.Items.Add(T(labels[i,2],labels[i,1]));
+            var expand=new CheckBox{Name="CompetitionSampleExpand",AutoSize=true,Checked=true,Text=T("Expanded learning (generate variants to broaden recognition)","拓展学习（对样本生成变体以扩大识别范围）"),Margin=new Padding(0,0,0,14)};
             var customCaption=new Label{Name="CompetitionSampleCustomCaption",AutoSize=true,Text=T("Optional custom type · pending taxonomy review","自定义类型（可选，需类别审核）"),Margin=new Padding(0,0,0,6)};
             var manual=new TextBox{Name="CompetitionSampleCustomType",Dock=DockStyle.Fill,MaxLength=160,Margin=new Padding(0,0,0,14)};
             var whoCaption=new Label{Name="CompetitionSampleOperatorCaption",AutoSize=true,Text=T("Operator","操作人员"),Margin=new Padding(0,0,0,6)};
             var who=new TextBox{Name="CompetitionSampleOperator",Dock=DockStyle.Fill,Text=Environment.UserName,MaxLength=100,Margin=new Padding(0,0,0,16)};
             var buttons=new FlowLayoutPanel{Name="CompetitionSampleActions",Dock=DockStyle.Fill,AutoSize=true,FlowDirection=FlowDirection.RightToLeft,WrapContents=true,Margin=Padding.Empty};
-            var confirm=new HVX.Presentation.R2RoundedButton{Name="CompetitionSampleConfirm",Font=Font,Text=T("Confirm and add sample","确认并加入样本"),DialogResult=DialogResult.OK};StyleButton(confirm,true,false);
+            var confirm=new HVX.Presentation.R2RoundedButton{Name="CompetitionSampleConfirm",Font=Font,Text=T("Add to learning","加入学习")};StyleButton(confirm,true,false);
             var cancel=new HVX.Presentation.R2RoundedButton{Name="CompetitionSampleCancel",Font=Font,Text=T("Cancel","取消"),DialogResult=DialogResult.Cancel};StyleButton(cancel,false,false);buttons.Controls.AddRange(new Control[]{confirm,cancel});
-            Control[] rows={title,notice,list,customCaption,manual,whoCaption,who,buttons};for(int i=0;i<rows.Length;i++)grid.Controls.Add(rows[i],0,i);
+            Control[] rows={title,notice,list,expand,customCaption,manual,whoCaption,who,buttons};for(int i=0;i<rows.Length;i++)grid.Controls.Add(rows[i],0,i);
             scroll.Controls.Add(grid);form.Controls.Add(scroll);form.AcceptButton=confirm;form.CancelButton=cancel;
-            Action resize=()=>{int w=Math.Max(100,scroll.ClientSize.Width-scroll.Padding.Horizontal-grid.Padding.Horizontal-SystemInformation.VerticalScrollBarWidth-6);foreach(var label in new[]{title,notice,customCaption,whoCaption})label.MaximumSize=new Size(w,0);};
+            Action resize=()=>{int w=Math.Max(100,scroll.ClientSize.Width-scroll.Padding.Horizontal-grid.Padding.Horizontal-SystemInformation.VerticalScrollBarWidth-6);foreach(var label in new[]{title,notice,customCaption,whoCaption})label.MaximumSize=new Size(w,0);expand.MaximumSize=new Size(w,0);};
             form.Resize+=(s,e)=>resize();resize();return form;
         }
         protected override void Dispose(bool disposing)
