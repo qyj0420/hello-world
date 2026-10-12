@@ -13,7 +13,7 @@ namespace HVX.PdReview
 {
     public sealed partial class PdReviewControl
     {
-        sealed class CompletedFile { internal ReviewAnalysisRequest Request;internal ReviewAnalysisResult Result; }
+        sealed class CompletedFile { internal ReviewAnalysisRequest Request;internal ReviewAnalysisResult Result;internal string Diagnostics; }
         double[,] analysisSourceSnapshot;
         int analysisSourceRevision;
         string analysisProjectSnapshot;
@@ -214,7 +214,18 @@ namespace HVX.PdReview
                         // cancellation is not a failed LOC and must not publish
                         // a failure row or failure warning in the stopped batch.
                         if(result.Canceled)break;
-                        completed.Add(new CompletedFile{Request=request,Result=result});
+                        // Spill this file's complete status before the next file
+                        // runs; a batch never holds decoded statuses in memory.
+                        string spilled=null;
+                        if(result.Success){
+                            try{spilled=RetainCompletedStatus(result.Status);result.Status="";}
+                            catch(Exception spillError){
+                                if(IsFatalHostException(spillError))throw;
+                                result.Success=false;result.Parameters=new double[0,36];result.Raw=result.Filtered=result.Equivalent=new double[0,0];
+                                result.Status=L("Algorithm evidence could not be retained; this file was not merged: ","算法证据无法保存，本文件未合并：")+spillError.Message;
+                            }
+                        }
+                        completed.Add(new CompletedFile{Request=request,Result=result,Diagnostics=spilled});
                         batchTrace.Point("file-complete","processed="+completed.Count+"; success="+result.Success+"; rows="+result.Parameters.GetLength(0)+"; file="+currentPath);
                         int done=completed.Count;PostAnalysis(generation,()=>{AnalysisCompletedFileCount=done;
                             if(!cancellation.IsCancellationRequested)AnalysisStatus=L("Processed files: ","已处理文件：")+done+" / "+requests.Count+
@@ -263,7 +274,7 @@ namespace HVX.PdReview
                 AnalysisDiagnosticText=diagnostics.ToString().TrimEnd();
                 int priorRows=SourceRowCount;
                 if(good.Length==0){
-                    FinishPublishedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows,null);
+                    FinishPublishedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows);
                     return;
                 }
                 // Validate on the UI thread, then merge diagnostics + waveforms off
@@ -278,21 +289,13 @@ namespace HVX.PdReview
                 var resultArray=good.Select(x=>x.Result).ToArray();
                 Task.Run(()=>{
                     try{
+                        // Statuses were spilled by the worker; this only builds
+                        // the reference map and checks the session ceilings.
                         var mergedDiagnostics=MergeCompletedAlgorithmDiagnostics(priorDiagnostics,project,good);
-                        string diagnosticsWarning=null;
-                        Dictionary<string,EncodedCandidateStatus> validated=null;
-                        List<KeyValuePair<string,byte[]>> parts=null;
-                        // Heavy JSON packing stays off the UI thread. Location
-                        // matrices still merge even when diagnostics hit a ceiling.
-                        try{SerializeAlgorithmDiagnosticsCore(mergedDiagnostics,null,false,out validated,out parts);}
-                        catch(Exception diagEx){
-                            if(IsFatalHostException(diagEx))throw;
-                            diagnosticsWarning=diagEx.Message;validated=null;parts=null;
-                        }
+                        CheckAlgorithmDiagnosticsBudget(mergedDiagnostics);
                         double[,] p,w;MergeAnalysisResultsCore(workingSnap,matchingSnap,originalSnap,resultArray,out p,out w);
-                        if(trace!=null)trace.Point("matrices-merged","rows="+p.GetLength(0)+"; waveformColumns="+w.GetLength(1));
-                        var adoptedValidated=validated;var adoptedParts=parts;var warning=diagnosticsWarning;
-                        PostAnalysis(generation,()=>PublishMergedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows,p,w,mergedDiagnostics,adoptedValidated,adoptedParts,warning));
+                        if(trace!=null)trace.Point("matrices-merged","rows="+p.GetLength(0)+"; waveformColumns="+w.GetLength(1)+"; spillBytes="+ReviewDiagnosticSpill.StoredBytes);
+                        PostAnalysis(generation,()=>PublishMergedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows,p,w,mergedDiagnostics));
                     }catch(Exception ex){
                         if(IsFatalHostException(ex))throw;
                         PostAnalysis(generation,()=>FailProjectAnalysisMerge(generation,completingDialog,trace,results,ex));
@@ -304,20 +307,13 @@ namespace HVX.PdReview
         }
         void PublishMergedProjectAnalysis(int generation,ReviewAnalysisProgressDialog completingDialog,ReviewAnalysisDebugTrace.Scope trace,
             CompletedFile[] good,CompletedFile[] failed,List<CompletedFile> results,bool automaticAcceptance,bool canceled,int requestedCount,string batchFailure,
-            int priorRows,double[,] p,double[,] w,Dictionary<string,string> completedDiagnostics,
-            Dictionary<string,EncodedCandidateStatus> validated,List<KeyValuePair<string,byte[]>> parts,string diagnosticsWarning)
+            int priorRows,double[,] p,double[,] w,Dictionary<string,string> completedDiagnostics)
         {
             try{
                 if(!IsCurrentAnalysis(generation))return;
                 if(!ReferenceEquals(analysisSourceSnapshot,working)||analysisSourceRevision!=ResultChangeSequence)
                     throw new InvalidOperationException("Review data changed during analysis. Results were not merged; select the files and analyze again.");
                 ValidateAnalysisCommitTargets(good);
-                if(validated!=null)AdoptSerializedAlgorithmDiagnostics(validated,parts);
-                else{
-                    string ignored;
-                    TrySerializeAlgorithmDiagnosticsForCommit(completedDiagnostics,out ignored);
-                    if(diagnosticsWarning==null)diagnosticsWarning=ignored;
-                }
                 bool priorCompensation=inputGeometryAlreadyCompensated;inputGeometryAlreadyCompensated=true;
                 var retained=Enumerable.Range(0,p.GetLength(0)).Select(r=>r<priorRows?r:-1).ToArray();
                 if(!ReloadWithRetainedReviewCore(p,w,retained,automaticAcceptance,WithCompletedAcquisitionQualities(good))){inputGeometryAlreadyCompensated=priorCompensation;throw new InvalidOperationException(LastError);}
@@ -338,12 +334,12 @@ namespace HVX.PdReview
                 ResultChangeSequence++;NotifyReviewHost(ResultsChanged);
                 if(!IsCurrentAnalysis(generation))return;
                 ValidateAnalysisCommitTargets(good,true);
-                FinishPublishedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows,diagnosticsWarning);
+                FinishPublishedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows);
             }catch(Exception ex){FailProjectAnalysisMerge(generation,completingDialog,trace,results,ex);}
         }
         void FinishPublishedProjectAnalysis(int generation,ReviewAnalysisProgressDialog completingDialog,ReviewAnalysisDebugTrace.Scope trace,
             CompletedFile[] good,CompletedFile[] failed,List<CompletedFile> results,bool automaticAcceptance,bool canceled,int requestedCount,string batchFailure,
-            int priorRows,string diagnosticsWarning)
+            int priorRows)
         {
             try{
                 if(!IsCurrentAnalysis(generation))return;
@@ -354,8 +350,6 @@ namespace HVX.PdReview
                 if(canceled)AnalysisStatus=L("Stopped: completed ","已停止：完成 ")+good.Length+" / "+Math.Max(requestedCount,results.Count)+L("; not started ","；未开始 ")+Math.Max(0,requestedCount-results.Count);
                 if(failed.Length>0){LastError=Path.GetFileName(failed[0].Request.LocationFilePath)+": "+failed[0].Result.Status;AnalysisStatus+="; "+L("failed ","失败 ")+failed.Length;}
                 if(!String.IsNullOrEmpty(batchFailure)){LastError=batchFailure;AnalysisStatus+="; "+L("Batch interrupted","批次中断");}
-                if(!String.IsNullOrEmpty(diagnosticsWarning))
-                    AnalysisStatus+="; "+L("location results kept; diagnostics archive spill deferred: ","定位结果已保留；诊断分段延后：")+diagnosticsWarning;
                 analysisBusy=false;
                 AnalysisCompletedFileCount=results.Count;
                 if(firstArrivalWarning.Length>0){AnalysisStatus+="; "+firstArrivalWarning;LastError=firstArrivalWarning;}

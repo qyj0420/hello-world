@@ -98,7 +98,7 @@ namespace HVX.PdReview
         {
             var manifest=ArchiveJson().Deserialize<ArchiveManifest>(ArchiveEncoding.GetString(ReadLimited(ArchiveChild(directory,"analysis.json"),16*1024*1024)));
             if(manifest==null||manifest.Schema!="HVX.NamedAnalysis"||manifest.Version!=1||manifest.Id!=id||
-                string.IsNullOrWhiteSpace(manifest.Name)||manifest.Name.Length>160||manifest.SourceRowCount<0||manifest.SourceRowCount>1000000||manifest.Files==null||manifest.Files.Length>3+ReportChartLimit*3+ReviewAnalysisMetadataBudget.MaxDiagnosticsSegments||
+                string.IsNullOrWhiteSpace(manifest.Name)||manifest.Name.Length>160||manifest.SourceRowCount<0||manifest.SourceRowCount>1000000||manifest.Files==null||manifest.Files.Length>4+ReportChartLimit*3+ReviewAnalysisMetadataBudget.MaxDiagnosticsSegments||
                 manifest.Charts==null||manifest.Charts.Length>ReportChartLimit||manifest.ExpandedNodes==null||manifest.ExpandedNodes.Length>100000||
                 manifest.SelectedIdentity==null||manifest.SelectedIdentity.Length!=0&&manifest.SelectedIdentity.Length!=3||manifest.SelectedIdentity.Any(value=>double.IsNaN(value)||double.IsInfinity(value))||
                 manifest.DisplayMode<0||manifest.DisplayMode>12||manifest.ViewPlane<0||manifest.ViewPlane>3||manifest.ViewPlane!=0&&manifest.DisplayMode!=5&&manifest.DisplayMode!=6&&manifest.DisplayMode!=12)
@@ -110,8 +110,11 @@ namespace HVX.PdReview
             foreach(var file in manifest.Files)
             {
                 if(file==null||!paths.Add(file.Path)||file.Bytes<0)throw new InvalidDataException("Duplicate or invalid archived file.");
-                long maximum=file.Path=="pdmap.bin"?(IntPtr.Size==4?256L*1024*1024+16:ReviewAnalysisMetadataBudget.ArchivedPdmapBytesX64):file.Path=="parameters.bin"?80000016:file.Path=="session.json"?ReviewAnalysisMetadataBudget.SessionMetadataBytes:IsDiagnosticsPartFileName(file.Path)?ReviewAnalysisMetadataBudget.SegmentTriggerBytes:ReportChartBytesLimit;
-                totalBytes+=file.Bytes;
+                long maximum=file.Path=="pdmap.bin"?(IntPtr.Size==4?256L*1024*1024+16:ReviewAnalysisMetadataBudget.ArchivedPdmapBytesX64):file.Path=="parameters.bin"?80000016:file.Path=="session.json"?ReviewAnalysisMetadataBudget.SessionMetadataBytes:IsDiagnosticsPartFileName(file.Path)?ReviewAnalysisMetadataBudget.SegmentTriggerBytes:
+                    file.Path==ReviewDiagnosticArchivePack.MemberName?ReviewAnalysisMetadataBudget.DiagnosticsArchiveBytes:ReportChartBytesLimit;
+                // diagnostics.bin is read one entry at a time under its own
+                // ceiling, so it does not count toward the whole-read budget.
+                if(file.Path!=ReviewDiagnosticArchivePack.MemberName)totalBytes+=file.Bytes;
                 if(file.Bytes>maximum||totalBytes>ReviewAnalysisMetadataBudget.AnalysisArchiveTotalBytes)throw new InvalidDataException("Archive member or total size exceeds the memory/read budget.");
                 string path=ArchiveChild(directory,file.Path);
                 if(verifyFiles&&(!File.Exists(path)||new FileInfo(path).Length!=file.Bytes||!string.Equals(SessionHash(path),file.Sha256,StringComparison.OrdinalIgnoreCase)))throw new InvalidDataException("Archive data is missing or has changed: "+file.Path);
@@ -177,8 +180,8 @@ namespace HVX.PdReview
                 string name=overwrite?"":ValidateNewAnalysisName(analysisName);
                 if(IsAnalysisRunning)throw new InvalidOperationException("Wait for analysis before saving.");
                 double[,] parameters,waves;byte[] session;
-                if(!ExportAnalysisSessionUtf8(out parameters,out waves,out session))throw new InvalidOperationException(LastError);
-                var diagnosticsParts=TakePendingDiagnosticsArchiveParts();
+                var diagnosticsReferences=AlgorithmDiagnosticReferences(algorithmDiagnostics).ToArray();
+                if(!ExportAnalysisSessionUtf8Core(out parameters,out waves,out session,true))throw new InvalidOperationException(LastError);
                 string root=ArchiveRoot(projectPath);
                 string id=overwrite?LoadedAnalysisId:DateTime.Now.ToString("yyyyMMdd_HHmmss_fff",CultureInfo.InvariantCulture)+"_"+Guid.NewGuid().ToString("N").Substring(0,12);
                 string destination=ArchiveChild(root,id),stage=ArchiveChild(root,".pending_"+Guid.NewGuid().ToString("N"));
@@ -186,7 +189,7 @@ namespace HVX.PdReview
                 // Temporary/recovery names do not repeat the archive ID. Validate
                 // absolute paths before creating even a lock or pending directory.
                 if(overwrite)VerifyLoadedAnalysisForOverwrite(root);
-                EnsureAnalysisArchivePathsFit(root,stage,destination,backup,overwrite,diagnosticsParts.Select(part=>part.Key));
+                EnsureAnalysisArchivePathsFit(root,stage,destination,backup,overwrite);
                 Directory.CreateDirectory(root);
                 saveLock=new FileStream(ArchiveChild(root,".save.lock"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);
                 ArchiveManifest previous=null;
@@ -194,13 +197,9 @@ namespace HVX.PdReview
                 if(overwrite)name=previous.Name;
                 Directory.CreateDirectory(stage);
                 WriteMatrix(ArchiveChild(stage,"parameters.bin"),parameters);WriteMatrix(ArchiveChild(stage,"pdmap.bin"),waves);WriteNewBytes(ArchiveChild(stage,"session.json"),session);
-                foreach(var part in diagnosticsParts){
-                    if(!IsDiagnosticsPartFileName(part.Key)||part.Value==null||part.Value.Length>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
-                        throw new InvalidDataException("Invalid diagnostics segment payload.");
-                    WriteNewBytes(ArchiveChild(stage,part.Key),part.Value);
-                }
+                if(diagnosticsReferences.Length>0)ReviewDiagnosticArchivePack.Write(ArchiveChild(stage,ReviewDiagnosticArchivePack.MemberName),diagnosticsReferences);
                 var files=new List<ArchiveFile>();foreach(string file in new[]{"parameters.bin","pdmap.bin","session.json"})files.Add(DescribeArchiveFile(stage,file));
-                foreach(var part in diagnosticsParts)files.Add(DescribeArchiveFile(stage,part.Key));
+                if(diagnosticsReferences.Length>0)files.Add(DescribeArchiveFile(stage,ReviewDiagnosticArchivePack.MemberName));
                 var charts=new List<ArchiveChart>();
                 foreach(var chart in reportCharts)
                 {

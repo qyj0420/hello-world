@@ -8,11 +8,10 @@ namespace HVX.PdReview
         Action CaptureNamedAnalysisRollback()
         {
             double[,] p,w;string[,] files,settings;
-            if(!ExportAnalysisSession(out p,out w,out files,out settings))throw new InvalidOperationException("Cannot safely replace this analysis: "+LastError);
-            // Segmented diagnostics use archive part files; rollback restores the
-            // live in-memory map below, so neutralize the session field first.
+            if(!ExportAnalysisSessionCore(out p,out w,out files,out settings,true))throw new InvalidOperationException("Cannot safely replace this analysis: "+LastError);
+            // Rollback restores the live reference map below (its references keep
+            // the spilled statuses alive), so the exported field is not parsed.
             for(int row=0;row<settings.GetLength(0);row++)if(settings[row,0]=="AlgorithmDiagnostics")settings[row,1]="{}";
-            TakePendingDiagnosticsArchiveParts();
             var prior=PrepareSession(projectPath,p,w,files,settings);
             // A failed load must preserve the exact current values, not reclassify
             // the active analysis against files that happened to change on disk.

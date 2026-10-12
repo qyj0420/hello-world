@@ -25,7 +25,22 @@ namespace HVX.PdReview
         internal const long ArchivedPdmapCellsX64 = 64L * 1000 * 1000;
         /// <summary>Archived pdmap.bin byte budget matching ArchivedPdmapCellsX64.</summary>
         internal const long ArchivedPdmapBytesX64 = ArchivedPdmapCellsX64 * 8 + 16;
-        /// <summary>Named-analysis directory total byte budget (pdmap + segments + charts).</summary>
+        /// <summary>Named-analysis directory total byte budget (pdmap + diagnostics + charts).</summary>
         internal const long AnalysisArchiveTotalBytes = 1536L * 1024 * 1024;
+        // Spill store (NOTES_ANALYSIS_MEMORY.md): per-file statuses live in
+        // ReviewDiagnosticSpill and the session map holds short references, so
+        // the two "referenced" totals below are ceilings on what one session
+        // may name, not resident collections. At most one status (<=4 MiB)
+        // and one ledger (<=16 MiB) are expanded at a time.
+        /// <summary>Sum of decoded status bytes referenced by one session.</summary>
+        internal const long DecodedDiagnosticsBytes = 2048L * 1024 * 1024;
+        /// <summary>Cumulative decoded E/E+ ledger validation work for one session.</summary>
+        internal const long LedgerValidationWorkBytes = 8192L * 1024 * 1024;
+        /// <summary>Absolute ceiling on compressed bytes held by the process-wide spill store.</summary>
+        internal const long DiagnosticsSpillBytes = 1024L * 1024 * 1024;
+        /// <summary>Ceiling when no temporary folder is writable and the store falls back to memory.</summary>
+        internal const long DiagnosticsSpillMemoryFallbackBytes = 256L * 1024 * 1024;
+        /// <summary>diagnostics.bin inside a named analysis archive.</summary>
+        internal const long DiagnosticsArchiveBytes = DiagnosticsSpillBytes;
     }
 }

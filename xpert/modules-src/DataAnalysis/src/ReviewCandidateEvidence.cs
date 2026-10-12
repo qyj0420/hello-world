@@ -13,42 +13,24 @@ namespace HVX.PdReview
     public sealed partial class PdReviewControl
     {
         // File-relative keys retain the engine's CURRENT-call row indices. They
-        // are never interpreted as global merged matrix indices.
+        // are never interpreted as global merged matrix indices. A value is a
+        // small inline status or a ReviewDiagnosticSpill reference; complete
+        // statuses are restored one file at a time, never held for a session.
         Dictionary<string,string> algorithmDiagnostics=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-        // Per-segment / legacy flat encoded quota (also the spill trigger).
+        // Flat self-contained JSON quota (also the per-segment quota).
         const int CandidateEvidenceLimit=ReviewAnalysisMetadataBudget.EncodedDiagnosticsBytes;
         // Old single-file archives may still carry a flat payload up to the
         // session.json ceiling; keep that readable without forcing a rewrite.
         const int CandidateLegacyFlatBytes=ReviewAnalysisMetadataBudget.SessionMetadataBytes;
         const int CandidateStatusCharacterLimit=1024*1024;
-        // Decoded working-set ceiling across all segments (matches ledger work budget).
-        const int CandidateDecodedBytesLimit=ReviewAnalysisMetadataBudget.SegmentedDiagnosticsTotalBytes;
-        // A finite cumulative validation-work budget, NOT a resident decoded
-        // collection. ValidateLedgerStatus expands one <=16 MiB ledger at a
-        // time; only its compressed status and scalar byte count survive.
-        const int CandidateLedgerValidationBytesLimit=ReviewAnalysisMetadataBudget.SegmentedDiagnosticsTotalBytes;
+        const long CandidateDecodedBytesLimit=ReviewAnalysisMetadataBudget.DecodedDiagnosticsBytes;
+        const long CandidateLedgerValidationBytesLimit=ReviewAnalysisMetadataBudget.LedgerValidationWorkBytes;
         const string CompressedEvidencePrefix="HVX.Diagnostics.Gzip.v1:";
         const string SegmentedDiagnosticsSchema="HVX.AlgorithmDiagnostics.Segmented/1";
         static readonly Encoding EvidenceUtf8=new UTF8Encoding(false,true);
-        // Content-only cache for this control's current metadata snapshot. A
-        // status is immutable and must match in full before its ledger proof or
-        // lossless encoding is reused. This never caches source-file validation.
-        sealed class EncodedCandidateStatus
-        {
-            internal readonly string Source,Encoded;
-            internal readonly int DecodedBytes,LedgerBytes;
-            internal EncodedCandidateStatus(string source,string encoded,int decodedBytes,int ledgerBytes)
-            {Source=source;Encoded=encoded;DecodedBytes=decodedBytes;LedgerBytes=ledgerBytes;}
-        }
-        Dictionary<string,EncodedCandidateStatus> encodedCandidateStatuses;
-        string encodedCandidateProject;
-        // Archive spill payloads produced by the latest instance serialize when
-        // AlgorithmDiagnosticsJson is a file-referenced segmented envelope.
-        List<KeyValuePair<string,byte[]>> pendingDiagnosticsArchiveParts=new List<KeyValuePair<string,byte[]>>();
         static JavaScriptSerializer CandidateSerializer(int maxJsonLength)
         {return new JavaScriptSerializer{MaxJsonLength=maxJsonLength,RecursionLimit=96};}
-        static JavaScriptSerializer CandidateSerializer(){return CandidateSerializer(CandidateLegacyFlatBytes);}
-        [Browsable(false)] public string AlgorithmDiagnosticsJson { get { return SerializeCurrentAlgorithmDiagnostics(algorithmDiagnostics); } }
+        [Browsable(false)] public string AlgorithmDiagnosticsJson { get { return SerializeAlgorithmDiagnostics(algorithmDiagnostics); } }
         [Browsable(false)] public string AlgorithmReviewNotice
         {
             get {
@@ -64,31 +46,7 @@ namespace HVX.PdReview
                 return "";
             }
         }
-        static string SerializeAlgorithmDiagnostics(Dictionary<string,string> values)
-        {
-            Dictionary<string,EncodedCandidateStatus> ignored;
-            List<KeyValuePair<string,byte[]>> ignoredParts;
-            return SerializeAlgorithmDiagnosticsCore(values,null,true,out ignored,out ignoredParts);
-        }
-        string SerializeCurrentAlgorithmDiagnostics(Dictionary<string,string> values)
-        {
-            string project=projectPath??"";
-            var prior=String.Equals(encodedCandidateProject,project,StringComparison.OrdinalIgnoreCase)?encodedCandidateStatuses:null;
-            Dictionary<string,EncodedCandidateStatus> next;
-            List<KeyValuePair<string,byte[]>> parts;
-            string json=SerializeAlgorithmDiagnosticsCore(values,prior,false,out next,out parts);
-            // Publish only a completely validated, bounded snapshot. Removed
-            // records are not retained, and a failed operation leaves it intact.
-            encodedCandidateStatuses=next;encodedCandidateProject=project;
-            pendingDiagnosticsArchiveParts=parts??new List<KeyValuePair<string,byte[]>>();
-            return json;
-        }
-        internal List<KeyValuePair<string,byte[]>> TakePendingDiagnosticsArchiveParts()
-        {
-            var parts=pendingDiagnosticsArchiveParts??new List<KeyValuePair<string,byte[]>>();
-            pendingDiagnosticsArchiveParts=new List<KeyValuePair<string,byte[]>>();
-            return parts;
-        }
+        internal static string ResolveAlgorithmStatus(string stored){return ReviewDiagnosticSpill.Resolve(stored);}
         internal static bool IsSegmentedDiagnosticsEnvelope(string json)
         {
             if(String.IsNullOrEmpty(json))return false;
@@ -111,79 +69,55 @@ namespace HVX.PdReview
             int index;return middle.Length==3&&Int32.TryParse(middle,NumberStyles.None,CultureInfo.InvariantCulture,out index)&&
                 index>=1&&index<=ReviewAnalysisMetadataBudget.MaxDiagnosticsSegments;
         }
-        static EncodedCandidateStatus EncodeCandidateStatus(string status)
+        static string EncodeCandidateStatus(string status)
         {
-            int ledgerBytes=ReviewEAnalysis.ValidateLedgerStatus(status);
-            byte[] bytes=EvidenceUtf8.GetBytes(status);string encoded=status;
-            if(bytes.Length>4096||status.StartsWith(CompressedEvidencePrefix,StringComparison.Ordinal)){
-                using(var output=new MemoryStream()){
-                    using(var gzip=new GZipStream(output,CompressionLevel.Optimal,true))gzip.Write(bytes,0,bytes.Length);
-                    string compressed=CompressedEvidencePrefix+Convert.ToBase64String(output.ToArray());
-                    if(compressed.Length<status.Length||status.StartsWith(CompressedEvidencePrefix,StringComparison.Ordinal))encoded=compressed;
-                }
+            byte[] bytes=EvidenceUtf8.GetBytes(status);
+            bool reserved=status.StartsWith(CompressedEvidencePrefix,StringComparison.Ordinal)||status.StartsWith(ReviewDiagnosticSpill.ReferencePrefix,StringComparison.Ordinal);
+            if(bytes.Length<=4096&&!reserved)return status;
+            using(var output=new MemoryStream()){
+                using(var gzip=new GZipStream(output,CompressionLevel.Optimal,true))gzip.Write(bytes,0,bytes.Length);
+                string compressed=CompressedEvidencePrefix+Convert.ToBase64String(output.ToArray());
+                return compressed.Length<status.Length||reserved?compressed:status;
             }
-            return new EncodedCandidateStatus(status,encoded,bytes.Length,ledgerBytes);
         }
-        static string SerializeAlgorithmDiagnosticsCore(Dictionary<string,string> values,Dictionary<string,EncodedCandidateStatus> prior,
-            bool embedInlineParts,out Dictionary<string,EncodedCandidateStatus> next,out List<KeyValuePair<string,byte[]>> archiveParts)
+        // Self-contained form for hosts that persist the session themselves.
+        // Statuses are restored and encoded one at a time; only the encoded
+        // map is built. Above 32 MiB it becomes an inline segmented envelope,
+        // capped at the 64 MiB session-metadata ceiling that hosts can reload.
+        static string SerializeAlgorithmDiagnostics(Dictionary<string,string> values)
         {
-            // Full per-file evidence is retained in memory and restored losslessly.
-            // Only the session representation is compressed; never discard rows or
-            // source-identity warnings to satisfy the metadata quota. When the
-            // encoded map crosses ~32 MiB, spill into ordered segment parts.
+            CheckAlgorithmDiagnosticsBudget(values);
             var stored=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-            var validated=new Dictionary<string,EncodedCandidateStatus>(StringComparer.OrdinalIgnoreCase);
-            var byContent=new Dictionary<string,EncodedCandidateStatus>(StringComparer.Ordinal);
-            int decodedBytes=0,eLedgerBytes=0;
+            var byContent=new Dictionary<string,string>(StringComparer.Ordinal);
+            long encodedBytes=0;
             foreach(var entry in values){
-                string status=entry.Value;
-                if(status==null||status.Length>CandidateStatusCharacterLimit)throw new InvalidOperationException("Invalid algorithm status size.");
-                EncodedCandidateStatus evidence;
-                if(prior==null||!prior.TryGetValue(entry.Key,out evidence)||!String.Equals(evidence.Source,status,StringComparison.Ordinal)){
-                    if(!byContent.TryGetValue(status,out evidence))evidence=EncodeCandidateStatus(status);
+                string encoded;
+                if(!byContent.TryGetValue(entry.Value,out encoded)){
+                    string status=ResolveAlgorithmStatus(entry.Value);
+                    if(status.Length>CandidateStatusCharacterLimit)throw new InvalidOperationException("Invalid algorithm status size.");
+                    encoded=EncodeCandidateStatus(status);byContent.Add(entry.Value,encoded);
                 }
-                byContent[status]=evidence;validated.Add(entry.Key,evidence);
-                eLedgerBytes=AddCandidateLedgerBytes(eLedgerBytes,evidence.LedgerBytes);
-                decodedBytes=checked(decodedBytes+evidence.DecodedBytes);
-                if(decodedBytes>CandidateDecodedBytesLimit)throw new InvalidOperationException("Algorithm diagnostics exceed the decoded session budget; split the analysis batch.");
-                stored.Add(entry.Key,evidence.Encoded);
+                encodedBytes+=EvidenceUtf8.GetByteCount(encoded)+EvidenceUtf8.GetByteCount(entry.Key)+8;
+                if(encodedBytes>CandidateLegacyFlatBytes)
+                    throw new InvalidOperationException("Algorithm diagnostics exceed the 64 MiB self-contained session budget; save a named analysis instead.");
+                stored.Add(entry.Key,encoded);
             }
+            byContent=null;
             var segments=PackDiagnosticsSegments(stored);
-            if(segments.Count==1){
-                string json=segments[0];
-                if(EvidenceUtf8.GetByteCount(json)>CandidateEvidenceLimit)throw new InvalidOperationException("Algorithm diagnostics exceed the bounded 32 MiB segment budget; split the analysis batch.");
-                next=validated;archiveParts=new List<KeyValuePair<string,byte[]>>();return json;
-            }
+            if(segments.Count==1)return segments[0];
             if(segments.Count>ReviewAnalysisMetadataBudget.MaxDiagnosticsSegments)
-                throw new InvalidOperationException("Algorithm diagnostics exceed the maximum number of 32 MiB segments; split the analysis batch.");
-            long totalEncoded=0;var parts=new List<KeyValuePair<string,byte[]>>(segments.Count);
-            var partNames=new List<string>(segments.Count);
-            var inline=embedInlineParts?new List<string>(segments.Count):null;
-            for(int i=0;i<segments.Count;i++){
-                string body=segments[i];
-                int bytes=EvidenceUtf8.GetByteCount(body);
-                if(bytes>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
-                    throw new InvalidOperationException("Algorithm diagnostics segment exceeds the 32 MiB spill threshold.");
-                totalEncoded+=bytes;
-                if(totalEncoded>ReviewAnalysisMetadataBudget.SegmentedDiagnosticsTotalBytes)
-                    throw new InvalidOperationException("Algorithm diagnostics exceed the segmented 512 MiB archive budget; split the analysis batch.");
-                string name=DiagnosticsPartFileName(i+1);partNames.Add(name);
-                parts.Add(new KeyValuePair<string,byte[]>(name,EvidenceUtf8.GetBytes(body)));
-                if(inline!=null)inline.Add(body);
-            }
+                throw new InvalidOperationException("Algorithm diagnostics exceed the maximum number of 32 MiB segments; save a named analysis instead.");
+            long totalEncoded=segments.Sum(segment=>(long)EvidenceUtf8.GetByteCount(segment));
             var envelope=new Dictionary<string,object>{
                 {"schema",SegmentedDiagnosticsSchema},{"version",1},
-                {"parts",partNames.ToArray()},{"recordCount",stored.Count},{"encodedBytes",totalEncoded}
+                {"parts",Enumerable.Range(1,segments.Count).Select(DiagnosticsPartFileName).ToArray()},
+                {"recordCount",stored.Count},{"encodedBytes",totalEncoded},{"inlineParts",segments.ToArray()}
             };
-            if(inline!=null)envelope["inlineParts"]=inline.ToArray();
-            string envelopeJson=CandidateSerializer(256*1024).Serialize(envelope);
-            next=validated;archiveParts=embedInlineParts?new List<KeyValuePair<string,byte[]>>():parts;return envelopeJson;
+            return CandidateSerializer(2*CandidateLegacyFlatBytes).Serialize(envelope);
         }
         static List<string> PackDiagnosticsSegments(Dictionary<string,string> stored)
         {
-            // Estimate-then-flush packing: never reserialize the growing map on
-            // every key (O(n²) over ~30 MiB payloads freezes the UI on 462-LOC
-            // location batches such as project 11-12).
+            // Estimate-then-flush packing; never reserialize the growing map.
             var segments=new List<string>();
             var current=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
             var serializer=CandidateSerializer(CandidateLegacyFlatBytes);
@@ -192,51 +126,97 @@ namespace HVX.PdReview
             foreach(var entry in stored){
                 long entryBytes=8L+EvidenceUtf8.GetByteCount(entry.Key)+EvidenceUtf8.GetByteCount(entry.Value);
                 if(current.Count>0&&estimated+entryBytes>softTrigger){
-                    string flushed=serializer.Serialize(current);
-                    if(EvidenceUtf8.GetByteCount(flushed)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
-                        throw new InvalidOperationException("Algorithm diagnostics segment exceeds the 32 MiB spill threshold.");
-                    segments.Add(flushed);
+                    segments.Add(CheckedSegment(serializer.Serialize(current)));
                     current=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
                     estimated=2;
                 }
                 current.Add(entry.Key,entry.Value);
                 estimated+=entryBytes;
-                if(current.Count==1){
-                    string alone=serializer.Serialize(current);
-                    if(EvidenceUtf8.GetByteCount(alone)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
-                        throw new InvalidOperationException("A single algorithm diagnostics record exceeds the 32 MiB segment budget.");
-                    estimated=EvidenceUtf8.GetByteCount(alone);
-                }
             }
-            if(current.Count>0){
-                string last=serializer.Serialize(current);
-                if(EvidenceUtf8.GetByteCount(last)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
-                    throw new InvalidOperationException("Algorithm diagnostics segment exceeds the 32 MiB spill threshold.");
-                segments.Add(last);
-            }
+            if(current.Count>0)segments.Add(CheckedSegment(serializer.Serialize(current)));
             if(segments.Count==0)segments.Add("{}");
             return segments;
         }
-        static Dictionary<string,string> ParseAlgorithmDiagnostics(string json,string root,string[] retainedPaths)
-        {return ParseAlgorithmDiagnostics(json,root,retainedPaths,null,null);}
-        static Dictionary<string,string> ParseAlgorithmDiagnostics(string json,string root,string[] retainedPaths,string archiveDirectory,Action<int,int,string> progress)
+        static string CheckedSegment(string segment)
         {
-            var result=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-            if(String.IsNullOrEmpty(json))return result;
-            if(IsSegmentedDiagnosticsEnvelope(json))
-                return ParseSegmentedAlgorithmDiagnostics(json,root,retainedPaths,archiveDirectory,progress);
-            // Legacy flat map: allow up to the historical session.json ceiling.
-            if(json.Length>CandidateLegacyFlatBytes||EvidenceUtf8.GetByteCount(json)>CandidateLegacyFlatBytes)
-                throw new ArgumentException("Algorithm diagnostics exceed the bounded 64 MiB legacy session budget.");
-            int decodedBytes=0,eLedgerBytes=0;
-            return ParseFlatAlgorithmDiagnostics(json,root,retainedPaths,CandidateLegacyFlatBytes,ref decodedBytes,ref eLedgerBytes);
+            if(EvidenceUtf8.GetByteCount(segment)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
+                throw new InvalidOperationException("Algorithm diagnostics segment exceeds the 32 MiB segment budget.");
+            return segment;
         }
-        static Dictionary<string,string> ParseSegmentedAlgorithmDiagnostics(string json,string root,string[] retainedPaths,
-            string archiveDirectory,Action<int,int,string> progress)
+        // Archive/rollback form: spill references stay references and the
+        // statuses they name are written to diagnostics.bin separately.
+        static string SerializeAlgorithmDiagnosticReferences(Dictionary<string,string> values)
         {
-            if(json.Length>256*1024||EvidenceUtf8.GetByteCount(json)>256*1024)
-                throw new ArgumentException("Segmented algorithm diagnostics envelope exceeds its size limit.");
-            var envelope=CandidateSerializer(256*1024).DeserializeObject(json) as Dictionary<string,object>;
+            CheckAlgorithmDiagnosticsBudget(values);
+            var stored=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
+            foreach(var entry in values)stored.Add(entry.Key,ReviewDiagnosticSpill.IsReference(entry.Value)?entry.Value:EncodeCandidateStatus(entry.Value));
+            string json=CandidateSerializer(CandidateEvidenceLimit).Serialize(stored);
+            if(EvidenceUtf8.GetByteCount(json)>CandidateEvidenceLimit)throw new InvalidOperationException("Algorithm diagnostics index exceeds its 32 MiB budget; split the analysis batch.");
+            return json;
+        }
+        static IEnumerable<string> AlgorithmDiagnosticReferences(Dictionary<string,string> values)
+        {return values.Values.Where(ReviewDiagnosticSpill.IsReference);}
+        // Finite ceiling on what one session may reference. Reference metadata
+        // is used, so nothing is decoded to enforce it.
+        static void CheckAlgorithmDiagnosticsBudget(Dictionary<string,string> values)
+        {
+            long decodedBytes=0,ledgerBytes=0;
+            foreach(var value in values.Values){
+                string sha;int decoded,ledger;
+                if(value==null)throw new InvalidOperationException("Invalid algorithm status.");
+                if(!ReviewDiagnosticSpill.TryParseReference(value,out sha,out decoded,out ledger)){
+                    if(value.Length>CandidateStatusCharacterLimit)throw new InvalidOperationException("Invalid algorithm status size.");
+                    decoded=EvidenceUtf8.GetByteCount(value);ledger=ReviewEAnalysis.ValidateLedgerStatus(value);
+                }
+                decodedBytes+=decoded;
+                if(decodedBytes>CandidateDecodedBytesLimit)throw new InvalidOperationException("Algorithm diagnostics exceed the bounded 2 GiB referenced-evidence budget; split the analysis batch.");
+                ledgerBytes=AddCandidateLedgerBytes(ledgerBytes,ledger);
+            }
+        }
+        // Worker-thread step: validate one completed file and spill it so the
+        // batch never accumulates complete statuses in memory.
+        internal static string RetainCompletedStatus(string status)
+        {
+            status=status??"";
+            if(status.Length>CandidateStatusCharacterLimit)throw new InvalidOperationException("Algorithm status is too large; this file was not merged.");
+            return ReviewDiagnosticSpill.Retain(status,ReviewEAnalysis.ValidateLedgerStatus(status));
+        }
+        sealed class DiagnosticsParse
+        {
+            internal string Root,ArchiveDirectory;
+            internal HashSet<string> Keep;
+            internal bool ProcessReferences;
+            internal ReviewDiagnosticArchivePack Pack;
+            internal long DecodedBytes,LedgerBytes;
+            internal int Seen;
+            internal Action<int,int,string> Progress;
+            internal Dictionary<string,string> Result=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
+        }
+        static Dictionary<string,string> ParseAlgorithmDiagnostics(string json,string root,string[] retainedPaths)
+        {return ParseAlgorithmDiagnostics(json,root,retainedPaths,null,null,false);}
+        static Dictionary<string,string> ParseAlgorithmDiagnostics(string json,string root,string[] retainedPaths,string archiveDirectory,Action<int,int,string> progress)
+        {return ParseAlgorithmDiagnostics(json,root,retainedPaths,archiveDirectory,progress,false);}
+        // Accepts a flat map, a segmented envelope (inline or archive part
+        // files) and a reference index. Spill references are honoured only from
+        // a named archive (verified against its diagnostics.bin) or, for an
+        // in-process rollback, from the live store. Every entry is decoded,
+        // verified and spilled on its own; nothing accumulates decoded.
+        static Dictionary<string,string> ParseAlgorithmDiagnostics(string json,string root,string[] retainedPaths,string archiveDirectory,
+            Action<int,int,string> progress,bool processReferences)
+        {
+            var parse=new DiagnosticsParse{Root=root,ArchiveDirectory=archiveDirectory,ProcessReferences=processReferences,Progress=progress,
+                Keep=new HashSet<string>(retainedPaths,StringComparer.OrdinalIgnoreCase)};
+            if(String.IsNullOrEmpty(json))return parse.Result;
+            try{
+                if(IsSegmentedDiagnosticsEnvelope(json))ParseSegmentedAlgorithmDiagnostics(json,parse);
+                else ParseFlatAlgorithmDiagnostics(json,CandidateLegacyFlatBytes,parse);
+            }finally{if(parse.Pack!=null)parse.Pack.Dispose();}
+            return parse.Result;
+        }
+        static void ParseSegmentedAlgorithmDiagnostics(string json,DiagnosticsParse parse)
+        {
+            if(json.Length>2*CandidateLegacyFlatBytes)throw new ArgumentException("Segmented algorithm diagnostics envelope exceeds its size limit.");
+            var envelope=CandidateSerializer(2*CandidateLegacyFlatBytes).DeserializeObject(json) as Dictionary<string,object>;
             if(envelope==null)throw new ArgumentException("Invalid segmented algorithm diagnostics.");
             object schema;if(!envelope.TryGetValue("schema",out schema)||!String.Equals(schema as string,SegmentedDiagnosticsSchema,StringComparison.Ordinal))
                 throw new ArgumentException("Unsupported segmented algorithm diagnostics schema.");
@@ -247,71 +227,80 @@ namespace HVX.PdReview
                 throw new ArgumentException("Unsupported segmented algorithm diagnostics version.");
             var inline=envelope.ContainsKey("inlineParts")?envelope["inlineParts"] as object[]:null;
             var parts=envelope.ContainsKey("parts")?envelope["parts"] as object[]:null;
+            if(inline==null&&EvidenceUtf8.GetByteCount(json)>256*1024)
+                throw new ArgumentException("Segmented algorithm diagnostics envelope exceeds its size limit.");
             int segmentCount=inline!=null?inline.Length:(parts!=null?parts.Length:0);
             if(segmentCount<1||segmentCount>ReviewAnalysisMetadataBudget.MaxDiagnosticsSegments)
                 throw new ArgumentException("Invalid segmented algorithm diagnostics part count.");
             if(inline!=null&&parts!=null&&inline.Length!=parts.Length)
                 throw new ArgumentException("Segmented algorithm diagnostics part lists disagree.");
-            if(inline==null&&(String.IsNullOrEmpty(archiveDirectory)||parts==null))
+            if(inline==null&&(String.IsNullOrEmpty(parse.ArchiveDirectory)||parts==null))
                 throw new ArgumentException("Segmented algorithm diagnostics require archive part files or inline payloads.");
-            var merged=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-            int decodedBytes=0,eLedgerBytes=0;long encodedTotal=0;
+            long encodedTotal=0;
             for(int i=0;i<segmentCount;i++){
                 string partName=parts!=null?(parts[i] as string):DiagnosticsPartFileName(i+1);
                 if(partName==null||!IsDiagnosticsPartFileName(partName)||
                     !String.Equals(partName,DiagnosticsPartFileName(i+1),StringComparison.OrdinalIgnoreCase))
                     throw new ArgumentException("Invalid diagnostics segment file name.");
-                if(progress!=null)progress(i,segmentCount,partName);
+                if(parse.Progress!=null)parse.Progress(i,segmentCount,partName);
                 string body;
                 if(inline!=null){
                     body=inline[i] as string;
                     if(body==null)throw new ArgumentException("Invalid inline diagnostics segment.");
-                }else{
-                    string path=ArchiveChild(archiveDirectory,partName);
-                    byte[] bytes=ReadLimited(path,ReviewAnalysisMetadataBudget.SegmentTriggerBytes);
-                    encodedTotal+=bytes.Length;body=EvidenceUtf8.GetString(bytes);
-                }
-                if(EvidenceUtf8.GetByteCount(body)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
-                    throw new ArgumentException("Diagnostics segment exceeds the 32 MiB spill threshold.");
-                if(inline!=null)encodedTotal+=EvidenceUtf8.GetByteCount(body);
+                }else body=EvidenceUtf8.GetString(ReadLimited(ArchiveChild(parse.ArchiveDirectory,partName),ReviewAnalysisMetadataBudget.SegmentTriggerBytes));
+                encodedTotal+=EvidenceUtf8.GetByteCount(body);
                 if(encodedTotal>ReviewAnalysisMetadataBudget.SegmentedDiagnosticsTotalBytes)
                     throw new ArgumentException("Segmented algorithm diagnostics exceed the 512 MiB archive budget.");
-                var slice=ParseFlatAlgorithmDiagnostics(body,root,retainedPaths,ReviewAnalysisMetadataBudget.SegmentTriggerBytes,ref decodedBytes,ref eLedgerBytes);
-                foreach(var entry in slice){
-                    if(merged.ContainsKey(entry.Key))throw new ArgumentException("Duplicate algorithm diagnostics key across segments.");
-                    merged.Add(entry.Key,entry.Value);
-                }
+                ParseFlatAlgorithmDiagnostics(body,ReviewAnalysisMetadataBudget.SegmentTriggerBytes,parse);
+                if(inline!=null)inline[i]=null;
             }
-            if(progress!=null)progress(segmentCount,segmentCount,"");
-            return merged;
+            if(parse.Progress!=null)parse.Progress(segmentCount,segmentCount,"");
         }
-        static Dictionary<string,string> ParseFlatAlgorithmDiagnostics(string json,string root,string[] retainedPaths,int encodedLimit,
-            ref int decodedBytes,ref int eLedgerBytes)
+        static void ParseFlatAlgorithmDiagnostics(string json,int encodedLimit,DiagnosticsParse parse)
         {
-            var result=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
-            if(String.IsNullOrEmpty(json))return result;
+            if(String.IsNullOrEmpty(json))return;
             if(json.Length>encodedLimit||EvidenceUtf8.GetByteCount(json)>encodedLimit)
-                throw new ArgumentException("Algorithm diagnostics exceed the bounded segment budget.");
+                throw new ArgumentException("Algorithm diagnostics exceed the bounded session budget.");
             var values=CandidateSerializer(Math.Max(encodedLimit,CandidateLegacyFlatBytes)).DeserializeObject(json) as Dictionary<string,object>;
-            if(values==null||values.Count>100000)throw new ArgumentException("Invalid algorithm diagnostics.");
-            var keep=new HashSet<string>(retainedPaths,StringComparer.OrdinalIgnoreCase);
+            if(values==null||values.Count>100000||parse.Seen+values.Count>100000)throw new ArgumentException("Invalid algorithm diagnostics.");
             foreach(var entry in values){
-                string path=SessionResolve(root,entry.Key),status=entry.Value as string;
-                if(status==null)throw new ArgumentException("Invalid algorithm status.");
-                status=DecodeAlgorithmStatus(status,ref decodedBytes);
-                eLedgerBytes=AddCandidateLedgerBytes(eLedgerBytes,ReviewEAnalysis.ValidateLedgerStatus(status));
-                if(keep.Contains(path))result.Add(SessionRelative(root,path),status);
+                string path=SessionResolve(parse.Root,entry.Key),stored=entry.Value as string;
+                if(stored==null)throw new ArgumentException("Invalid algorithm status.");
+                string key=SessionRelative(parse.Root,path);
+                bool retained=parse.Keep.Contains(path);
+                if(retained&&parse.Result.ContainsKey(key))throw new ArgumentException("Duplicate algorithm diagnostics key.");
+                if(++parse.Seen%64==0&&parse.Progress!=null)parse.Progress(parse.Seen,values.Count,"AlgorithmDiagnostics");
+                string sha;int decoded,ledger;
+                if(ReviewDiagnosticSpill.TryParseReference(stored,out sha,out decoded,out ledger)){
+                    if(parse.ArchiveDirectory==null&&!parse.ProcessReferences)throw new ArgumentException("Spilled algorithm diagnostics require their analysis archive.");
+                    if(!retained)continue;
+                    string reference;
+                    if(parse.ArchiveDirectory!=null){
+                        if(parse.Pack==null)parse.Pack=ReviewDiagnosticArchivePack.Open(ArchiveChild(parse.ArchiveDirectory,ReviewDiagnosticArchivePack.MemberName));
+                        reference=parse.Pack.Import(sha,decoded,ledger);
+                    }
+                    else reference=ReviewDiagnosticSpill.Adopt(stored);
+                    if(reference==null)throw new InvalidDataException("Spilled algorithm diagnostics are no longer available.");
+                    parse.DecodedBytes+=decoded;
+                    if(parse.DecodedBytes>CandidateDecodedBytesLimit)throw new InvalidDataException("Expanded algorithm diagnostics exceed the session budget.");
+                    parse.LedgerBytes=AddCandidateLedgerBytes(parse.LedgerBytes,ledger);
+                    parse.Result.Add(key,reference);
+                    continue;
+                }
+                string status=DecodeAlgorithmStatus(stored,ref parse.DecodedBytes);
+                int ledgerBytes=ReviewEAnalysis.ValidateLedgerStatus(status);
+                parse.LedgerBytes=AddCandidateLedgerBytes(parse.LedgerBytes,ledgerBytes);
+                if(retained)parse.Result.Add(key,ReviewDiagnosticSpill.Retain(status,ledgerBytes));
             }
-            return result;
         }
-        static int AddCandidateLedgerBytes(int total,int current)
+        static long AddCandidateLedgerBytes(long total,int current)
         {
             if(total<0||current<0||current>ReviewEAnalysis.MaximumLedgerBytes||
                 total>CandidateLedgerValidationBytesLimit-current)
-                throw new InvalidDataException("Combined E ledger validation exceeds the bounded 512 MiB session work budget; split the analysis batch.");
-            return checked(total+current);
+                throw new InvalidDataException("Combined E ledger validation exceeds the bounded 8 GiB session work budget; split the analysis batch.");
+            return total+current;
         }
-        static string DecodeAlgorithmStatus(string stored,ref int decodedBytes)
+        static string DecodeAlgorithmStatus(string stored,ref long decodedBytes)
         {
             string status=stored;
             if(stored.StartsWith(CompressedEvidencePrefix,StringComparison.Ordinal)){
@@ -329,49 +318,24 @@ namespace HVX.PdReview
                 }
             }
             if(status.Length>CandidateStatusCharacterLimit)throw new ArgumentException("Invalid algorithm status size.");
-            decodedBytes=checked(decodedBytes+EvidenceUtf8.GetByteCount(status));
+            decodedBytes+=EvidenceUtf8.GetByteCount(status);
             if(decodedBytes>CandidateDecodedBytesLimit)throw new InvalidDataException("Expanded algorithm diagnostics exceed the session budget.");
             return status;
         }
         Dictionary<string,string> WithCompletedAlgorithmDiagnostics(IEnumerable<CompletedFile> completed)
         {
             var next=MergeCompletedAlgorithmDiagnostics(algorithmDiagnostics,projectPath,completed);
-            // Location matrices must publish even when evidence serialization
-            // hits a hard ceiling. Segmented spill usually succeeds; if not,
-            // keep the in-memory map so 462-LOC batches still show results.
-            try{SerializeCurrentAlgorithmDiagnostics(next);}
-            catch(Exception ex){
-                if(IsFatalHostException(ex))throw;
-                pendingDiagnosticsArchiveParts=new List<KeyValuePair<string,byte[]>>();
-            }
-            return next;
+            CheckAlgorithmDiagnosticsBudget(next);return next;
         }
+        // Completed files arrive already spilled by the worker; only the
+        // reference map is built, so no status is decoded here.
         static Dictionary<string,string> MergeCompletedAlgorithmDiagnostics(Dictionary<string,string> prior,string project,IEnumerable<CompletedFile> completed)
         {
             var next=new Dictionary<string,string>(prior??new Dictionary<string,string>(),StringComparer.OrdinalIgnoreCase);
             string root=SessionRoot(project);
-            foreach(var file in completed){
-                string status=file.Result.Status??"";
-                if(status.Length>1024*1024)throw new InvalidOperationException("Algorithm status is too large; results were not merged.");
-                next[SessionRelative(root,file.Request.LocationFilePath)]=status;
-            }
+            foreach(var file in completed)
+                next[SessionRelative(root,file.Request.LocationFilePath)]=file.Diagnostics??RetainCompletedStatus(file.Result.Status);
             return next;
-        }
-        string TrySerializeAlgorithmDiagnosticsForCommit(Dictionary<string,string> values,out string warning)
-        {
-            warning=null;
-            try{return SerializeCurrentAlgorithmDiagnostics(values);}
-            catch(Exception ex){
-                if(IsFatalHostException(ex))throw;
-                pendingDiagnosticsArchiveParts=new List<KeyValuePair<string,byte[]>>();
-                warning=ex.Message;return null;
-            }
-        }
-        void AdoptSerializedAlgorithmDiagnostics(Dictionary<string,EncodedCandidateStatus> validated,List<KeyValuePair<string,byte[]>> parts)
-        {
-            encodedCandidateStatuses=validated;
-            encodedCandidateProject=projectPath??"";
-            pendingDiagnosticsArchiveParts=parts??new List<KeyValuePair<string,byte[]>>();
         }
     }
 }

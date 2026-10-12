@@ -32,7 +32,7 @@ namespace HVX.PdReview
                     string relative=full.Substring(root.Length).Replace('\\','/');
                     if((attributes&FileAttributes.Directory)!=0){rows.Add("D|"+relative);queue.Enqueue(full);continue;}
                     long length=new FileInfo(full).Length;bytes+=length;
-                    if(length<0||bytes>ReviewAnalysisMetadataBudget.AnalysisArchiveTotalBytes)throw new InvalidDataException("Analysis directory exceeds its archive budget.");
+                    if(length<0||bytes>ReviewAnalysisMetadataBudget.AnalysisArchiveTotalBytes+ReviewAnalysisMetadataBudget.DiagnosticsArchiveBytes)throw new InvalidDataException("Analysis directory exceeds its archive budget.");
                     rows.Add("F|"+relative+"|"+length+"|"+SessionHash(full));
                 }
             }
@@ -72,16 +72,10 @@ namespace HVX.PdReview
             }
         }
         void EnsureAnalysisArchivePathsFit(string root,string stage,string destination,string backup,bool overwrite)
-        {EnsureAnalysisArchivePathsFit(root,stage,destination,backup,overwrite,null);}
-        void EnsureAnalysisArchivePathsFit(string root,string stage,string destination,string backup,bool overwrite,IEnumerable<string> diagnosticsParts)
         {
             foreach(string directory in new[]{root,stage,destination,backup})EnsureAnalysisPathFits(directory,true);
             EnsureAnalysisPathFits(ArchiveChild(root,".save.lock"),false);
-            var names=new List<string>{"parameters.bin","pdmap.bin","session.json","analysis.json","selection.json"};
-            if(diagnosticsParts!=null)foreach(string part in diagnosticsParts){
-                if(!IsDiagnosticsPartFileName(part))throw new InvalidDataException("Invalid diagnostics segment file name.");
-                names.Add(part);
-            }
+            var names=new List<string>{"parameters.bin","pdmap.bin","session.json","analysis.json","selection.json",ReviewDiagnosticArchivePack.MemberName};
             foreach(var chart in reportCharts) {
                 string prefix="chart_"+chart.Sequence.ToString("D6",System.Globalization.CultureInfo.InvariantCulture);
                 names.AddRange(new[]{prefix+".png",prefix+".csv",prefix+".bin"});

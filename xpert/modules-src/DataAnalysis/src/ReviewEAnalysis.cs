@@ -85,69 +85,74 @@ namespace HVX.PdReview
         }
         // Restore only a disposable spectrum input. The archived/working matrix,
         // its source hash, decisions and original waveform remain unchanged.
-        // Callers supply statuses mapped by a validated phase:file identity.
+        // Callers supply statuses (inline or spill references) mapped by a
+        // validated phase:file identity. Rows are processed file by file and
+        // each file's ledger is released before the next one is expanded.
         internal static double[,] CreateTimeFrequencyDisplay(double[,] source,double[,] waves,IDictionary<string,string> statusesByIdentity)
         {
             var display=(double[,])source.Clone();int rows=source.GetLength(0);
-            var ledgers=new Dictionary<string,Dictionary<string,object>>(StringComparer.Ordinal);
-            var eventMaps=new Dictionary<string,Dictionary<string,Dictionary<string,object>>>(StringComparer.Ordinal);
             bool waveShape=waves!=null&&(waves.GetLength(0)==rows||waves.GetLength(0)==3L*rows);
+            var rowsByFile=new Dictionary<string,List<int>>(StringComparer.Ordinal);var order=new List<string>();
             for(int row=0;row<rows;row++) {
                 if(source[row,26]!=8&&source[row,26]!=9)continue;
-                string key=source[row,0].ToString("R",CultureInfo.InvariantCulture)+":"+source[row,1].ToString("R",CultureInfo.InvariantCulture),status;
+                string key=source[row,0].ToString("R",CultureInfo.InvariantCulture)+":"+source[row,1].ToString("R",CultureInfo.InvariantCulture);
                 display[row,23]=display[row,24]=Double.NaN;
-                if(statusesByIdentity==null||!statusesByIdentity.TryGetValue(key,out status))continue;
-                Dictionary<string,object> ledger;Dictionary<string,Dictionary<string,object>> events;
-                if(!ledgers.TryGetValue(key,out ledger)) {
-                    ledger=null;events=null;
-                    try {
-                        var parsed=ReviewERuntime.Serializer().DeserializeObject(status) as Dictionary<string,object>;object contract,schema,algorithm,version;
-                        if(parsed!=null&&parsed.TryGetValue("schema",out schema)&&Object.Equals(schema,"HVX.LocationE.Adapter/1")&&
-                            parsed.TryGetValue("algorithm",out algorithm)&&Object.Equals(algorithm,source[row,26]==8?"E":"E+")&&
-                            parsed.TryGetValue("version",out version)&&Object.Equals(version,source[row,26]==8?Version:EPlusVersion)) {
-                            if(parsed.TryGetValue("time_frequency_contract",out contract)&&Object.Equals(contract,ReviewPulseTimeFrequency.Contract)) {
-                                ledger=new Dictionary<string,object>{{"current_contract",true}};
-                            } else {
-                                object packed,rawEvents;
-                                if(parsed.TryGetValue("upstream_evidence",out packed))ledger=UnpackLedger(packed as Dictionary<string,object>);
-                                if(ledger!=null&&ledger.TryGetValue("events",out rawEvents)&&rawEvents is object[]) {
-                                    events=new Dictionary<string,Dictionary<string,object>>(StringComparer.Ordinal);
-                                    foreach(object raw in (object[])rawEvents) {
-                                        var pulse=raw as Dictionary<string,object>;if(pulse==null)continue;
-                                        int incident,reflection;object value;
-                                        if(!pulse.TryGetValue("incident",out value)||!ReviewPulseTimeFrequency.Integer(value,out incident)||
-                                            !pulse.TryGetValue("reflection",out value)||!ReviewPulseTimeFrequency.Integer(value,out reflection))continue;
-                                        string pair=incident+":"+reflection;
-                                        Dictionary<string,object> prior;
-                                        // Ambiguous duplicate pair evidence must not manufacture features.
-                                        if(events.TryGetValue(pair,out prior)){int a,b,c,d;if(prior==null||
-                                            !ReviewPulseTimeFrequency.Window(prior,incident,out a,out b)||!ReviewPulseTimeFrequency.Window(pulse,incident,out c,out d)||a!=c||b!=d)events[pair]=null;}
-                                        else events.Add(pair,pulse);
-                                    }
+                if(statusesByIdentity==null||!statusesByIdentity.ContainsKey(key))continue;
+                List<int> fileRows;if(!rowsByFile.TryGetValue(key,out fileRows)){fileRows=new List<int>();rowsByFile.Add(key,fileRows);order.Add(key);}
+                fileRows.Add(row);
+            }
+            foreach(string key in order) {
+                var fileRows=rowsByFile[key];int firstRow=fileRows[0];
+                Dictionary<string,object> ledger=null;Dictionary<string,Dictionary<string,object>> events=null;
+                try {
+                    string status=PdReviewControl.ResolveAlgorithmStatus(statusesByIdentity[key]);
+                    var parsed=ReviewERuntime.Serializer().DeserializeObject(status) as Dictionary<string,object>;object contract,schema,algorithm,version;
+                    if(parsed!=null&&parsed.TryGetValue("schema",out schema)&&Object.Equals(schema,"HVX.LocationE.Adapter/1")&&
+                        parsed.TryGetValue("algorithm",out algorithm)&&Object.Equals(algorithm,source[firstRow,26]==8?"E":"E+")&&
+                        parsed.TryGetValue("version",out version)&&Object.Equals(version,source[firstRow,26]==8?Version:EPlusVersion)) {
+                        if(parsed.TryGetValue("time_frequency_contract",out contract)&&Object.Equals(contract,ReviewPulseTimeFrequency.Contract)) {
+                            ledger=new Dictionary<string,object>{{"current_contract",true}};
+                        } else {
+                            object packed,rawEvents;
+                            if(parsed.TryGetValue("upstream_evidence",out packed))ledger=UnpackLedger(packed as Dictionary<string,object>);
+                            if(ledger!=null&&ledger.TryGetValue("events",out rawEvents)&&rawEvents is object[]) {
+                                events=new Dictionary<string,Dictionary<string,object>>(StringComparer.Ordinal);
+                                foreach(object raw in (object[])rawEvents) {
+                                    var pulse=raw as Dictionary<string,object>;if(pulse==null)continue;
+                                    int incident,reflection;object value;
+                                    if(!pulse.TryGetValue("incident",out value)||!ReviewPulseTimeFrequency.Integer(value,out incident)||
+                                        !pulse.TryGetValue("reflection",out value)||!ReviewPulseTimeFrequency.Integer(value,out reflection))continue;
+                                    string pair=incident+":"+reflection;
+                                    Dictionary<string,object> prior;
+                                    // Ambiguous duplicate pair evidence must not manufacture features.
+                                    if(events.TryGetValue(pair,out prior)){int a,b,c,d;if(prior==null||
+                                        !ReviewPulseTimeFrequency.Window(prior,incident,out a,out b)||!ReviewPulseTimeFrequency.Window(pulse,incident,out c,out d)||a!=c||b!=d)events[pair]=null;}
+                                    else events.Add(pair,pulse);
                                 }
                             }
                         }
-                    } catch(Exception error) when(error is ArgumentException||error is InvalidDataException||error is FormatException||error is OverflowException||error is InvalidOperationException) {
-                        ledger=null;events=null;
                     }
-                    ledgers.Add(key,ledger);eventMaps.Add(key,events);
+                } catch(Exception error) when(error is ArgumentException||error is InvalidDataException||error is FormatException||error is OverflowException||error is InvalidOperationException) {
+                    ledger=null;events=null;
                 }
-                events=eventMaps[key];if(ledger==null)continue;
-                if(ledger.ContainsKey("current_contract")){display[row,23]=source[row,23];display[row,24]=source[row,24];continue;}
-                if(!waveShape||events==null)continue;
-                int incidentIndex,reflectionIndex,sampleFirst,sampleLast;
-                if(!ReviewPulseTimeFrequency.Integer(source[row,10],out incidentIndex)||!ReviewPulseTimeFrequency.Integer(source[row,11],out reflectionIndex)||
-                    !ReviewPulseTimeFrequency.Integer(source[row,31],out sampleFirst)||!ReviewPulseTimeFrequency.Integer(source[row,32],out sampleLast)||
-                    sampleLast<sampleFirst||(long)sampleLast-sampleFirst>=waves.GetLength(1)||source[row,20]!=incidentIndex-sampleFirst)continue;
-                Dictionary<string,object> matched;int first,last;
-                if(!events.TryGetValue(incidentIndex+":"+reflectionIndex,out matched)||matched==null||
-                    !ReviewPulseTimeFrequency.Window(matched,incidentIndex,out first,out last)||first<sampleFirst||last>sampleLast)continue;
-                double rawPeak=Math.Abs(waves[row,incidentIndex-sampleFirst]),ledgerPeak=Math.Abs(Number(matched,"q_pc"));
-                if(!Finite(rawPeak)||!Finite(ledgerPeak)||Math.Abs(rawPeak-ledgerPeak)>1e-9*Math.Max(1,ledgerPeak))continue;
-                var packet=new double[last-first+1];for(int sample=first;sample<=last;sample++)packet[sample-first]=waves[row,sample-sampleFirst];
-                double timeNs,bandwidthHz;
-                if(ReviewPulseTimeFrequency.TryMeasure(packet,first,incidentIndex,source[row,7],Number(ledger,"baseline_pc"),matched,out timeNs,out bandwidthHz)) {
-                    display[row,23]=timeNs;display[row,24]=bandwidthHz;
+                if(ledger==null)continue;
+                foreach(int row in fileRows) {
+                    if(ledger.ContainsKey("current_contract")){display[row,23]=source[row,23];display[row,24]=source[row,24];continue;}
+                    if(!waveShape||events==null)continue;
+                    int incidentIndex,reflectionIndex,sampleFirst,sampleLast;
+                    if(!ReviewPulseTimeFrequency.Integer(source[row,10],out incidentIndex)||!ReviewPulseTimeFrequency.Integer(source[row,11],out reflectionIndex)||
+                        !ReviewPulseTimeFrequency.Integer(source[row,31],out sampleFirst)||!ReviewPulseTimeFrequency.Integer(source[row,32],out sampleLast)||
+                        sampleLast<sampleFirst||(long)sampleLast-sampleFirst>=waves.GetLength(1)||source[row,20]!=incidentIndex-sampleFirst)continue;
+                    Dictionary<string,object> matched;int first,last;
+                    if(!events.TryGetValue(incidentIndex+":"+reflectionIndex,out matched)||matched==null||
+                        !ReviewPulseTimeFrequency.Window(matched,incidentIndex,out first,out last)||first<sampleFirst||last>sampleLast)continue;
+                    double rawPeak=Math.Abs(waves[row,incidentIndex-sampleFirst]),ledgerPeak=Math.Abs(Number(matched,"q_pc"));
+                    if(!Finite(rawPeak)||!Finite(ledgerPeak)||Math.Abs(rawPeak-ledgerPeak)>1e-9*Math.Max(1,ledgerPeak))continue;
+                    var packet=new double[last-first+1];for(int sample=first;sample<=last;sample++)packet[sample-first]=waves[row,sample-sampleFirst];
+                    double timeNs,bandwidthHz;
+                    if(ReviewPulseTimeFrequency.TryMeasure(packet,first,incidentIndex,source[row,7],Number(ledger,"baseline_pc"),matched,out timeNs,out bandwidthHz)) {
+                        display[row,23]=timeNs;display[row,24]=bandwidthHz;
+                    }
                 }
             }
             return display;

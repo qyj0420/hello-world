@@ -113,11 +113,14 @@ namespace HVX.PdReview
             string savedDiagnostics=null;
             for(int row=0;row<sessionSettings.GetLength(0);row++)if(sessionSettings[row,0]=="AlgorithmDiagnostics"){savedDiagnostics=sessionSettings[row,1];break;}
             if(IsSegmentedDiagnosticsEnvelope(savedDiagnostics))VerifyDiagnosticsPartsInManifest(manifest,savedDiagnostics);
+            bool packed=manifest.Files.Any(file=>file.Path==ReviewDiagnosticArchivePack.MemberName);
+            if(!packed&&savedDiagnostics!=null&&savedDiagnostics.IndexOf(ReviewDiagnosticSpill.ReferencePrefix,StringComparison.Ordinal)>=0)
+                throw new InvalidDataException("The analysis archive is missing its algorithm diagnostics ("+ReviewDiagnosticArchivePack.MemberName+").");
             Action<int,int,string> diagnosticsProgress=(completed,total,part)=>{
                 cancel.ThrowIfCancellationRequested();
-                progress(4,6,string.IsNullOrEmpty(part)?"AlgorithmDiagnostics":part);
+                progress(4,6,string.IsNullOrEmpty(part)?(packed?ReviewDiagnosticArchivePack.MemberName:"AlgorithmDiagnostics"):part);
             };
-            progress(4,6,IsSegmentedDiagnosticsEnvelope(savedDiagnostics)?"diagnostics-part":"AlgorithmDiagnostics");
+            progress(4,6,IsSegmentedDiagnosticsEnvelope(savedDiagnostics)?"diagnostics-part":packed?ReviewDiagnosticArchivePack.MemberName:"AlgorithmDiagnostics");
             cancel.ThrowIfCancellationRequested();
             var plan=PrepareSession(project,parameters,waves,sessionFiles,sessionSettings,directory,diagnosticsProgress);
             bool stale=plan.ProjectChanged||plan.Changed>0||plan.Missing>0;

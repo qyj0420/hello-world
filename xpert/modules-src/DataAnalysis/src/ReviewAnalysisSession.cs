@@ -18,9 +18,13 @@ namespace HVX.PdReview
         [Browsable(false)] public string AnalysisSessionStatus { get; private set; } = "";
         /// <summary>Preferred for ANSI-era hosts: metadata is an opaque U8 array containing UTF-8 JSON, not a local-codepage string.</summary>
         public bool ExportAnalysisSessionUtf8(out double[,] parameters,out double[,] pdMaps,out byte[] metadataUtf8)
+        {return ExportAnalysisSessionUtf8Core(out parameters,out pdMaps,out metadataUtf8,false);}
+        // referenceDiagnostics: keep spill references (named archives write the
+        // statuses to diagnostics.bin); otherwise embed self-contained statuses.
+        bool ExportAnalysisSessionUtf8Core(out double[,] parameters,out double[,] pdMaps,out byte[] metadataUtf8,bool referenceDiagnostics)
         {
             metadataUtf8=new byte[0];string[,] files,settings;
-            if(!ExportAnalysisSession(out parameters,out pdMaps,out files,out settings))return false;
+            if(!ExportAnalysisSessionCore(out parameters,out pdMaps,out files,out settings,referenceDiagnostics))return false;
             try{
                 var payload=new Dictionary<string,object>{{"schema","HVX.AnalysisSession.Utf8"},{"version",1},
                     {"files",SessionJagged(files)},{"settings",SessionJagged(settings)}};
@@ -100,6 +104,8 @@ namespace HVX.PdReview
         }
         /// <summary>Four synchronized outputs. Persist DBL matrices losslessly and string tables as Unicode/UTF-8.</summary>
         public bool ExportAnalysisSession(out double[,] parameters,out double[,] pdMaps,out string[,] fileStates,out string[,] settings)
+        {return ExportAnalysisSessionCore(out parameters,out pdMaps,out fileStates,out settings,false);}
+        bool ExportAnalysisSessionCore(out double[,] parameters,out double[,] pdMaps,out string[,] fileStates,out string[,] settings,bool referenceDiagnostics)
         {
             parameters=new double[0,36];pdMaps=new double[0,0];fileStates=new string[0,11];settings=new string[0,2];
             try{
@@ -135,7 +141,7 @@ namespace HVX.PdReview
                     {"AutomaticAcceptanceRows",new String(automaticAcceptanceRows.Select(value=>value?'1':'0').ToArray())},
                     {"ReviewDecisionVersion","2"},
                     {"ExactManualPositionRows",new String(exactManualPositionRows.Select(value=>value?'1':'0').ToArray())},
-                    {"AlgorithmDiagnostics",AlgorithmDiagnosticsJson},
+                    {"AlgorithmDiagnostics",referenceDiagnostics?SerializeAlgorithmDiagnosticReferences(algorithmDiagnostics):AlgorithmDiagnosticsJson},
                     {"AcquisitionQualities",SerializeAcquisitionQualities()},
                     {"AlgorithmIndex",SessionNumber(AnalysisAlgorithmIndex)},
                     {"MultipleReflectionSuppressionCount",SessionNumber(AnalysisMultipleReflectionSuppressionCount)},
