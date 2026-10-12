@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using HVX.ProjectModel;
 
 namespace LabVIEWLocationTree
 {
@@ -25,8 +27,12 @@ namespace LabVIEWLocationTree
         private readonly ContextMenuStrip displayMenu = new ContextMenuStrip();
         private readonly ToolStripMenuItem showRecordMenu = new ToolStripMenuItem();
         private readonly ToolStripMenuItem showAllRecordsMenu = new ToolStripMenuItem();
+        private readonly ToolStripMenuItem deleteDataMenu = new ToolStripMenuItem();
+        private readonly HashSet<TreeNode> multiSelectedNodes = new HashSet<TreeNode>();
         private string contextDataPath = "";
         private bool english;
+        private bool suppressOutputNotify;
+        private bool multiSelectClick;
         internal Func<string,string,string> LabelTranslator;
         private string TextLabel(string en,string zh){return LabelTranslator==null?(english?en:zh):LabelTranslator(en,zh);}
         private bool rebuilding;
@@ -81,7 +87,9 @@ namespace LabVIEWLocationTree
             tree.KeyDown += HandleKey;
             showRecordMenu.Click += delegate { RequestDisplayScope(contextDataPath); };
             showAllRecordsMenu.Click += delegate { RequestDisplayScope(""); };
-            displayMenu.Items.AddRange(new ToolStripItem[]{showRecordMenu,showAllRecordsMenu});
+            deleteDataMenu.Name="LocationTreeDelete";
+            deleteDataMenu.Click += delegate { RequestDeleteSelectedDataFiles(); };
+            displayMenu.Items.AddRange(new ToolStripItem[]{showRecordMenu,showAllRecordsMenu,new ToolStripSeparator(),deleteDataMenu});
             UpdateContextText();
             Controls.Add(tree);
             selectionDetails.Name="LocationSelectionDetails";selectionDetails.Dock=DockStyle.Bottom;
@@ -101,7 +109,7 @@ namespace LabVIEWLocationTree
         {
             var bounds=new Rectangle(e.Bounds.Left,e.Bounds.Top,Math.Max(0,tree.ClientSize.Width-e.Bounds.Left-2),e.Bounds.Height);
             if(bounds.Width==0)return;
-            bool selected=e.Node==tree.SelectedNode;
+            bool selected=e.Node==tree.SelectedNode||multiSelectedNodes.Contains(e.Node);
             Color background=selected?HVX.PdReview.ReviewTheme.Active:tree.BackColor;
             using(var brush=new SolidBrush(background))e.Graphics.FillRectangle(brush,bounds);
             TextRenderer.DrawText(e.Graphics,e.Node.Text,e.Node.NodeFont??tree.Font,bounds,
@@ -110,6 +118,16 @@ namespace LabVIEWLocationTree
         }
         void UpdateSelectionDetails()
         {
+            int multi=multiSelectedNodes.Count(IsDeletableLocationNode);
+            if(multi>1)
+            {
+                selectionDetails.Text=TextLabel("Multi-selected: ","已复选：")+multi.ToString(CultureInfo.InvariantCulture)+
+                    TextLabel(" location data files"," 个定位数据文件")+"\n"+TextLabel("Right-click → Delete","右键 → 删除");
+                selectionDetails.AccessibleDescription=selectionDetails.Text;
+                int multiWidth=Math.Max(50,selectionDetails.Width-selectionDetails.Padding.Horizontal);
+                selectionDetails.Height=Math.Max(Font.Height*3+16,TextRenderer.MeasureText(selectionDetails.Text,Font,new Size(multiWidth,int.MaxValue),TextFormatFlags.WordBreak).Height+16);
+                return;
+            }
             TreeNode n=tree.SelectedNode;
             if(n==null){selectionDetails.Text=TextLabel("Select a record or pulse","请选择记录或脉冲");return;}
             NodeInfo info=Info(n);
@@ -143,6 +161,7 @@ namespace LabVIEWLocationTree
         public int LastChangedMatrixRowIndex { get; private set; }
         public bool LastChangedAccepted { get; private set; }
         public string RequestedDeleteDataPath { get; private set; }
+        public string[] RequestedDeleteDataPaths { get; private set; }
         public string RequestedDisplayDataPath { get; private set; }
         public string ProjectPath { get { return Read(delegate { return model.ProjectPath; }); } }
         public string[] Warnings { get { return Read(delegate { return model.Warnings; }); } }
@@ -151,6 +170,7 @@ namespace LabVIEWLocationTree
         public event EventHandler PendingSelectionChanged;
         public event EventHandler DataChanged;
         public event EventHandler AnalysisDeleteRequested;
+        public event EventHandler ProjectDataDeleteRequested;
         public event EventHandler RecordDisplayFilterRequested;
         public event EventHandler TreeLeftClicked;
 
@@ -458,6 +478,7 @@ namespace LabVIEWLocationTree
             }
             rebuilding=true; tree.BeginUpdate();
             try {
+                multiSelectedNodes.Clear();
                 tree.Nodes.Clear();mapNodesByRow.Clear();
                 var root=new TreeNode(TextLabel("Location data","定位数据")); root.Tag=new NodeInfo{Kind=1}; tree.Nodes.Add(root);
                 foreach(int p in new[]{1,2,3,0}) {
@@ -554,28 +575,57 @@ namespace LabVIEWLocationTree
                     n.ToolTipText=n.Text+"\n"+MapReviewCaption(i.Map);
                 }
         }
+        private bool IsDeletableLocationNode(TreeNode node)
+        {
+            NodeInfo info=node==null?null:Info(node);
+            return info!=null&&info.Kind==3&&info.Record!=null&&!String.IsNullOrWhiteSpace(info.Record.DataPath);
+        }
         private void HandleNodeClick(object sender,TreeNodeMouseClickEventArgs e)
         {
             if(rebuilding) return;
             if(e.Button==MouseButtons.Right) {
+                PrepareDeleteSelectionForNode(e.Node);
                 PrepareDisplayMenu(e.Node); displayMenu.Show(tree,e.Location); return;
             }
             if(e.Button!=MouseButtons.Left) return;
             if(e.Clicks>1) return;
             TreeViewHitTestLocations hit=tree.HitTest(e.Location).Location;
             if((hit&TreeViewHitTestLocations.StateImage)!=0) { Toggle(e.Node); return; }
-            if((hit&TreeViewHitTestLocations.Label)!=0) Activate(e.Node);
+            bool ctrl=(ModifierKeys&Keys.Control)!=0;
+            if(ctrl&&IsDeletableLocationNode(e.Node))
+            {
+                // Ctrl multi-select: update tree chrome only — no overview/waveform reload.
+                multiSelectClick=true;
+                try
+                {
+                    if(multiSelectedNodes.Contains(e.Node))multiSelectedNodes.Remove(e.Node);
+                    else multiSelectedNodes.Add(e.Node);
+                    if(tree.SelectedNode!=e.Node)tree.SelectedNode=e.Node;
+                    UpdateSelectionDetails();
+                    tree.Invalidate();
+                }
+                finally{multiSelectClick=false;}
+                return;
+            }
+            multiSelectedNodes.Clear();
+            if(IsDeletableLocationNode(e.Node))multiSelectedNodes.Add(e.Node);
+            tree.Invalidate();
+            if((hit&TreeViewHitTestLocations.Label)!=0||(hit&TreeViewHitTestLocations.Image)!=0||(hit&TreeViewHitTestLocations.RightOfLabel)!=0) Activate(e.Node);
         }
         private void HandleTreeMouseDown(object sender,MouseEventArgs e)
         {
-            // Reset the presentation before any node action, including an icon,
-            // expansion arrow, root/phase node, or blank tree background click.
-            if(!rebuilding && e.Button==MouseButtons.Left) Raise(TreeLeftClicked);
+            // Ctrl multi-select must not clear spectrum scope or other result views.
+            if(rebuilding||e.Button!=MouseButtons.Left)return;
+            TreeNode hit=tree.HitTest(e.Location).Node;
+            if((ModifierKeys&Keys.Control)!=0&&IsDeletableLocationNode(hit))return;
+            Raise(TreeLeftClicked);
         }
         private void UpdateContextText()
         {
             showRecordMenu.Text=TextLabel("Show this location group","显示该组定位数据");
             showAllRecordsMenu.Text=TextLabel("Exit group view","退出该组谱图");
+            int count=CollectDeletableDataPaths().Length;
+            deleteDataMenu.Text=count>1?TextLabel("Delete selected ("+count+")","删除所选 ("+count+")"):TextLabel("Delete","删除");
         }
         private void PrepareDisplayMenu(TreeNode node)
         {
@@ -583,6 +633,44 @@ namespace LabVIEWLocationTree
             contextDataPath=info!=null && info.Record!=null?info.Record.DataPath:"";
             showRecordMenu.Enabled=!String.IsNullOrEmpty(contextDataPath);
             UpdateContextText();
+            deleteDataMenu.Enabled=CollectDeletableDataPaths().Length>0;
+        }
+        private void PrepareDeleteSelectionForNode(TreeNode node)
+        {
+            if(IsDeletableLocationNode(node)&&!multiSelectedNodes.Contains(node))
+            {
+                multiSelectedNodes.Clear();
+                multiSelectedNodes.Add(node);
+                suppressOutputNotify=true;
+                try{if(tree.SelectedNode!=node)tree.SelectedNode=node;}
+                finally{suppressOutputNotify=false;}
+                UpdateSelectionDetails();
+                tree.Invalidate();
+            }
+        }
+        private string[] CollectDeletableDataPaths()
+        {
+            var paths=new List<string>();
+            var seen=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach(TreeNode node in multiSelectedNodes.Concat(new[]{tree.SelectedNode}).Where(n=>n!=null))
+            {
+                if(!IsDeletableLocationNode(node))continue;
+                string path=Info(node).Record.DataPath;
+                try{path=Path.GetFullPath(path);}catch{continue;}
+                if(seen.Add(path))paths.Add(path);
+            }
+            return paths.ToArray();
+        }
+        private void RequestDeleteSelectedDataFiles()
+        {
+            string[] paths=CollectDeletableDataPaths();
+            if(paths.Length==0){LastError=TextLabel("Ctrl-select location data first.","请先 Ctrl 复选定位数据。");return;}
+            bool englishUi=english;
+            if(MessageBox.Show(FindForm(),ProjectDataFileDeletion.ConfirmMessage(paths.Length,englishUi),
+                ProjectDataFileDeletion.ConfirmCaption(englishUi),MessageBoxButtons.OKCancel,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button2)!=DialogResult.OK)
+                return;
+            RequestedDeleteDataPaths=paths;
+            Raise(ProjectDataDeleteRequested);
         }
         private void RequestDisplayScope(string path)
         {
@@ -591,6 +679,11 @@ namespace LabVIEWLocationTree
         }
         private void HandleKey(object sender,KeyEventArgs e)
         {
+            if(e.KeyCode==Keys.Delete)
+            {
+                if(CollectDeletableDataPaths().Length==0)return;
+                e.Handled=true;e.SuppressKeyPress=true;RequestDeleteSelectedDataFiles();return;
+            }
             if(tree.SelectedNode==null) return;
             if(e.KeyCode==Keys.Space) { Toggle(tree.SelectedNode); e.Handled=true; e.SuppressKeyPress=true; }
             else if(e.KeyCode==Keys.Enter) { Activate(tree.SelectedNode); e.Handled=true; e.SuppressKeyPress=true; }
@@ -607,6 +700,7 @@ namespace LabVIEWLocationTree
         }
         private void Activate(TreeNode n)
         {
+            if(suppressOutputNotify||multiSelectClick){UpdateSelectionDetails();return;}
             NodeInfo i=Info(n);
             if(i.Kind==4) FocusMapNode(n);
             UpdateSelectedOutputs(n);

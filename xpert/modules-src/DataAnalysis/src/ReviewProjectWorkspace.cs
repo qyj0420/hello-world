@@ -125,6 +125,7 @@ namespace HVX.PdReview
                 spectrumScopePath=path;ApplyTreeSpectrumVisibility();
             };
             analysisTree.AnalysisDeleteRequested+=(s,e)=>{if(!treeSync)DeleteLocationAnalysis(analysisTree.RequestedDeleteDataPath);};
+            analysisTree.ProjectDataDeleteRequested+=(s,e)=>{if(!treeSync)DeleteProjectLocationDataFiles(analysisTree.RequestedDeleteDataPaths);};
             analysisTree.MapAcceptanceChanged+=(s,e)=>{
                 if(treeSync)return;int row=analysisTree.LastChangedMatrixRowIndex;bool value=analysisTree.LastChangedAccepted;
                 int prior=ResultChangeSequence;
@@ -295,6 +296,62 @@ namespace HVX.PdReview
             try{if(!ReloadWithRetainedReview(p,w,rows))return false;analysisTree.ResetAnalysisForPaths(new[]{path});if(!analysisTree.SetParameterMatrix(working)){LastError=analysisTree.LastError;return false;}SyncReviewedTree();}
             finally{treeSync=false;}
             fileThresholds.Remove(path);spectrumScopePath="";ApplyTreeSpectrumVisibility();ResultChangeSequence++;NotifyReviewHost(ResultsChanged);ShowLocationOverview(path);return true;
+        }
+        /// <summary>
+        /// Permanently delete selected location data files, then refresh the tree
+        /// and analysis workspace that depend on those files — without resetting
+        /// unrelated review settings.
+        /// </summary>
+        public bool DeleteProjectLocationDataFiles(string[] paths)
+        {
+            if(analysisBusy||overviewLoading){LastError=L("Wait for analysis to finish before deleting data files.","请等待分析完成后再删除数据文件。");return false;}
+            if(paths==null||paths.Length==0)return false;
+            string root=File.Exists(projectPath)?Path.GetDirectoryName(Path.GetFullPath(projectPath)):projectPath;
+            if(String.IsNullOrWhiteSpace(root)){LastError=L("No project is loaded.","未加载项目。");return false;}
+            var remove=new HashSet<string>(paths.Where(p=>!String.IsNullOrWhiteSpace(p)).Select(Path.GetFullPath),StringComparer.OrdinalIgnoreCase);
+            var treePaths=analysisTree.GetDataPaths();
+            var catalog=analysisTree.GetDataCatalog();
+            var removeKeys=new HashSet<string>(StringComparer.Ordinal);
+            for(int i=0;i<treePaths.Length;i++)
+            {
+                string full;try{full=Path.GetFullPath(treePaths[i]);}catch{continue;}
+                if(remove.Contains(full))removeKeys.Add(((int)catalog[i,0]).ToString(CultureInfo.InvariantCulture)+"|"+catalog[i,1].ToString("R",CultureInfo.InvariantCulture));
+            }
+            var rows=Enumerable.Range(0,SourceRowCount).Where(r=>{
+                string key=((int)working[r,0]).ToString(CultureInfo.InvariantCulture)+"|"+working[r,1].ToString("R",CultureInfo.InvariantCulture);
+                return !removeKeys.Contains(key);
+            }).ToArray();
+            CancelLocationOverviewLoad();
+            treeSync=true;
+            try
+            {
+                if(rows.Length!=SourceRowCount)
+                {
+                    double[,] p,w;SubsetWorkspace(rows,out p,out w);
+                    if(!ReloadWithRetainedReview(p,w,rows))return false;
+                }
+                HVX.ProjectModel.ProjectDataFileDeletion.Delete(root,remove);
+                if(!analysisTree.LoadProject(root)){LastError=analysisTree.LastError;return false;}
+                if(!analysisTree.SetParameterMatrixAndReviewStates(working,reviewed,removed,acceptanceConfirmed))
+                {LastError=analysisTree.LastError;return false;}
+                SyncReviewedTree();
+            }
+            catch(Exception ex){LastError=ex.Message;AnalysisStatus=L("Delete failed: ","删除失败：")+ex.Message;return false;}
+            finally{treeSync=false;}
+            foreach(string path in remove)fileThresholds.Remove(path);
+            if(PathListed(spectrumScopePath,remove))spectrumScopePath="";
+            if(PathListed(overviewPath,remove)){overviewPath="";locationOverview.ClearData();}
+            ApplyTreeSpectrumVisibility();
+            ResultChangeSequence++;NotifyReviewHost(ResultsChanged);
+            AnalysisStatus=L("Deleted ","已删除 ")+remove.Count+L(" location data file(s) (irreversible)."," 个定位数据文件（不可恢复）。");
+            // Only enablement/status that depend on remaining data — not a full review chrome rebuild.
+            RefreshWorkspaceUi();
+            return true;
+        }
+        static bool PathListed(string path,HashSet<string> set)
+        {
+            if(String.IsNullOrWhiteSpace(path)||set==null||set.Count==0)return false;
+            try{return set.Contains(Path.GetFullPath(path));}catch{return false;}
         }
         void SubsetWorkspace(int[] rows,out double[,] p,out double[,] w)
         {

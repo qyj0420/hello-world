@@ -2,7 +2,7 @@
   <PropertyGroup><AssemblyName>Xiongxin.OWTS.DataBrowser</AssemblyName></PropertyGroup>
   <ItemGroup>
     <Compile Include="$(XpertRoot)/modules-src/DataBrowser/src/*.cs;$(XpertRoot)/modules-src/DataBrowser/vendor/Item/*.cs;$(XpertRoot)/modules-src/DataBrowser/vendor/Calibration/*.cs;$(XpertRoot)/modules-src/DataBrowser/vendor/Calibration/Common/*.cs;$(XpertRoot)/modules-src/DataBrowser/vendor/Oscillation/*.cs" />
-    <Compile Include="$(XpertRoot)/src/LiveCalibrationRecord.cs;$(XpertRoot)/src/LegacyCalibrationBinding.cs;$(XpertRoot)/src/PdLinearHighPass.cs;$(XpertRoot)/src/PdLinearLowPass.cs;$(XpertRoot)/src/CalibrationPulseDisplayWindow.cs;$(XpertRoot)/src/CableJointStore.cs;$(XpertRoot)/src/CableJointDialog.cs;$(XpertRoot)/src/CableVisualStyle.cs;$(XpertRoot)/src/AnalysisDateText.cs" />
+    <Compile Include="$(XpertRoot)/src/LiveCalibrationRecord.cs;$(XpertRoot)/src/LegacyCalibrationBinding.cs;$(XpertRoot)/src/PdLinearHighPass.cs;$(XpertRoot)/src/PdLinearLowPass.cs;$(XpertRoot)/src/CalibrationPulseDisplayWindow.cs;$(XpertRoot)/src/CableJointStore.cs;$(XpertRoot)/src/CableJointDialog.cs;$(XpertRoot)/src/CableVisualStyle.cs;$(XpertRoot)/src/AnalysisDateText.cs;$(XpertRoot)/src/ProjectDataFileDeletion.cs" />
     <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="XIONGXIN.Brand.ico" />
   </ItemGroup>
 </Project>

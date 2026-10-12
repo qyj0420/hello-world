@@ -1,17 +1,18 @@
 # DAC 重编 NOTES — HV-DAC Xpert 整壳合入出厂加压
 
 品牌：雄新电力 / 雄新 OWTS
-构建戳：**2026-10-12T23:24:53+08:00**（Asia/Shanghai，`BUILD_MANIFEST.json` 中同值）
+构建戳：**2026-10-12T23:33:04+08:00**（Asia/Shanghai，`BUILD_MANIFEST.json` 中同值）
 
 分析诊断 32 MiB 分段 + 定位三项目加载策略见 **`NOTES_DIAGNOSTICS_SEGMENTS.md`**。  
-缺陷识别标准模型 / 拓展学习 / >80% 冲突重训见 **`NOTES_DEFECT_LEARNING.md`**。
+缺陷识别标准模型 / 拓展学习 / >80% 冲突重训见 **`NOTES_DEFECT_LEARNING.md`**。  
+数据浏览/分析树 Ctrl 复选删除与减少无关刷新见 **`NOTES_TREE_MULTISELECT.md`**。
 
 ## 交付物
 
 | 项 | 值 |
 |----|----|
-| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,059,437 字节**，SHA256 `9C9D64CE4B21DBF1FDDAC74590433F6FF56DF0EB21F2E43FE4B9D9F26740E0D5` |
-| 主程序 | `Xiongxin.OWTS.Desktop/Xiongxin.OWTS.Desktop.exe`，.NET Framework 4.8 x64 WinExe（PE32+，GUI 子系统，无控制台），SHA256 `7039435A…` |
+| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,067,869 字节**，SHA256 `89F3B44E77F3ECC175314B561BDBD817446F01827F0E72F8209115BC9D2111BD` |
+| 主程序 | `Xiongxin.OWTS.Desktop/Xiongxin.OWTS.Desktop.exe`，.NET Framework 4.8 x64 WinExe（PE32+，GUI 子系统，无控制台），SHA256 `8A61A0CA…` |
 | 加压栈 | `modules/FactoryPressOwts/`：Bridge、HostAdapters.FactoryPress、Owts.Contracts、Owts.Acquisition（AnyCPU，仅引用 mscorlib/System/System.Core/WinForms/Drawing） |
 | 包内容 | 30 个条目：主程序 + config、图标、国际化文档、七个 UI 模块、ReportEngine、CalibrationAcquisition、PressureRuntime、Task39、FactoryPressOwts、启用标记、README_RUN、BUILD_MANIFEST（逐文件 SHA256 与缺项清单） |
 

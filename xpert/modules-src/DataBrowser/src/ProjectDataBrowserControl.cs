@@ -88,8 +88,9 @@ namespace HVX.Controls
             statsHost.Controls.Add(plot);statsHost.Controls.Add(statisticsGap);statsHost.Controls.Add(table);table.CellDoubleClick+=(sender,e)=>NavigateTableRow(e.RowIndex);plot.Dock=DockStyle.Fill;statsHost.SizeChanged+=(s,e)=>AdjustStatisticsLayout();
             openFolder.Click+=(s,e)=>{if(project!=null){OpenProjectFolder();return;}using(var chooser=new FolderBrowserDialog()){if(chooser.ShowDialog(FindForm())==DialogResult.OK)BeginLoadProject(chooser.SelectedPath);}};
             tree.BeforeSelect+=(s,e)=>{if(editing||saving){e.Cancel=true;SetStatus(T("请先保存或取消当前编辑。","Save or cancel the current edit first."));}};
-            tree.AfterSelect+=(s,e)=>{UpdateNavigationSelection();if(!sync)Activate(e.Node);};
-            tree.NodeMouseClick+=(s,e)=>{if(e.Button==MouseButtons.Left&&e.Node==tree.SelectedNode&&waveLoadFailed&&!loadingWave&&!editing&&!saving)Activate(e.Node);};
+            tree.AfterSelect+=(s,e)=>{UpdateNavigationSelection();if(!sync&&!suppressTreeActivate)Activate(e.Node);};
+            tree.NodeMouseClick+=(s,e)=>{if(e.Button==MouseButtons.Left&&e.Node==tree.SelectedNode&&waveLoadFailed&&!loadingWave&&!editing&&!saving&&!suppressTreeActivate&&(ModifierKeys&Keys.Control)==0)Activate(e.Node);};
+            InitializeTreeMultiSelect();
             editButton.Click+=(s,e)=>BeginCalibrationEdit();saveButton.Click+=(s,e)=>SaveCalibrationEdit();cancelButton.Click+=(s,e)=>CancelCalibrationEdit();lengthButton.Click+=(s,e)=>ShowLengthDialog();jointButton.Click+=(s,e)=>ShowJoints(double.NaN);
             calibration.CursorChanged+=(s,e)=>{if(editing){double dt=calibration.TimeDifference;SetStatus(T("编辑中：时间差 ","Editing: delay ")+dt.ToString("0.0000",CultureInfo.InvariantCulture)+" μs    "+T("波速 ","Velocity ")+(dt>0?2*selectedWave.CableLengthMetres/dt:double.NaN).ToString("0.00",CultureInfo.InvariantCulture)+" m/μs");}};
             calibration.ConnectorDialogRequested+=(s,e)=>{if(!saving&&!loadingWave&&ValidCalibrationGeometry()){double v=editing?2*selectedWave.CableLengthMetres/calibration.TimeDifference:selectedWave.VelocityMPerUs;double d=(calibration.RequestedConnectorTime-calibration.IncidentCursorX)*v/2;ShowJoints(d);}};
@@ -122,6 +123,8 @@ namespace HVX.Controls
                 text=Path.GetFileName(record.Path);
                 tooltip=text+(string.IsNullOrWhiteSpace(record.Warning)?"":Environment.NewLine+record.Warning);
             }
+            string multi=MultiSelectionSummary();
+            if(multi.Length>0){title=multi;tooltip=multi+(tooltip.Length>0?Environment.NewLine+tooltip:"");}
             if(actionTips.GetToolTip(navigationSelection)!=tooltip)actionTips.SetToolTip(navigationSelection,tooltip);
             string display=title+Environment.NewLine+text;
             if(navigationSelection.Text!=display)navigationSelection.Text=display;
@@ -137,7 +140,7 @@ namespace HVX.Controls
             if(e.Node==null)return;
             int width=Math.Max(1,tree.ClientSize.Width-e.Bounds.Left-3);
             var textBounds=new Rectangle(e.Bounds.Left,e.Bounds.Top,width,e.Bounds.Height);
-            bool selected=e.Node==tree.SelectedNode;
+            bool selected=IsTreeNodeHighlighted(e.Node);
             using(var background=new SolidBrush(selected?Color.FromArgb(0,163,199):tree.BackColor))
                 // OwnerDrawText runs after native branch glyphs/icons. Never paint
                 // over their area: doing so makes populated nodes look unexpandable.
@@ -269,6 +272,7 @@ namespace HVX.Controls
         sealed class NodeData{internal string Kind;internal object Value;}
         void BuildTree()
         {
+            ClearTreeMultiSelection();
             sync=true;tree.BeginUpdate();try{tree.Nodes.Clear();tree.Nodes.Add(Node(T("项目信息","Project information"),"project"));
             AddGroup(T("校准数据","Calibration data"),"cal",project.Calibrations);AddGroup(T("测试数据","Test data"),"dem",project.Tests);AddGroup(T("定位数据","Location data"),"loc",project.Locations);
             if(project.Calibrations.Count>1)tree.Nodes[1].Nodes.Insert(0,Node(T("全部校准","All calibrations"),"cal-comparison"));
