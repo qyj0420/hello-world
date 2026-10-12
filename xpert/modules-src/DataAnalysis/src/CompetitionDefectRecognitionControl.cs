@@ -33,7 +33,7 @@ namespace HVX.PdReview
         string project="",model="",lastError="",loadedId="";
         volatile bool aiEnabled=true;
         int language,generation,loadGeneration;
-        bool loading,workingAi,syncing;
+        bool loading,workingAi,syncing,recognitionBusyUi;
         double[,] parameters=new double[0,36];
         ReviewTask12Runtime runtime;
         Task aiWorker;
@@ -57,7 +57,7 @@ namespace HVX.PdReview
             InitializeLinkedSpectra();
             content.Controls.AddRange(new Control[]{sources,actions,statusCard,spectra,help});viewport.Controls.Add(content);Controls.Add(viewport);
             load.Click+=async(s,e)=>{var item=analyses.SelectedItem as SavedAnalysisInfo;if(item!=null)await LoadSavedAnalysisAsync(item.Id);};
-            recognize.Click+=async(s,e)=>{try{await RecognizeCurrentDischargeAsync();}catch(Exception ex){Failure(ex);}};
+            recognize.Click+=async(s,e)=>{try{await RecognizeCurrentDischargeAsync();}catch(Exception ex){PublishRecognitionFailure(ex);}};
             add.Click+=(s,e)=>ShowLearningDialog();
             undo.Click+=async(s,e)=>await LearningActionAsync("undo",null,null,null);
             reset.Click+=async(s,e)=>{if(MessageBox.Show(FindForm(),T("Archive this module's pending samples? History and the model are preserved.","清空本模块待训练样本？将保留历史备份，不改变模型。"),T("Clear pending samples","清空待训练样本"),MessageBoxButtons.OKCancel,MessageBoxIcon.Question)==DialogResult.OK)await LearningActionAsync("clear",null,null,null);};
@@ -185,13 +185,62 @@ namespace HVX.PdReview
             status.Text=text==ViewSummary()?(SourceRowCount==0?T("Choose an analysis above.","请在上方选择分析。"):SharedSourceRowIndices.Length==0?T("No pulses selected.","当前没有选中的脉冲。"):T("Ready. Select Recognize defect.","就绪，请点击缺陷识别。")):text;
             status.ForeColor=!String.IsNullOrEmpty(lastError)&&text==lastError?ReviewTheme.Danger:ReviewTheme.Ink;ArrangeWorkspace();var handler=StateChanged;if(handler!=null)handler(this,EventArgs.Empty);
         }
+        /// <summary>
+        /// Recognition-only UI update: discharge-type / recognition result card.
+        /// Does not rearrange archive/actions/spectra or re-enable unrelated controls.
+        /// </summary>
+        void SetRecognitionResult(string text,bool isError=false)
+        {
+            summary.Text="";summary.Visible=false;
+            statusCaption.Text=T("RECOGNITION RESULT","识别结果");
+            status.Text=text??"";
+            status.ForeColor=isError?ReviewTheme.Danger:ReviewTheme.Ink;
+            ArrangeRecognitionResultCard();
+        }
+        void ArrangeRecognitionResultCard()
+        {
+            if(arranging||statusCard.Width<=0)return;
+            int textWidth=Math.Max(40,statusCard.Width-24);
+            int captionHeight=TextRenderer.MeasureText(statusCaption.Text,statusCaption.Font,new Size(textWidth,int.MaxValue),TextFormatFlags.WordBreak|TextFormatFlags.NoPadding).Height;
+            int statusHeight=TextRenderer.MeasureText(status.Text,status.Font,new Size(textWidth,int.MaxValue),TextFormatFlags.WordBreak|TextFormatFlags.NoPadding).Height;
+            statusCaption.SetBounds(12,9,textWidth,captionHeight+2);
+            status.SetBounds(12,statusCaption.Bottom+4,textWidth,statusHeight+2);
+            int newCardHeight=(summary.Visible?summary.Bottom:status.Bottom)+9;
+            int delta=newCardHeight-statusCard.Height;
+            if(delta==0){statusCard.Height=newCardHeight;return;}
+            statusCard.Height=newCardHeight;
+            // Shift only the charts/help below the result card; do not reload plot data.
+            if(spectra.Parent==content)spectra.Top+=delta;
+            if(help.Parent==content)help.Top+=delta;
+            content.Height=Math.Max(content.Height,help.Bottom+12);
+            viewport.AutoScrollMinSize=new Size(content.Width,content.Height);
+        }
         void ApplyLanguage()
         {
             archiveCaption.Text=T("ANALYSIS ARCHIVE","分析存档");load.Text=T("Load analysis","加载分析");recognize.Text=T("Recognize defect","缺陷识别");add.Text=T("Add verified sample","加入人工确认样本");undo.Text=T("Undo sample","撤销样本");reset.Text=T("Clear pending samples","清空待训练样本");accepted.Text=T("Show accepted pulses only","仅显示已接受脉冲");
             clearSelection.Text=T("Show all pulses","显示全部脉冲");help.Text=T("Draw a region, then right-click Statistics selected region. Both charts use the selected pulses.","先框选，再右键点击“统计选中区域”。两图同步显示所选脉冲。");SyncSharedPhases();SetStatus(ViewSummary());
         }
-        void RefreshEnabled(){bool hasProject=project.Length>0&&Directory.Exists(project);analyses.Enabled=hasProject;load.Enabled=hasProject&&analyses.Items.Count>0;accepted.Enabled=SourceRowCount>0;sharedPhases.Enabled=SourceRowCount>0;spectrum.Enabled=secondarySpectrum.Enabled=hasProject;bool learn=hasProject&&aiEnabled&&!workingAi&&!loading;recognize.Enabled=learn&&SharedSourceRowIndices.Length>=3;add.Enabled=recognize.Enabled;undo.Enabled=reset.Enabled=learn;}
-        void Failure(Exception ex){if(ex is OutOfMemoryException||ex is AccessViolationException)throw ex;lastError=ex.Message;SetStatus(T("Unable to complete this operation. Please try again.","操作未完成，请重试。"));}
+        void RefreshEnabled(){bool hasProject=project.Length>0&&Directory.Exists(project);analyses.Enabled=hasProject;load.Enabled=hasProject&&analyses.Items.Count>0;accepted.Enabled=SourceRowCount>0;sharedPhases.Enabled=SourceRowCount>0;spectrum.Enabled=secondarySpectrum.Enabled=hasProject;RefreshAiActionEnabled();}
+        void RefreshAiActionEnabled()
+        {
+            bool hasProject=project.Length>0&&Directory.Exists(project);
+            bool learn=hasProject&&aiEnabled&&!workingAi&&!loading;
+            recognize.Enabled=learn&&SharedSourceRowIndices.Length>=3;
+            add.Enabled=recognize.Enabled;
+            undo.Enabled=reset.Enabled=learn;
+        }
+        void Failure(Exception ex)
+        {
+            if(ex is OutOfMemoryException||ex is AccessViolationException)throw ex;
+            lastError=ex.Message;
+            string message=T("Unable to complete this operation. Please try again.","操作未完成，请重试。");
+            if(recognitionBusyUi)SetRecognitionResult(message,true);else SetStatus(message);
+        }
+        void PublishRecognitionFailure(Exception ex)
+        {
+            recognitionBusyUi=true;
+            try{Failure(ex);}finally{recognitionBusyUi=false;workingAi=false;RefreshAiActionEnabled();}
+        }
         bool Current(int token){return !IsDisposed&&!Disposing&&Volatile.Read(ref generation)==token;}
         bool CurrentLoad(int token){return !IsDisposed&&!Disposing&&Volatile.Read(ref loadGeneration)==token;}
         public Task<bool> LoadSavedAnalysisAsync(string id)
@@ -239,8 +288,15 @@ namespace HVX.PdReview
         ReviewTask12Runtime Runtime(){return runtime??(runtime=new ReviewTask12Runtime());}
         public Task<bool> RecognizeCurrentDischargeAsync()
         {
-            var input=CaptureInput();int token=generation;var engine=Runtime();workingAi=true;recognition=null;SetStatus(T("Recognizing…","正在识别…"));RefreshEnabled();
-            return OnWorker(()=>PdReviewControl.RunRecognitionCore(input,engine,()=>Current(token)&&aiEnabled),token,result=>{recognition=result;SetStatus(RecognitionSummary(result));},()=>{workingAi=false;RefreshEnabled();},null,true);
+            var input=CaptureInput();int token=generation;var engine=Runtime();
+            // Clicking 缺陷识别 updates only the recognition result card + AI action
+            // enablement. Spectra, archive, phases, and host chrome stay untouched.
+            recognitionBusyUi=true;workingAi=true;recognition=null;lastError="";
+            SetRecognitionResult(T("Recognizing…","正在识别…"));
+            RefreshAiActionEnabled();
+            return OnWorker(()=>PdReviewControl.RunRecognitionCore(input,engine,()=>Current(token)&&aiEnabled),token,
+                result=>{recognition=result;lastError="";SetRecognitionResult(RecognitionSummary(result));},
+                ()=>{workingAi=false;recognitionBusyUi=false;RefreshAiActionEnabled();},null,true);
         }
         string LearningRoot(string modelPath){if(LearningRootProviderForTests!=null)return LearningRootProviderForTests(modelPath);return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"HVX","CompetitionDefectRecognition","Task12Learning",ReviewTask12Runtime.HashFile(ReviewTask12Runtime.ResolveModelPath(modelPath)));}
         public Task<bool> AddConfirmedLearningSampleAsync(string canonicalKeys,string operatorName,string manualType)

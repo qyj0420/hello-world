@@ -63,13 +63,17 @@
 - `xpert/modules-src/DataAnalysis/src/CompetitionArchiveAccess.cs` / `CompetitionDefectRecognitionControl.cs`
 - `xpert/modules-src/DataAnalysis/src/ReviewTask12Runtime.cs` — `TryRetrainBest`
 
+## GUI：点击「缺陷识别」只刷结果区
+
+独立 AI 缺陷识别窗口（`CompetitionDefectRecognitionControl`）点击 **「缺陷识别」** 时：
+
+| 更新 | 不更新 |
+|------|--------|
+| `CompetitionStatusCaption` / `CompetitionStatus`（识别结果 / 放电类型文案） | 谱图数据与控件 Enabled、分析存档下拉、相别、帮助区整页重排 |
+| 识别进行中仅禁用识别/学习相关按钮（`RefreshAiActionEnabled`） | `RefreshEnabled` 全量、`ArrangeWorkspace` 整页、`StateChanged` 宿主广播 |
+
+实现：`SetRecognitionResult` + `ArrangeRecognitionResultCard`（必要时仅平移谱图/帮助 Top，不 `LoadDataMatrix`）。
+
 ## 构建
 
-`./build-sdk/build-linux.sh` → 更新 `publish/xpert-desktop-win-x64.zip` 与 `BUILD_MANIFEST` 构建戳。  
-
-| 项 | 值 |
-|----|----|
-| 构建戳 | **2026-10-12T23:24:53+08:00** |
-| zip | `publish/xpert-desktop-win-x64.zip`，10,059,437 字节，SHA256 `9C9D64CE4B21DBF1FDDAC74590433F6FF56DF0EB21F2E43FE4B9D9F26740E0D5` |
-
-详见 `NOTES_DAC_REBUILD.md`。
+`./build-sdk/build-linux.sh` → 更新 `publish/xpert-desktop-win-x64.zip` 与 `BUILD_MANIFEST` 构建戳（见 `NOTES_DAC_REBUILD.md`）。
