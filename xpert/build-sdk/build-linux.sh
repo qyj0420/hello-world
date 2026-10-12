@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # 雄新电力 · 雄新 OWTS — SDK build + win-x64 publish of the HV-DAC Xpert desktop shell with the
-# FactoryPress pressure stack. Runs on Linux or Windows (Git Bash) with the .NET 8 SDK; produces the
+# FactoryPressMerge pressure stack (XpertPressBridge → OpenForXpert / RunRoundAsync / PollEmergencyStage).
+# Runs on Linux or Windows (Git Bash) with the .NET 8 SDK; produces the
 # .NET Framework 4.8 WinExe Xiongxin.OWTS.Desktop.exe. No product, SDK or device is started.
 set -euo pipefail
 
@@ -14,8 +15,15 @@ STAMP="${BUILD_STAMP:-$(TZ=Asia/Shanghai date +%Y-%m-%dT%H:%M:%S+08:00)}"
 
 command -v dotnet >/dev/null || { echo "dotnet SDK not found (export PATH=\$HOME/.dotnet:\$PATH)" >&2; exit 2; }
 
+echo "== factory-press merge bridge (XpertPressBridge net48)"
+bash "$ROOT/tools/build-factory-press-merge.sh" "$CONFIG"
+BRIDGE_DIST="$ROOT/factory-press/dist/net48"
+if [ ! -f "$BRIDGE_DIST/Xiongxin.Owts.XpertPressBridge.dll" ]; then
+  echo "missing $BRIDGE_DIST/Xiongxin.Owts.XpertPressBridge.dll" >&2
+  exit 2
+fi
+
 echo "== inputs"
-python3 "$ROOT/tools/extract-owts-factorypress.py" --check
 mkdir -p "$SDK/generated"
 python3 - "$ROOT" <<'PY'
 import hashlib, json, os, sys
@@ -43,8 +51,6 @@ projects=(
   "$SDK/runtime/CalibrationAcquisition/CalibrationAcquisition.csproj"
   "$SDK/runtime/PressureRuntime/PressureRuntime.csproj"
   "$SDK/runtime/Task39/Task39.csproj"
-  "$SDK/factorypress/Xiongxin.OWTS.FactoryPressBridge/Xiongxin.OWTS.FactoryPressBridge.csproj"
-  "$SDK/factorypress/Xiongxin.OWTS.FactoryPressBridge.Smoke/Xiongxin.OWTS.FactoryPressBridge.Smoke.csproj"
 )
 for p in "${projects[@]}"; do
   dotnet build "$p" -c "$CONFIG" -nologo -v q -clp:ErrorsOnly
@@ -70,7 +76,7 @@ stage_module ReportGenerator Xiongxin.OWTS.ReportGenerator.dll
 stage_module PressureTest Xiongxin.OWTS.PressureTest.dll
 cp "$STAGE/modules/DataAnalysis/HVX.PdReview.V1.0.dll" "$STAGE/modules/PressureTest/"
 stage_module CalibrationTest Xiongxin.OWTS.CalibrationTest.dll
-mkdir -p "$STAGE/modules/ReportGenerator/runtime" "$STAGE/modules/CalibrationAcquisition" "$STAGE/modules/PressureRuntime" "$STAGE/modules/Task39" "$STAGE/modules/FactoryPressOwts"
+mkdir -p "$STAGE/modules/ReportGenerator/runtime" "$STAGE/modules/CalibrationAcquisition" "$STAGE/modules/PressureRuntime" "$STAGE/modules/Task39" "$STAGE/modules/FactoryPress"
 cp "$(bin runtime/ReportEngine)/HVX.Report.Engine.dll" "$STAGE/modules/ReportGenerator/runtime/"
 cp "$(bin runtime/CalibrationAcquisition)/XIONGXIN.Calibration.Verification.exe" "$STAGE/modules/CalibrationAcquisition/"
 cp "$ROOT/modules-src/CalibrationStandalone/App.config" "$STAGE/modules/CalibrationAcquisition/XIONGXIN.Calibration.Verification.exe.config"
@@ -78,16 +84,14 @@ cp "$(bin runtime/PressureRuntime)/Xiongxin.Pressure.Runtime.exe" "$STAGE/module
 cp "$ROOT/App.config" "$STAGE/modules/PressureRuntime/Xiongxin.Pressure.Runtime.exe.config"
 cp "$(bin runtime/Task39)/Xiongxin.Task39.InputWorker.exe" "$STAGE/modules/Task39/"
 cp "$ROOT/App.config" "$STAGE/modules/Task39/Xiongxin.Task39.InputWorker.exe.config"
-fp="$SDK/factorypress/Xiongxin.OWTS.FactoryPressBridge/bin/$CONFIG/net48"
-for f in Xiongxin.OWTS.FactoryPressBridge.dll Xiongxin.Owts.HostAdapters.FactoryPress.dll Xiongxin.Owts.Contracts.dll Xiongxin.Owts.Acquisition.dll; do
-  cp "$fp/$f" "$STAGE/modules/FactoryPressOwts/"
-done
+# Authoritative FactoryPressMerge stack — not FactoryPressOwts / ShowForXpert modal.
+cp -a "$BRIDGE_DIST"/. "$STAGE/modules/FactoryPress/"
+cp "$BRIDGE_DIST"/*.dll "$STAGE/"
 cat > "$STAGE/factory-press-backend.enabled" <<EOF
 雄新电力 · 雄新 OWTS
-This marker routes the 加压测试 page to the FactoryPress hardware stack
-(modules/FactoryPressOwts: DeviceSdkLease / LiveEmergencyMonitor / SessionFault /
-StatusCopy / RunFactoryAlignedPress / Task6RangeAdvisor).
-Delete this file (or set XIONGXIN_OWTS_FACTORY_ALIGNED=0) to use the legacy PressureRuntime path.
+加压测试唯一硬件入口：modules/FactoryPress/Xiongxin.Owts.XpertPressBridge.dll
+OpenForXpert → RunRoundAsync → OwtsServices.RunFactoryAlignedPress；急停读 PollEmergencyStage。
+禁止第二路 UnifiedPressureBridge.MonitorAsync；禁止悄悄退回 PressureRuntime Capture*/Monitor*。
 EOF
 
 echo "== manifest"
@@ -106,10 +110,11 @@ files.sort(key=lambda f: f["path"])
 manifest = {
     "schema": "XIONGXIN.OWTS.DacRebuild.Publish/1",
     "brand": "雄新电力 · 雄新 OWTS",
-    "product": "HV-DAC Xpert V1.1.2 r58 + FactoryPress pressure stack",
+    "product": "HV-DAC Xpert V1.1.2 r58 + FactoryPressMerge (XpertPressBridge)",
     "buildStamp": stamp,
     "configuration": config,
     "targetFramework": ".NET Framework 4.8 (x64 WinExe; requires the OS .NET Framework 4.8 runtime)",
+    "pressureStack": "modules/FactoryPress/Xiongxin.Owts.XpertPressBridge.dll → OpenForXpert / RunRoundAsync / PollEmergencyStage → RunFactoryAlignedPress",
     "hostDefines": ["V30_BATCH_VALIDATION_20261008", "PUBLIC_BETA_NO_DRIVER_20261011", "PUBLIC_BETA_NO_DRIVER_V112_20261011", "MAINTENANCE_PASSWORD_GUARD", "DAC_REBUILD_FACTORYPRESS_20261012"],
     "protectedRelease": False,
     "hardwareAccessed": False,

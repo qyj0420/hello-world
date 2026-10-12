@@ -11,6 +11,7 @@ namespace HVX.Controls
         bool manualThresholdDragging;
         Rectangle manualThresholdDragPlot;
         double manualThresholdDragMaximum,manualThresholdDragOriginal;
+        internal bool ManualThresholdGuideDragging { get { return manualThresholdDragging; } }
 
         bool CanDragManualThreshold
         {get{return Enabled&&manualThresholdGuideEnabled&&!IsDisposed&&!Disposing&&
@@ -76,7 +77,11 @@ namespace HVX.Controls
             {
                 if(CanDragManualThreshold)MoveManualThreshold(e.Y);
                 else {CancelManualThresholdDrag(true);return;}
-                manualThresholdDragging=false;Capture=false;Cursor=Cursors.Default;Invalidate();return;
+                manualThresholdDragging=false;Capture=false;Cursor=Cursors.Default;Invalidate();
+                // Commit after the drag flag clears so the host can sync the
+                // NumericUpDown without a mid-gesture ValueChanged round-trip.
+                RaiseManualThresholdGuideDragged();
+                return;
             }
             base.OnMouseUp(e);
         }

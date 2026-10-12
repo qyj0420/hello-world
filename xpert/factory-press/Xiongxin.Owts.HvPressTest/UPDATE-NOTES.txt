@@ -1,0 +1,110 @@
+雄新出厂加压 / 独立校准采集（2026-10-12）
+
+【2026-10-12 19:12 出厂加压可用包强制同步】
+- 构建戳 FactoryPressBuildInfo.CompileStamp=2026-10-12T19:11:51+08:00
+- FakeLive smoke --gain 6000 → OK exit=0 completed=2
+- 已含：右窗同stem尖峰保留、关源清假平台、自动量程拒盲目降档、量程记忆、达压立刻HVOFF、采后冷却、手动不Suggested重加
+- 强制覆盖同步 Desktop\出厂测试（未改校准界面）
+
+雄新出厂加压 / 独立校准采集（2026-10-12）
+
+【2026-10-12 18:45 量程记忆：同压沿用成功档，勿每轮回原点】
+- 校准探噪小档不得覆盖加压上次成功量程记忆
+- 记住最后一次达压采集成功的 Pico 量程索引 + 目标 kV
+- 连续同压 / 下一轮自动量程：直接沿用成功档，禁止回 ±1V 原点再爬 3～4 次
+- 档间携带用 PicoRangeIndexUsed（成功实际档），不用未验证 Suggested
+- ApplyUiCaptureSettings / UI 轮次：自动量程时忽略把量程打回原点的传入
+
+【2026-10-12 18:41 用户权威：左完整采集 / 右同原始N周期切】
+- 左窗：完整采集振荡（AI4平滑）+ 局放检波直方（同stem全段HP×pdCal）；时间轴=完整采集，不相对首零归零
+- 右窗：从左侧同一段原始数据（同stem）按设定周期首零起切 N 周期电压+局放（真Pico.raw.i16×HP×pdCal）
+- 撤销「左右同窗N周期」误修：左不再被截成定位窗；右切片必须落在左所显示的那段原始捕获内
+- 量程参考仍用未滤波全段 Pico 峰
+
+雄新出厂加压 / 独立校准采集（2026-10-12）
+
+【2026-10-12 18:18 触发采集长度 + 左右同stem + 真Pico确认】
+- 主页新增「触发采集振荡/局放长度ms」默认 60（10–120）；写入 PicoSampleCount/ArtFiniteSampleCount 并在加压每轮 Apply 生效
+- 左右局放强制同 stem（AI4+Pico.raw/preview）；禁止各自取最新错档导致 t0/相位不一致
+- 右窗确认：满采样 *.pico.raw.i16 × HP × pdCal（非仿真、非 80k 预览冒充）；无配对 raw 则拒切
+- 左=同窗 |V| 峰值仓直方；右=同一切片原始折线
+
+雄新出厂加压 / 独立校准采集（2026-10-12）
+
+【2026-10-12 左右局放同源同t0同相位】
+- 根因：左检波用全段预览时间轴，右定位用真首零切 N 周期 → 左「第一大峰」与右窗局放错位
+- 修：先 AI4 真首零定 t0；左右共用同一满采样 HP 切片（相对 t0=0）；左=|V|峰值仓直方，右=原始折线
+- 无满采样时：右仍拒 80k 预览；左可用预览同 t0 切片仅作检波对照
+- 量程参考仍用未滤波全段 Pico 峰
+
+雄新出厂加压 / 独立校准采集（2026-10-12）
+
+【2026-10-12 18:10 达压立刻HVOFF + 定位真首零/拒倍频】
+- 达压后：立刻 HVOFF+AO=0（关源前禁止 Configure/ArmFinite/RunBlock/冷却）；触发改在关源后 ArmBlock 内配置
+- 假平台：AI4 finite 占用期间抑制分压监控缓存（LastDivider=0），避免直流监控钉高压~2s
+- 定位 t0：AI4 上升过零且其后为带内完整周期（正负峰）；窗起点强制 (0,0)；局放同 t0
+- 频率：上升过零完整周期中位（拒半周→807Hz 倍频）；preferredFreq 与中位差≥35%则弃用
+
+雄新出厂加压 / 独立校准采集（2026-10-12）
+
+【2026-10-12 17:51 权威时序修正 — 冷却禁止夹 HVOFF】
+- Pico Open：仅 Connect
+- 达压后 ≤500ms：只 ConfigureBlockTriggerOnly（0V自动/非0数字EXT）；禁止 ArmFinite/RunBlock/等冷却
+- 立刻 HVOFF+AO=0；关源前/后绝不 WaitForPicoCaptureReady
+- 关源后立即 ArmFinite+ArmBlock(skipCooldownGate)；冷却只在采后档间 Wait
+- 定位：AI4 真首零=开启带内周期(20–5000Hz)的第一个上升过零；局放同 t0；禁噪声/600Hz 错窗
+- 启动日志：构建时间戳 FactoryPressBuildInfo.Stamp
+
+雄新出厂加压 / 独立校准采集（2026-10-12）
+
+【2026-10-12 权威时序 + 空闲量程 + 定位真首零】
+- Pico：仅「连接」时 OpenUnit；禁止 HV OFF 才启动（会拖长达压平台）
+- 达压后：HVOFF 前 ≤500ms 只配置触发——目标 0V→自动触发；非 0→数字 EXT；配置成或冷却未尽则尽快 HVOFF（关源前绝不干等 Pico 冷却）
+- 关源后若未预臂：再冷却+布防；导通触发。AutoTrigger 兜底 800ms / CaptureTimeout 1000ms
+- 连接后空闲：自动量程/Pico量程可改（加压中锁）；勾选打「量程模式」日志
+- 定位窗：振荡电压通道（AI4 原始）重算真·首个上升过 0 点（插值）再切窗；局放同 t0；禁止 ampGate 跳过/ t0=0 错起点
+
+【独立校准 UI】
+- 外观对照 approvedUI.png（电缆振荡波校准系统 Theme：#0B2D4D 顶栏 / 三栏卡片）
+- 底层 FactoryPress A：急停按下可校准；ChannelA Rapid；落盘 config/pd-calibration.json
+- 同目录：雄新校准采集.exe（或本 exe --calibrate-ui）；加压窗「打开校准采集」启动
+
+【线性滤波】
+- 权威：D:\PD_AI_LabVIEW2026_Project\deliverables\HVX_PD_BandpassFilter_算法移交包_20261012\PdBandpassFilter.cs
+- SHA256 afc3b6e2…；仅改 namespace 嵌入；禁止自造 FIR/FFT/移动平均核
+- FactoryPdHighPass = 移交包带通（低截止界面默认 10kHz，高截止≈0.45·Fs）
+
+【显示】（用户权威 2026-10-12 18:41）
+- 左窗：完整采集振荡显示平滑 + 局放 |V| 峰值仓直方（同stem全段）
+- 右窗：同一段原始首零起 N 周期切电压+局放（移交包 HP 后 Pico 原始，不检波不二次降采样）
+- 量程判定仍用未滤波 Pico；不改加压硬件 / Acquisition 量程核心
+
+【急停】
+- 按下：可校准、可 AO=0、不可非零加压
+- 高电平：可加压、不可校准
+
+【2026-10-12 定位整周期 + 停后再压误触发】
+- 右窗：按振荡频率（优先 meta oscillationFrequencyHz）截完整 N 周期；Pico=移交包 HP 后原始（不检波不二次降采样）
+- 停后再压：HV OFF 残压等到背景限；HVON 后短 settle；启动背景不写入 PeakActualVoltageV（防 Ramp 假 OverVoltage）
+- 勿大改 Acquisition 核心量程/采集路径
+
+【2026-10-12 放电量显示】
+- 检波与定位原始局放均 × 校准系数(pC/V) 后显示，单位放电量 pC
+- 局放标尺 10pC～10nC 默认 100pC；定位纵轴 ±对称
+
+【2026-10-12 显示/量程分流澄清】
+- 检波（左窗）与定位原始局放（右窗）均为滤波之后（移交包 HP）；再 ×pdCal→pC
+- 仅量程调节参考数据不经过滤波：Task6RangeAdvisor + UI 超量程横幅峰用未滤波 Pico
+- 勿把算法包 locationPdNative「未滤波」定义套到出厂显示路径
+
+【2026-10-12 急停锁存/联动/停止/定位满采样/ART触发位置】
+- 急停解除（Released）→ TryClearEmergencyLatchIfHardwareSafe；UI 100ms 轮询自动清锁存；debounce 2
+- 操作员停止：走完 HVOFF+采集；_operatorStopEndBatch 禁止下一轮；可按数据调量程
+- 定位右窗：*.pico.raw.i16 满采样(≈125MS/s)×N周期切片 + HP 原始×pdCal；禁止 80k 预览/检波
+- 触发位置%：ART CfgDigEdgeRefTrig pretrigger 与 Pico SplitTriggerSamples 同源
+
+【2026-10-12 直流监控分压平台 + 手动/自动量程】
+- 上图通道：蓝=分压器反馈(AI4)、绿=直流源监控(AI2)、橙=电流
+- Bug：HVOFF 后 VerifyDischarge 只侧写源压缓存、不刷新分压缓存 → 绿先掉、蓝钉 HVUP 峰值平台
+- 修：关源后/Pico冷却/预臂/放电确认轮询 TryPollMonitorFeedbackIntoCaches，分压跟真实反馈掉零或残压
+- UI：量程下拉前「自动量程」勾选；取消=手动量程（不自动切；超量程提示可跳一档；峰<20%FS 提示量程过小判定）

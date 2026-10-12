@@ -109,7 +109,16 @@ if (-not $SkipModules) {
     $stageArgs = @{ OutputRoot = $output; ProtectedRelease = [bool]$ProtectedRelease; MaintenancePassword = [bool]$MaintenancePassword; Configuration = $Configuration }
     if ($Hybrid) { $stageArgs.HybridNativeDirectory = $hybridBuild.Directory; $stageArgs.HybridPinFile = $hybridBuild.PinFile }
     & (Join-Path $root 'Stage-Modules.ps1') @stageArgs
-    if ($DacRebuildFactoryPress) { & (Join-Path $root 'tools\Build-FactoryPressOwts.ps1') -ModulesRoot (Join-Path $output 'modules') -Configuration $Configuration }
+    # FactoryPressMerge path: XpertPressBridge → OpenForXpert / RunRoundAsync / PollEmergencyStage.
+    # Always stage modules\FactoryPress from factory-press\dist\net48 (build first if missing).
+    $factoryPressDist = Join-Path $root 'factory-press\dist\net48'
+    $factoryBridge = Join-Path $factoryPressDist 'Xiongxin.Owts.XpertPressBridge.dll'
+    if (-not (Test-Path -LiteralPath $factoryBridge -PathType Leaf)) {
+        & (Join-Path $root 'tools\Build-FactoryPressMerge.ps1') -Configuration $Configuration
+    }
+    if (-not (Test-Path -LiteralPath $factoryBridge -PathType Leaf)) {
+        throw "Missing factory-press net48 bridge. Run: powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Build-FactoryPressMerge.ps1 -Configuration $Configuration"
+    }
     & (Join-Path $root 'tools\Stage-DefectModels.ps1') -OutputDirectory (Join-Path $output 'model-payload')
     $resourceDirectory = Join-Path $output ('embedded-resources-' + [Guid]::NewGuid().ToString('N'))
     $embeddedPayload = & (Join-Path $root 'tools\Build-EmbeddedPayload.ps1') -ModulesRoot (Join-Path $output 'modules') -OutputDirectory $resourceDirectory
@@ -296,4 +305,14 @@ $manifest = [ordered]@{
     })
 }
 $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $output 'build-manifest.json') -Encoding UTF8
+$factoryPressDist = Join-Path $root 'factory-press\dist\net48'
+$factoryBridge = Join-Path $factoryPressDist 'Xiongxin.Owts.XpertPressBridge.dll'
+if (-not (Test-Path -LiteralPath $factoryBridge -PathType Leaf)) {
+    throw "Missing factory-press net48 bridge. Run: powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\Build-FactoryPressMerge.ps1 -Configuration $Configuration"
+}
+$factoryDest = Join-Path $output 'modules\FactoryPress'
+New-Item -ItemType Directory -Path $factoryDest -Force | Out-Null
+Copy-Item -Path (Join-Path $factoryPressDist '*') -Destination $factoryDest -Force
+Copy-Item -Path (Join-Path $factoryPressDist '*.dll') -Destination $output -Force
+Write-Output "Staged factory-press bridge: $factoryDest"
 Write-Output "Built: $exe"

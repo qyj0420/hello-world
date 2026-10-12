@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading;
@@ -79,6 +81,7 @@ namespace HVX.Controls
             using (var rawLock = new FileStream(Path.Combine(directory, "capture.bin"), FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var capture = BenchCapture.Load(directory);
+                ApplyFactoryPressRangeFeed(directory, requested, capture);
                 foreach (var field in typeof(BenchSettings).GetFields(BindingFlags.Public | BindingFlags.Instance))
                     if (!Object.Equals(field.GetValue(requested), field.GetValue(capture.Settings)))
                         throw new InvalidDataException("Capture configuration changed during acquisition: " + field.Name);
@@ -136,6 +139,25 @@ namespace HVX.Controls
                 cancellation.ThrowIfCancellationRequested();
                 return result;
             }
+        }
+
+        // Factory-press rounds may settle a Pico range inside RunFactoryAlignedPress.
+        // The workbench still compares every BenchSettings field, so the in-memory
+        // request adopts the recorded range before that comparison. E+ math is unchanged.
+        static void ApplyFactoryPressRangeFeed(string directory, BenchSettings requested, BenchCapture capture)
+        {
+            string manifest = Path.Combine(directory, "factory-press-manifest.json");
+            if (!File.Exists(manifest)) return;
+            string text = File.ReadAllText(manifest);
+            Match match = Regex.Match(text, "\"rangeIndexUsed\"\\s*:\\s*(-?\\d+)");
+            if (!match.Success) return;
+            int used;
+            if (!Int32.TryParse(match.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out used)
+                || used < 0 || used >= BenchSettings.Ranges.Length)
+                throw new InvalidDataException("出厂加压量程索引无效。");
+            if (capture.Settings == null || capture.Settings.RangeIndex != used)
+                throw new InvalidDataException("出厂加压记录的量程与清单不一致。");
+            requested.RangeIndex = used;
         }
 
         internal static bool NeedsDecision(BenchSettings settings, LocationRangeResult quality)

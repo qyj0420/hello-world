@@ -1,10 +1,12 @@
-# 雄新电力 · 雄新 OWTS — HV-DAC Xpert 桌面（合入出厂加压）运行说明
+# 雄新电力 · 雄新 OWTS — HV-DAC Xpert 桌面（FactoryPressMerge）运行说明
 
 包名：`xpert-desktop-win-x64.zip` → 解压得到 `Xiongxin.OWTS.Desktop/`
 主程序：`Xiongxin.OWTS.Desktop.exe`（九宫格工作台，WinForms WinExe，双击启动，无控制台黑窗）
 构建戳、配置与逐文件 SHA256：见同目录 `BUILD_MANIFEST.json`
 
 > 本包为 **SDK 构建的测试包**（非 ProtectedRelease），尚未经过实机验收。缺项见文末，请勿作为客户正式版发布。
+
+权威对照：本机 `HV-DAC_Xpert_V1.1.2_FactoryPressMerge_Debug\Xiongxin.OWTS.Desktop.exe`（cloud `bc-5330ba65` / FactoryPressMerge 源码包）。加压路径与之对齐，不走旧 `FactoryPressOwts` 模态对话框。
 
 ## 1. 运行环境
 
@@ -14,45 +16,43 @@
 
 ## 2. 启动
 
-双击 `Xiongxin.OWTS.Desktop.exe`。九宫格布局与导航与 Xpert V1.1.2 r58 保持一致（工程创建、工程管理、数据浏览、数据分析、报告生成、校准测试、加压测试等）。
+双击 `Xiongxin.OWTS.Desktop.exe`。九宫格布局与导航与 Xpert V1.1.2 r58 保持一致。
 
-## 3. 「加压测试」走出厂加压硬件栈
+## 3. 「加压测试」→ XpertPressBridge（唯一硬件入口）
 
-包根目录的 `factory-press-backend.enabled` 标记文件让「加压测试」页改走出厂加压硬件栈（位于 `modules\FactoryPressOwts\`）：
+加压页由宿主 `ModuleHost.FactoryPressure` 加载：
 
-| 机制 | 作用 |
+`modules\FactoryPress\Xiongxin.Owts.XpertPressBridge.dll`
+
+| 调用 | 作用 |
 |------|------|
-| `DeviceSdkLease` | Pico 5242D / ART 全局单 Open（`Global\Xiongxin.Owts.DeviceSdk.v1`） |
-| `LiveEmergencyMonitor` | ART DB37 **P0.4 急停独立循环**监视；急停/异常 → HV OFF（P0.0 HVON 与 P0.3 高压灯同步断开）+ Pico 同步 |
-| `SessionFault` | 安全退出后锁存：必须断开并重新连接设备，不自动续压；清理失败禁止同进程重开 |
-| `StatusCopy` | 五态提示：已连接 / 已校准 / 可加压 / 急停按下·解除；0 kV ≠ 可加压 |
-| `RunFactoryAlignedPress` + `Task6RangeAdvisor` | 出厂对齐加压流程与自动量程重加 |
+| `OpenForXpert` | 同一会话贯穿 0 kV 噪声初始化与非零加压；Pico 单 Open，不启 PicoScope.exe |
+| `RunRoundAsync` | → `OwtsServices.RunFactoryAlignedPress`（采集/故障走桥接） |
+| `PollEmergencyStage` | 急停显示约 50 ms 回读；**不**再开 `UnifiedPressureBridge.MonitorAsync` 第二路 DI |
+| `StatusCopy` 五态 | 已连接 / 已校准 / 可加压 / 急停按下·解除；0 kV ≠ 可加压；P0.0+灯同步；P0.4 独立循环 |
+
+故障种类：`NotReady` / `OperatorStop` / `EStop`（HV OFF+Pico 同步）/ `Safety` / `PicoOnly`（ClosePicoOnly+重开，加压控制继续）/ `DeviceOffline` / `CleanupGate`（仅 ClearTask/CloseUnit 真失败）。
+
+旧 `Xiongxin.Pressure.Runtime.exe` **仅**用于反射构造 `BenchSettings` XML。会话打开后 **不会** 调用其 `Capture*` / `Monitor*`。
+
+找不到桥接 DLL 时加压 **直接失败**（文案要求先运行 `tools\Build-FactoryPressMerge.ps1`），不会静默退回旧采集进程。
 
 操作流程：
 
-1. 先在 Xpert 中 **连接设备**、完成 **设备参数**（加压比例、分压比、最高电压）与 **校准**。设备未连接时页面处于仿真模式，不会进入出厂加压栈。
-2. 进入「加压测试」并开始 → 弹出「雄新 OWTS 出厂加压」对话框。
-3. 依次点 **连接设备** → 设定目标 kV 与轮数 → **开始加压**（需二次确认）→ 需要时 **停止** → **断开设备**。
-4. 每轮记录写到 `<工程>\Acquisition\PressureOwtsFactory\`（`owts-factory-round.json`、Pico 原始 ADC、分压原始电压）。
+1. 在 Xpert 中 **连接设备**、完成 **设备参数** 与 **校准**。
+2. 进入「加压测试」并开始 — **无**出厂加压模态对话框；页面内直接走桥接轮次。
+3. 停止按钮取消令牌 → `RequestOperatorAbort`；急停走桥接 `PollEmergencyStage` + 出厂 `LiveEmergencyMonitor`（P0.4）。
 
-切回旧版 PressureRuntime 路径：删除 `factory-press-backend.enabled`，或设置环境变量 `XIONGXIN_OWTS_FACTORY_ALIGNED=0`。
-标记存在但 `modules\FactoryPressOwts\` 缺失时，加压页 **拒绝运行**（不会静默换用另一套加压栈）。
+无驱动联调：环境变量 `OWTS_XPERT_FAKE_PRESS=1`。
 
 ### 实机所需（本包不含）
 
-- ART 驱动 `Art_DAQ.dll`、PicoScope 5000A SDK `ps5000a.dll` / `picoipp.dll`（按厂商安装程序安装，或用 `OWTS_ART_DRIVER_DIR` / `OWTS_PICO_SDK_DIR` 指定目录）。
-- ART 模块名默认 `Dev1`，可用 `OWTS_ART_DEVICE` 修改；Pico 按 Xpert 设备身份中的序列号打开。
-- 台架标定 JSON：可用 `OWTS_BENCH_CALIBRATION_FILE` 指定；未指定时使用 Xpert 设备参数中的加压比例 / 分压比生成台架标定。加压比例为占位值 1000 时拒绝加压。
-- Xpert 的设备连接本身依赖 `HvxAcquisitionNative.dll` 与 HardwareIntegration 连接器（见下方缺项）。
-
-### 无驱动联调（FakeLive）
-
-设置 `XIONGXIN_OWTS_FACTORY_ALIGNED_FAKE=1` 后，对话框使用仿真 ART/Pico（不碰真驱动），并显示「FakeLive 急停按下」勾选框用于验证急停锁存。仍需 Xpert 处于设备已连接状态才能进入该页。
+- ART 驱动 `Art_DAQ.dll`、PicoScope 5000A SDK `ps5000a.dll` / `picoipp.dll`。
+- Xpert 设备连接依赖 `HvxAcquisitionNative.dll` 与 HardwareIntegration（见缺项）。
 
 ## 4. 已知缺项（本包）
 
 1. **非 ProtectedRelease**：算法未经 ConfuserEx 加固（Linux SDK 构建）；正式版须在授权 Windows 环境用 `Build.ps1 -ProtectedRelease` 构建。
-2. **未包含 `HvxAcquisitionNative.dll`（MSVC 原生桥）与 HardwareIntegration 连接器 / Task38**：快照中缺厂商 Sxuptp / SxConnectDev 与清单，因此本包 **无法完成 Xpert 实机连接**，也就无法在实机上进入出厂加压对话框；旧 PressureRuntime / Task39 / 校准采集的硬件 I/O 同样受限。离线功能（工程、浏览、分析、报告）不受影响。
+2. **未包含 `HvxAcquisitionNative.dll`（MSVC 原生桥）与 HardwareIntegration 连接器 / Task38**：本包无法完成 Xpert 实机连接；离线功能（工程、浏览、分析、报告）不受影响。
 3. 未包含 Task17 定位 DLL、r71 研究运行时、缺陷模型 / ONNX、Hybrid 原生核心、设备资产目录、参考仿真资产。
-4. 出厂加压轮次记录 **未接入** 页面分析与定位 E+（两者要求 ART 80 kS/s 与 Pico 同时基计数、禁止重采样，无法如实转换）；定位 E+ 数学未改动。
-5. 未做 Windows 实机或桌面冒烟；只在 Linux 上完成编译、FakeLive 冒烟和接口契约检查。
+4. 未做 Windows 实机验收；Linux 上完成桥接编译、桌面 SDK 构建与 FakeLive 冒烟。

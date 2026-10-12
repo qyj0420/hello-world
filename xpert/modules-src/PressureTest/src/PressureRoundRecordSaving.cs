@@ -73,7 +73,7 @@ namespace HVX.Controls
                     }
                 });
                 bool locationPrepared=await PressureRoundPairPreparation.RunAsync(
-                    ()=>capacitor?Task.FromResult(true):SaveLocationCycleDataAsync(id,path,result.ChargePc,result.Capture.PicoRateHz,0,velocityMPerUs,result.HighPassFilterId,CancellationToken.None),
+                    ()=>capacitor?Task.FromResult(true):SaveLocationCycleDataAsync(id,path,FactoryPressLocateFeed.SamplesForSave(result),FactoryPressLocateFeed.RateForSave(result),0,velocityMPerUs,FactoryPressLocateFeed.FilterForSave(result),CancellationToken.None),
                     ()=>Task.Run(()=>{
                         var data=PressureDetectedRecord.Detect(result.VoltageKv,result.Capture.ArtRateHz,result.ChargePc,result.Capture.PicoRateHz,CancellationToken.None);
                         headers[7]="Number of Samples:\t"+data[0].Length.ToString(CultureInfo.InvariantCulture);

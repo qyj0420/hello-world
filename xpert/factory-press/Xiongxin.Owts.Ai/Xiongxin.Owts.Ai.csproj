@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Compile shim. Defect models are not the press path. See NOTES.md. -->
+  <PropertyGroup>
+    <RootNamespace>Xiongxin.Owts.Ai</RootNamespace>
+    <AssemblyName>Xiongxin.Owts.Ai</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.Owts.Contracts\Xiongxin.Owts.Contracts.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    雄新电力 · HV-DAC Xpert V1.1.2 加压测试 → 出厂加压调用桥。
+    无窗体。九宫格工作台通过反射调用本程序集。
+  -->
+  <PropertyGroup>
+    <RootNamespace>Xiongxin.Owts.XpertPressBridge</RootNamespace>
+    <AssemblyName>Xiongxin.Owts.XpertPressBridge</AssemblyName>
+    <Description>HV-DAC Xpert V1.1.2 + factory-press mechanism merge</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.Owts.HostAdapters\Xiongxin.Owts.HostAdapters.csproj" />
+    <ProjectReference Include="..\Xiongxin.Owts.Acquisition\Xiongxin.Owts.Acquisition.csproj" />
+    <ProjectReference Include="..\Xiongxin.Owts.Contracts\Xiongxin.Owts.Contracts.csproj" />
+  </ItemGroup>
+</Project>

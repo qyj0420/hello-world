@@ -7,4 +7,6 @@ xpert/build/
 factorypress/publish/hv-press-ui/
 xpert/build-sdk/generated/
 xpert/publish/Xiongxin.OWTS.Desktop/
+xpert/factory-press/dist/
+xpert/deliverables/
 __pycache__/

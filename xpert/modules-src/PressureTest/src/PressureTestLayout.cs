@@ -41,6 +41,7 @@ namespace HVX.Controls
         PressureTestButton deleteButton;
         Panel pressurePlanHost, customVoltagePanel, manualRangePanel;
         DataGridView pressurePlanGrid;
+        string pressurePlanGridFingerprint = "";
         PressureTestButton rangeSelectorButton;
         TableLayoutPanel actionLayout;
         ContextMenuStrip rangeMenu;
@@ -1744,18 +1745,42 @@ namespace HVX.Controls
             double[] multipliers = GetPressurePlanMultipliers();
             int[] repetitions = GetPressurePlanRepetitions();
             double[] voltages = GetPressurePlanVoltagesKv();
+            string header0 = PressureUiText("U0 倍数", "U0 multiplier");
+            string header1 = PressureUiText("次数", "Runs");
+            string header2 = PlanVoltageHeaderText();
+            var fingerprint = new System.Text.StringBuilder(256);
+            fingerprint.Append(header0).Append('|').Append(header1).Append('|').Append(header2)
+                .Append('|').Append(SelectedPlanStepIndex);
+            for (int i = 0; i < multipliers.Length; i++)
+                fingerprint.Append('|').Append(multipliers[i].ToString("R", CultureInfo.InvariantCulture))
+                    .Append('@').Append(repetitions[i].ToString(CultureInfo.InvariantCulture))
+                    .Append('@').Append(PlanVoltageDisplayText(voltages[i]));
+            string nextFingerprint = fingerprint.ToString();
+            if (String.Equals(pressurePlanGridFingerprint, nextFingerprint, StringComparison.Ordinal)
+                && pressurePlanGrid.Rows.Count == multipliers.Length)
+            {
+                SelectPlanGridRow(SelectedPlanStepIndex);
+                if (!updatingPressureUi) UpdatePressureUi();
+                return;
+            }
+            pressurePlanGridFingerprint = nextFingerprint;
             suppressUiEvents = true;
             try
             {
-                pressurePlanGrid.Rows.Clear();
-                pressurePlanGrid.Columns[0].HeaderText = PressureUiText("U0 倍数", "U0 multiplier");
-                pressurePlanGrid.Columns[1].HeaderText = PressureUiText("次数", "Runs");
-                pressurePlanGrid.Columns[2].HeaderText = PlanVoltageHeaderText();
-                pressurePlanGrid.Columns[2].HeaderCell.ToolTipText = PressureUiText("点击切换有效值 / 峰值显示；不修改项目计划或加压目标。", "Click to display RMS / peak; the stored plan and target are unchanged.");
-                pressurePlanGrid.AccessibleDescription = pressurePlanGrid.Columns[2].HeaderCell.ToolTipText;
-                for (int i = 0; i < multipliers.Length; i++)
-                    pressurePlanGrid.Rows.Add(multipliers[i].ToString("0.0###############", CultureInfo.InvariantCulture), repetitions[i].ToString(CultureInfo.InvariantCulture), PlanVoltageDisplayText(voltages[i]));
-                SelectPlanGridRow(SelectedPlanStepIndex);
+                pressurePlanGrid.SuspendLayout();
+                try
+                {
+                    pressurePlanGrid.Rows.Clear();
+                    pressurePlanGrid.Columns[0].HeaderText = header0;
+                    pressurePlanGrid.Columns[1].HeaderText = header1;
+                    pressurePlanGrid.Columns[2].HeaderText = header2;
+                    pressurePlanGrid.Columns[2].HeaderCell.ToolTipText = PressureUiText("点击切换有效值 / 峰值显示；不修改项目计划或加压目标。", "Click to display RMS / peak; the stored plan and target are unchanged.");
+                    pressurePlanGrid.AccessibleDescription = pressurePlanGrid.Columns[2].HeaderCell.ToolTipText;
+                    for (int i = 0; i < multipliers.Length; i++)
+                        pressurePlanGrid.Rows.Add(multipliers[i].ToString("0.0###############", CultureInfo.InvariantCulture), repetitions[i].ToString(CultureInfo.InvariantCulture), PlanVoltageDisplayText(voltages[i]));
+                    SelectPlanGridRow(SelectedPlanStepIndex);
+                }
+                finally { pressurePlanGrid.ResumeLayout(); }
             }
             finally { suppressUiEvents = false; }
             UpdatePressureUi();
@@ -2003,7 +2028,9 @@ namespace HVX.Controls
             pressureActionButton.Danger = danger;
             if (connectionStatusLabel != null)
             {
-                connectionStatusLabel.Text = SimulationMode ? PressureUiText("仿真 · 非实测","Simulation · Not measured") : HighVoltageStatusCode=="UNKNOWN" ? PressureUiText("设备反馈待确认","Device feedback unconfirmed") : PressureUiText("设备反馈已接收","Device feedback received");
+                connectionStatusLabel.Text = !String.IsNullOrEmpty(factoryHardwareStatusLine)
+                    ? factoryHardwareStatusLine
+                    : SimulationMode ? PressureUiText("仿真 · 非实测","Simulation · Not measured") : HighVoltageStatusCode=="UNKNOWN" ? PressureUiText("设备反馈待确认","Device feedback unconfirmed") : PressureUiText("设备反馈已接收","Device feedback received");
                 connectionStatusLabel.BackColor = SimulationMode || HighVoltageStatusCode=="UNKNOWN" ? PressureTestTheme.SecondaryInk : PressureTestTheme.Success;
             }
             UpdateHighVoltageStatusUi();

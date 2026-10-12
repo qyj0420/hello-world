@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Compile shim. E+ / Task17 math stays in the Xpert shell. See NOTES.md. -->
+  <PropertyGroup>
+    <RootNamespace>Xiongxin.Owts.Algorithms</RootNamespace>
+    <AssemblyName>Xiongxin.Owts.Algorithms</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.Owts.Contracts\Xiongxin.Owts.Contracts.csproj" />
+  </ItemGroup>
+</Project>

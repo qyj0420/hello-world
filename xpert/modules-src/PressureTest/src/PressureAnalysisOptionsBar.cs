@@ -46,7 +46,9 @@ namespace HVX.Controls
         internal void SetAnalysisThreshold(bool manual,double value,bool all)
         {
             if(Double.IsNaN(value)||Double.IsInfinity(value)||value<0||value>1e9)throw new ArgumentOutOfRangeException("value");
-            manualThreshold.Checked=manual;thresholdPc.Value=(decimal)value;thresholdAll.Checked=all;
+            decimal next=(decimal)value;
+            if(manualThreshold.Checked==manual&&thresholdPc.Value==next&&thresholdAll.Checked==all)return;
+            manualThreshold.Checked=manual;thresholdPc.Value=next;thresholdAll.Checked=all;
         }
         internal void SetAnalysisGeometry(PressureSpectrumGeometry geometry){analysisGeometry=geometry;RefreshPressureGeometry();}
         void RefreshPressureGeometry(){if(analysisGeometry!=null)analysisGeometry.Apply(Review,snapJoint.Checked,reversePosition.Checked);else PressureSpectrumGeometry.Clear(Review);}
@@ -81,6 +83,9 @@ namespace HVX.Controls
                     waveformView.SetManualThresholdGuide(spectrumDashboardView.ManualAnalysisThreshold,spectrumDashboardView.AnalysisThresholdPc);
                     return;
                 }
+                // While the guide is moving, keep the NumericUpDown out of the
+                // loop — ValueChanged → SetManualThresholdGuide causes flash.
+                if(waveformView.ManualThresholdGuideDragging)return;
                 spectrumDashboardView.SetAnalysisThreshold(true,waveformView.ManualThresholdGuidePc,spectrumDashboardView.AnalysisThresholdAll);
             };
             spectrumDashboardView.AnalysisThresholdChanged+=(s,e)=>

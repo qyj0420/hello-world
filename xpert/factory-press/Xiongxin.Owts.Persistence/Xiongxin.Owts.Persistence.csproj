@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Compile shim. The verified factory-press zip references this project from
+    HostAdapters, but the implementation was not in the pack. Press hardware
+    does not run through these types. See NOTES.md.
+  -->
+  <PropertyGroup>
+    <RootNamespace>Xiongxin.Owts.Persistence</RootNamespace>
+    <AssemblyName>Xiongxin.Owts.Persistence</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.Owts.Contracts\Xiongxin.Owts.Contracts.csproj" />
+  </ItemGroup>
+</Project>
