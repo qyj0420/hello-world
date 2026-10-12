@@ -126,10 +126,10 @@ namespace HVX.PdReview
         /// </summary>
         internal bool TryRetrainBest(string model,string learningRoot,out string algorithm,out string detail)
         {
-            algorithm="";detail="";
+            string chosen="", note="";
             string dataset=Path.Combine(Path.GetFullPath(learningRoot),"active");
             string[] preferred={"TrainBestAlgorithm","RetrainBest","TrainWithBestAlgorithm","ChooseBestAndTrain","Retrain","TrainFromDataset","TrainPending","Train","RebuildModel","SaveTrainedModel"};
-            return Invoke(model,(instance,type)=>{
+            bool trained=Invoke(model,(instance,type)=>{
                 var methods=type.GetMethods(BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic)
                     .Where(m=>!m.IsSpecialName).ToArray();
                 foreach(string name in preferred){
@@ -137,9 +137,9 @@ namespace HVX.PdReview
                     foreach(var method in matches){
                         try{
                             object result=InvokeTrainMethod(method,instance,dataset,model);
-                            algorithm=method.Name;
-                            detail=result==null?"ok":Convert.ToString(result);
-                            if(String.IsNullOrWhiteSpace(detail))detail="ok";
+                            chosen=method.Name;
+                            note=result==null?"ok":Convert.ToString(result);
+                            if(String.IsNullOrWhiteSpace(note))note="ok";
                             return true;
                         }catch(TargetInvocationException){/* try next signature/name */}
                         catch(ArgumentException){/* signature mismatch */}
@@ -150,13 +150,14 @@ namespace HVX.PdReview
                 {
                     try{
                         object result=InvokeTrainMethod(method,instance,dataset,model);
-                        algorithm=method.Name;detail=result==null?"ok":Convert.ToString(result);
+                        chosen=method.Name;note=result==null?"ok":Convert.ToString(result);
                         return true;
                     }catch(TargetInvocationException){}catch(ArgumentException){}
                 }
-                detail="No training API is exposed by this Task12 runtime; expanded samples remain pending.";
+                note="No training API is exposed by this Task12 runtime; expanded samples remain pending.";
                 return false;
             });
+            algorithm=chosen;detail=note;return trained;
         }
         static object InvokeTrainMethod(MethodInfo method,object instance,string dataset,string model)
         {

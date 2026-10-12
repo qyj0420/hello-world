@@ -66,4 +66,10 @@
 ## 构建
 
 `./build-sdk/build-linux.sh` → 更新 `publish/xpert-desktop-win-x64.zip` 与 `BUILD_MANIFEST` 构建戳。  
-构建戳与 zip 哈希见 `NOTES_DAC_REBUILD.md`。
+
+| 项 | 值 |
+|----|----|
+| 构建戳 | **2026-10-12T23:24:53+08:00** |
+| zip | `publish/xpert-desktop-win-x64.zip`，10,059,437 字节，SHA256 `9C9D64CE4B21DBF1FDDAC74590433F6FF56DF0EB21F2E43FE4B9D9F26740E0D5` |
+
+详见 `NOTES_DAC_REBUILD.md`。
