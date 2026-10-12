@@ -181,24 +181,39 @@ namespace HVX.PdReview
         }
         static List<string> PackDiagnosticsSegments(Dictionary<string,string> stored)
         {
+            // Estimate-then-flush packing: never reserialize the growing map on
+            // every key (O(n²) over ~30 MiB payloads freezes the UI on 462-LOC
+            // location batches such as project 11-12).
             var segments=new List<string>();
             var current=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
             var serializer=CandidateSerializer(CandidateLegacyFlatBytes);
+            const long softTrigger=(long)(ReviewAnalysisMetadataBudget.SegmentTriggerBytes*0.92);
+            long estimated=2;
             foreach(var entry in stored){
+                long entryBytes=8L+EvidenceUtf8.GetByteCount(entry.Key)+EvidenceUtf8.GetByteCount(entry.Value);
+                if(current.Count>0&&estimated+entryBytes>softTrigger){
+                    string flushed=serializer.Serialize(current);
+                    if(EvidenceUtf8.GetByteCount(flushed)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
+                        throw new InvalidOperationException("Algorithm diagnostics segment exceeds the 32 MiB spill threshold.");
+                    segments.Add(flushed);
+                    current=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
+                    estimated=2;
+                }
                 current.Add(entry.Key,entry.Value);
-                string probe=serializer.Serialize(current);
-                int bytes=EvidenceUtf8.GetByteCount(probe);
-                if(bytes>ReviewAnalysisMetadataBudget.SegmentTriggerBytes){
-                    current.Remove(entry.Key);
-                    if(current.Count==0)throw new InvalidOperationException("A single algorithm diagnostics record exceeds the 32 MiB segment budget.");
-                    segments.Add(serializer.Serialize(current));
-                    current=new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase){{entry.Key,entry.Value}};
+                estimated+=entryBytes;
+                if(current.Count==1){
                     string alone=serializer.Serialize(current);
                     if(EvidenceUtf8.GetByteCount(alone)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
                         throw new InvalidOperationException("A single algorithm diagnostics record exceeds the 32 MiB segment budget.");
+                    estimated=EvidenceUtf8.GetByteCount(alone);
                 }
             }
-            if(current.Count>0)segments.Add(serializer.Serialize(current));
+            if(current.Count>0){
+                string last=serializer.Serialize(current);
+                if(EvidenceUtf8.GetByteCount(last)>ReviewAnalysisMetadataBudget.SegmentTriggerBytes)
+                    throw new InvalidOperationException("Algorithm diagnostics segment exceeds the 32 MiB spill threshold.");
+                segments.Add(last);
+            }
             if(segments.Count==0)segments.Add("{}");
             return segments;
         }
@@ -320,14 +335,43 @@ namespace HVX.PdReview
         }
         Dictionary<string,string> WithCompletedAlgorithmDiagnostics(IEnumerable<CompletedFile> completed)
         {
-            var next=new Dictionary<string,string>(algorithmDiagnostics,StringComparer.OrdinalIgnoreCase);
-            string root=SessionRoot(projectPath);
+            var next=MergeCompletedAlgorithmDiagnostics(algorithmDiagnostics,projectPath,completed);
+            // Location matrices must publish even when evidence serialization
+            // hits a hard ceiling. Segmented spill usually succeeds; if not,
+            // keep the in-memory map so 462-LOC batches still show results.
+            try{SerializeCurrentAlgorithmDiagnostics(next);}
+            catch(Exception ex){
+                if(IsFatalHostException(ex))throw;
+                pendingDiagnosticsArchiveParts=new List<KeyValuePair<string,byte[]>>();
+            }
+            return next;
+        }
+        static Dictionary<string,string> MergeCompletedAlgorithmDiagnostics(Dictionary<string,string> prior,string project,IEnumerable<CompletedFile> completed)
+        {
+            var next=new Dictionary<string,string>(prior??new Dictionary<string,string>(),StringComparer.OrdinalIgnoreCase);
+            string root=SessionRoot(project);
             foreach(var file in completed){
                 string status=file.Result.Status??"";
                 if(status.Length>1024*1024)throw new InvalidOperationException("Algorithm status is too large; results were not merged.");
                 next[SessionRelative(root,file.Request.LocationFilePath)]=status;
             }
-            SerializeCurrentAlgorithmDiagnostics(next);return next;
+            return next;
+        }
+        string TrySerializeAlgorithmDiagnosticsForCommit(Dictionary<string,string> values,out string warning)
+        {
+            warning=null;
+            try{return SerializeCurrentAlgorithmDiagnostics(values);}
+            catch(Exception ex){
+                if(IsFatalHostException(ex))throw;
+                pendingDiagnosticsArchiveParts=new List<KeyValuePair<string,byte[]>>();
+                warning=ex.Message;return null;
+            }
+        }
+        void AdoptSerializedAlgorithmDiagnostics(Dictionary<string,EncodedCandidateStatus> validated,List<KeyValuePair<string,byte[]>> parts)
+        {
+            encodedCandidateStatuses=validated;
+            encodedCandidateProject=projectPath??"";
+            pendingDiagnosticsArchiveParts=parts??new List<KeyValuePair<string,byte[]>>();
         }
     }
 }

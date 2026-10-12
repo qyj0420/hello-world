@@ -262,38 +262,91 @@ namespace HVX.PdReview
                 foreach(var file in failed)diagnostics.AppendLine("LOC: "+file.Request.LocationFilePath).AppendLine(file.Result.Status);
                 AnalysisDiagnosticText=diagnostics.ToString().TrimEnd();
                 int priorRows=SourceRowCount;
-                if(good.Length>0){
-                    // Validate the complete destination before changing working matrices.
-                    // An embedding host can replace the tree catalog while a worker runs.
-                    ValidateAnalysisCommitTargets(good);
-                    var completedDiagnostics=WithCompletedAlgorithmDiagnostics(good);
-                    double[,] p,w;MergeAnalysisResults(good.Select(x=>x.Result).ToArray(),out p,out w);
-                    if(trace!=null)trace.Point("matrices-merged","rows="+p.GetLength(0)+"; waveformColumns="+w.GetLength(1));
-                    // Each appended engine row already uses DUT geometry. Existing working rows
-                    // are also DUT rows, so the merged snapshot must not subtract the lead twice.
-                    bool priorCompensation=inputGeometryAlreadyCompensated;inputGeometryAlreadyCompensated=true;
-                    var retained=Enumerable.Range(0,p.GetLength(0)).Select(r=>r<priorRows?r:-1).ToArray();
-                    if(!ReloadWithRetainedReviewCore(p,w,retained,automaticAcceptance,WithCompletedAcquisitionQualities(good))){inputGeometryAlreadyCompensated=priorCompensation;throw new InvalidOperationException(LastError);}
-                    if(trace!=null)trace.Point("ui-results-published","rows="+SourceRowCount);
-                    // Reload publishes CurrentPdMapChanged synchronously. The
-                    // host may clear/dispose/restart from that callback.
-                    if(!IsCurrentAnalysis(generation))return;
-                    ValidateAnalysisCommitTargets(good,true);
-                    algorithmDiagnostics=completedDiagnostics;
-                    CommitAHistoryReceipts(good.Select(x=>x.Result));
-                    treeSync=true;try{
-                        if(!analysisTree.MarkAnalyzed(good.Select(x=>x.Request.LocationFilePath).ToArray()))
-                            throw new InvalidOperationException(L("The record list could not be updated. ","记录列表未能更新。 ")+analysisTree.LastError);
-                    }finally{treeSync=false;}
-                    foreach(var file in good){ThresholdChoice choice;
-                        if(!fileThresholds.TryGetValue(file.Request.LocationFilePath,out choice)){choice=new ThresholdChoice();fileThresholds[file.Request.LocationFilePath]=choice;}
-                        choice.Actual=file.Request.ManualThresholdEnabled?double.NaN:file.Result.AppliedThreshold;choice.ActualMultiplier=file.Request.AutomaticThresholdMultiplier;
-                        if(String.Equals(overviewPath,file.Request.LocationFilePath,StringComparison.OrdinalIgnoreCase)&&Finite(file.Result.AppliedThreshold))locationOverview.SetThreshold(file.Result.AppliedThreshold,false);
-                    }
-                    ResultChangeSequence++;NotifyReviewHost(ResultsChanged);
-                    if(!IsCurrentAnalysis(generation))return;
-                    ValidateAnalysisCommitTargets(good,true);
+                if(good.Length==0){
+                    FinishPublishedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows,null);
+                    return;
                 }
+                // Validate on the UI thread, then merge diagnostics + waveforms off
+                // the UI so 117–462 LOC location batches do not freeze the shell.
+                ValidateAnalysisCommitTargets(good);
+                if(completingDialog!=null&&!completingDialog.IsDisposed)completingDialog.BeginOrganizingResults(good.Length);
+                AnalysisStatus=L("Processed files: ","已处理文件：")+results.Count+" / "+Math.Max(requestedCount,results.Count)+L("; organizing results…","；正在整理结果…");
+                analysisProgress.Text=AnalysisStatus;RefreshBottomStatus();
+                var workingSnap=working;var matchingSnap=matching;var originalSnap=original;
+                var priorDiagnostics=new Dictionary<string,string>(algorithmDiagnostics,StringComparer.OrdinalIgnoreCase);
+                string project=projectPath;
+                var resultArray=good.Select(x=>x.Result).ToArray();
+                Task.Run(()=>{
+                    try{
+                        var mergedDiagnostics=MergeCompletedAlgorithmDiagnostics(priorDiagnostics,project,good);
+                        string diagnosticsWarning=null;
+                        Dictionary<string,EncodedCandidateStatus> validated=null;
+                        List<KeyValuePair<string,byte[]>> parts=null;
+                        // Heavy JSON packing stays off the UI thread. Location
+                        // matrices still merge even when diagnostics hit a ceiling.
+                        try{SerializeAlgorithmDiagnosticsCore(mergedDiagnostics,null,false,out validated,out parts);}
+                        catch(Exception diagEx){
+                            if(IsFatalHostException(diagEx))throw;
+                            diagnosticsWarning=diagEx.Message;validated=null;parts=null;
+                        }
+                        double[,] p,w;MergeAnalysisResultsCore(workingSnap,matchingSnap,originalSnap,resultArray,out p,out w);
+                        if(trace!=null)trace.Point("matrices-merged","rows="+p.GetLength(0)+"; waveformColumns="+w.GetLength(1));
+                        var adoptedValidated=validated;var adoptedParts=parts;var warning=diagnosticsWarning;
+                        PostAnalysis(generation,()=>PublishMergedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows,p,w,mergedDiagnostics,adoptedValidated,adoptedParts,warning));
+                    }catch(Exception ex){
+                        if(IsFatalHostException(ex))throw;
+                        PostAnalysis(generation,()=>FailProjectAnalysisMerge(generation,completingDialog,trace,results,ex));
+                    }
+                });
+            }catch(Exception ex){
+                FailProjectAnalysisMerge(generation,completingDialog,trace,results,ex);
+            }
+        }
+        void PublishMergedProjectAnalysis(int generation,ReviewAnalysisProgressDialog completingDialog,ReviewAnalysisDebugTrace.Scope trace,
+            CompletedFile[] good,CompletedFile[] failed,List<CompletedFile> results,bool automaticAcceptance,bool canceled,int requestedCount,string batchFailure,
+            int priorRows,double[,] p,double[,] w,Dictionary<string,string> completedDiagnostics,
+            Dictionary<string,EncodedCandidateStatus> validated,List<KeyValuePair<string,byte[]>> parts,string diagnosticsWarning)
+        {
+            try{
+                if(!IsCurrentAnalysis(generation))return;
+                if(!ReferenceEquals(analysisSourceSnapshot,working)||analysisSourceRevision!=ResultChangeSequence)
+                    throw new InvalidOperationException("Review data changed during analysis. Results were not merged; select the files and analyze again.");
+                ValidateAnalysisCommitTargets(good);
+                if(validated!=null)AdoptSerializedAlgorithmDiagnostics(validated,parts);
+                else{
+                    string ignored;
+                    TrySerializeAlgorithmDiagnosticsForCommit(completedDiagnostics,out ignored);
+                    if(diagnosticsWarning==null)diagnosticsWarning=ignored;
+                }
+                bool priorCompensation=inputGeometryAlreadyCompensated;inputGeometryAlreadyCompensated=true;
+                var retained=Enumerable.Range(0,p.GetLength(0)).Select(r=>r<priorRows?r:-1).ToArray();
+                if(!ReloadWithRetainedReviewCore(p,w,retained,automaticAcceptance,WithCompletedAcquisitionQualities(good))){inputGeometryAlreadyCompensated=priorCompensation;throw new InvalidOperationException(LastError);}
+                if(trace!=null)trace.Point("ui-results-published","rows="+SourceRowCount);
+                if(!IsCurrentAnalysis(generation))return;
+                ValidateAnalysisCommitTargets(good,true);
+                algorithmDiagnostics=completedDiagnostics;
+                CommitAHistoryReceipts(good.Select(x=>x.Result));
+                treeSync=true;try{
+                    if(!analysisTree.MarkAnalyzed(good.Select(x=>x.Request.LocationFilePath).ToArray()))
+                        throw new InvalidOperationException(L("The record list could not be updated. ","记录列表未能更新。 ")+analysisTree.LastError);
+                }finally{treeSync=false;}
+                foreach(var file in good){ThresholdChoice choice;
+                    if(!fileThresholds.TryGetValue(file.Request.LocationFilePath,out choice)){choice=new ThresholdChoice();fileThresholds[file.Request.LocationFilePath]=choice;}
+                    choice.Actual=file.Request.ManualThresholdEnabled?double.NaN:file.Result.AppliedThreshold;choice.ActualMultiplier=file.Request.AutomaticThresholdMultiplier;
+                    if(String.Equals(overviewPath,file.Request.LocationFilePath,StringComparison.OrdinalIgnoreCase)&&Finite(file.Result.AppliedThreshold))locationOverview.SetThreshold(file.Result.AppliedThreshold,false);
+                }
+                ResultChangeSequence++;NotifyReviewHost(ResultsChanged);
+                if(!IsCurrentAnalysis(generation))return;
+                ValidateAnalysisCommitTargets(good,true);
+                FinishPublishedProjectAnalysis(generation,completingDialog,trace,good,failed,results,automaticAcceptance,canceled,requestedCount,batchFailure,priorRows,diagnosticsWarning);
+            }catch(Exception ex){FailProjectAnalysisMerge(generation,completingDialog,trace,results,ex);}
+        }
+        void FinishPublishedProjectAnalysis(int generation,ReviewAnalysisProgressDialog completingDialog,ReviewAnalysisDebugTrace.Scope trace,
+            CompletedFile[] good,CompletedFile[] failed,List<CompletedFile> results,bool automaticAcceptance,bool canceled,int requestedCount,string batchFailure,
+            int priorRows,string diagnosticsWarning)
+        {
+            try{
+                if(!IsCurrentAnalysis(generation))return;
                 AnalysisStatus=L("Analysis complete: ","分析完成：")+good.Length+" / "+results.Count;
                 string firstArrivalWarning=results.Any(x=>x.Result.FirstArrivalUnresolved)?
                     L("Some first arrivals could not be established. No peak timing was substituted; review the original waveforms.",
@@ -301,11 +354,13 @@ namespace HVX.PdReview
                 if(canceled)AnalysisStatus=L("Stopped: completed ","已停止：完成 ")+good.Length+" / "+Math.Max(requestedCount,results.Count)+L("; not started ","；未开始 ")+Math.Max(0,requestedCount-results.Count);
                 if(failed.Length>0){LastError=Path.GetFileName(failed[0].Request.LocationFilePath)+": "+failed[0].Result.Status;AnalysisStatus+="; "+L("failed ","失败 ")+failed.Length;}
                 if(!String.IsNullOrEmpty(batchFailure)){LastError=batchFailure;AnalysisStatus+="; "+L("Batch interrupted","批次中断");}
+                if(!String.IsNullOrEmpty(diagnosticsWarning))
+                    AnalysisStatus+="; "+L("location results kept; diagnostics archive spill deferred: ","定位结果已保留；诊断分段延后：")+diagnosticsWarning;
                 analysisBusy=false;
                 AnalysisCompletedFileCount=results.Count;
                 if(firstArrivalWarning.Length>0){AnalysisStatus+="; "+firstArrivalWarning;LastError=firstArrivalWarning;}
                 if(failed.Length>0||!String.IsNullOrEmpty(batchFailure))analysisOutcomeWarning=AnalysisStatus+L(". Some records could not be analysed; review their status and retry.","。部分记录未能分析，请检查记录状态后重试。");
-                CloseAnalysisProgress();
+                if(IsCurrentAnalysis(generation)&&ReferenceEquals(activeAnalysisDialog,completingDialog))CloseAnalysisProgress();
                 manualReviewAutoAdvance=!automaticAcceptance&&good.Length>0;
                 if(!automaticAcceptance&&SourceRowCount>priorRows)SelectSourceRowCore(priorRows,false);
                 if(!IsCurrentAnalysis(generation))return;
@@ -317,22 +372,21 @@ namespace HVX.PdReview
                 RefreshReviewUi();if(trace!=null)trace.Point("ui-final-refresh","good="+good.Length+"; failed="+failed.Length+"; sourceRows="+SourceRowCount);
                 NotifyReviewHost(AnalysisCompleted);
                 if(trace!=null)trace.End("completed; good="+good.Length+"; failed="+failed.Length+"; sourceRows="+SourceRowCount);
-            }catch(Exception ex){
-                if(IsFatalHostException(ex))throw;if(!IsCurrentAnalysis(generation))return;
-                if(trace!=null){trace.Failure(ex);trace.End("merge-or-publication-failed");}
-                analysisBusy=false;LastError=ReviewAnalysisEngine.DescribeException(ex);AnalysisDiagnosticText+=Environment.NewLine+LastError;
-                AnalysisCompletedFileCount=results.Count;
-                analysisOutcomeWarning=L("Analysis could not finish. Check the record status and retry with fewer records. Contact support if this continues.",
-                    "分析未能正常完成。请检查记录状态，减少本次选择的记录后重试；若仍失败，请联系维护人员。");
-                AnalysisStatus=analysisOutcomeWarning;SetReviewOperationStatus(analysisOutcomeWarning);
-                RecordOperation("AnalysisFailed",LastError);RefreshReviewUi();
-            }
-            finally{
-                // AnalysisCompleted may itself start the next batch. Never
-                // close a dialog belonging to that newer generation.
-                if(IsCurrentAnalysis(generation)&&ReferenceEquals(activeAnalysisDialog,completingDialog))CloseAnalysisProgress();
-                if(trace!=null)trace.Dispose();
-            }
+            }catch(Exception ex){FailProjectAnalysisMerge(generation,completingDialog,trace,results,ex);}
+            finally{if(trace!=null)trace.Dispose();}
+        }
+        void FailProjectAnalysisMerge(int generation,ReviewAnalysisProgressDialog completingDialog,ReviewAnalysisDebugTrace.Scope trace,List<CompletedFile> results,Exception ex)
+        {
+            if(IsFatalHostException(ex))throw ex;
+            if(!IsCurrentAnalysis(generation)){if(trace!=null)trace.Dispose();return;}
+            if(trace!=null){trace.Failure(ex);trace.End("merge-or-publication-failed");trace.Dispose();}
+            analysisBusy=false;LastError=ReviewAnalysisEngine.DescribeException(ex);AnalysisDiagnosticText+=Environment.NewLine+LastError;
+            AnalysisCompletedFileCount=results.Count;
+            analysisOutcomeWarning=L("Analysis could not finish. Check the record status and retry with fewer records. Contact support if this continues.",
+                "分析未能正常完成。请检查记录状态，减少本次选择的记录后重试；若仍失败，请联系维护人员。");
+            AnalysisStatus=analysisOutcomeWarning;SetReviewOperationStatus(analysisOutcomeWarning);
+            RecordOperation("AnalysisFailed",LastError);RefreshReviewUi();
+            if(IsCurrentAnalysis(generation)&&ReferenceEquals(activeAnalysisDialog,completingDialog))CloseAnalysisProgress();
         }
         Dictionary<string,double[]> ReadAnalysisCatalog()
         {
@@ -385,7 +439,8 @@ namespace HVX.PdReview
             int oldN=working.GetLength(0),total=checked(oldN+results.Sum(x=>x.Parameters.GetLength(0)));
             int columns=Math.Max(36,working.GetLength(1)),width=matching.GetLength(1);
             foreach(var result in results)width=Math.Max(width,Math.Max(result.Raw.GetLength(1),Math.Max(result.Filtered.GetLength(1),result.Equivalent.GetLength(1))));
-            if((long)3*total*width>100000000)throw new InvalidOperationException("Combined waveform matrix exceeds the supported memory budget.");
+            if((long)3*total*width>ReviewAnalysisMetadataBudget.MergedWaveformCells)
+                throw new InvalidOperationException("Combined waveform matrix exceeds the supported memory budget.");
             parameters=new double[total,columns];waveforms=new double[checked(3*total),width];
             FillAnalysisWaveformsWithNaN(waveforms);
             for(int r=0;r<oldN;r++){

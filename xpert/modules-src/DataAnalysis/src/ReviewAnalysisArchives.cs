@@ -110,9 +110,9 @@ namespace HVX.PdReview
             foreach(var file in manifest.Files)
             {
                 if(file==null||!paths.Add(file.Path)||file.Bytes<0)throw new InvalidDataException("Duplicate or invalid archived file.");
-                long maximum=file.Path=="pdmap.bin"?256L*1024*1024+16:file.Path=="parameters.bin"?80000016:file.Path=="session.json"?ReviewAnalysisMetadataBudget.SessionMetadataBytes:IsDiagnosticsPartFileName(file.Path)?ReviewAnalysisMetadataBudget.SegmentTriggerBytes:ReportChartBytesLimit;
+                long maximum=file.Path=="pdmap.bin"?(IntPtr.Size==4?256L*1024*1024+16:ReviewAnalysisMetadataBudget.ArchivedPdmapBytesX64):file.Path=="parameters.bin"?80000016:file.Path=="session.json"?ReviewAnalysisMetadataBudget.SessionMetadataBytes:IsDiagnosticsPartFileName(file.Path)?ReviewAnalysisMetadataBudget.SegmentTriggerBytes:ReportChartBytesLimit;
                 totalBytes+=file.Bytes;
-                if(file.Bytes>maximum||totalBytes>512L*1024*1024)throw new InvalidDataException("Archive member or total size exceeds the memory/read budget.");
+                if(file.Bytes>maximum||totalBytes>ReviewAnalysisMetadataBudget.AnalysisArchiveTotalBytes)throw new InvalidDataException("Archive member or total size exceeds the memory/read budget.");
                 string path=ArchiveChild(directory,file.Path);
                 if(verifyFiles&&(!File.Exists(path)||new FileInfo(path).Length!=file.Bytes||!string.Equals(SessionHash(path),file.Sha256,StringComparison.OrdinalIgnoreCase)))throw new InvalidDataException("Archive data is missing or has changed: "+file.Path);
             }
@@ -231,102 +231,6 @@ namespace HVX.PdReview
             }
             catch(Exception ex){if(IsFatalHostException(ex))throw;return ArchiveFailure(ex);}
             finally{if(saveLock!=null)saveLock.Dispose();}
-        }
-        public bool LoadSavedAnalysis(string analysisId)
-        {
-            bool priorDirty=analysisDirty,priorContent=analysisHadContent,loadedSuccessfully=false,loadedModified=false;string priorStamp=savedAnalysisParameterStamp,priorFingerprint=loadedAnalysisFingerprint,priorBackup=LastAnalysisBackupPath;suppressAnalysisDirty++;
-            bool previousSuppress=suppressArchivePrompt;suppressArchivePrompt=true;
-            Action rollback=null;bool applying=false;
-            ArchiveConclusion priorConclusion=null;
-            try
-            {
-                priorConclusion=CurrentConclusionSnapshot();
-                if(IsAnalysisRunning)throw new InvalidOperationException("Wait for analysis before loading.");
-                if(string.IsNullOrWhiteSpace(analysisId)||analysisId!=Path.GetFileName(analysisId)||analysisId.StartsWith(".",StringComparison.Ordinal))throw new ArgumentException("Use a saved analysis ID from the current project.");
-                string project=SessionRoot(projectPath),directory=ArchiveChild(ArchiveRoot(project),analysisId);
-                string fingerprint=AnalysisDirectoryFingerprint(directory);
-                var manifest=ReadArchiveManifest(directory,analysisId,true);
-                var parameters=ReadMatrix(ArchiveChild(directory,"parameters.bin"),10000000);
-                if(parameters.GetLength(0)!=manifest.SourceRowCount)throw new InvalidDataException("Archive source row count does not match its matrix.");
-                var waves=ReadMatrix(ArchiveChild(directory,"pdmap.bin"),IntPtr.Size==4?8000000:32000000);
-                byte[] session=ReadLimited(ArchiveChild(directory,"session.json"),ReviewAnalysisMetadataBudget.SessionMetadataBytes);
-                var payload=ArchiveSessionJson().DeserializeObject(ArchiveEncoding.GetString(session)) as Dictionary<string,object>;
-                if(payload==null||!payload.ContainsKey("schema")||!object.Equals(payload["schema"],"HVX.AnalysisSession.Utf8")||!object.Equals(payload["version"],1))throw new InvalidDataException("Invalid analysis session schema.");
-                string[,] sessionFiles=SessionTable(payload["files"],11),sessionSettings=SessionTable(payload["settings"],2);
-                string savedDiagnostics=null;
-                for(int row=0;row<sessionSettings.GetLength(0);row++)if(sessionSettings[row,0]=="AlgorithmDiagnostics"){savedDiagnostics=sessionSettings[row,1];break;}
-                if(IsSegmentedDiagnosticsEnvelope(savedDiagnostics))VerifyDiagnosticsPartsInManifest(manifest,savedDiagnostics);
-                ReviewAnalysisProgressDialog restoreDialog=null;
-                Action<int,int,string> diagnosticsProgress=null;
-                if(IsSegmentedDiagnosticsEnvelope(savedDiagnostics)){
-                    restoreDialog=new ReviewAnalysisProgressDialog(languageIndex,Font);
-                    restoreDialog.PrepareForDisplay(FindForm());
-                    restoreDialog.BeginReadingSavedAnalysis(0,1);
-                    var owner=FindForm();
-                    if(owner!=null&&owner.Visible)restoreDialog.Show(owner);else restoreDialog.Show();
-                    diagnosticsProgress=(completed,total,part)=>{
-                        if(restoreDialog==null||restoreDialog.IsDisposed)return;
-                        if(restoreDialog.InvokeRequired)restoreDialog.BeginInvoke(new Action(()=>restoreDialog.UpdateReadingSavedAnalysis(part,completed,total)));
-                        else restoreDialog.UpdateReadingSavedAnalysis(part,completed,total);
-                        Application.DoEvents();
-                    };
-                }
-                SessionPlan plan;
-                try{plan=PrepareSession(project,parameters,waves,sessionFiles,sessionSettings,directory,diagnosticsProgress);}
-                finally{if(restoreDialog!=null){try{restoreDialog.FinishAndClose();}catch{/* best-effort */}restoreDialog.Dispose();}}
-                using(var probe=new PdReviewControl()){probe.PromptSavedAnalysisOnProjectLoad=false;probe.ApplySession(plan);}
-                bool stale=plan.ProjectChanged||plan.Changed>0||plan.Missing>0;
-                loadedModified=stale;
-                var choices=ReadArchiveSelection(directory,manifest.Charts.Select(chart=>chart.Sequence));
-                var charts=new List<ReportChartSnapshot>();long bytes=0;
-                foreach(var entry in manifest.Charts)
-                {
-                    byte[] png=ReadLimited(ArchiveChild(directory,entry.Image),ReportChartBytesLimit);
-                    if(png.Length<24||png[0]!=137||png[1]!=80||png[2]!=78||png[3]!=71||png[12]!=73||png[13]!=72||png[14]!=68||png[15]!=82||
-                        PngDimension(png,16)!=entry.Width||PngDimension(png,20)!=entry.Height)throw new InvalidDataException("Invalid report PNG header or dimensions.");
-                    using(var stream=new MemoryStream(png))using(var bitmap=Image.FromStream(stream,true,true))
-                        if(bitmap.Width!=entry.Width||bitmap.Height!=entry.Height)throw new InvalidDataException("Report PNG dimensions do not match the manifest.");
-                    string csv=ArchiveEncoding.GetString(ReadLimited(ArchiveChild(directory,entry.Csv),ReportChartBytesLimit));
-                    var matrix=ReadMatrix(ArchiveChild(directory,entry.Parameters),ReportChartBytesLimit/8);
-                    if(matrix.GetLength(0)!=entry.Rows.Length||matrix.GetLength(1)<36)throw new InvalidDataException("Report rows do not match the archived parameter matrix.");
-                    var chart=new ReportChartSnapshot(entry.Sequence,entry.Kind,entry.Title,entry.Region,project,entry.Mode,entry.Language,png,entry.Width,entry.Height,matrix,(int[])entry.Rows.Clone(),csv);
-                    chart.SetCreatedUtc(entry.CreatedUtc);
-                    if(entry.Historical)chart.MarkHistorical(entry.StatusReason??"Previously retained historical snapshot.",english);
-                    chart.SetReportSelection(choices.Contains(entry.Sequence));chart.SetSavedPaths(ArchiveChild(directory,entry.Image),ArchiveChild(directory,entry.Csv));
-                    if(stale)chart.MarkHistorical("Project or source file fingerprint changed; review the historical snapshot before including it.",english);
-                    if(entry.AcquisitionReferenceOnly||HasAcquisitionRiskInMatrix(matrix,plan.AcquisitionQualities))chart.MarkAcquisitionReferenceOnly(english);
-                    bytes+=chart.StorageBytes;if(bytes>ReportChartBytesLimit)throw new InvalidDataException("Archived report attachments exceed 64 MiB.");charts.Add(chart);
-                }
-                // Validate everything, including images and attachments, before replacing the active analysis.
-                if(AnalysisDirectoryFingerprint(directory)!=fingerprint)throw new IOException("The saved analysis changed while loading. Reload the latest archive.");
-                rollback=CaptureNamedAnalysisRollback();applying=true;ApplySession(plan);
-                AnalysisSessionStatus="SessionLoaded; rows="+SourceRowCount+"; missing="+plan.Missing+"; changed="+plan.Changed+"; new="+plan.NewFiles+"; zeroVoltage="+plan.ZeroVoltage;
-                reportCharts.Clear();reportCharts.AddRange(charts);reportChartBytes=bytes;
-                ChartReportRequestSequence=Math.Max(ChartReportRequestSequence,charts.Count==0?0:charts.Max(chart=>chart.Sequence));
-                DisplayModeIndex=manifest.DisplayMode;spectrum.ViewPlaneIndex=manifest.ViewPlane;
-                if(manifest.SelectedIdentity.Length==3)
-                    for(int row=0;row<SourceRowCount;row++)if(working[row,0]==manifest.SelectedIdentity[0]&&working[row,1]==manifest.SelectedIdentity[1]&&working[row,9]==manifest.SelectedIdentity[2]){SelectSourceRowCore(row,false);break;}
-                analysisTree.RestoreNodeView(manifest.ExpandedNodes,manifest.SelectedNode,manifest.TopNode);
-                LoadedAnalysisId=analysisId;loadedArchiveRoot=project;
-                loadedAnalysisFingerprint=fingerprint;LastAnalysisBackupPath="";
-                // The stored conclusion is reusable only after an unchanged source/session load.
-                evaluationResult=null;evaluationContext=null;
-                RememberSavedConclusion(stale?null:manifest.Conclusion);
-                AnalysisArchiveStatus=L("Analysis loaded: ","分析已加载：")+HVX.ProjectModel.AnalysisDateText.DisplayAutomaticName(manifest.Name);
-                if(plan.ProjectChanged)AnalysisArchiveStatus+=L("; cable/project metadata changed: previous results are invalid; run analysis again.","；电缆结构或项目参数已变化，旧结果已失效，请重新分析。");
-                if(plan.Missing>0||plan.Changed>0)AnalysisArchiveStatus+=L("; unavailable source records skipped: ","；已跳过不可用记录：")+(plan.Missing+plan.Changed);
-                if(stale)AnalysisArchiveStatus+=L("; changed source data: report snapshots unchecked.","；源数据已变化，历史报告图表已取消勾选。");
-                ChartReportStatusMessage=L("Report attachments restored: ","已恢复报告附件：")+charts.Count;
-                loadedSuccessfully=true;NotifyReviewHost(AnalysisArchiveChanged);NotifyReviewHost(ChartReportStatusChanged);return true;
-            }
-            catch(Exception ex)
-            {
-                if(IsFatalHostException(ex))throw;
-                if(applying&&rollback!=null)
-                    try{rollback();RememberSavedConclusion(priorConclusion);}catch(Exception restoreError){if(IsFatalHostException(restoreError))throw;return ArchiveFailure(new InvalidOperationException(ex.Message+"; rollback failed: "+restoreError.Message));}
-                return ArchiveFailure(ex);
-            }
-            finally{suppressArchivePrompt=previousSuppress;suppressAnalysisDirty--;if(loadedSuccessfully){MarkAnalysisClean();if(loadedModified)MarkAnalysisDirty();}else{analysisDirty=priorDirty;analysisHadContent=priorContent;savedAnalysisParameterStamp=priorStamp;loadedAnalysisFingerprint=priorFingerprint;LastAnalysisBackupPath=priorBackup;}}
         }
         bool ArchiveFailure(Exception error)
         {AnalysisArchiveStatus=L("Analysis archive: ","分析存档：")+error.Message+(LastAnalysisBackupPath.Length>0?L("; complete backup retained: ","；已保留完整备份：")+LastAnalysisBackupPath:"");LastError=AnalysisArchiveStatus;NotifyReviewHost(AnalysisArchiveChanged);return false;}

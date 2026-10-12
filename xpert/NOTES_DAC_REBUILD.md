@@ -1,16 +1,16 @@
 # DAC 重编 NOTES — HV-DAC Xpert 整壳合入出厂加压
 
 品牌：雄新电力 / 雄新 OWTS
-构建戳：**2026-10-12T23:05:12+08:00**（Asia/Shanghai，`BUILD_MANIFEST.json` 中同值）
+构建戳：**2026-10-12T23:13:04+08:00**（Asia/Shanghai，`BUILD_MANIFEST.json` 中同值）
 
-分析诊断 32 MiB 分段说明见 **`NOTES_DIAGNOSTICS_SEGMENTS.md`**。
+分析诊断 32 MiB 分段 + 定位三项目加载策略见 **`NOTES_DIAGNOSTICS_SEGMENTS.md`**。
 
 ## 交付物
 
 | 项 | 值 |
 |----|----|
-| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,042,377 字节**，SHA256 `3B750A3D58B49165003A85D426134A712DDBC77E7DED0A656D446C3EA4090666` |
-| 主程序 | `Xiongxin.OWTS.Desktop/Xiongxin.OWTS.Desktop.exe`，.NET Framework 4.8 x64 WinExe（PE32+，GUI 子系统，无控制台），SHA256 `D225F521…756D565F` |
+| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,051,656 字节**，SHA256 `E4FBA51A132B35019AB4AC8DBD31FE224A349ABB608AD17D58E0609B8C5A885D` |
+| 主程序 | `Xiongxin.OWTS.Desktop/Xiongxin.OWTS.Desktop.exe`，.NET Framework 4.8 x64 WinExe（PE32+，GUI 子系统，无控制台），SHA256 `5FB98FB8…` |
 | 加压栈 | `modules/FactoryPressOwts/`：Bridge、HostAdapters.FactoryPress、Owts.Contracts、Owts.Acquisition（AnyCPU，仅引用 mscorlib/System/System.Core/WinForms/Drawing） |
 | 包内容 | 31 个条目：主程序 + config、图标、国际化文档、七个 UI 模块、ReportEngine、CalibrationAcquisition、PressureRuntime、Task39、FactoryPressOwts、启用标记、README_RUN、BUILD_MANIFEST（逐文件 SHA256 与缺项清单） |
 

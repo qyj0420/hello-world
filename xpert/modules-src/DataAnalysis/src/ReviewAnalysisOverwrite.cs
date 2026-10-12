@@ -32,7 +32,7 @@ namespace HVX.PdReview
                     string relative=full.Substring(root.Length).Replace('\\','/');
                     if((attributes&FileAttributes.Directory)!=0){rows.Add("D|"+relative);queue.Enqueue(full);continue;}
                     long length=new FileInfo(full).Length;bytes+=length;
-                    if(length<0||bytes>512L*1024*1024)throw new InvalidDataException("Analysis directory exceeds its 512 MiB budget.");
+                    if(length<0||bytes>ReviewAnalysisMetadataBudget.AnalysisArchiveTotalBytes)throw new InvalidDataException("Analysis directory exceeds its archive budget.");
                     rows.Add("F|"+relative+"|"+length+"|"+SessionHash(full));
                 }
             }

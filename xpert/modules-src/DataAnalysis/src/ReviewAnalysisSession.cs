@@ -104,7 +104,7 @@ namespace HVX.PdReview
             parameters=new double[0,36];pdMaps=new double[0,0];fileStates=new string[0,11];settings=new string[0,2];
             try{
                 if(analysisBusy)throw new InvalidOperationException("Wait for analysis before exporting a session.");
-                if(matching.LongLength>(IntPtr.Size==4?8000000:32000000))throw new InvalidOperationException("Session waveform memory budget exceeded.");
+                if(matching.LongLength>(IntPtr.Size==4?8000000L:ReviewAnalysisMetadataBudget.ArchivedPdmapCellsX64))throw new InvalidOperationException("Session waveform memory budget exceeded.");
                 string root=SessionRoot(projectPath);pdmap.CompleteReviewPreview();pdmap.FlushReviewPreview();
                 string[] paths=analysisTree.GetDataPaths();var catalog=analysisTree.GetDataCatalog();
                 var states=new string[paths.Length,11];
@@ -214,7 +214,7 @@ namespace HVX.PdReview
                 files.GetLength(0)>100000||settings.GetLength(0)>128)
                 throw new ArgumentException("Invalid session array dimensions.");
             int n=p.GetLength(0),blocks=w.GetLength(0)==3L*n?3:1;
-            if(n>0&&(w.GetLength(1)==0||w.GetLength(0)!=(long)n*blocks)||w.LongLength>(IntPtr.Size==4?8000000:32000000)||p.LongLength>10000000)
+            if(n>0&&(w.GetLength(1)==0||w.GetLength(0)!=(long)n*blocks)||w.LongLength>(IntPtr.Size==4?8000000L:ReviewAnalysisMetadataBudget.ArchivedPdmapCellsX64)||p.LongLength>10000000)
                 throw new ArgumentException("Invalid session waveform shape or memory budget.");
             var plan=new SessionPlan{Root=SessionRoot(directory),Settings=new Dictionary<string,string>(StringComparer.Ordinal)};
             for(int i=0;i<settings.GetLength(0);i++)plan.Settings.Add(settings[i,0],settings[i,1]);

@@ -53,10 +53,27 @@ namespace HVX.PdReview
         internal void BeginReadingSavedAnalysis(int completed,int total)
         {
             if(IsDisposed||Disposing)return;
-            readingSavedAnalysis=true;stopping=true;cancel.Enabled=false;
-            cancel.Text=L("Reading saved analysis");
+            readingSavedAnalysis=true;stopping=false;
+            cancel.Enabled=true;cancel.Text=ReviewLanguages.Text(languageIndex,"Cancel","取消");
             Text=L("Reading saved analysis");
-            UpdateReadingSavedAnalysis("",completed,total);
+            UpdateReadingSavedAnalysis("",completed,Math.Max(1,total));
+        }
+        internal void BeginOrganizingResults(int recordCount)
+        {
+            if(IsDisposed||Disposing)return;
+            readingSavedAnalysis=false;stopping=true;cancel.Enabled=false;
+            cancel.Text=L("Organizing location results");
+            Text=L("Organizing location results");
+            totalFiles=Math.Max(1,recordCount);completedFiles=totalFiles;
+            overallProgress.Style=ProgressBarStyle.Continuous;
+            overallProgress.Maximum=Math.Max(1,recordCount);overallProgress.Value=overallProgress.Maximum;
+            overallLabel.Text=L("Organizing location results");
+            currentLabel.Text=L("Location results");
+            fileLabel.Text=L("Merging waveforms and diagnostics…");
+            fileTip.SetToolTip(fileLabel,fileLabel.Text);
+            currentProgress.Style=ProgressBarStyle.Marquee;currentProgress.MarqueeAnimationSpeed=35;
+            stateLabel.Text=L("Keeping the interface responsive…");
+            PublishTaskbarProgress();Arrange();
         }
         internal void UpdateReadingSavedAnalysis(string partPath,int completed,int total)
         {
@@ -66,6 +83,7 @@ namespace HVX.PdReview
             completedFiles=completed;totalFiles=total;
             int maximum=Math.Max(1,total);
             if(overallProgress.Value>maximum)overallProgress.Value=0;
+            overallProgress.Style=ProgressBarStyle.Continuous;
             overallProgress.Maximum=maximum;overallProgress.Value=completed;
             overallLabel.Text=L("Reading saved analysis")+" "+completed+" / "+total;
             string name=partPath??string.Empty;
@@ -79,7 +97,8 @@ namespace HVX.PdReview
             if(currentProgress.Value>maximum)currentProgress.Value=0;
             currentProgress.Value=completed;
             stateLabel.Text=completed>=total&&total>0?L("Saved analysis segments loaded"):L("Reading saved analysis");
-            cancel.Enabled=false;PublishTaskbarProgress();Arrange();
+            if(!stopping){cancel.Enabled=true;cancel.Text=ReviewLanguages.Text(languageIndex,"Cancel","取消");}
+            PublishTaskbarProgress();Arrange();
         }
         internal void UpdateProgress(string path,int completed,int total)
         {
@@ -239,10 +258,11 @@ namespace HVX.PdReview
     {
         static readonly string[] Keys={
             "Analysis progress","Overall files","Current file","Analyzing current file…","Waiting for the current file to finish",
-            "Reading saved analysis","Diagnostics segment","Reading diagnostics segments","Saved analysis segments loaded"
+            "Reading saved analysis","Diagnostics segment","Reading diagnostics segments","Saved analysis segments loaded",
+            "Organizing location results","Location results","Merging waveforms and diagnostics…","Keeping the interface responsive…"
         };
         static readonly string[][] Packs={
-            "分析进度|总文件进度|当前 LOC 文件|正在分析当前文件…|正在等待当前文件完成|读取旧有分析|诊断分段|正在读取诊断分段|已加载分析分段".Split('|'),
+            "分析进度|总文件进度|当前 LOC 文件|正在分析当前文件…|正在等待当前文件完成|读取旧有分析|诊断分段|正在读取诊断分段|已加载分析分段|正在整理定位结果|定位结果|正在合并波形与诊断…|界面保持可响应…".Split('|'),
             Keys,
             "Напредък на анализа|Общо файлове|Текущ файл|Анализ на текущия файл…|Изчакване на завършването на текущия файл|Четене на запазен анализ|Диагностичен сегмент|Четене на диагностични сегменти|Сегментите на анализа са заредени".Split('|'),
             "Napredak analize|Ukupno datoteka|Trenutna datoteka|Analiza trenutne datoteke…|Čekanje završetka trenutne datoteke|Čitanje sačuvane analize|Dijagnostički segment|Čitanje dijagnostičkih segmenata|Segmenti analize su učitani".Split('|'),
@@ -265,9 +285,13 @@ namespace HVX.PdReview
         {
             int index=Array.IndexOf(Keys,key);
             if(index<0)return ReviewLanguages.Text(language,key,key);
-            if(language==18)return ReviewTraditionalChinese.Text(Packs[0][index]);
-            string translated;if(language!=0&&Xiongxin.OWTS.Localization.UiLanguage.TryTranslate(language,Packs[1][index],out translated))return translated;
-            return Packs[Xiongxin.OWTS.Localization.UiLanguage.LegacyIndex(language)][index];
+            if(language==18){
+                string zh=index<Packs[0].Length?Packs[0][index]:Keys[index];
+                return ReviewTraditionalChinese.Text(zh);
+            }
+            string translated;if(language!=0&&Xiongxin.OWTS.Localization.UiLanguage.TryTranslate(language,Keys[index],out translated))return translated;
+            var pack=Packs[Xiongxin.OWTS.Localization.UiLanguage.LegacyIndex(language)];
+            return index<pack.Length?pack[index]:Keys[index];
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HVX.PdReview
@@ -191,13 +192,17 @@ namespace HVX.PdReview
                     Action fitColumns=()=>{int width=Math.Max(100,list.ClientSize.Width-SystemInformation.VerticalScrollBarWidth-4);int time=Math.Min(width/2,TextRenderer.MeasureText("2026-09-28 23:59:59",list.Font).Width+20);list.Columns[0].Width=time;list.Columns[1].Width=Math.Max(50,width-time);};
                     list.Resize+=(s,e)=>fitColumns();form.Shown+=(s,e)=>fitColumns();
                     list.SelectedIndexChanged+=(s,e)=>{load.Enabled=list.SelectedItems.Count==1;if(load.Enabled){var entry=(SavedAnalysisInfo)list.SelectedItems[0].Tag;detail.Text=entry.DisplayName+Environment.NewLine+HVX.ProjectModel.AnalysisDateText.FormatLocalTime(entry.CreatedLocal);}};
-                    load.Click+=(s,e)=>{
+                    load.Click+=async(s,e)=>{
                         if(list.SelectedItems.Count!=1)return;
                         if(SourceRowCount>0&&MessageBox.Show(form,L("Loading replaces the current working view. Save changes first if needed. Continue?","加载将替换当前工作视图；如需保留修改，请先保存。是否继续？"),L("Load analysis","加载分析"),MessageBoxButtons.OKCancel,MessageBoxIcon.Question)!=DialogResult.OK)return;
                         var item=(SavedAnalysisInfo)list.SelectedItems[0].Tag;load.Enabled=false;form.UseWaitCursor=true;
-                        try{if(LoadSavedAnalysis(item.Id)){SetReviewOperationStatus(L("Analysis loaded: ","已加载分析：")+item.DisplayName);form.DialogResult=DialogResult.OK;form.Close();}
-                            else{message.Text=ArchiveCustomerFailure(true);message.ForeColor=Color.Firebrick;}}
-                        finally{load.Enabled=true;form.UseWaitCursor=false;}
+                        try{
+                            bool ok=await LoadSavedAnalysisAsync(item.Id).ConfigureAwait(true);
+                            if(ok){SetReviewOperationStatus(L("Analysis loaded: ","已加载分析：")+item.DisplayName);form.DialogResult=DialogResult.OK;form.Close();}
+                            else{message.Text=ArchiveCustomerFailure(true);message.ForeColor=Color.Firebrick;}
+                        }
+                        catch(Exception ex){if(IsFatalHostException(ex))throw;message.Text=ArchiveCustomerFailure(true);message.ForeColor=Color.Firebrick;}
+                        finally{if(!form.IsDisposed){load.Enabled=true;form.UseWaitCursor=false;}}
                     };
                     list.DoubleClick+=(s,e)=>{if(load.Enabled)load.PerformClick();};
                     return form;

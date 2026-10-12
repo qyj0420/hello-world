@@ -1,56 +1,81 @@
-# 分析诊断分段（32 MiB）— 格式、兼容与流畅度
+# 分析诊断分段 + 定位大工程加载 — 格式、兼容与流畅度
 
-构建戳：**2026-10-12T23:05:12+08:00**（与 `NOTES_DAC_REBUILD.md` / `BUILD_MANIFEST.json` 一致；本改动随 Desktop 包一并重编）。
+构建戳：**2026-10-12T23:13:04+08:00**（与 `NOTES_DAC_REBUILD.md` / `BUILD_MANIFEST.json` 一致）。
 
-## 问题
+## 现场三项目（定位算法路径）
 
-多文件大工程下，`AlgorithmDiagnostics` 以单段 JSON 写入 `session.json`，编码占用逼近约 **64 MiB** 时被 `SessionMetadataBytes` / 序列化配额拦住，分析无法保存。笼统「放宽 64MB」不能解决峰值内存与单文件膨胀。
+| # | 工程 | LOC 数 | 主簇 | 次簇 | 现场现象 |
+|---|------|--------|------|------|----------|
+| 1 | JD01-JD02 | 69 | ≈262.5 m | ≈77.5 m | 可出结果，大工程下加载偏慢 |
+| 2 | 6q03-6q04 | 117 | ≈262.5 m | ≈82.5 m | 可出结果，整理/加载易卡顿 |
+| 3 | **11-12** | **462** | ≈82.5 m | ≈262.5 m | Codex 报 **数据超过约 64MB，直接没有结果**（优先修复） |
+
+文件夹路径由现场稍后提供；本改动不依赖路径，按 LOC 规模与配额路径加固。
+
+## 根因（第 3 项「没结果」）
+
+定位批次在 **UI 线程** 上执行 `CompleteProjectAnalysis`：
+
+1. **`WithCompletedAlgorithmDiagnostics` → 整表 JSON 序列化**  
+   旧实现对增长中的字典反复 `Serialize`（近 O(n²)），编码逼近 **32/64 MiB** 时抛错。异常落入 `catch` 后 **整批不合并** `parameters`/`pdmap`，界面表现为「没有结果」。
+2. **合并波形硬顶 `3×rows×width ≤ 1e8` 单元格**  
+   462 LOC 大批次可能在诊断之前或同时触顶，同样导致整批失败。
+3. **加载旧分析**全程在 UI 线程读 `pdmap.bin`（可达数百 MB）、算目录指纹、反序列化 session/诊断，表现为假死。
+
+## 修复策略（与 32MB 分段一并落地）
+
+| 项 | 策略 |
+|----|------|
+| 分段阈值 | 编码 ≥ **32 MiB** → `diagnostics-part-NNN.json` + `HVX.AlgorithmDiagnostics.Segmented/1` |
+| 兼容旧数据 | 无 envelope 的扁平 JSON 仍可读（≤ **64 MiB** session 历史上限） |
+| 提交不丢结果 | 诊断序列化 **best-effort**：失败也合并定位矩阵；状态提示「定位结果已保留；诊断分段延后」 |
+| 打包性能 | 段打包改为估算后一次性 `Serialize`（避免 O(n²)） |
+| 整理阶段 | 诊断打包 + `MergeAnalysisResultsCore` 在 **后台线程**；进度条「正在整理定位结果」 |
+| 波形预算 | 合并上限 → **4e8** 单元格；x64 `pdmap` 存档 → **6.4e7** 单元格 / ~512 MiB+；目录总预算 **1.5 GiB** |
+| 读档 | `LoadSavedAnalysisAsync`：IO/PrepareSession 在后台；始终显示 **「读取旧有分析」** 进度；可取消 |
 
 ## 格式约定
 
 | 项 | 约定 |
 |----|------|
-| 触发阈值 | 编码后诊断字典 ≥ **32 MiB**（`SegmentTriggerBytes` / `EncodedDiagnosticsBytes`）即分段落盘 |
-| 单段文件 | `diagnostics-part-001.json` … `diagnostics-part-064.json`（每段 ≤ 32 MiB UTF-8） |
-| 段内格式 | 与旧版相同：`Dictionary<path, encodedStatus>` 的 JSON（可含 `HVX.Diagnostics.Gzip.v1:`） |
-| 信封（session 内） | `AlgorithmDiagnostics` 值为小 JSON：`schema=HVX.AlgorithmDiagnostics.Segmented/1`，`version=1`，`parts[]`，`recordCount`，`encodedBytes` |
-| 未达阈值 | 仍写**旧版单段扁平 JSON**（无 envelope），最大兼容 |
-| 总硬顶 | 全部分段编码合计 / 解码工作集 ≤ **512 MiB**；最多 **64** 段 |
-| 静态/测试往返 | 无存档目录时，envelope 可带 `inlineParts[]`（仅内存往返；命名存档写文件引用、不内联） |
-
-常量：`modules-src/DataAnalysis/src/ReviewAnalysisMetadataBudget.cs`。
-
-## 兼容策略
-
-1. **读旧版**：无 `Segmented/1` schema 的字符串仍按扁平 map 解析；编码上限保持历史 **64 MiB**（`SessionMetadataBytes`），不破坏已有工程。
-2. **读新版**：`LoadSavedAnalysis` / Competition 读档传入分析目录，按 `parts` 顺序读段并合并；段文件必须出现在 `analysis.json` 的 `Files[]` 且哈希校验。
-3. **写新版**：`SaveNamedAnalysis` 在导出后取出 `pendingDiagnosticsArchiveParts`，写入段文件并列入 manifest；`session.json` 只保留小 envelope。
-4. **回滚/内存**：`CaptureNamedAnalysisRollback` 在 `PrepareSession` 前清空 session 内诊断字段，并从内存字典恢复，避免误解析无段文件的 envelope。
+| 单段文件 | `diagnostics-part-001.json` … `-064.json`（每段 ≤ 32 MiB） |
+| 段内格式 | 与旧版相同的 `Dictionary<path, encodedStatus>` JSON |
+| 信封 | session 内小 JSON：`schema/version/parts/recordCount/encodedBytes` |
+| 未达阈值 | 仍写旧版单段扁平 JSON |
+| 总硬顶 | 分段编码/解码工作集 ≤ **512 MiB**；最多 64 段 |
 
 ## 进度条入口
 
-- UI：`ReviewAnalysisProgressDialog.BeginReadingSavedAnalysis` / `UpdateReadingSavedAnalysis`
-- 文案键：`Reading saved analysis` → 中文 **「读取旧有分析」**（`ReviewAnalysisProgressText`）
-- 调用点：`ReviewAnalysisArchives.LoadSavedAnalysis` — 仅当 `AlgorithmDiagnostics` 为分段 envelope 时弹出，按段回调 `(completed, total, partName)`，并 `DoEvents` 刷新
+- 读档：`ReviewAnalysisProgressDialog.BeginReadingSavedAnalysis`（文案 **读取旧有分析**）← `LoadSavedAnalysisAsync`
+- 整理：`BeginOrganizingResults`（文案 **正在整理定位结果**）← `CompleteProjectAnalysis`
+- 对话框加载按钮：`await LoadSavedAnalysisAsync`
 
-## 流畅度评估（实现后）
+## 流畅度评估（针对定位三项目）
 
-| 维度 | 结论 |
+| 工程 | 预期 |
 |------|------|
-| 多文件大工程卡顿 | 保存时按 32 MiB 切开，避免单次 `JavaScriptSerializer` 顶满 64 MiB 后失败；加载分段时 UI 有确定进度，不再「无响应式」长等 |
-| 峰值内存 | 段文件各自 ≤32 MiB；合并后字典仍可能接近总证据体积（硬顶 512 MiB）。峰值主要在「解码后的 `algorithmDiagnostics` 常驻」而非单段 JSON 尖峰 |
-| UI 响应 | 分段加载路径有进度条 + `DoEvents`；分析运行进度条未改。主线程仍承担解析，极大工程（数百 MB 证据）时界面可能短暂偏粘 |
+| JD01-JD02 (69) | 多在单段扁平诊断内；分析后整理与读档有进度，UI 可响应 |
+| 6q03-6q04 (117) | 可能跨 32 MiB 触发分段；后台整理避免假死 |
+| **11-12 (462)** | **不再因 64 MiB 诊断硬限整批丢结果**；分段落盘；合并波形预算覆盖大批次；加载走后台+进度 |
+
+### 验证方式
+
+1. 对 **11-12** 全选定位分析：应出现定位结果行（主/次簇量级与现场一致即可），不得再只报「超过 64M」且零结果。  
+2. 保存分析：`Analysis report/<id>/` 下若诊断很大，应有 `diagnostics-part-*.json`，`session.json` 内为 Segmented 信封。  
+3. 再「加载分析」：弹出「读取旧有分析」，进度前进，主界面不假死；可点取消。  
+4. 旧工程（69/117 已存扁平 session）：仍能加载。  
+5. 构建：`./build-sdk/build-linux.sh`。
 
 ### 仍可优化
 
-1. 将段解析移到后台线程，UI 仅收进度（需理清控件线程亲和）。
-2. 按需懒加载诊断（仅打开某 LOC 时解码），降低常驻内存。
-3. 段内流式/增量 JSON，避免整段 `DeserializeObject`。
-4. LabVIEW `ExportAnalysisSessionUtf8` 单独调用且已分段时，若未走命名存档，只有 envelope、无段文件——应引导「保存分析」；可再加明确错误码。
+1. 诊断按 LOC 懒解码，降低常驻内存。  
+2. ApplySession / probe 控件构建仍在 UI，极大工程末段可能短暂粘滞。  
+3. 段内流式 JSON。
 
 ## 主要代码入口
 
-- `ReviewCandidateEvidence.cs` — 打包 / 解析 / envelope
-- `ReviewAnalysisArchives.cs` — 落盘段文件、读档进度、manifest 校验
-- `ReviewAnalysisProgressDialog.cs` — 「读取旧有分析」
-- `ReviewAnalysisMetadataBudget.cs` — 配额
+- `ReviewCandidateEvidence.cs` — 分段打包 / best-effort 提交  
+- `ReviewProjectAnalysis.cs` — 后台整理定位结果  
+- `ReviewAnalysisArchiveLoad.cs` — 后台读档 + 进度  
+- `ReviewAnalysisProgressDialog.cs` — 「读取旧有分析」「正在整理定位结果」  
+- `ReviewAnalysisMetadataBudget.cs` — 配额  
