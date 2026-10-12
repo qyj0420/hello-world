@@ -21,6 +21,8 @@ static class LocationELedgerBudgetOfflineSmoke
     static object Call(Type t,object instance,string name,params object[] args)
     {return t.GetMethods(F).Single(m=>m.Name==name&&m.GetParameters().Length==args.Length).Invoke(instance,args);}
     static void Set(object instance,string name,object value){instance.GetType().GetField(name,F).SetValue(instance,value);}
+    static string Resolve(string stored){return (string)Call(review,null,"ResolveAlgorithmStatus",stored);}
+    static bool IsReference(string stored){return stored.StartsWith("HVX.Diagnostics.Spill.v1:",StringComparison.Ordinal);}
     static void Reject(Action action,string why)
     {
         bool rejected=false;
@@ -72,7 +74,8 @@ static class LocationELedgerBudgetOfflineSmoke
                 split=(Dictionary<string,string>)Call(review,carrier,"WithCompletedAlgorithmDiagnostics",Completed(assembly,root,batch));
                 Set(carrier,"algorithmDiagnostics",split);
             }
-            Check(split.Count==31&&input.All(entry=>split[entry.Key]==entry.Value),"10+10+11 batches preserve all 31 complete statuses");
+            Check(split.Count==31&&split.Values.All(IsReference)&&split.Values.Sum(v=>(long)v.Length)<31L*200,"session map keeps short spill references, not decoded statuses");
+            Check(input.All(entry=>Resolve(split[entry.Key])==entry.Value),"10+10+11 batches restore all 31 complete statuses losslessly");
             string serialized=(string)Call(review,null,"SerializeAlgorithmDiagnostics",input);
             Check(serialized==(string)Call(review,null,"SerializeAlgorithmDiagnostics",split),"one batch and split batches serialize identically");
             string[] paths=input.Keys.Select(key=>Path.Combine(root,key)).ToArray();
@@ -87,20 +90,21 @@ static class LocationELedgerBudgetOfflineSmoke
             var loaded=Json().DeserializeObject(new UTF8Encoding(false,true).GetString(File.ReadAllBytes(saved))) as Dictionary<string,object>;
             var restoredTable=(string[,])Call(review,null,"SessionTable",loaded["settings"],2);
             var back=(Dictionary<string,string>)Call(review,null,"ParseAlgorithmDiagnostics",restoredTable[0,1],root,paths);
-            Check(back.Count==31&&input.All(entry=>back[entry.Key]==entry.Value),"save/reload preserves every evidence status byte-for-byte");
-            foreach(var entry in back)Check((int)Call(e,null,"ValidateLedgerStatus",entry.Value)==MiB,"reload verifies each complete E ledger");
+            Check(back.Count==31&&back.Values.All(IsReference)&&input.All(entry=>Resolve(back[entry.Key])==entry.Value),"save/reload preserves every evidence status byte-for-byte");
+            foreach(var entry in back)Check((int)Call(e,null,"ValidateLedgerStatus",Resolve(entry.Value))==MiB,"reload verifies each complete E ledger");
 
             var replacement=new Dictionary<string,string>{{input.First().Key,input.Last().Value}};
             var overwritten=(Dictionary<string,string>)Call(review,carrier,"WithCompletedAlgorithmDiagnostics",Completed(assembly,root,replacement));
-            Check(overwritten.Count==31&&overwritten[replacement.First().Key]==replacement.First().Value,"reanalyzing same LOC replaces ledger without duplicate accumulation");
+            Check(overwritten.Count==31&&Resolve(overwritten[replacement.First().Key])==replacement.First().Value,"reanalyzing same LOC replaces ledger without duplicate accumulation");
             var legacy=new Dictionary<string,string>{{"legacy.LOC","{\"ok\":true}"}};
             Check(((Dictionary<string,string>)Call(review,null,"ParseAlgorithmDiagnostics",Json().Serialize(legacy),root,new[]{Path.Combine(root,"legacy.LOC")}))["legacy.LOC"]==legacy["legacy.LOC"],"legacy uncompressed diagnostics remain readable");
 
-            Check((int)Call(review,null,"AddCandidateLedgerBytes",511*MiB,MiB)==512*MiB,"finite aggregate budget permits exact boundary");
-            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",512*MiB,1),"aggregate work budget rejects boundary plus one");
-            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",0,16*MiB+1),"individual decoded ledger limit remains 16 MiB");
-            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",Int32.MaxValue,MiB),"budget arithmetic rejects overflow-sized total");
-            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",0,-1),"negative ledger count rejected");
+            const long WorkBudget=8192L*MiB;
+            Check((long)Call(review,null,"AddCandidateLedgerBytes",WorkBudget-MiB,MiB)==WorkBudget,"finite aggregate budget permits exact boundary");
+            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",WorkBudget,1),"aggregate work budget rejects boundary plus one");
+            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",0L,16*MiB+1),"individual decoded ledger limit remains 16 MiB");
+            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",Int64.MaxValue,MiB),"budget arithmetic rejects overflow-sized total");
+            Reject(()=>Call(review,null,"AddCandidateLedgerBytes",0L,-1),"negative ledger count rejected");
 
             var packed=(Dictionary<string,object>)((Dictionary<string,object>)Json().DeserializeObject(input.First().Value))["upstream_evidence"];
             var bad=new Dictionary<string,object>(packed);bad["sha256"]=new String('0',64);Reject(()=>Call(e,null,"UnpackLedger",bad),"hash corruption rejected");
@@ -119,16 +123,24 @@ static class LocationELedgerBudgetOfflineSmoke
             // Both aggregate validation routes must enforce the NEW finite work
             // budget; all 33 entries are small compressed statuses, expanded one
             // record at a time and never added to a decoded-ledger collection.
-            string maximum=MakeStatus(16*MiB,0);var overBudget=new Dictionary<string,string>();
-            for(int i=0;i<33;i++)overBudget.Add("large-"+i+".LOC",maximum);
-            Reject(()=>Call(review,null,"SerializeAlgorithmDiagnostics",overBudget),"serialization rejects 33 maximum ledgers above 512 MiB");
-            Reject(()=>Call(review,null,"ParseAlgorithmDiagnostics",Json().Serialize(overBudget),root,new string[0]),"load enforces aggregate budget before excluding nonretained entries");
+            // 513 maximum ledgers exceed the 8 GiB work budget. References carry
+            // the ledger size, so both routes reject without expanding anything.
+            string maximum=MakeStatus(16*MiB,0);
+            string maximumReference=(string)Call(review,null,"RetainCompletedStatus",maximum);
+            Check(IsReference(maximumReference)&&maximumReference.EndsWith(":"+(16*MiB)),"maximum ledger is spilled with its ledger size in the reference");
+            var overBudget=new Dictionary<string,string>();
+            for(int i=0;i<513;i++)overBudget.Add("large-"+i+".LOC",maximumReference);
+            Reject(()=>Call(review,null,"CheckAlgorithmDiagnosticsBudget",overBudget),"merge/serialize budget rejects 513 maximum ledgers above 8 GiB");
+            Reject(()=>Call(review,null,"SerializeAlgorithmDiagnostics",overBudget),"self-contained export enforces the same budget first");
+            Reject(()=>Call(review,null,"ParseAlgorithmDiagnostics",Json().Serialize(overBudget),root,overBudget.Keys.Select(key=>Path.Combine(root,key)).ToArray(),null,null,true),"reference restore enforces aggregate budget");
+            var withinBudget=overBudget.Take(512).ToDictionary(entry=>entry.Key,entry=>entry.Value);
+            Call(review,null,"CheckAlgorithmDiagnosticsBudget",withinBudget);checks++;
             Check(GC.GetTotalMemory(true)<160L*MiB,"expanded ledgers are temporary, not retained as a 512 MiB decoded collection");
             var oversizedStatus=new Dictionary<string,string>{{"x.LOC",new string('x',MiB+1)}};
             Reject(()=>Call(review,null,"SerializeAlgorithmDiagnostics",oversizedStatus),"per-status 1 MiB protection retained");
             Reject(()=>Call(review,null,"ParseAlgorithmDiagnostics",new string('x',64*MiB+1),root,new string[0]),"64 MiB legacy flat encoded input protection enforced");
-            int decoded=512*MiB;object[] decodeArgs={"x",decoded};
-            Reject(()=>Call(review,null,"DecodeAlgorithmStatus",decodeArgs),"512 MiB segmented decoded status protection retained");
+            object[] decodeArgs={"x",2048L*MiB};
+            Reject(()=>Call(review,null,"DecodeAlgorithmStatus",decodeArgs),"2 GiB referenced decoded status ceiling enforced");
             Console.WriteLine("LOCATION_E_LEDGER_BUDGET_OFFLINE_PASS="+checks+";records=31;decodedLedgerBytes="+(31L*MiB)+";metadataBytes="+metadata.Length+";hardwareUsed=false;workerUsed=false;productConstructed=false");
             return 0;
         }catch(Exception ex){Console.Error.WriteLine(ex.ToString());return 1;}

@@ -35,7 +35,8 @@ internal static class AnalysisBatchEvidenceSmoke
             Check(Encoding.UTF8.GetByteCount(json)<4*1024*1024&&json.Contains("HVX.Diagnostics.Gzip.v1:"),"bounded lossless representation fits original session quota");
             string[] paths=input.Keys.Select(p=>Path.Combine(root,p)).ToArray();
             var back=(Dictionary<string,string>)Call(t,null,"ParseAlgorithmDiagnostics",json,root,paths);
-            Check(back.Count==93&&input.All(p=>back[p.Key]==p.Value),"all 93 complete Unicode statuses survive byte-exact round trip");
+            Check(back.Count==93&&back.Values.All(v=>v.StartsWith("HVX.Diagnostics.Spill.v1:",StringComparison.Ordinal)),"restored statuses are spilled; the session keeps references");
+            Check(input.All(p=>(string)Call(t,null,"ResolveAlgorithmStatus",back[p.Key])==p.Value),"all 93 complete Unicode statuses survive byte-exact round trip");
             var legacy=new Dictionary<string,string>{{"record-0.loc","{\"ok\":true}"}};
             string legacyJson=new JavaScriptSerializer().Serialize(legacy);
             Check(((Dictionary<string,string>)Call(t,null,"ParseAlgorithmDiagnostics",legacyJson,root,paths))["record-0.loc"]==legacy["record-0.loc"],"legacy plain diagnostics remain readable");
@@ -49,8 +50,8 @@ internal static class AnalysisBatchEvidenceSmoke
             var oversized=new Dictionary<string,string>{{"record-0.loc",new string('x',1024*1024+1)}};
             Reject(()=>Call(t,null,"SerializeAlgorithmDiagnostics",oversized),"per-file source quota retained");
             var bomb=new Dictionary<string,string>();string packed=Pack(Encoding.UTF8.GetBytes(new string('x',1024*1024)));
-            for(int i=0;i<65;i++)bomb[i+".loc"]=packed;
-            Reject(()=>Call(t,null,"ParseAlgorithmDiagnostics",new JavaScriptSerializer().Serialize(bomb),root,paths),"cumulative decompression quota enforced even for nonretained entries");
+            for(int i=0;i<2049;i++)bomb[i+".loc"]=packed;
+            Reject(()=>Call(t,null,"ParseAlgorithmDiagnostics",new JavaScriptSerializer{MaxJsonLength=64*1024*1024}.Serialize(bomb),root,paths),"cumulative decompression quota enforced even for nonretained entries");
             Application.EnableVisualStyles();
             using(var control=(Control)Activator.CreateInstance(t))using(var host=new Form{ClientSize=new Size(1280,800),ShowInTaskbar=false,StartPosition=FormStartPosition.Manual,Location=new Point(-30000,-30000)}){
                 control.Dock=DockStyle.Fill;host.Controls.Add(control);host.Show();
@@ -64,6 +65,8 @@ internal static class AnalysisBatchEvidenceSmoke
                 var list=(IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(completedType));list.Add(completed);
                 Set(control,"analysisSourceSnapshot",Field(control,"working"));Set(control,"analysisSourceRevision",Get(control,"ResultChangeSequence"));Set(control,"analysisBusy",true);
                 Call(t,control,"CompleteProjectAnalysis",Field(control,"analysisGeneration"),list,true,false,1,"");
+                var deadline=DateTime.UtcNow.AddSeconds(30);
+                while((bool)Get(control,"IsAnalysisRunning")&&DateTime.UtcNow<deadline){Application.DoEvents();System.Threading.Thread.Sleep(10);}
                 Check(!(bool)Get(control,"IsAnalysisRunning")&&(int)Get(control,"SourceRowCount")==0,"failed merge ends busy state without publishing bogus results");
                 Check(((string)Get(control,"StatusBarText")).Contains("分析未能正常完成"),"failed merge remains visible instead of Ready");
                 Check(((Control)Field(control,"analysisProgress")).Visible,"sidebar failure message is visible");
