@@ -49,6 +49,20 @@ namespace Xiongxin.Owts.XpertPressBridge.Smoke
                 if (ready.IndexOf(StatusCopy.EStopReleased, StringComparison.Ordinal) < 0)
                     return Fail("missing 急停解除: " + ready);
 
+                try
+                {
+                    XpertPressHardware.RunRoundAsync(SettingsXml(), 40.0, Path.Combine(dir, "over-max"), CancellationToken.None)
+                        .GetAwaiter().GetResult();
+                    return Fail("target above Open maximumKv must be NotReady");
+                }
+                catch (XpertPressFaultException ex)
+                {
+                    if (ex.Kind != "NotReady") return Fail("expected NotReady for over-max, got " + ex.Kind + " " + ex.Message);
+                    if (ex.Message.IndexOf("上限", StringComparison.Ordinal) < 0
+                        && ex.Message.IndexOf("0～", StringComparison.Ordinal) < 0)
+                        return Fail("over-max gate text missing: " + ex.Message);
+                }
+
                 string roundDir = Path.Combine(dir, "round");
                 string returned = XpertPressHardware.RunRoundAsync(SettingsXml(), 2.0, roundDir, CancellationToken.None)
                     .GetAwaiter().GetResult();

@@ -1,73 +1,74 @@
-# 加压调用栈对照 — Xpert 实际路径 vs 出厂四项目
+# 加压调用栈对照 — Xpert 实际路径 vs 出厂加压程序（金标准）
 
-构建戳见 `NOTES_DAC_REBUILD.md`。权威源：`dac-FactoryPress-full-src-for-Codex_20261012-201121`（四项目整目录，与 `xpert/factory-press/` 逐文件一致）。
+构建戳见 `NOTES_DAC_REBUILD.md`。
 
-## 工厂路径（HvPressTest / OwtsServices）
+**范围（硬性）：** 只对齐硬件调用方式、流程、错误处理。加压测试 GUI 外观/交互布局不改；出厂桌面首页的 R//、Imax、电容公式指标层不接入 Xpert。
 
-```
-PressTestRunner / FactoryPressApi
-  → OwtsServices.CreateLive|CreateFakeLive
-  → Acquisition.Open  （SingletonAcquisitionSession + LiveAcquisitionSession）
-      · DeviceSdkLease（Global\Xiongxin.Owts.DeviceSdk.v1）
-      · LiveEmergencyMonitor（P0.4 独立循环）
-      · SessionFault 锁存
-  → TryApplyBenchCalibration（增益/分压，禁占位 1000）
-  → RampStepAoVolts ≈ clamp(60/gain, 0.002, 0.1)
-  → AbsoluteOverVoltageLimitV = 最高电压×(1+trip)
-  → PreparePressBatch（清软锁存）
-  → RunFactoryAlignedPress(targetV, reps, …, Task6RangeAdvisor 量程记忆)
-  → StatusCopy 五态 / CanEnterNonZeroPressure
-```
+## 权威对照
 
-## Xpert「加压测试」当前实际路径（纠偏后）
+| 来源 | 用途 |
+|------|------|
+| `dac-FactoryPress-full-src-for-Codex_20261012-201121`（四项目） | 硬件实现：`OwtsServices.RunFactoryAlignedPress` / `LiveAcquisitionSession` |
+| `HV-DAC_Xpert_V1.1.2_FactoryPressMerge_*` / `XpertFactoryPressBackend` | Xpert 侧金标准：`Open` → `PressRound` |
+| 雄新出厂加压测试.exe | 现场可靠硬件联动参照 |
+
+**唯一入口：**  
+`XpertPressBridge` → `OpenForXpert` / `RunRoundAsync` → `OwtsServices.RunFactoryAlignedPress`；急停 `PollEmergencyStage`。  
+**禁止：** 旧 `Pressure.Runtime` `Capture*` / `Monitor*`、第二路 `MonitorAsync`、`FactoryPressOwts` / `ShowForXpert`。
+
+## 工厂硬件路径
 
 ```
-PressureTestControl.ConfigurePressureHardwareBackend
-  → ModuleHost.ConfigureTask39PressureCoreAsync
-      · PressureRuntime.exe 仅反射 BenchSettings / CreateConfigurationWithoutResidual（构造 settings XML）
-      · 禁止 AttachDesktop（不再挂 Runtime FormClosing→FactoryResidentDevices）
-      · EnsureFactoryPressSession
-          → modules/FactoryPress/Xiongxin.Owts.XpertPressBridge.dll
-          → OpenForXpert(art, pico, fake,
-                PressureRatio, DividerRatio, MaximumVoltageKv,
-                RangeIndex, CoefficientPcPerV)
-              · OwtsServices.CreateLive|CreateFakeLive
-              · Acquisition.Open（DeviceSdkLease / LiveEmergencyMonitor / SessionFault）
-              · TryApplyBenchCalibration(Xpert 设备参数)     ← 本轮补齐的缺口
-              · FactoryRampStepAoVolts / AbsoluteOverVoltageLimitV
-              · TryValidateDualIdentity / ApplyXpertPdCalibrationPcPerVolt
-              · MarkDischargeCalibrated
-      · 急停监视：PollEmergencyStage（≈50ms）；禁止 MonitorAsync 第二路 DI
-  → 每轮 RunFactoryPressRoundAsync
-      → RunRoundAsync → PreparePressBatch → RunFactoryAlignedPress(kV×1000, reps=1, maxRangeRetries)
-      → 故障 Kind：NotReady / OperatorStop / EStop / Safety / PicoOnly / DeviceOffline / CleanupGate
-  → 成功写出 settings.xml + capture.bin + factory-press-manifest.json（rangeIndexUsed / locateSamplesPc）
+Connect / Open
+  → DeviceSdkLease + LiveAcquisitionSession.Open
+  → LiveEmergencyMonitor（P0.4）
+  → TryApplyBenchCalibration（增益/分压；HardOC=0.012）
+  → RampStepAo ≈ clamp(60/gain, 0.002, 0.1)
+  → AbsoluteOverVoltageLimitV = maxKv×(1+trip)
+  → PreparePressBatch（清软锁存；真急停/未知仍拒）
+  → CanEnterNonZeroPressure（五态门禁）
+  → RunFactoryAlignedPress（Task6RangeAdvisor）
+  → SessionFault 锁存 + StatusCopy
 ```
 
-## 曾存在的差异（已修）
+## Xpert「加压测试」当前路径（与 PressRound 对齐后）
 
-| 差异 | 工厂 | 纠偏前 Xpert | 纠偏后 |
-|------|------|-------------|--------|
-| 台架增益/分压 | CreateBenchSample(PressureRatio, Divider) + TryApply | Open 只传序列号，未 Apply Xpert 比例 → 实机常「台架增益未 Apply」或错增益 | 与 XpertFactoryPressBackend.Open 同参 Apply |
-| 过压上限 | maximumKv×1000×(1+trip) | 未设 | 已设 |
-| 斜坡 AO 步长 | ≈60 V/步 | 默认 0.05 AO（高增益越窗） | FactoryRampStepAoVolts |
-| 放电校准 pC/V | 校准结果写入 | 默认 2000，忽略 Xpert 匹配校准 | ApplyXpertPdCalibrationPcPerVolt |
-| Runtime AttachDesktop | 无 | FormClosing→Resident CloseSession | 已移除 |
-| MonitorAsync 第二路 DI | 无 | 会话空时回退 | 拒绝回退，只 PollEmergencyStage |
+```
+ModuleHost.EnsureFactoryPressSession
+  → OpenForXpert(art, pico, fake, PressureRatio, DividerRatio, MaximumVoltageKv, RangeIndex, pdCal)
+      · 存 _maximumKv；清 _requiresReopen
+      · CreateLive|CreateFakeLive → Open（DeviceSdkLease / LiveEmergencyMonitor / SessionFault）
+      · TryApplyBenchCalibration；FactoryRampStepAoVolts；AbsoluteOverVoltageLimitV
+      · ApplyXpertPdCalibrationPcPerVolt；MarkDischargeCalibrated
+  → 急停：PollEmergencyStage only（禁止 MonitorAsync 回退）
+  → 每轮 RunRoundAsync（同 XpertFactoryPressBackend.PressRound）
+      ① targetKv ∈ [0, _maximumKv] 否则 NotReady
+      ② targetKv>0：PreparePressBatch（失败→NotReady）→ CanEnterNonZeroPressure（失败→NotReady）
+      ③ RunFactoryAlignedPress(kV×1000, reps=1, maxRangeRetries)
+      ④ HardSafetyAbort / 安全出口 → _requiresReopen；消息附 SessionFault.FormatLatchSummary()
+      ⑤ Kind：NotReady / OperatorStop / EStop / Safety / PicoOnly / DeviceOffline / CleanupGate
+```
 
-## 有意保留（非冒充硬件）
+PressureRuntime.exe 仅用于 BenchSettings XML / configuration 反射；会话后不调用 Capture*/Monitor*。九宫格 UI 与加压页布局未改。
+
+## 本轮差异与修复
+
+| 差异 | 金标准（PressRound / 出厂） | 纠偏前 | 修复 |
+|------|---------------------------|--------|------|
+| 门禁顺序 | `PreparePressBatch` → `CanEnterNonZeroPressure` | 先 CanEnter，再 Prepare 且忽略返回值 | 同序；Prepare 失败→NotReady |
+| 最高电压 | `targetKv > maximumKv` → NotReady | 未存/未检 maxKv | Open 存 `_maximumKv`；RunRound 门禁 |
+| 安全退出 | `RequiresReopen` + `SessionFault.FormatLatchSummary` | 无 reopen；Safety 无锁存摘要 | `_requiresReopen` + 摘要 |
+| Runtime / 第二路 DI | 无 | 曾 AttachDesktop / MonitorAsync 回退 | 已禁（前序） |
+| 台架增益/过压/斜坡/pC/V | Open 时 Apply | 曾只传序列号 | 八参 Open（前序） |
+
+## 有意不改
 
 | 项 | 说明 |
 |----|------|
-| PressureRuntime.exe | 仅 BenchSettings XML / configuration 字符串 / ReviewCapturedRound（量程复核读盘），会话后不调用 Capture*/Monitor* |
-| 九宫格计划表批次 | `FactoryPressureBatchContext` 仍驱动「任务编程」UI；每一轮硬件仍走 `RunFactoryAlignedPress(reps=1)`（与工厂 press-list 多轮等价：轮次在宿主循环） |
-| HvPressTest UI | 参照，不替换九宫格 |
+| 加压测试 GUI | 布局、控件、交互不变 |
+| R// / Imax / C=∫… | 出厂桌面指标；不接入 Xpert |
+| EStop 宿主 DI 会话 | ModuleHost 保留同一会话做急停显示；桥接拒绝自动续压 |
 
-## 门禁符号核对（四项目）
+## 门禁符号
 
-- `DeviceSdkLease` — Acquisition/Live
-- `LiveEmergencyMonitor` — Acquisition/Live（P0.4）
-- `SessionFault` — Acquisition/Live + OwtsServices 查询
-- `StatusCopy` — Contracts/Ui
-- `RunFactoryAlignedPress` — HostAdapters/OwtsServices
-- `Task6RangeAdvisor` — Acquisition 根目录
+`DeviceSdkLease` · `LiveEmergencyMonitor` · `SessionFault` · `StatusCopy` · `PreparePressBatch` · `RunFactoryAlignedPress` · `Task6RangeAdvisor` · `FactoryBenchHardOverCurrentA`

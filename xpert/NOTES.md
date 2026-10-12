@@ -19,7 +19,7 @@
    `OpenForXpert(art, pico, fake, PressureRatio, DividerRatio, MaximumVoltageKv, RangeIndex, PdCalibrationPcPerV)`。  
    实机走 `OwtsServices.CreateLive`；`OWTS_XPERT_FAKE_PRESS=1` 才走 FakeLive。Open 后 **TryApplyBenchCalibration**（Xpert 加压比例/分压，禁占位 1000）、`RampStepAo≈60V/步`、`AbsoluteOverVoltageLimitV`、放电校准 pC/V。Pico 按序列号单 Open，抑制 PicoScope.exe；连接灯 P0.5 置位。详细对照见 `NOTES_PRESSURE_CALLSTACK.md`。
 2. 同一会话贯穿 0 kV 噪声初始化和非零加压。初始化交接不再 `CloseSession`，避免 Pico/ART 二次 Open。
-3. 每一轮调用 `RunRoundAsync` → `OwtsServices.RunFactoryAlignedPress`（目标 kV×1000、重复 1 次、自动量程最多 2 次下调、手动至少 1 次）。停止按钮取消的令牌会 `RequestOperatorAbort`。
+3. 每一轮 `RunRoundAsync` 与 `XpertFactoryPressBackend.PressRound` 同序：`targetKv≤maximumKv` →（非零时）`PreparePressBatch` → `CanEnterNonZeroPressure` → `RunFactoryAlignedPress`（kV×1000、reps=1、自动量程最多 2 次下调）。HardSafetyAbort 置 `_requiresReopen` 并附 `SessionFault.FormatLatchSummary`。停止按钮取消令牌会 `RequestOperatorAbort`。加压页 GUI 不改。
 4. 急停显示不再调用旧 `UnifiedPressureBridge.MonitorAsync`（那会再开一路 DI）。界面约 50 ms 读 `PollEmergencyStage`；P0.4 的约 10 ms 循环仍在出厂 `LiveEmergencyMonitor` 里。
 5. 成功时桥接写出工作台认识的 `settings.xml`、`capture.bin`（`XIONGXIN-ZERO-BENCH-2`）和 `factory-press-manifest.json`。`settings.xml` 的 `TargetVoltageV` 仍为 0，满足原校验；真实目标是单独参数。
 6. 旧 `Xiongxin.Pressure.Runtime.exe` 仍用来反射构造 `BenchSettings` XML。会话打开后不再调用它的 `Capture*` / `Monitor*`。
@@ -32,10 +32,10 @@
 
 | Kind | 出厂来源 | 加压页行为 |
 | --- | --- | --- |
-| NotReady | `OperationalStatusBoard.CanEnterNonZeroPressure` 拒绝。已连接 ∧ 已校准 ∧ 非校准中 ∧ 急停解除 ∧ 未锁存 ∧ 目标 kV>0 才可加压。0 kV 不是可加压。校准则要求急停按下。 | 释放本轮预留，报告请求被拒绝，保留会话，不自动续轮。 |
+| NotReady | `PreparePressBatch` 失败、`CanEnterNonZeroPressure` 拒绝、`targetKv>maximumKv`、或安全退出后 `_requiresReopen`。已连接 ∧ 已校准 ∧ 非校准中 ∧ 急停解除 ∧ 未锁存 ∧ 目标 kV>0 才可加压。0 kV 不是可加压。 | 释放本轮预留，报告请求被拒绝，保留会话，不自动续轮。 |
 | OperatorStop | 令牌取消或 `OperatorStopped`。文案 `StatusCopy.OperatorAbortNoLatch`。 | 停止本轮，完整冷却，不锁存，不自动续轮。 |
 | EStop | `AcquisitionExitReason.EmergencyStop`。文案 `PressAbortHvOffPicoCapture`：HV OFF，P0.0/P0.3 同步断开，并尝试 Pico 同步触发采集。 | 急停停轮回执，撤销批次，保留同一 DI 会话。 |
-| Safety | 过流、过压或其它未成功且非 Pico/掉线。同样走 HV OFF。 | 与急停相同的停轮回执。 |
+| Safety | 过流、过压或其它未成功且非 Pico/掉线。HardSafetyAbort 时文案附 `SessionFault.FormatLatchSummary`，并拒绝自动续压。同样走 HV OFF。 | 与急停相同的停轮回执；须关页重连后再压。 |
 | PicoOnly | 仅 Pico 掉线。出厂路径 `ClosePicoOnly` + 重开。文案 `PicoCommAnomalyRetry`。加压控制继续完成时，成功结果把该句写进状态行和清单 `picoCommWarning`。整轮未成功时抛出本种类。 | 不拆除会话，不要求重连。状态行提示通讯异常并建议重新加压。 |
 | DeviceOffline | Open 失败、无结果，或文案含 `PressAbortDeviceOffline` / 整机掉线。整机掉线时跳过 Pico 同步采集，仍尽力关源。 | 结束会话，状态 `WorkerSessionExited`，必须重新连接。 |
 | CleanupGate | `SingletonAcquisitionSession.ProcessCleanupFailed`。只有真正的 ClearTask/CloseUnit 失败才置位。 | 状态 `SessionEndedAfterFailedRelease`，禁止再次加压，直到确认源关断后重新连接。 |

@@ -23,6 +23,10 @@ namespace Xiongxin.Owts.XpertPressBridge
         static readonly object Gate = new object();
         static OwtsServices _services;
         static string _lastWarning = string.Empty;
+        /// <summary>OpenForXpert 写入的设备最高电压（kV）；RunRound 与 XpertFactoryPressBackend.PressRound 同门禁。</summary>
+        static double _maximumKv;
+        /// <summary>HardSafetyAbort 后须关页重连（对齐 XpertFactoryPressBackend.RequiresReopen）。</summary>
+        static bool _requiresReopen;
 
         public static bool HasDeviceSession
         {
@@ -73,6 +77,9 @@ namespace Xiongxin.Owts.XpertPressBridge
                 if (!(maximumKv > 0) || double.IsNaN(maximumKv) || double.IsInfinity(maximumKv))
                     throw new XpertPressFaultException("NotReady", "最高电压无效，请先完成设备参数配置。");
                 if (initialRangeIndex < 0 || initialRangeIndex > 10) initialRangeIndex = 6;
+
+                _requiresReopen = false;
+                _maximumKv = maximumKv;
 
                 var options = OwtsRuntimeOptions.FromEnvironment();
                 // ART 按模块名打开（OWTS_ART_DEVICE，默认 Dev1）；Xpert ART 序列号仅记录。
@@ -277,10 +284,16 @@ namespace Xiongxin.Owts.XpertPressBridge
         static string RunRound(string settingsXml, double targetKv, string directory, CancellationToken cancellation)
         {
             OwtsServices services;
+            double maximumKv;
             lock (Gate)
             {
                 RequireOpen();
+                if (_requiresReopen)
+                    throw new XpertPressFaultException("NotReady",
+                        "上一轮安全退出后须关闭加压页并重新连接设备，不自动续压。"
+                        + "；" + SessionFault.FormatLatchSummary());
                 services = _services;
+                maximumKv = _maximumKv;
             }
 
             if (SingletonAcquisitionSession.ProcessCleanupFailed)
@@ -291,17 +304,36 @@ namespace Xiongxin.Owts.XpertPressBridge
                 try { services.RequestOperatorAbort(); } catch { }
             }))
             {
-                var board = BuildBoard(targetKv);
-                string gate;
-                if (targetKv > 0 && !board.CanEnterNonZeroPressure(out gate))
-                    throw new XpertPressFaultException("NotReady", gate ?? "当前不可加压。");
-                if (!(targetKv > 0))
+                // 与 XpertFactoryPressBackend.PressRound / 雄新出厂加压测试 同序：
+                // 上限门禁 → PreparePressBatch（清软锁存）→ CanEnterNonZeroPressure → RunFactoryAlignedPress。
+                if (double.IsNaN(targetKv) || double.IsInfinity(targetKv) || targetKv < 0
+                    || (maximumKv > 0 && targetKv > maximumKv))
+                {
+                    string maxText = maximumKv > 0
+                        ? maximumKv.ToString("G6", CultureInfo.InvariantCulture)
+                        : "?";
+                    throw new XpertPressFaultException("NotReady",
+                        "目标电压须在 0～" + maxText + " kV（设备参数上限）。");
+                }
+
+                if (targetKv > 0)
+                {
+                    string latchDetail;
+                    if (!services.PreparePressBatch(out latchDetail))
+                    {
+                        throw new XpertPressFaultException("NotReady",
+                            string.IsNullOrEmpty(latchDetail) ? StatusCopy.SoftwareEmergencyLatch : latchDetail);
+                    }
+                    var board = BuildBoard(targetKv);
+                    string gate;
+                    if (!board.CanEnterNonZeroPressure(out gate))
+                        throw new XpertPressFaultException("NotReady", gate ?? "当前不可加压。");
+                }
+                else
                     _lastWarning = StatusCopy.ZeroKvNoiseOnly;
 
                 int requestedRange = ReadInt(settingsXml, "RangeIndex", 6);
                 bool autoRange = ReadBool(settingsXml, "AutoRange", true);
-                string prepare;
-                services.PreparePressBatch(out prepare);
 
                 IList<FactoryAlignedPressResult> results;
                 try
@@ -325,7 +357,13 @@ namespace Xiongxin.Owts.XpertPressBridge
                 if (one.OperatorStopped)
                     throw new XpertPressFaultException("OperatorStop", one.Message ?? StatusCopy.OperatorAbortNoLatch);
                 if (one.HardSafetyAbort || IsSafety(one))
-                    throw new XpertPressFaultException(SafetyKind(one), one.Message ?? StatusCopy.PressAbortHvOffPicoCapture);
+                {
+                    // 与 XpertFactoryPressBackend.PressRound：HardSafetyAbort → RequiresReopen + SessionFault 摘要。
+                    lock (Gate) _requiresReopen = true;
+                    string safetyMsg = (one.Message ?? StatusCopy.PressAbortHvOffPicoCapture)
+                        + "；" + SessionFault.FormatLatchSummary();
+                    throw new XpertPressFaultException(SafetyKind(one), safetyMsg);
+                }
                 if (!one.Success)
                 {
                     string message = one.Message ?? "加压失败";
@@ -406,6 +444,8 @@ namespace Xiongxin.Owts.XpertPressBridge
             try { if (_services != null) _services.Dispose(); }
             catch { }
             _services = null;
+            _maximumKv = 0;
+            _requiresReopen = false;
         }
 
         static void WriteWorkbenchCapture(string settingsXml, string directory, FactoryAlignedPressResult one, double targetKv, string warning)
