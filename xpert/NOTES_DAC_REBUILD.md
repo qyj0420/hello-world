@@ -1,6 +1,7 @@
 # DAC 重编 NOTES — HV-DAC Xpert × FactoryPressMerge（权威纠偏）
 
 品牌：雄新电力 / 雄新 OWTS  
+构建戳：**2026-10-12T23:57:47+08:00**（Asia/Shanghai）  
 权威对照：上传 `HV-DAC_Xpert_V1.1.2_FactoryPressMerge_SpectrumFix_src`（`bc-5330ba65`）+ 完整四项目 `dac-FactoryPress-full-src-for-Codex_20261012-201121`  
 **停止**沿用 hello-world 里缺 `HvxAcquisitionNative`、非完整桥接的 `FactoryPressOwts` / `ShowForXpert` 合流当作正解。
 
@@ -11,7 +12,7 @@
 
 | 项 | 值 |
 |----|----|
-| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`（见 `BUILD_MANIFEST.json` 构建戳） |
+| 发布 zip | `xpert/publish/xpert-desktop-win-x64.zip`，**10,486,500 字节**，SHA256 `EE7714ADD4F735E8338CB3E531EDC64F5A2E1742B728EB9A687BE6FE93133A7A` |
 | 主程序 | `Xiongxin.OWTS.Desktop/Xiongxin.OWTS.Desktop.exe`，.NET Framework 4.8 x64 WinExe |
 | 加压栈 | **`modules/FactoryPress/`**：`Xiongxin.Owts.XpertPressBridge.dll` + Acquisition/Contracts/HostAdapters 依赖 |
 | 宿主入口 | `src/ModuleHost.FactoryPressure.cs`：`OpenForXpert` / `RunRoundAsync` / `PollEmergencyStage` |
