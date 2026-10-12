@@ -8,6 +8,7 @@ param(
     [switch]$V30BatchValidation,
     [switch]$PublicBetaNoDriver,
     [switch]$PressureStandalone,
+    [switch]$DacRebuildFactoryPress,
     [switch]$ProtectedRelease,
     [switch]$MaintenancePassword,
     [string]$OutputDirectory = ''
@@ -108,6 +109,7 @@ if (-not $SkipModules) {
     $stageArgs = @{ OutputRoot = $output; ProtectedRelease = [bool]$ProtectedRelease; MaintenancePassword = [bool]$MaintenancePassword; Configuration = $Configuration }
     if ($Hybrid) { $stageArgs.HybridNativeDirectory = $hybridBuild.Directory; $stageArgs.HybridPinFile = $hybridBuild.PinFile }
     & (Join-Path $root 'Stage-Modules.ps1') @stageArgs
+    if ($DacRebuildFactoryPress) { & (Join-Path $root 'tools\Build-FactoryPressOwts.ps1') -ModulesRoot (Join-Path $output 'modules') -Configuration $Configuration }
     & (Join-Path $root 'tools\Stage-DefectModels.ps1') -OutputDirectory (Join-Path $output 'model-payload')
     $resourceDirectory = Join-Path $output ('embedded-resources-' + [Guid]::NewGuid().ToString('N'))
     $embeddedPayload = & (Join-Path $root 'tools\Build-EmbeddedPayload.ps1') -ModulesRoot (Join-Path $output 'modules') -OutputDirectory $resourceDirectory
@@ -136,6 +138,7 @@ if ($V30Validation) { $args += '/define:V30_VALIDATION_20261007' }
 if ($V30BatchValidation) { $args += '/define:V30_BATCH_VALIDATION_20261008' }
 if ($PublicBetaNoDriver) { $args += '/define:PUBLIC_BETA_NO_DRIVER_20261011;PUBLIC_BETA_NO_DRIVER_V112_20261011' }
 if ($PressureStandalone) { $args += '/define:PRESSURE_STANDALONE_20261008' }
+if ($DacRebuildFactoryPress) { $args += '/define:DAC_REBUILD_FACTORYPRESS_20261012' }
 if ($MaintenancePassword) { $args += '/define:MAINTENANCE_PASSWORD_GUARD' }
 $responseFile=Join-Path $output 'desktop-compile.rsp'
 # Native runtime resources exceed Windows' command-line limit. The response

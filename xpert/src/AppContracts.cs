@@ -211,7 +211,9 @@ namespace Xiongxin.OWTS.Desktop
         // Preview preferences, diagnostics and audit logs must not read or
         // overwrite the installed release's profile. Do not add a legacy
         // fallback or automatic migration here; project locations are separate.
-#if PUBLIC_BETA_NO_DRIVER_V112_20261011
+#if DAC_REBUILD_FACTORYPRESS_20261012
+        internal const string ProfileDirectoryName = "DAC-Rebuild-FactoryPress-20261012";
+#elif PUBLIC_BETA_NO_DRIVER_V112_20261011
         internal const string ProfileDirectoryName = "PublicBeta-NoDriver-1.1.2-20261011";
 #elif PUBLIC_BETA_NO_DRIVER_20261011
         internal const string ProfileDirectoryName = "PublicBeta-NoDriver-20261011";

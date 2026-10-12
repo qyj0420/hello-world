@@ -23,7 +23,11 @@ using System.Runtime.InteropServices;
 #if PUBLIC_BETA_NO_DRIVER_V112_20261011
 [assembly: AssemblyVersion("1.1.2.0")]
 [assembly: AssemblyFileVersion("1.1.2.0")]
+#if DAC_REBUILD_FACTORYPRESS_20261012
+[assembly: AssemblyInformationalVersion("V1.1.2 r58 + 雄新 OWTS FactoryPress pressure stack (marker/env switch); DAC rebuild 20261012; SDK-built, not ProtectedRelease; physical acceptance pending")]
+#else
 [assembly: AssemblyInformationalVersion("V1.1.2 r57; isolated customer no-driver installer; bounded project and report inputs; explicit AI region statistics; Eplus-final-pair-linear-score-ownership-r01; physical acceptance and dependency maintenance pending")]
+#endif
 #elif V30_BATCH_VALIDATION_20261008
 [assembly: AssemblyVersion("1.1.1.0")]
 [assembly: AssemblyFileVersion("1.1.1.0")]

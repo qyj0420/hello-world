@@ -16,11 +16,12 @@ namespace Xiongxin.OWTS.Desktop
         readonly List<Task> pressureSessionClosures=new List<Task>();
         readonly HashSet<Control> pressurePagesExiting=new HashSet<Control>();
         readonly Dictionary<Control,List<Task>> pressurePagePreparations=new Dictionary<Control,List<Task>>();
+        Control owtsFactoryPressPage;
         internal string PressureEmergencyStage{get;private set;}
         internal DateTime PressureEmergencyCapturedUtc{get;private set;}
         internal event Action PressureEmergencyStatusChanged;
         internal bool HasForegroundPressureDeviceOwner
-        {get{return pressurePagesExiting.Count!=0||pressureSessionClosures.Exists(t=>t.Status!=TaskStatus.RanToCompletion)||
+        {get{return owtsFactoryPressPage!=null||pressurePagesExiting.Count!=0||pressureSessionClosures.Exists(t=>t.Status!=TaskStatus.RanToCompletion)||
             new List<KeyValuePair<Control,FactoryPressureSession>>(factoryPressureSessions).Exists(p=>p.Key.Visible&&p.Value.OwnsDeviceSession);}}
         internal void ObservePressureEmergency(FactoryPressureSession session,string identity,DateTime identifiedUtc,string stage,DateTime utc)
         {
@@ -37,7 +38,7 @@ namespace Xiongxin.OWTS.Desktop
         internal bool HasPressureDeviceOwner
         {
             get {
-                if(pressurePagesExiting.Count!=0)return true;
+                if(owtsFactoryPressPage!=null||pressurePagesExiting.Count!=0)return true;
                 pressureSessionClosures.RemoveAll(t=>t.Status==TaskStatus.RanToCompletion);
                 if(pressureSessionClosures.Count!=0)return true; // pending/failed cleanup still owns the device
                 foreach(var session in factoryPressureSessions.Values)if(session.OwnsDeviceSession)return true;
@@ -183,6 +184,10 @@ namespace Xiongxin.OWTS.Desktop
             setCalibration.Invoke(control,new object[]{calibration.CoefficientPcPerV,source,utc,phase,false,calibration.ChargePc,calibration.SourceHash});
             if(!LateBound.ReadBoolean(control,false,"IsDischargeCalibrated"))throw new InvalidOperationException("校准系数传递失败。");
             if(identity.Length==0)throw new InvalidOperationException("校准已载入；设备尚未连接。");
+            if(FactoryPressOwtsHost.IsRequested()){
+                await RunOwtsFactoryPressAsync(control,project,app,identity,calibration);
+                return;
+            }
             string worker=Path.Combine(modulesRoot,"PressureRuntime","Xiongxin.Pressure.Runtime.exe");
             var assembly=Assembly.LoadFrom(worker);var inputType=assembly.GetType("Xiongxin.ZeroBench.BenchSettings",true);
             object input=Activator.CreateInstance(inputType);
@@ -306,17 +311,13 @@ namespace Xiongxin.OWTS.Desktop
                     // Recheck at the actual capture boundary, not only beforehand
                     // or after a round that may already have used stale calibration.
                     TryInvoke(control,"SetPressureState",new object[]{"RUNNING",Double.NaN});
-                    // 出厂加压完整硬件栈（DeviceSdkLease / LiveEmergencyMonitor / SessionFault /
-                    // StatusCopy / Task6RangeAdvisor / FactoryPressApi）。有 CompileOnly DLL 时优先；
-                    // 否则回退既有 PressureRuntime，不得假装已融合。
                     var task=DispatchPreparedPressureCapture(control,token,
                         ()=>calibration.RevalidateForCapture(validateBatch,token),
                         ()=>cadence.BeginCapture(),
                         ()=>cadence.Released(0),
-                        ()=>CaptureWithFactoryPressOrLegacyBridge(bridge,configuration,xml,target,directory,
+                        ()=>(Task<string>)bridge.GetMethod("CaptureIdentifiedAsync").Invoke(null,new object[]{configuration,xml,target,directory,
                             hostCaptureSessionId,hostCaptureRequestId,manualZeroInput,batch.Automatic,batch.Id,batch.Round,batch.Count,
-                            confirmed,batch.Continuation,session.CaptureProgressForRound(actionSequence,requestSequence,manualZeroInput),
-                            app.PressureRatio,diagnostics,token));
+                            confirmed,batch.Continuation,session.CaptureProgressForRound(actionSequence,requestSequence,manualZeroInput),token}));
                     string result=await task.ConfigureAwait(false);
                     // A successful bridge result follows native cleanup and the
                     // supervised worker's exit. A fault is not release evidence.
@@ -453,6 +454,29 @@ namespace Xiongxin.OWTS.Desktop
             diagnostics.Info("Pressure","Calibration source="+(calibration.IsLegacy?"OperatorConfirmedLegacy; historical device unknown":"LiveAcquisition")+"; record="+source+"; runtime="+worker);
         }
 
+        // The FactoryPress stack owns ART/Pico for the whole dialog. The legacy
+        // worker, its DI monitor and this page's capture backend stay unconfigured,
+        // so the two stacks never hold the same hardware.
+        async Task RunOwtsFactoryPressAsync(Control control,string project,AppSettings app,string identity,PressureCalibrationSelection calibration)
+        {
+            int range=calibration.RecordedRangeIndex??Convert.ToInt32(control.GetType().GetProperty("SelectedPicoRangeCode").GetValue(control,null),CultureInfo.InvariantCulture);
+            if(range<0||range>10)throw new InvalidDataException("请选择有效的局放输入量程。");
+            await Task.Run(()=>calibration.Revalidate());
+            if(disposed||control.IsDisposed||pressurePagesExiting.Contains(control)||state.ProjectPath!=project||
+                DeviceSetupStatus.ActualIdentity(state.Hardware)!=identity)return;
+            if(HasPressureDeviceOwner)throw new InvalidOperationException("上一加压会话尚未释放设备，请稍后重试。");
+            string parent=Path.Combine(project,"Acquisition","PressureOwtsFactory");Task39InputContract.RequireNoLinks(parent);
+            Directory.CreateDirectory(parent);
+            diagnostics.Info("PressureOwtsFactory","FactoryPress hardware stack requested ("+FactoryPressOwtsHost.EnableEnvVar+" / "+
+                FactoryPressOwtsHost.EnableMarkerFile+"); legacy PressureRuntime not configured for this page; fakeLive="+FactoryPressOwtsHost.FakeLiveRequested+"; records="+parent);
+            owtsFactoryPressPage=control;
+            try{
+                string summary=FactoryPressOwtsHost.Run(control.FindForm(),modulesRoot,identity.Split('|')[2],identity.Split('|')[1],
+                    app.PressureRatio,app.DividerRatio,app.MaximumVoltageKv,range,parent,(code,text)=>diagnostics.Info(code,text));
+                diagnostics.Info("PressureOwtsFactory","Session ended: "+summary);
+            }finally{owtsFactoryPressPage=null;}
+        }
+
         internal static string PressureVoltageFeedbackCode(AppSettings app)
         {
             if(app==null)throw new ArgumentNullException("app");
@@ -579,32 +603,6 @@ namespace Xiongxin.OWTS.Desktop
                 if(!invoked)abandonUnusedReservation();
                 throw;
             }
-        }
-
-        static Task<string> CaptureWithFactoryPressOrLegacyBridge(
-            Type bridge,string configuration,string xml,double target,string directory,
-            string hostCaptureSessionId,string hostCaptureRequestId,bool manualZeroInput,
-            bool automatic,string batchId,int round,int count,bool confirmed,bool continuation,
-            Action<string,string> progress,double pressureRatio,Diagnostics diagnostics,CancellationToken token)
-        {
-            if(Xiongxin.OWTS.FactoryPressOwts.OwtsFactoryAlignedHost.PreferAlignedPath)
-            {
-                diagnostics.Info("PressureOwtsAligned",
-                    "加压走 FactoryPressApi 完整硬件路径（DeviceSdkLease/LiveEmergencyMonitor/SessionFault/StatusCopy/Task6RangeAdvisor）；品牌="+
-                    Xiongxin.OWTS.FactoryPressOwts.OwtsFactoryAlignedHost.Brand);
-                Action<string> log=line=>{
-                    if(progress!=null)progress("OWTS_FACTORY",line??"");
-                };
-                // 主界面实机加压：非 FakeLive。无驱动联调可设环境变量 XIONGXIN_OWTS_FACTORY_ALIGNED_FAKE=1。
-                bool fake=string.Equals(Environment.GetEnvironmentVariable("XIONGXIN_OWTS_FACTORY_ALIGNED_FAKE"),"1",StringComparison.Ordinal);
-                return Xiongxin.OWTS.FactoryPressOwts.OwtsFactoryAlignedHost.CaptureAlignedAsync(
-                    target,directory,fake,pressureRatio>0?pressureRatio:6000.0,log,token);
-            }
-            if(Xiongxin.OWTS.FactoryPressOwts.OwtsFactoryAlignedHost.LoadError!=null)
-                diagnostics.Info("PressureOwtsAlignedMissing",Xiongxin.OWTS.FactoryPressOwts.OwtsFactoryAlignedHost.LoadError);
-            return (Task<string>)bridge.GetMethod("CaptureIdentifiedAsync").Invoke(null,new object[]{configuration,xml,target,directory,
-                hostCaptureSessionId,hostCaptureRequestId,manualZeroInput,automatic,batchId,round,count,
-                confirmed,continuation,progress,token});
         }
 
         internal void MarkPressureConnectionUnavailable(Control page,FactoryPressureSession session,string identity,DateTime identifiedUtc)
