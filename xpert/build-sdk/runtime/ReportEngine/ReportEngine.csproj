@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Library</OutputType><AssemblyName>HVX.Report.Engine</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/ReportEngine/src/AssemblyInfo.cs;$(XpertRoot)/modules-src/ReportEngine/src/ReportGenerator.cs;$(XpertRoot)/modules-src/ReportEngine/shared/BoundedDocx.cs;$(XpertRoot)/modules-src/ReportEngine/shared/ReportOutputSafety.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- FakeLive smoke for the Xpert FactoryPress bridge (no drivers, no hardware). -->
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Xiongxin.OWTS.FactoryPressBridge.Smoke</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xiongxin.OWTS.FactoryPressBridge\Xiongxin.OWTS.FactoryPressBridge.csproj" />
+  </ItemGroup>
+</Project>

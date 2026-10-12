@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>HVX.PdReview.V1.0</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/DataAnalysis/src/*.cs;$(XpertRoot)/modules-src/DataAnalysis/vendor/PdMap/*.cs;$(XpertRoot)/modules-src/DataAnalysis/vendor/PdMap/Common/*.cs;$(XpertRoot)/modules-src/DataAnalysis/vendor/Spectrum/*.cs;$(XpertRoot)/modules-src/DataAnalysis/vendor/Task7/*.cs;$(XpertRoot)/modules-src/DataAnalysis/vendor/Task28/*.cs;$(XpertRoot)/modules-src/DataAnalysis/vendor/LocationTree/*.cs;$(XpertRoot)/modules-src/DataAnalysis/shared/*.cs" />
+    <Compile Include="$(XpertRoot)/src/LocationScorePolicy.cs;$(XpertRoot)/src/ZeroVoltageNoiseReference.cs;$(XpertRoot)/src/DefectModelCatalog.cs;$(XpertRoot)/src/AnalysisDateText.cs;$(XpertRoot)/src/PdLinearHighPass.cs;$(XpertRoot)/src/PdLinearLowPass.cs;$(XpertRoot)/src/NoisePulseTemplates.cs;$(XpertRoot)/src/LocationCycleRecord.cs;$(XpertRoot)/src/LiveCalibrationRecord.cs;$(XpertRoot)/src/CalibrationPacketIdentityContract.cs;$(XpertRoot)/src/LegacyCalibrationBinding.cs;$(XpertRoot)/src/CableJointStore.cs;$(XpertRoot)/src/CableJointDialog.cs" />
+    <Compile Include="$(XpertRoot)/modules-src/LocationABCD/ABRelease/AB/source/PeakAnchoredLeadingEdgeMath.cs;$(XpertRoot)/modules-src/ConclusionAlgorithm/EvidenceV3/HVX.Task15.Embedded.cs;$(XpertRoot)/modules-src/FactoryWorker/Imported/PulseToolkit/InternalPulseDsp.cs;$(XpertRoot)/modules-src/FactoryWorker/Imported/PulseToolkit/PulseParameterEngineFinal.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="XIONGXIN.Brand.ico" />
+    <EmbeddedResource Include="$(XpertGenerated)/legacy-unit-pins.json" LogicalName="HVX.LegacyUnitPins" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Xiongxin.OWTS.Desktop</AssemblyName>
+    <RootNamespace>Xiongxin.OWTS.Desktop</RootNamespace>
+    <ApplicationIcon>$(XpertRoot)/assets/shortcuts/256.ico</ApplicationIcon>
+    <ApplicationManifest>$(XpertRoot)/app.manifest</ApplicationManifest>
+    <StartupObject>Xiongxin.OWTS.Desktop.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/src/*.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/shortcuts/256.ico" LogicalName="HVX.NeutralWindow.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="Brand.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin-original.png" LogicalName="Brand.png" />
+    <None Include="$(XpertRoot)/App.config" Link="App.config" />
+  </ItemGroup>
+</Project>

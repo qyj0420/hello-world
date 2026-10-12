@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>Xiongxin.OWTS.CalibrationTest</AssemblyName><GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/CalibrationTest/src/*.cs" />
+    <Compile Include="$(XpertRoot)/modules-src/LocationABCD/ABRelease/AB/source/PeakAnchoredLeadingEdgeMath.cs;$(XpertRoot)/src/PdLinearHighPass.cs;$(XpertRoot)/src/LiveCalibrationRecord.cs;$(XpertRoot)/src/LegacyCalibrationBinding.cs;$(XpertRoot)/src/NoisePulseTemplates.cs;$(XpertRoot)/src/PdLinearLowPass.cs;$(XpertRoot)/src/CalibrationPulseDisplayWindow.cs;$(XpertRoot)/src/PicoCaptureCadence.cs;$(XpertRoot)/src/CableJointStore.cs;$(XpertRoot)/src/CableJointDialog.cs" />
+    <Compile Include="$(XpertRoot)/modules-src/CalibrationStandalone/*.cs;$(XpertRoot)/modules-src/CalibrationStandalone/PicoCore/*.cs" Exclude="$(XpertRoot)/modules-src/CalibrationStandalone/Program.cs;$(XpertRoot)/modules-src/CalibrationStandalone/ControlBoxTests.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/CalibrationTest/assets/approvedUI.png" LogicalName="HVX.CalibrationProgram.ApprovedUi.png" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/CalibrationTest/assets/brand.ico" LogicalName="HVX.CalibrationProgram.Xiongxin.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/CalibrationStandalone/assets/xiongxin.ico" LogicalName="Brand.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/CalibrationStandalone/assets/xiongxin-original.png" LogicalName="Brand.png" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="XIONGXIN.Brand.ico" />
+  </ItemGroup>
+</Project>

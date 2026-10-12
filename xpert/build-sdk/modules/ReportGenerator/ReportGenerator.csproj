@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>Xiongxin.OWTS.ReportGenerator</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/ReportGenerator/src/*.cs;$(XpertRoot)/modules-src/DataBrowser/src/BrowserData.cs" />
+    <Compile Include="$(XpertRoot)/src/LiveCalibrationRecord.cs;$(XpertRoot)/src/LegacyCalibrationBinding.cs;$(XpertRoot)/src/PdLinearHighPass.cs;$(XpertRoot)/src/PdLinearLowPass.cs;$(XpertRoot)/src/CableJointStore.cs;$(XpertRoot)/src/PressureFixtureJournal.cs;$(XpertRoot)/src/CableVisualStyle.cs;$(XpertRoot)/src/AnalysisDateText.cs" />
+    <Compile Include="$(XpertRoot)/modules-src/ConclusionAlgorithm/EvidenceV3/HVX.Task15.Embedded.cs;$(XpertRoot)/modules-src/ReportEngine/shared/BoundedDocx.cs;$(XpertRoot)/modules-src/ReportEngine/shared/ReportOutputSafety.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="XIONGXIN.Brand.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin-capacitor-hd.png" LogicalName="XIONGXIN.Capacitor.png" />
+  </ItemGroup>
+</Project>

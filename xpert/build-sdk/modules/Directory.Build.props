@@ -1,0 +1,13 @@
+<Project>
+  <!-- UI modules: same closure and defines as tools/Build-R58UiModules.ps1 (only MAINTENANCE_PASSWORD_GUARD; no host-only beta defines). -->
+  <Import Project="$(MSBuildThisFileDirectory)../Directory.Build.props" />
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <DefineConstants>TRACE;MAINTENANCE_PASSWORD_GUARD</DefineConstants>
+    <XpertGenerated>$(MSBuildThisFileDirectory)../generated</XpertGenerated>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/src/UiLanguage.cs;$(XpertRoot)/src/InternationalText.cs;$(XpertRoot)/src/InternationalText.Generated.cs;$(XpertRoot)/src/ProjectMeasurementMode.cs;$(XpertRoot)/src/OemUiBranding.cs;$(XpertRoot)/src/R2RoundedButton.cs;$(XpertRoot)/src/PressureRecordPublication.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/shortcuts/256.ico" LogicalName="HVX.NeutralWindow.ico" />
+  </ItemGroup>
+</Project>

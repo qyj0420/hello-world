@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>XIONGXIN.Calibration.Verification</AssemblyName>
+    <ApplicationIcon>$(XpertRoot)/modules-src/CalibrationStandalone/assets/xiongxin.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/CalibrationStandalone/ControlBox.cs;$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationEmergencyMonitor.cs;$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationForm.cs;$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationAcquisitionFlow.cs;$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationSelfCheckWindow.cs;$(XpertRoot)/modules-src/CalibrationStandalone/Program.cs;$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationWindowing.cs;$(XpertRoot)/modules-src/CalibrationStandalone/AcquisitionPlanning.cs;$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationCaptureResult.cs;$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationProjectAudit.cs" />
+    <Compile Include="$(XpertRoot)/src/PdLinearHighPass.cs;$(XpertRoot)/src/PdLinearLowPass.cs;$(XpertRoot)/src/DialogPlacement.cs;$(XpertRoot)/src/ProjectMeasurementMode.cs;$(XpertRoot)/src/PicoCaptureCadence.cs;$(XpertRoot)/src/OemUiBranding.cs;$(XpertRoot)/src/R2RoundedButton.cs" />
+    <Compile Include="$(XpertRoot)/modules-src/CalibrationStandalone/CalibrationIncidentQuality.cs;$(XpertRoot)/modules-src/CalibrationStandalone/ProjectDefaults.cs;$(XpertRoot)/modules-src/CalibrationStandalone/SignalQuality.cs;$(XpertRoot)/modules-src/CalibrationStandalone/TdrCorrelation.cs;$(XpertRoot)/modules-src/CalibrationStandalone/PicoCore/*.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/CalibrationStandalone/assets/xiongxin.ico" LogicalName="Brand.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/CalibrationStandalone/assets/xiongxin-original.png" LogicalName="Brand.png" />
+  </ItemGroup>
+</Project>

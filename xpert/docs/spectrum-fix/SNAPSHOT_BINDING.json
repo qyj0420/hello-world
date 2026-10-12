@@ -1,0 +1,32 @@
+{
+  "Schema": "HVX.R58.AnalysisHotfixSourceSnapshot/1",
+  "Version": "1.1.2.0",
+  "Revision": "r58AnalysisHotfix",
+  "SourceOnly": true,
+  "CreatedUtc": "2026-10-12T10:45:46.3718453Z",
+  "Files": 2224,
+  "SourceBytes": 30579103.0,
+  "SourceWhitelistSHA256": "920020119AD0C06A84D9A8771D3EB717F852B0E6132DD0DDB085EE4AB46FA36F",
+  "SnapshotToolSHA256": "FF5A09F5B6D194137BBF58FC0E8BCB81474EF051BF61E27FE3758CFFF20379F5",
+  "NativeAdditionalSourceFiles": [
+    "native-hardware/HvxAcquisitionNative.cpp",
+    "native-hardware/HvxAcquisitionNative.h",
+    "native-hardware/HvxSdkApis.inc",
+    "native-hardware/build-native.ps1",
+    "native-hardware/audit-exports.ps1",
+    "native-hardware/README.md",
+    "native-hardware/tests/NativeBoundaryTests.cpp",
+    "native-hardware/tests/FakeSdk.cpp"
+  ],
+  "ExecutableBindingClaimed": false,
+  "ExecutableSHA256": "",
+  "InstallerBindingClaimed": false,
+  "InstallerSHA256": "",
+  "PhysicalAcceptance": false,
+  "CredentialMaterialRead": false,
+  "ProductExecuted": false,
+  "SDKCalled": false,
+  "HardwareAccessed": false,
+  "SelectionBoundary": "Reviewed path/extension whitelist plus eight explicit owned native source files. This is not a content-level secret scanner.",
+  "Omitted": "Build outputs, user/installation configuration and data, credential material, private keys, binaries, drivers, models, runtime caches and toolchain executables. Exact Task12 proprietary algorithm source is unavailable. This is not a complete all-algorithm or standalone dependency bundle."
+}

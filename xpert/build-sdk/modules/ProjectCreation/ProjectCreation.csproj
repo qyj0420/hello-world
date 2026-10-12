@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>Xiongxin.OWTS.ProjectCreation</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/ProjectCreation/src/*.cs;$(XpertRoot)/src/CableJointStore.cs;$(XpertRoot)/src/CableJointDialog.cs;$(XpertRoot)/src/CableVisualStyle.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="XIONGXIN.Brand.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin-capacitor-hd.png" LogicalName="XIONGXIN.Capacitor.png" />
+  </ItemGroup>
+</Project>

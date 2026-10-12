@@ -1,0 +1,46 @@
+<Project>
+  <!-- Linux/Windows SDK build of the .NET Framework 4.8 Xpert shell (replaces csc.exe + Build.ps1 on hosts without Windows tooling). -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>false</GenerateBindingRedirectsOutputType>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <NoWarn>$(NoWarn);CS0168;CS0169;CS0219;CS0414;CS0649;CS0162;CS0618;CS1998;CS4014;CS0067;CS0108;CS0659;CS0661;CS0660;CS1717;CS0252;CS0253;MSB3270</NoWarn>
+    <XpertRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))</XpertRoot>
+    <XpertDefines>V30_BATCH_VALIDATION_20261008;PUBLIC_BETA_NO_DRIVER_20261011;PUBLIC_BETA_NO_DRIVER_V112_20261011;MAINTENANCE_PASSWORD_GUARD;DAC_REBUILD_FACTORYPRESS_20261012</XpertDefines>
+    <DefineConstants>TRACE;$(XpertDefines)</DefineConstants>
+    <Optimize Condition="'$(Configuration)'=='Release'">true</Optimize>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>Xiongxin.OWTS.PressureTest</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/PressureTest/src/*.cs;$(XpertRoot)/src/ZeroVoltageNoiseReference.cs;$(XpertRoot)/src/LocationCycleRecord.cs;$(XpertRoot)/modules-src/FactoryWorker/AdjacentHardwareRangePolicy.cs" />
+    <Compile Include="$(XpertRoot)/modules-src/PressureTest/vendor/Task39/BenchModels.cs;$(XpertRoot)/modules-src/PressureTest/vendor/Task39/PicoCaptureConfiguration.cs;$(XpertRoot)/modules-src/PressureTest/vendor/Task39/LocationRangeAdvisor.cs;$(XpertRoot)/modules-src/PressureTest/vendor/Task39/LocationRangeWindow.cs;$(XpertRoot)/modules-src/PressureTest/vendor/Task39/RangeDecision.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="XIONGXIN.Brand.ico" />
+    <ProjectReference Include="../DataAnalysis/DataAnalysis.csproj" />
+  </ItemGroup>
+</Project>

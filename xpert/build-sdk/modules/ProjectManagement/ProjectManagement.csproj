@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>Xiongxin.OWTS.ProjectManagement</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/ProjectManagement/src/*.cs;$(XpertRoot)/modules-src/ReportEngine/shared/BoundedDocx.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="XIONGXIN.Brand.ico" />
+  </ItemGroup>
+</Project>

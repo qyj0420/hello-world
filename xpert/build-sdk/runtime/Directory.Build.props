@@ -1,0 +1,7 @@
+<Project>
+  <!-- Isolated runtime processes/libraries staged under modules/ (tools/Stage-R58DesktopTestModules.ps1 closures). -->
+  <Import Project="$(MSBuildThisFileDirectory)../Directory.Build.props" />
+  <PropertyGroup>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,7 @@
+<Project>
+  <!-- FactoryPress-side assemblies follow the vendor/factory-press build settings (net8.0 for Linux FakeLive smoke, net48 for the Xpert shell). -->
+  <Import Project="$(MSBuildThisFileDirectory)../../vendor/factory-press/Directory.Build.props" />
+  <PropertyGroup>
+    <FactoryPressVendor>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../vendor/factory-press'))</FactoryPressVendor>
+  </PropertyGroup>
+</Project>

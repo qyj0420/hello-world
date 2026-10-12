@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Xiongxin.Pressure.Runtime</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <StartupObject>Xiongxin.FactoryTest.UnifiedWorkerEntry</StartupObject>
+    <ApplicationIcon>$(XpertRoot)/assets/xiongxin.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/FactoryWorker/**/*.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin.ico" LogicalName="Factory.Brand.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/assets/xiongxin-original.png" LogicalName="Factory.Brand.Logo" />
+  </ItemGroup>
+</Project>

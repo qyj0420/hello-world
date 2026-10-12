@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Xiongxin.Task39.InputWorker</AssemblyName>
+    <StartupObject>Xiongxin.ZeroBench.Program</StartupObject>
+    <ApplicationIcon>$(XpertRoot)/modules-src/Task39InputWorker/assets/xiongxin.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(XpertRoot)/modules-src/Task39InputWorker/src/*.cs;$(XpertRoot)/modules-src/Task39InputWorker/vendor/Task38/*.cs" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/Task39InputWorker/assets/xiongxin.ico" LogicalName="ZeroBench.Brand.ico" />
+    <EmbeddedResource Include="$(XpertRoot)/modules-src/Task39InputWorker/assets/xiongxin-original.png" LogicalName="ZeroBench.Brand.Logo" />
+  </ItemGroup>
+</Project>
