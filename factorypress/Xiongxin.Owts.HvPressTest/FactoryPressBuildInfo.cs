@@ -9,7 +9,7 @@ namespace Xiongxin.Owts.HvPressTest
     internal static class FactoryPressBuildInfo
     {
         /// <summary>编译写入的权威戳；发布脚本可改此常量。</summary>
-        public const string CompileStamp = "2026-10-12T20:41:58+08:00";
+        public const string CompileStamp = "2026-10-12T20:54:30+08:00";
 
         public static string Stamp
         {

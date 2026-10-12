@@ -1,18 +1,20 @@
-# hello-world / 雄新出厂加压
+# 雄新电力 · 雄新 OWTS 出厂加压（全面重编）
 
-本仓库现包含 **雄新电力 · 雄新 OWTS 出厂加压测试** 完整源码与新构建包。
+## 下载运行（Windows，双击无黑窗）
 
-## 下载运行（Windows）
-
-1. 取 `factorypress/publish/hv-press-ui-win-x64.zip`
+1. 下载 PR / 分支中的 [`factorypress/publish/hv-press-ui-win-x64.zip`](factorypress/publish/hv-press-ui-win-x64.zip)
 2. 解压后双击 **`雄新出厂加压测试.exe`**
-3. 说明见 `factorypress/publish/README_RUN.md`
+3. 说明：[`factorypress/publish/README_RUN.md`](factorypress/publish/README_RUN.md)
 
-## 源码与冒烟
+## 冒烟
 
 ```bash
 cd factorypress
-export PATH="$HOME/.dotnet:$PATH"
-dotnet build Xiongxin.Owts.HvPressTest/Xiongxin.Owts.HvPressTest.csproj -c Release -f net8.0
-dotnet run --project Xiongxin.Owts.HvPressTest -c Release --framework net8.0 -- --smoke --gain 6000
+export PATH="$HOME/.dotnet:$PATH" DOTNET_ROOT="$HOME/.dotnet"
+dotnet build Xiongxin.Owts.FactoryPress.sln -c Release
+./publish/hv-press/Xiongxin.Owts.HvPressTest --smoke --gain 6000
 ```
+
+## 说明
+
+本移交包提供 **FactoryPressUi**（出厂加压 WinForms）。**DesktopUi 主壳源码不在本 zip**，需另附完整仓。

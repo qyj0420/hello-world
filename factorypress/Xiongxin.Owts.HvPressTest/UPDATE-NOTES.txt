@@ -1,10 +1,12 @@
 雄新出厂加压 / 独立校准采集（2026-10-12）
 
-【2026-10-12 20:41 Cursor 重新生成 exe】
-- 构建戳 FactoryPressBuildInfo.CompileStamp=2026-10-12T20:41:58+08:00
+【2026-10-12 20:54 陛下要求全面重编 — Claude OP5.5】
+- 完整源码包整套替换（勿混旧版）
+- 构建戳 FactoryPressBuildInfo.CompileStamp=2026-10-12T20:54:07+08:00
+- Release 绿；WinExe PE32+ GUI（无黑窗）
 - FakeLive smoke --gain 6000 → OK exit=0 completed=2
-- publish/hv-press-ui/：win-x64 自包含 GUI（雄新出厂加压测试.exe / 雄新校准采集.exe）
-- publish/hv-press/：net8.0 控制台冒烟包
+- 产物：publish/hv-press-ui-win-x64.zip + publish/hv-press/
+- DesktopUi 不在本移交包内；现场双击用 FactoryPressUi
 
 雄新出厂加压 / 独立校准采集（2026-10-12）
 
@@ -116,10 +118,3 @@
 - Bug：HVOFF 后 VerifyDischarge 只侧写源压缓存、不刷新分压缓存 → 绿先掉、蓝钉 HVUP 峰值平台
 - 修：关源后/Pico冷却/预臂/放电确认轮询 TryPollMonitorFeedbackIntoCaches，分压跟真实反馈掉零或残压
 - UI：量程下拉前「自动量程」勾选；取消=手动量程（不自动切；超量程提示可跳一档；峰<20%FS 提示量程过小判定）
-
-【2026-10-12 20:41 新构建 CompileStamp=2026-10-12T20:41:00+08:00】
-- 构建：新增 Xiongxin.Owts.FactoryPress.sln（仅 Contracts/Acquisition/HvPressTest）；原 Xiongxin.Owts.sln 引用 7 个本包未带的工程（Persistence/Algorithms/Ai/DesktopHost/DesktopUi/Phase1.Smoke/Task17Worker），无法整体还原，故不改动原 sln
-- dotnet build Xiongxin.Owts.FactoryPress.sln -c Release：0 错误（2 警告：FactoryPressForm _demoTick/_demoTargetKv 未使用）
-- GUI：publish/hv-press-ui/（net8.0-windows win-x64 self-contained）Xiongxin.Owts.FactoryPressUi.exe + 同体副本 雄新出厂加压测试.exe
-- 控制台：publish/hv-press/（net8.0 框架依赖）
-- FakeLive smoke：dotnet run ... --framework net8.0 -- --smoke --gain 6000 → exit 0，completed=2/2（1kV/2kV TargetReached）；发布版控制台同样 exit 0
