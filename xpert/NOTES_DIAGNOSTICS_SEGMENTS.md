@@ -1,6 +1,6 @@
 # 分析诊断分段（32 MiB）— 格式、兼容与流畅度
 
-构建戳：见 `NOTES_DAC_REBUILD.md` / `publish/.../BUILD_MANIFEST.json`（本改动随 Desktop 包一并重编）。
+构建戳：**2026-10-12T23:05:12+08:00**（与 `NOTES_DAC_REBUILD.md` / `BUILD_MANIFEST.json` 一致；本改动随 Desktop 包一并重编）。
 
 ## 问题
 
