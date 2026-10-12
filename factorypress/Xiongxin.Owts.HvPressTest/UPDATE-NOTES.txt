@@ -2,10 +2,11 @@
 
 【2026-10-12 20:54 陛下要求全面重编 — Claude OP5.5】
 - 完整源码包整套替换（勿混旧版）
-- 构建戳 FactoryPressBuildInfo.CompileStamp=2026-10-12T20:54:07+08:00
-- Release 绿；WinExe PE32+ GUI（无黑窗）
+- 构建戳 FactoryPressBuildInfo.CompileStamp=2026-10-12T20:54:30+08:00
+- Release 绿（0 错误 / 2 警告）；WinExe PE32+ GUI（无黑窗）；新建 Xiongxin.Owts.FactoryPress.sln（Contracts/Acquisition/HvPressTest）
 - FakeLive smoke --gain 6000 → OK exit=0 completed=2
-- 产物：publish/hv-press-ui-win-x64.zip + publish/hv-press/
+- 修：Program.WantsCalibrationUi 优先 Environment.ProcessPath —— apphost 下 GetCommandLineArgs()[0] 是 .dll，改名副本「雄新校准采集.exe」原先认不出、误开加压窗
+- 产物：publish/hv-press-ui-win-x64.zip（win-x64 自包含，含 雄新出厂加压测试.exe / 雄新校准采集.exe）+ publish/hv-press/（控制台冒烟）
 - DesktopUi 不在本移交包内；现场双击用 FactoryPressUi
 
 雄新出厂加压 / 独立校准采集（2026-10-12）
